@@ -42,6 +42,17 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
   - Copy-to-clipboard functionality
   - Direct access to original JSON file content
 
+## 📸 Screenshots
+
+### Light Mode
+![Command View - Light Mode](assets/screenshots/command_view.png)
+
+### Dark Mode
+![Command View - Dark Mode](assets/screenshots/command_view_dark_mode.png)
+
+### JSON View
+![JSON View](assets/screenshots/json_view.png)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
