@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "name": "ssh",
+    "displayName": "ssh - Secure shell remote access",
+    "category": "Network & Internet",
+    "tags": ["remote", "security", "network", "server"],
+    "description": "Connect to remote servers securely",
+    "popularity": 10,
+    "difficulty": "intermediate",
+    "version": "OpenSSH 8.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ssh client is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "ssh (secure shell) provides encrypted remote access to servers and computers. It's the standard way to securely connect to remote Linux systems, execute commands, transfer files, and manage servers. Essential for system administration and remote work.",
+    "when_to_use": [
+      "Connect to remote servers",
+      "Execute commands on remote systems",
+      "Manage remote servers",
+      "Transfer files securely",
+      "Access cloud instances",
+      "Work with remote development environments"
+    ]
+  },
+  "syntax": {
+    "basic": "ssh [OPTIONS] [USER@]HOST [COMMAND]",
+    "description": "Connect to remote HOST. Optionally specify USER (defaults to current user). Can execute single COMMAND or start interactive shell.",
+    "examples": [
+      "ssh user@example.com",
+      "ssh -p 2222 user@example.com",
+      "ssh user@example.com 'ls -la'",
+      "ssh -i ~/.ssh/key.pem user@example.com"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-p, --port",
+      "short": "-p",
+      "long": "--port",
+      "description": "Specify SSH port (default is 22)",
+      "category": "connection",
+      "example": "ssh -p 2222 user@example.com",
+      "use_case": "Connect to SSH server on non-standard port"
+    },
+    {
+      "flag": "-i, --identity-file",
+      "short": "-i",
+      "long": "--identity-file",
+      "description": "Use specified private key file",
+      "category": "authentication",
+      "example": "ssh -i ~/.ssh/mykey.pem user@example.com",
+      "use_case": "Authenticate using specific SSH key"
+    },
+    {
+      "flag": "-L, --local-forward",
+      "short": "-L",
+      "long": "--local-forward",
+      "description": "Forward local port to remote",
+      "category": "tunneling",
+      "example": "ssh -L 8080:localhost:80 user@example.com",
+      "use_case": "Create port forwarding tunnel"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose mode (debugging)",
+      "category": "debug",
+      "example": "ssh -v user@example.com",
+      "use_case": "Show detailed connection information for debugging"
+    },
+    {
+      "flag": "-X, --forward-x11",
+      "short": "-X",
+      "long": "--forward-x11",
+      "description": "Enable X11 forwarding",
+      "category": "display",
+      "example": "ssh -X user@example.com",
+      "use_case": "Forward X11 for GUI applications"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Connect to remote server",
+      "command": "ssh user@example.com",
+      "description": "Connect to remote server with username",
+      "output": "user@example.com's password: \n(enters password, then remote shell prompt appears)\nuser@server:~$",
+      "output_explanation": {
+        "format": "Password prompt then remote shell",
+        "elements": [
+          {
+            "element": "user@example.com's password:",
+            "meaning": "Password prompt for authentication",
+            "breakdown": {
+              "authentication": "Prompts for password (or uses SSH key if configured)",
+              "secure": "Password is encrypted during transmission",
+              "key_based": "If SSH keys are set up, no password prompt"
+            }
+          },
+          {
+            "element": "user@server:~$",
+            "meaning": "Remote shell prompt - you're now on remote server",
+            "breakdown": {
+              "remote": "You're connected to remote server",
+              "commands": "All commands now execute on remote server",
+              "exit": "Type 'exit' or Ctrl+D to disconnect"
+            }
+          }
+        ],
+        "notes": "Connects to remote server. Prompts for password (or uses SSH key). After connection, you're in remote shell. Type 'exit' to disconnect."
+      },
+      "use_case": "Connect to remote Linux servers"
+    },
+    {
+      "title": "Execute single command",
+      "command": "ssh user@example.com 'ls -la'",
+      "description": "Run command on remote server without interactive shell",
+      "output": "total 24\ndrwxr-xr-x 2 user user 4096 Jan 15 10:30 .\ndrwxr-xr-x 3 root root 4096 Jan 10 08:00 ..\n-rw-r--r-- 1 user user  220 Jan 10 08:00 .bashrc",
+      "output_explanation": {
+        "format": "Command output from remote server",
+        "elements": [
+          {
+            "element": "Command in quotes",
+            "meaning": "Command executed on remote server",
+            "breakdown": {
+              "behavior": "Connects, runs command, shows output, disconnects",
+              "useful": "Quick remote commands without interactive session",
+              "common": "Very common for automation and scripts"
+            }
+          }
+        ],
+        "notes": "Executes command on remote server and shows output. No interactive shell - connects, runs command, disconnects. Perfect for automation."
+      },
+      "use_case": "Run commands on remote servers without interactive session"
+    },
+    {
+      "title": "Connect with SSH key",
+      "command": "ssh -i ~/.ssh/mykey.pem user@example.com",
+      "description": "Authenticate using specific SSH key file",
+      "output": "(connects without password prompt if key is valid)",
+      "output_explanation": {
+        "format": "Connection using key authentication",
+        "elements": [
+          {
+            "element": "-i ~/.ssh/mykey.pem",
+            "meaning": "Use specified private key for authentication",
+            "breakdown": {
+              "key_based": "Uses SSH key instead of password",
+              "secure": "More secure than passwords",
+              "common": "Standard for cloud instances (AWS, GCP, etc.)"
+            }
+          }
+        ],
+        "notes": "Uses SSH key for authentication. No password prompt if key is valid. Common for cloud servers and automated access."
+      },
+      "use_case": "Connect to servers using SSH keys (cloud instances, automated access)"
+    },
+    {
+      "title": "Connect to non-standard port",
+      "command": "ssh -p 2222 user@example.com",
+      "description": "Connect to SSH server on port 2222 instead of default 22",
+      "output": "(connects to SSH server on specified port)",
+      "output_explanation": {
+        "format": "Connection to custom port",
+        "elements": [
+          {
+            "element": "-p 2222",
+            "meaning": "Connect to port 2222 instead of default 22",
+            "breakdown": {
+              "security": "Some servers use non-standard ports for security",
+              "common": "Many servers change default port to reduce attacks",
+              "format": "Port number after -p flag"
+            }
+          }
+        ],
+        "notes": "Connects to SSH server on specified port. Default is 22, but many servers use different ports for security."
+      },
+      "use_case": "Connect to SSH servers on non-standard ports"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "SSH requires password",
+      "misconception": "SSH always prompts for password",
+      "reality": "SSH can use password OR SSH keys. Key-based authentication is more secure and doesn't require typing password. Most servers support both methods.",
+      "tip": "Set up SSH keys for passwordless, more secure access. Use ssh-keygen to generate keys, ssh-copy-id to copy to server."
+    },
+    {
+      "title": "SSH is only for Linux",
+      "misconception": "SSH only works with Linux servers",
+      "reality": "SSH works with Linux, macOS, Windows (with OpenSSH), and many other systems. It's a cross-platform protocol.",
+      "tip": "SSH works on many platforms. Windows 10+ includes OpenSSH client by default."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong username",
+      "description": "Using wrong username for remote server",
+      "solution": "Verify correct username. Common: root, ubuntu (AWS), ec2-user (Amazon Linux), admin. Check server documentation."
+    },
+    {
+      "issue": "SSH key permissions",
+      "description": "SSH key file has wrong permissions",
+      "solution": "Set correct permissions: chmod 600 ~/.ssh/key.pem. SSH requires private keys to be readable only by owner."
+    },
+    {
+      "issue": "Firewall blocking connection",
+      "description": "Cannot connect - connection refused or timeout",
+      "solution": "Check firewall rules, ensure SSH port (22 or custom) is open. Check server is running SSH daemon (sshd)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "scp",
+      "relationship": "File transfer; ssh for shell access, scp for file transfer",
+      "description": "Copy files over SSH (uses SSH protocol)"
+    },
+    {
+      "command": "ssh-keygen",
+      "relationship": "SSH keys; ssh-keygen creates keys, ssh uses them",
+      "description": "Generate SSH key pairs for authentication"
+    }
+  ],
+  "best_practices": [
+    "Use SSH keys instead of passwords for better security",
+    "Use ssh-keygen to generate keys, ssh-copy-id to set them up",
+    "Set correct permissions on SSH keys: chmod 600 ~/.ssh/key",
+    "Use -p for non-standard ports",
+    "Use -i to specify key file for cloud instances",
+    "Use ssh config file (~/.ssh/config) for easier connections",
+    "Type 'exit' or Ctrl+D to disconnect from remote session"
+  ],
+  "performance_tips": [
+    "SSH is fast and efficient",
+    "Key-based authentication is faster than password (no typing)",
+    "SSH compression can speed up connections on slow networks"
+  ],
+  "additional_notes": {
+    "authentication": "SSH supports password and key-based authentication. Keys are more secure and convenient.",
+    "default_port": "Default SSH port is 22. Many servers change this for security.",
+    "ssh_config": "Use ~/.ssh/config file to store connection settings (host, user, port, key) for easier access",
+    "common_use": "Very common: ssh user@server (connect), ssh user@server 'command' (execute), ssh -i key.pem user@server (with key)"
+  }
+}
+

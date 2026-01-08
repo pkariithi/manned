@@ -1,0 +1,401 @@
+{
+  "metadata": {
+    "name": "cp",
+    "displayName": "cp - Copy files and directories",
+    "category": "File & Directory Operations",
+    "tags": ["files", "copy", "directory", "basic"],
+    "description": "Copy files and directories",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "cp is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "cp (copy) copies files and directories from one location to another. It creates duplicates of the source files/directories at the destination. Unlike mv, cp leaves the original files intact and creates new copies.",
+    "when_to_use": [
+      "Duplicate files or directories",
+      "Create backups of files",
+      "Copy files to a different location",
+      "Copy multiple files at once",
+      "Preserve original files while creating copies",
+      "Copy files to remote locations (with scp)"
+    ]
+  },
+  "syntax": {
+    "basic": "cp [OPTIONS] SOURCE... DESTINATION",
+    "description": "Copy SOURCE file(s) or directory(ies) to DESTINATION. Multiple sources can be specified, but destination must be a directory in that case.",
+    "examples": [
+      "cp file.txt backup.txt",
+      "cp file.txt Documents/",
+      "cp -r directory/ backup/",
+      "cp *.txt Documents/",
+      "cp -u source.txt destination.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-r, -R, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Copy directories recursively",
+      "category": "operation",
+      "example": "cp -r source/ dest/",
+      "use_case": "Required when copying directories - copies all contents and subdirectories"
+    },
+    {
+      "flag": "-i, --interactive",
+      "short": "-i",
+      "long": "--interactive",
+      "description": "Prompt before overwriting existing files",
+      "category": "safety",
+      "example": "cp -i file.txt backup.txt",
+      "use_case": "Prevent accidental overwriting of existing files by asking for confirmation"
+    },
+    {
+      "flag": "-u, --update",
+      "short": "-u",
+      "long": "--update",
+      "description": "Copy only when source is newer than destination or destination doesn't exist",
+      "category": "operation",
+      "example": "cp -u source.txt backup.txt",
+      "use_case": "Only copy files if they've been modified (useful for backups and syncing)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show what is being copied",
+      "category": "display",
+      "example": "cp -v file.txt backup.txt",
+      "use_case": "See which files are being copied - useful for confirmation"
+    },
+    {
+      "flag": "-p, --preserve",
+      "short": "-p",
+      "long": "--preserve",
+      "description": "Preserve file attributes (ownership, timestamps, permissions)",
+      "category": "preservation",
+      "example": "cp -p file.txt backup.txt",
+      "use_case": "Keep original file permissions, timestamps, and ownership"
+    },
+    {
+      "flag": "-a, --archive",
+      "short": "-a",
+      "long": "--archive",
+      "description": "Archive mode - same as -dR --preserve=all (preserve everything, follow symlinks as links)",
+      "category": "preservation",
+      "example": "cp -a source/ backup/",
+      "use_case": "Create exact copies preserving all attributes, permissions, and structure"
+    },
+    {
+      "flag": "-n, --no-clobber",
+      "short": "-n",
+      "long": "--no-clobber",
+      "description": "Do not overwrite existing files",
+      "category": "safety",
+      "example": "cp -n file.txt existing.txt",
+      "use_case": "Skip copying if destination file already exists (opposite of -i)"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Overwrite existing files without prompting",
+      "category": "operation",
+      "example": "cp -f source.txt dest.txt",
+      "use_case": "Force overwrite even if destination exists (use with caution)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Copy a single file",
+      "command": "cp file.txt backup.txt",
+      "description": "Create a copy of file.txt named backup.txt",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the copy was successful",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Source file to copy"
+          },
+          {
+            "element": "backup.txt",
+            "meaning": "Destination file (will be created if doesn't exist, overwritten if exists)"
+          }
+        ],
+        "notes": "Both files exist after cp - the original and the copy. Use ls to verify."
+      },
+      "use_case": "Create a backup or duplicate of a file"
+    },
+    {
+      "title": "Copy file to directory",
+      "command": "cp file.txt Documents/",
+      "description": "Copy file.txt into the Documents directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means successful copy",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Source file"
+          },
+          {
+            "element": "Documents/",
+            "meaning": "Destination directory (trailing slash indicates directory)",
+            "breakdown": {
+              "destination": "File will be copied as Documents/file.txt",
+              "preserves_name": "Filename is preserved in the destination directory"
+            }
+          }
+        ],
+        "notes": "When destination is a directory, the source filename is preserved"
+      },
+      "use_case": "Copy a file into a specific directory while keeping the same name"
+    },
+    {
+      "title": "Copy directory recursively",
+      "command": "cp -r project/ backup/",
+      "description": "Copy entire directory with all contents",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means directory and all contents copied successfully",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive flag - required for copying directories",
+            "breakdown": {
+              "required": "Must use -r or -R to copy directories",
+              "behavior": "Copies directory and all its contents, subdirectories, and files"
+            }
+          },
+          {
+            "element": "project/",
+            "meaning": "Source directory"
+          },
+          {
+            "element": "backup/",
+            "meaning": "Destination directory (created if doesn't exist)"
+          }
+        ],
+        "notes": "The -r flag is mandatory when copying directories. Without it, cp will fail."
+      },
+      "use_case": "Create a complete backup of a directory structure"
+    },
+    {
+      "title": "Copy multiple files",
+      "command": "cp *.txt Documents/",
+      "description": "Copy all .txt files to Documents directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all matching files were copied",
+        "elements": [
+          {
+            "element": "*.txt",
+            "meaning": "Wildcard matching all .txt files in current directory",
+            "breakdown": {
+              "*": "Matches any characters",
+              "*.txt": "Matches all files ending with .txt"
+            }
+          },
+          {
+            "element": "Documents/",
+            "meaning": "Destination directory for all copied files"
+          }
+        ],
+        "notes": "When copying multiple files, destination must be a directory"
+      },
+      "use_case": "Copy multiple files matching a pattern to a directory"
+    },
+    {
+      "title": "Interactive copy (with confirmation)",
+      "command": "cp -i file.txt existing.txt",
+      "description": "Copy with prompt before overwriting",
+      "output": "cp: overwrite 'existing.txt'? (y/n) y",
+      "output_explanation": {
+        "format": "Interactive prompt asking for confirmation",
+        "elements": [
+          {
+            "element": "cp: overwrite 'existing.txt'? (y/n) y",
+            "meaning": "Prompt asking if you want to overwrite the existing file",
+            "breakdown": {
+              "-i": "Interactive mode prompts before overwriting",
+              "y": "Type 'y' to confirm, 'n' to skip"
+            }
+          }
+        ],
+        "notes": "The -i flag prevents accidental overwriting by asking for confirmation first"
+      },
+      "use_case": "Safely copy when destination might already exist"
+    },
+    {
+      "title": "Update copy (only newer files)",
+      "command": "cp -u source.txt backup.txt",
+      "description": "Copy only if source is newer than destination",
+      "output": "(no output if source is newer; copies only if needed)",
+      "output_explanation": {
+        "format": "No output if file was copied; also no output if file wasn't copied because it's already up to date",
+        "elements": [
+          {
+            "element": "-u",
+            "meaning": "Update flag - only copy if source is newer",
+            "breakdown": {
+              "behavior": "Compares modification times",
+              "copies": "Only if source is newer or destination doesn't exist",
+              "skips": "If destination is newer or same age"
+            }
+          }
+        ],
+        "notes": "Use -v (verbose) with -u to see if files are actually being copied"
+      },
+      "use_case": "Sync files only when source has been modified (useful for backups)"
+    },
+    {
+      "title": "Archive copy (preserve everything)",
+      "command": "cp -a project/ backup/",
+      "description": "Create exact archive copy preserving all attributes",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means successful archive copy",
+        "elements": [
+          {
+            "element": "-a",
+            "meaning": "Archive mode - equivalent to -dR --preserve=all",
+            "breakdown": {
+              "-d": "Preserve symlinks as symlinks",
+              "-R": "Recursive (copy directories)",
+              "--preserve=all": "Preserve all attributes: permissions, ownership, timestamps, extended attributes"
+            }
+          }
+        ],
+        "notes": "Use -a for creating complete backups that preserve everything exactly as it was"
+      },
+      "use_case": "Create complete backups preserving permissions, ownership, and timestamps"
+    },
+    {
+      "title": "Verbose copy (show progress)",
+      "command": "cp -v file1.txt file2.txt Documents/",
+      "description": "Copy files with verbose output showing what's being copied",
+      "output": "'file1.txt' -> 'Documents/file1.txt'\n'file2.txt' -> 'Documents/file2.txt'",
+      "output_explanation": {
+        "format": "Shows each file being copied with source and destination paths",
+        "elements": [
+          {
+            "element": "'file1.txt' -> 'Documents/file1.txt'",
+            "meaning": "Shows source file being copied to destination",
+            "breakdown": {
+              "format": "source -> destination",
+              "verbose": "Each file copied is listed with its full path"
+            }
+          }
+        ],
+        "notes": "Use -v to see which files are being copied, especially useful with multiple files or -u flag"
+      },
+      "use_case": "See which files are being copied for confirmation and debugging"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "cp moves files",
+      "misconception": "cp removes the original file after copying",
+      "reality": "cp creates a copy while leaving the original intact. Use mv if you want to move (remove original).",
+      "tip": "cp = copy (keeps original). mv = move (removes original)."
+    },
+    {
+      "title": "cp works on directories without -r",
+      "misconception": "cp directory/ backup/ will copy a directory",
+      "reality": "You must use -r (recursive) to copy directories. Without it, cp will fail or do nothing.",
+      "tip": "Always use -r or -R when copying directories: cp -r source/ dest/"
+    },
+    {
+      "title": "cp preserves permissions by default",
+      "misconception": "cp keeps original file permissions automatically",
+      "reality": "cp doesn't preserve permissions by default. Use -p or -a to preserve permissions, ownership, and timestamps.",
+      "tip": "Use -p to preserve permissions, or -a for complete preservation (archive mode)"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -r for directories",
+      "description": "Trying to copy a directory without the -r flag",
+      "solution": "Always use -r or -R when copying directories. Use -a for complete archive copies. Error message will say 'omitting directory' if you forget."
+    },
+    {
+      "issue": "Overwriting files accidentally",
+      "description": "cp overwrites existing files without warning by default",
+      "solution": "Use -i for interactive mode (prompts before overwriting) or -n to never overwrite. Or check destination first with ls."
+    },
+    {
+      "issue": "Copying to wrong location",
+      "description": "Mistyping destination path or forgetting trailing slash",
+      "solution": "Use -v (verbose) to see what's being copied. Double-check destination paths. Remember: trailing slash on destination means directory."
+    },
+    {
+      "issue": "Losing permissions and ownership",
+      "description": "Copied files don't have same permissions as originals",
+      "solution": "Use -p to preserve permissions and ownership, or -a (archive mode) for complete preservation. Note: you may need sudo to preserve ownership."
+    },
+    {
+      "issue": "Confusing source and destination",
+      "description": "Putting files in wrong order (destination before source)",
+      "solution": "Format is always: cp SOURCE DESTINATION. Last argument is always destination. If copying multiple files, last must be a directory."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "mv",
+      "relationship": "Moves files; cp copies, mv moves",
+      "description": "Move files (removes original) instead of copying"
+    },
+    {
+      "command": "rm",
+      "relationship": "Removes files; use after cp to clean up",
+      "description": "Remove files (use with caution after copying if you only wanted to move)"
+    },
+    {
+      "command": "rsync",
+      "relationship": "Advanced copying; more efficient for large directories and remote copies",
+      "description": "Synchronize files and directories (more advanced than cp, supports remote locations)"
+    },
+    {
+      "command": "tar",
+      "relationship": "Archive creation; often used with cp for backups",
+      "description": "Create archives (often combined with cp operations for backup strategies)"
+    },
+    {
+      "command": "scp",
+      "relationship": "Remote copy; cp for network locations",
+      "description": "Copy files over network using SSH (cp over network)"
+    }
+  ],
+  "best_practices": [
+    "Always use -r or -R when copying directories",
+    "Use -i for interactive mode to prevent accidental overwrites",
+    "Use -u for syncing - only copies if source is newer",
+    "Use -v for verbose output to see what's being copied",
+    "Use -a for complete backups to preserve all attributes",
+    "Verify destination exists before copying: ls destination/",
+    "Use -n to never overwrite existing files",
+    "Check copied files with ls after cp to verify success"
+  ],
+  "performance_tips": [
+    "cp is fast for local file system copies",
+    "Use -u to avoid unnecessary copying of unchanged files",
+    "For large directories, rsync may be faster than cp -r",
+    "cp preserves hard links by default, which can save space",
+    "Use -a for complete backups but it's slightly slower due to attribute preservation"
+  ],
+  "additional_notes": {
+    "copy_vs_move": "cp creates copies (original remains). Use mv to move (original is removed).",
+    "directory_copying": "Always use -r or -R for directories. -a includes -R and preserves everything.",
+    "preservation": "Default cp doesn't preserve permissions. Use -p or -a for that.",
+    "wildcards": "cp supports wildcards: cp *.txt dir/ copies all .txt files",
+    "multiple_sources": "Can copy multiple files: cp file1.txt file2.txt dir/ (destination must be directory)",
+    "overwrite_behavior": "By default, cp overwrites without asking. Use -i for safety."
+  }
+}
+

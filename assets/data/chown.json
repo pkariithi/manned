@@ -1,0 +1,227 @@
+{
+  "metadata": {
+    "name": "chown",
+    "displayName": "chown - Change file ownership",
+    "category": "File & Directory Operations",
+    "tags": ["permissions", "ownership", "files", "security"],
+    "description": "Change file and directory ownership",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "chown is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "chown (change owner) modifies the ownership of files and directories. It changes both the user owner and optionally the group owner. Essential for managing file access when files need to belong to different users or groups, especially in multi-user systems or when setting up services.",
+    "when_to_use": [
+      "Change file ownership",
+      "Transfer files between users",
+      "Set up service file ownership",
+      "Fix ownership issues",
+      "Change group ownership",
+      "Manage web server file ownership"
+    ]
+  },
+  "syntax": {
+    "basic": "chown [OPTIONS] OWNER[:GROUP] FILE...",
+    "description": "Change ownership of FILE(s) to OWNER. Optionally specify GROUP with OWNER:GROUP. Requires appropriate permissions (usually root or file owner).",
+    "examples": [
+      "sudo chown user file.txt",
+      "sudo chown user:group file.txt",
+      "sudo chown -R www-data:www-data /var/www",
+      "sudo chown user: file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-R, --recursive",
+      "short": "-R",
+      "long": "--recursive",
+      "description": "Change ownership recursively",
+      "category": "operation",
+      "example": "sudo chown -R user:group directory/",
+      "use_case": "Apply ownership changes to directory and all contents"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show files being changed",
+      "category": "display",
+      "example": "sudo chown -v user file.txt",
+      "use_case": "See which files are having ownership changed"
+    },
+    {
+      "flag": "-c, --changes",
+      "short": "-c",
+      "long": "--changes",
+      "description": "Only show changed files",
+      "category": "display",
+      "example": "sudo chown -c user file.txt",
+      "use_case": "Show only files that actually changed ownership"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Change file owner",
+      "command": "sudo chown alice file.txt",
+      "description": "Change ownership to user alice",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means ownership changed successfully",
+        "elements": [
+          {
+            "element": "alice",
+            "meaning": "New owner username",
+            "breakdown": {
+              "behavior": "Changes file owner to specified user",
+              "permission": "Requires sudo or root (unless you're current owner)",
+              "verify": "Use ls -l to verify ownership changed"
+            }
+          }
+        ],
+        "notes": "Changes file owner. Requires sudo unless you're the current owner. Use ls -l to verify."
+      },
+      "use_case": "Transfer file ownership to another user"
+    },
+    {
+      "title": "Change owner and group",
+      "command": "sudo chown alice:developers file.txt",
+      "description": "Change owner to alice and group to developers",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means ownership changed successfully",
+        "elements": [
+          {
+            "element": "alice:developers",
+            "meaning": "Owner:Group format",
+            "breakdown": {
+              "format": "user:group - owner and group separated by colon",
+              "useful": "Set both owner and group in one command",
+              "common": "Very common pattern for service files"
+            }
+          }
+        ],
+        "notes": "Changes both owner and group. Format: user:group. Common for web server files: chown www-data:www-data"
+      },
+      "use_case": "Set both owner and group ownership"
+    },
+    {
+      "title": "Recursive ownership change",
+      "command": "sudo chown -R www-data:www-data /var/www",
+      "description": "Change ownership of directory and all contents",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means ownership changed successfully",
+        "elements": [
+          {
+            "element": "-R",
+            "meaning": "Recursive - applies to all files and subdirectories",
+            "breakdown": {
+              "behavior": "Changes ownership for directory and everything inside",
+              "useful": "Common for web server directories, service directories",
+              "warning": "Be careful - affects all files recursively"
+            }
+          }
+        ],
+        "notes": "Changes ownership recursively. Very common for web server directories. Use with caution."
+      },
+      "use_case": "Set ownership for entire directory tree (web servers, services)"
+    },
+    {
+      "title": "Change group only",
+      "command": "sudo chown :developers file.txt",
+      "description": "Change only the group, keep current owner",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means group changed successfully",
+        "elements": [
+          {
+            "element": ":developers",
+            "meaning": "Colon before group name changes only group",
+            "breakdown": {
+              "format": ":group changes only group, owner stays same",
+              "useful": "Add file to group without changing owner",
+              "common": "Useful for group collaboration"
+            }
+          }
+        ],
+        "notes": "Changes only the group. Format: :group. Owner remains unchanged. Useful for adding files to groups."
+      },
+      "use_case": "Add file to a group without changing owner"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "chown works without sudo",
+      "misconception": "Any user can change file ownership",
+      "reality": "chown requires root/sudo privileges, unless you're the current owner changing to yourself. Regular users cannot change ownership to other users.",
+      "tip": "Use sudo chown for ownership changes. Only root can change ownership to other users."
+    },
+    {
+      "title": "chown and chmod are the same",
+      "misconception": "chown and chmod do the same thing",
+      "reality": "chown changes ownership (who owns the file), chmod changes permissions (what can be done with the file). They're related but different.",
+      "tip": "chown = ownership (user/group), chmod = permissions (read/write/execute). Use both for complete file access control."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting sudo",
+      "description": "chown fails without appropriate permissions",
+      "solution": "Use sudo chown for ownership changes. Only root can change ownership to other users."
+    },
+    {
+      "issue": "Using chown -R on wrong directory",
+      "description": "Recursively changing ownership of entire system",
+      "solution": "Be very careful with chown -R. Double-check the path. Never run chown -R / (would change entire system)."
+    },
+    {
+      "issue": "Wrong user or group name",
+      "description": "Typo in username or group name",
+      "solution": "Verify user/group exists: id username, getent group groupname. chown will fail if user/group doesn't exist."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "chmod",
+      "relationship": "Change permissions; chown changes ownership, chmod changes permissions",
+      "description": "Change file permissions (complements chown)"
+    },
+    {
+      "command": "ls",
+      "relationship": "View ownership; ls -l shows current ownership",
+      "description": "List files with ownership (ls -l shows owner and group)"
+    },
+    {
+      "command": "id",
+      "relationship": "User info; id shows user/group IDs for chown",
+      "description": "Show user and group IDs (useful before chown)"
+    }
+  ],
+  "best_practices": [
+    "Use sudo chown for ownership changes",
+    "Use chown user:group format for both owner and group",
+    "Use chown -R carefully - verify path before running",
+    "Verify ownership with ls -l after chown",
+    "Use :group to change only group without changing owner",
+    "Common pattern: sudo chown -R www-data:www-data /var/www for web servers",
+    "Never run chown -R / (would change entire system ownership)"
+  ],
+  "performance_tips": [
+    "chown is fast",
+    "chown -R can be slow on large directory trees",
+    "Use -v to see progress on recursive operations"
+  ],
+  "additional_notes": {
+    "permissions": "chown requires root/sudo privileges (unless changing to yourself)",
+    "format": "Format: chown user:group file (both), chown user file (owner only), chown :group file (group only)",
+    "vs_chmod": "chown = ownership (who owns), chmod = permissions (what can be done). Use both for access control.",
+    "common_use": "Very common: sudo chown -R www-data:www-data /var/www (web servers), sudo chown user:group service-files (services)",
+    "verification": "Use ls -l to verify ownership. Third column = owner, fourth column = group."
+  }
+}
+

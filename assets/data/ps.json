@@ -1,0 +1,344 @@
+{
+  "metadata": {
+    "name": "ps",
+    "displayName": "ps - Report process status",
+    "category": "System Information",
+    "tags": ["processes", "system", "monitoring", "status"],
+    "description": "Display information about running processes",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "procps-ng 3.3.16+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ps is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "ps displays information about currently running processes. Unlike htop or top, ps provides a snapshot of processes at the time it's executed rather than continuously updating. It's useful for scripts and one-time process queries.",
+    "when_to_use": [
+      "View running processes at a specific point in time",
+      "Find process IDs (PIDs) for specific programs",
+      "Check process status and resource usage",
+      "Use in scripts for process monitoring",
+      "Identify zombie or stopped processes",
+      "View process hierarchy"
+    ]
+  },
+  "syntax": {
+    "basic": "ps [OPTIONS]",
+    "description": "ps can be used with various options to display different information about processes. Without options, it shows processes in the current terminal session.",
+    "examples": [
+      "ps",
+      "ps aux",
+      "ps -ef",
+      "ps -u username",
+      "ps -p 1234"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a",
+      "short": "-a",
+      "long": null,
+      "description": "Show processes for all users",
+      "category": "selection",
+      "example": "ps -a",
+      "use_case": "See all processes running on the system, not just your own"
+    },
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "Show processes for specific user or detailed format",
+      "category": "selection",
+      "example": "ps -u alice",
+      "use_case": "View all processes belonging to a specific user"
+    },
+    {
+      "flag": "-x",
+      "short": "-x",
+      "description": "Show processes not attached to a terminal",
+      "category": "selection",
+      "example": "ps aux",
+      "use_case": "See background processes and daemons (usually combined with -a)"
+    },
+    {
+      "flag": "-e, -A",
+      "short": "-e",
+      "long": "-A",
+      "description": "Show all processes (same as -A)",
+      "category": "selection",
+      "example": "ps -e",
+      "use_case": "Display all processes in the system"
+    },
+    {
+      "flag": "-f, --full",
+      "short": "-f",
+      "long": "--full",
+      "description": "Full format listing with command arguments",
+      "category": "format",
+      "example": "ps -ef",
+      "use_case": "See full command lines including arguments"
+    },
+    {
+      "flag": "-l, --long",
+      "short": "-l",
+      "long": "--long",
+      "description": "Long format with additional details",
+      "category": "format",
+      "example": "ps -l",
+      "use_case": "Get detailed information including priority and nice value"
+    },
+    {
+      "flag": "-p, --pid",
+      "short": "-p",
+      "long": "--pid",
+      "description": "Select processes by PID",
+      "category": "selection",
+      "example": "ps -p 1234,5678",
+      "use_case": "Check specific processes by their process IDs"
+    },
+    {
+      "flag": "-o, --format",
+      "short": "-o",
+      "long": "--format",
+      "description": "Specify output format with custom columns",
+      "category": "format",
+      "example": "ps -o pid,comm,%mem,%cpu",
+      "use_case": "Customize output to show only the columns you need"
+    },
+    {
+      "flag": "--forest, -H",
+      "short": "-H",
+      "long": "--forest",
+      "description": "Display process hierarchy as a tree",
+      "category": "format",
+      "example": "ps auxf",
+      "use_case": "See parent-child relationships between processes"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic process listing",
+      "command": "ps",
+      "description": "Show processes in the current terminal session",
+      "output": "PID TTY          TIME CMD\n1234 pts/0    00:00:05 bash\n5678 pts/0    00:00:01 ps",
+      "output_explanation": {
+        "format": "Columns: PID, TTY, TIME, CMD",
+        "elements": [
+          {
+            "element": "PID",
+            "meaning": "Process ID - unique identifier for the process"
+          },
+          {
+            "element": "TTY",
+            "meaning": "Terminal associated with the process"
+          },
+          {
+            "element": "TIME",
+            "meaning": "CPU time consumed by the process"
+          },
+          {
+            "element": "CMD",
+            "meaning": "Command name that started the process"
+          }
+        ],
+        "notes": "By default, ps only shows processes from your current terminal session"
+      },
+      "use_case": "Quick check of processes you started in the current terminal"
+    },
+    {
+      "title": "All processes (detailed)",
+      "command": "ps aux",
+      "description": "Show all processes with detailed information in BSD-style format",
+      "output": "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1  12345  1234 ?        Ss   Jan01   0:15 /sbin/init\nuser      1234  5.2  2.1 456789 12345 ?        Sl   Jan08   1:30 firefox",
+      "output_explanation": {
+        "format": "Columns: USER, PID, %CPU, %MEM, VSZ, RSS, TTY, STAT, START, TIME, COMMAND",
+        "elements": [
+          {
+            "element": "USER",
+            "meaning": "Username of process owner"
+          },
+          {
+            "element": "PID",
+            "meaning": "Process ID"
+          },
+          {
+            "element": "%CPU",
+            "meaning": "CPU usage percentage"
+          },
+          {
+            "element": "%MEM",
+            "meaning": "Memory usage percentage"
+          },
+          {
+            "element": "VSZ",
+            "meaning": "Virtual memory size in KB"
+          },
+          {
+            "element": "RSS",
+            "meaning": "Resident set size (physical memory) in KB"
+          },
+          {
+            "element": "STAT",
+            "meaning": "Process state (S=sleeping, R=running, Z=zombie, etc.)"
+          },
+          {
+            "element": "COMMAND",
+            "meaning": "Full command line"
+          }
+        ],
+        "notes": "aux is a common combination: a (all users), u (user-oriented format), x (include processes without terminal)"
+      },
+      "use_case": "Comprehensive view of all processes with resource usage"
+    },
+    {
+      "title": "Find specific process",
+      "command": "ps aux | grep firefox",
+      "description": "Find all firefox processes",
+      "output": "user  1234  5.2  2.1 456789 12345 ? Sl Jan08 1:30 /usr/bin/firefox\nuser  1235  0.1  0.5  12345  5678 ? S  Jan08 0:05 /usr/bin/firefox --content-process",
+      "output_explanation": {
+        "format": "Standard ps aux output piped through grep",
+        "elements": [
+          {
+            "element": "Matches only lines containing 'firefox'",
+            "meaning": "Shows all firefox-related processes"
+          }
+        ],
+        "notes": "The grep command itself will also appear in the output unless filtered with 'grep -v grep'"
+      },
+      "use_case": "Locate specific application processes"
+    },
+    {
+      "title": "Custom format output",
+      "command": "ps -o pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -10",
+      "description": "Show top 10 processes by CPU usage with custom columns",
+      "output": "PID  PPID CMD                         %MEM %CPU\n1234    1 firefox                     2.1  5.2\n5678    1 chrome                      1.8  3.1",
+      "output_explanation": {
+        "format": "Custom columns: PID, PPID, CMD, %MEM, %CPU",
+        "elements": [
+          {
+            "element": "PPID",
+            "meaning": "Parent process ID"
+          },
+          {
+            "element": "--sort=-%cpu",
+            "meaning": "Sort by CPU usage descending (highest first)"
+          }
+        ],
+        "notes": "The -o flag allows you to specify exactly which columns to display"
+      },
+      "use_case": "Quick check of resource-intensive processes with only needed columns"
+    },
+    {
+      "title": "Process tree",
+      "command": "ps auxf",
+      "description": "Show process hierarchy in tree format",
+      "output": "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.1  12345  1234 ?        Ss   Jan01   0:15 /sbin/init\nroot       567  0.0  0.0   1234   567 ?        S    Jan01   0:00  \\_ systemd-logind\nuser      1234  5.2  2.1 456789 12345 ?        Sl   Jan08   1:30  \\_ firefox",
+      "output_explanation": {
+        "format": "Tree format showing parent-child relationships",
+        "elements": [
+          {
+            "element": "\\_",
+            "meaning": "Indicates a child process (indented under parent)"
+          },
+          {
+            "element": "Indentation",
+            "meaning": "Shows process hierarchy - more indented = deeper in tree"
+          }
+        ],
+        "notes": "The 'f' flag shows processes in a forest/tree format, making relationships clear"
+      },
+      "use_case": "Understand which processes were spawned by other processes"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "ps shows real-time process information",
+      "misconception": "ps continuously updates like top or htop",
+      "reality": "ps takes a snapshot of processes at the moment it runs. It doesn't continuously update. For real-time monitoring, use top or htop instead.",
+      "tip": "Use ps for one-time queries or scripts. Use top/htop for continuous monitoring."
+    },
+    {
+      "title": "ps -aux is the same as ps aux",
+      "misconception": "ps -aux is correct syntax",
+      "reality": "The correct syntax is 'ps aux' (without the dash before aux). ps -aux would try to find a user named 'x', which may cause errors.",
+      "tip": "Always use 'ps aux' without a dash before 'aux'"
+    },
+    {
+      "title": "ps shows all processes by default",
+      "misconception": "ps displays all processes in the system",
+      "reality": "ps without options only shows processes from your current terminal session. Use 'ps aux' or 'ps -ef' to see all processes.",
+      "tip": "Use ps -e, ps aux, or ps -ef to see all processes on the system"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting that ps is a snapshot",
+      "description": "Expecting ps to show continuously updated information",
+      "solution": "Remember that ps shows processes at a single point in time. Run it multiple times or use watch ps aux for periodic updates, or use top/htop for continuous monitoring."
+    },
+    {
+      "issue": "Using ps -aux instead of ps aux",
+      "description": "Adding a dash before aux causes incorrect behavior",
+      "solution": "Always use 'ps aux' without the dash. The 'aux' are options that should not have a leading dash."
+    },
+    {
+      "issue": "Not understanding process states",
+      "description": "Confused by STAT column values",
+      "solution": "Learn common STAT values: R (running), S (sleeping), D (uninterruptible sleep), Z (zombie), T (stopped). Use 'man ps' for complete list."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "top",
+      "relationship": "Real-time process monitor; continuous updates",
+      "description": "Interactive process viewer that updates continuously"
+    },
+    {
+      "command": "htop",
+      "relationship": "Enhanced process monitor; interactive and user-friendly",
+      "description": "Colorful, interactive process viewer (requires installation)"
+    },
+    {
+      "command": "kill",
+      "relationship": "Terminate processes; often used after finding PID with ps",
+      "description": "Send signals to processes by PID (found with ps)"
+    },
+    {
+      "command": "pstree",
+      "relationship": "Process tree display; visual hierarchy like ps auxf",
+      "description": "Show process tree in a visual format (may require installation)"
+    },
+    {
+      "command": "pgrep",
+      "relationship": "Find processes by name; simpler than ps | grep",
+      "description": "Search for processes by name and return PIDs"
+    }
+  ],
+  "best_practices": [
+    "Use 'ps aux' for comprehensive process listing with resource usage",
+    "Combine ps with grep to find specific processes: ps aux | grep processname",
+    "Use custom format (-o) to show only columns you need: ps -o pid,cmd,%cpu",
+    "Sort output by resource usage: ps aux --sort=-%cpu | head -10",
+    "Use 'ps auxf' or 'ps -ef' to see all processes, not just current terminal",
+    "Filter out grep from results: ps aux | grep processname | grep -v grep",
+    "Use pstree or ps auxf to understand process relationships",
+    "Save output for analysis: ps aux > processes.txt"
+  ],
+  "performance_tips": [
+    "ps is very fast as it only takes a snapshot, not continuous monitoring",
+    "Limit output with head/tail if you only need top/bottom processes: ps aux | head -20",
+    "Use custom format (-o) with fewer columns for faster output",
+    "Combine with grep for filtering rather than parsing all output",
+    "For scripts, use -o with specific columns to reduce parsing overhead"
+  ],
+  "additional_notes": {
+    "process_states": "Common STAT values: R (running), S (interruptible sleep), D (uninterruptible sleep), T (stopped), Z (zombie), X (dead)",
+    "formatting": "ps supports different output formats: BSD-style (ps aux), Unix-style (ps -ef), and custom (-o flag)",
+    "scripting": "ps is ideal for scripts because it's non-interactive and takes a snapshot rather than running continuously",
+    "comparison": "Use ps for quick checks and scripts. Use top/htop for interactive monitoring. Use pgrep/pkill for finding/killing by name."
+  }
+}
+

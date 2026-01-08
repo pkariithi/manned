@@ -1,0 +1,291 @@
+{
+  "metadata": {
+    "name": "curl",
+    "displayName": "curl - Transfer data with URLs",
+    "category": "Network & Internet",
+    "tags": ["download", "http", "api", "web", "transfer"],
+    "description": "Transfer data to or from a server using various protocols",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "curl 7.68+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "curl is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "curl (client URL) transfers data to or from servers using various protocols (HTTP, HTTPS, FTP, etc.). It's more powerful than wget - supports more protocols, can send data (POST requests), handle authentication, and is commonly used for API testing and web development.",
+    "when_to_use": [
+      "Download files from web",
+      "Test API endpoints",
+      "Send HTTP requests (GET, POST, etc.)",
+      "Check website availability",
+      "Transfer data to/from servers",
+      "Debug web services"
+    ]
+  },
+  "syntax": {
+    "basic": "curl [OPTIONS] URL",
+    "description": "Transfer data from or to URL. By default, curl outputs to stdout. Use -o to save to file.",
+    "examples": [
+      "curl https://example.com",
+      "curl -O https://example.com/file.zip",
+      "curl -X POST https://api.example.com/data",
+      "curl -H 'Authorization: Bearer token' https://api.example.com"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-O, --remote-name",
+      "short": "-O",
+      "long": "--remote-name",
+      "description": "Save output to file with remote filename",
+      "category": "output",
+      "example": "curl -O https://example.com/file.zip",
+      "use_case": "Download file keeping original name"
+    },
+    {
+      "flag": "-o, --output",
+      "short": "-o",
+      "long": "--output",
+      "description": "Write output to specified file",
+      "category": "output",
+      "example": "curl -o myfile.zip https://example.com/file.zip",
+      "use_case": "Save output to file with custom name"
+    },
+    {
+      "flag": "-X, --request",
+      "short": "-X",
+      "long": "--request",
+      "description": "Specify HTTP method (GET, POST, PUT, DELETE, etc.)",
+      "category": "http",
+      "example": "curl -X POST https://api.example.com/data",
+      "use_case": "Send POST, PUT, DELETE requests (default is GET)"
+    },
+    {
+      "flag": "-H, --header",
+      "short": "-H",
+      "long": "--header",
+      "description": "Add HTTP header",
+      "category": "http",
+      "example": "curl -H 'Content-Type: application/json' https://api.example.com",
+      "use_case": "Add custom headers (Authorization, Content-Type, etc.)"
+    },
+    {
+      "flag": "-d, --data",
+      "short": "-d",
+      "long": "--data",
+      "description": "Send data in POST request",
+      "category": "http",
+      "example": "curl -d 'key=value' https://api.example.com",
+      "use_case": "Send form data or JSON in POST request"
+    },
+    {
+      "flag": "-L, --location",
+      "short": "-L",
+      "long": "--location",
+      "description": "Follow HTTP redirects",
+      "category": "http",
+      "example": "curl -L https://example.com",
+      "use_case": "Follow redirects (3xx responses) automatically"
+    },
+    {
+      "flag": "-s, --silent",
+      "short": "-s",
+      "long": "--silent",
+      "description": "Silent mode (suppress progress)",
+      "category": "display",
+      "example": "curl -s https://example.com",
+      "use_case": "Suppress progress output (useful in scripts)"
+    },
+    {
+      "flag": "-w, --write-out",
+      "short": "-w",
+      "long": "--write-out",
+      "description": "Write format string after transfer",
+      "category": "display",
+      "example": "curl -w '%{http_code}' https://example.com",
+      "use_case": "Show HTTP status code or other transfer info"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Download file",
+      "command": "curl -O https://example.com/file.zip",
+      "description": "Download file keeping original name",
+      "output": "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100 1048k  100 1048k    0     0  2500k      0  0:00:00  0:00:00 --:--:--  2500k",
+      "output_explanation": {
+        "format": "Download progress and statistics",
+        "elements": [
+          {
+            "element": "% Total",
+            "meaning": "Percentage of total download",
+            "breakdown": {
+              "progress": "Shows download progress"
+            }
+          },
+          {
+            "element": "Speed",
+            "meaning": "Transfer speed",
+            "breakdown": {
+              "useful": "Shows download/upload speed"
+            }
+          },
+          {
+            "element": "Time",
+            "meaning": "Time elapsed and remaining",
+            "breakdown": {
+              "useful": "Shows how long download took"
+            }
+          }
+        ],
+        "notes": "Shows download progress. File saved with original name. Use -s to suppress this output."
+      },
+      "use_case": "Download files from web URLs"
+    },
+    {
+      "title": "Test API endpoint",
+      "command": "curl https://api.example.com/users",
+      "description": "Send GET request to API",
+      "output": "[{\"id\": 1, \"name\": \"Alice\"}, {\"id\": 2, \"name\": \"Bob\"}]",
+      "output_explanation": {
+        "format": "API response (JSON in this example)",
+        "elements": [
+          {
+            "element": "JSON response",
+            "meaning": "API returns data (JSON, XML, etc.)",
+            "breakdown": {
+              "useful": "Test API endpoints, see responses",
+              "common": "Very common for API development and testing"
+            }
+          }
+        ],
+        "notes": "Sends GET request and displays response. Perfect for testing APIs. Response goes to stdout."
+      },
+      "use_case": "Test and debug API endpoints"
+    },
+    {
+      "title": "Send POST request",
+      "command": "curl -X POST -H 'Content-Type: application/json' -d '{\"name\":\"Alice\"}' https://api.example.com/users",
+      "description": "Send POST request with JSON data",
+      "output": "{\"id\": 3, \"name\": \"Alice\", \"created\": true}",
+      "output_explanation": {
+        "format": "API response to POST request",
+        "elements": [
+          {
+            "element": "-X POST",
+            "meaning": "Use POST method instead of GET",
+            "breakdown": {
+              "methods": "Can use GET, POST, PUT, DELETE, PATCH, etc."
+            }
+          },
+          {
+            "element": "-H 'Content-Type: application/json'",
+            "meaning": "Set HTTP header",
+            "breakdown": {
+              "headers": "Add custom headers (Authorization, Content-Type, etc.)"
+            }
+          },
+          {
+            "element": "-d '{\"name\":\"Alice\"}'",
+            "meaning": "Send data in request body",
+            "breakdown": {
+              "data": "POST/PUT data (form data, JSON, etc.)"
+            }
+          }
+        ],
+        "notes": "Sends POST request with JSON data. Very useful for API testing. Can send form data, JSON, files, etc."
+      },
+      "use_case": "Send data to APIs (create, update operations)"
+    },
+    {
+      "title": "Check HTTP status",
+      "command": "curl -s -o /dev/null -w '%{http_code}' https://example.com",
+      "description": "Get only HTTP status code",
+      "output": "200",
+      "output_explanation": {
+        "format": "HTTP status code",
+        "elements": [
+          {
+            "element": "-s",
+            "meaning": "Silent mode - suppress progress",
+            "breakdown": {
+              "useful": "Clean output for scripts"
+            }
+          },
+          {
+            "element": "-o /dev/null",
+            "meaning": "Discard response body",
+            "breakdown": {
+              "useful": "Only want status code, not content"
+            }
+          },
+          {
+            "element": "-w '%{http_code}'",
+            "meaning": "Write HTTP status code",
+            "breakdown": {
+              "useful": "Get status code for scripting/automation"
+            }
+          }
+        ],
+        "notes": "Returns only HTTP status code (200, 404, 500, etc.). Useful for health checks and automation."
+      },
+      "use_case": "Check if website/API is responding (health checks)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "curl only downloads files",
+      "misconception": "curl is only for downloading",
+      "reality": "curl can send data (POST, PUT), set headers, handle authentication, and work with many protocols. It's a full HTTP client, not just a downloader.",
+      "tip": "curl is a full HTTP client - can send GET, POST, PUT, DELETE requests, set headers, send data. Much more than just downloading."
+    },
+    {
+      "title": "curl and wget are identical",
+      "misconception": "curl and wget work the same way",
+      "reality": "curl outputs to stdout by default (use -O to save), supports more protocols, can send data. wget saves to file by default, simpler for downloads.",
+      "tip": "curl = outputs to stdout (use -O to save), more features. wget = saves to file, simpler. Use curl for APIs, wget for simple downloads."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not using -O or -o",
+      "description": "curl outputs to stdout by default, not file",
+      "solution": "Use curl -O to save with original name, or curl -o filename to save with custom name. Without these, output goes to terminal."
+    },
+    {
+      "issue": "Not following redirects",
+      "description": "curl doesn't follow redirects by default",
+      "solution": "Use curl -L to follow HTTP redirects automatically. Many URLs redirect, so -L is often needed."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "wget",
+      "relationship": "Download tool; curl for APIs/advanced, wget for simple downloads",
+      "description": "Download files from web (simpler than curl for basic downloads)"
+    }
+  ],
+  "best_practices": [
+    "Use curl -O to save files with original name",
+    "Use curl -L to follow redirects",
+    "Use -H for custom headers (Authorization, Content-Type)",
+    "Use -X POST -d for sending data",
+    "Use -s -o /dev/null -w '%{http_code}' for status checks",
+    "Use curl for API testing and development",
+    "Pipe JSON to jq for pretty printing: curl ... | jq"
+  ],
+  "performance_tips": [
+    "curl is fast and efficient",
+    "Use -s for scripts to suppress progress output",
+    "curl handles compression automatically when supported"
+  ],
+  "additional_notes": {
+    "default_behavior": "curl outputs to stdout by default - use -O or -o to save to file",
+    "vs_wget": "curl = outputs to stdout, more features, better for APIs. wget = saves to file, simpler, better for downloads.",
+    "api_testing": "curl is excellent for API testing - can send any HTTP method, headers, data",
+    "common_patterns": "Common: curl URL (view), curl -O URL (download), curl -X POST -d data URL (POST), curl -L URL (follow redirects)"
+  }
+}
+

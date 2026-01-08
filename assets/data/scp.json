@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "name": "scp",
+    "displayName": "scp - Secure copy over SSH",
+    "category": "Network & Internet",
+    "tags": ["transfer", "ssh", "copy", "remote", "secure"],
+    "description": "Copy files securely over SSH",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "OpenSSH 8.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "scp is installed by default on most Linux distributions (comes with SSH)"
+  },
+  "overview": {
+    "summary": "scp (secure copy) copies files between hosts over SSH. It provides encrypted file transfer, similar to cp but works over networks. Essential for transferring files to/from remote servers securely. Uses the same authentication as SSH (passwords or keys).",
+    "when_to_use": [
+      "Copy files to remote servers",
+      "Copy files from remote servers",
+      "Transfer files securely over network",
+      "Backup files to remote location",
+      "Deploy files to servers",
+      "Sync files between machines"
+    ]
+  },
+  "syntax": {
+    "basic": "scp [OPTIONS] SOURCE DESTINATION",
+    "description": "Copy SOURCE to DESTINATION. Can copy local to remote, remote to local, or remote to remote. Format: user@host:path",
+    "examples": [
+      "scp file.txt user@server:/path/",
+      "scp user@server:/path/file.txt .",
+      "scp -r directory/ user@server:/path/",
+      "scp -P 2222 file.txt user@server:/path/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-r, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Copy directories recursively",
+      "category": "operation",
+      "example": "scp -r directory/ user@server:/path/",
+      "use_case": "Copy entire directory trees"
+    },
+    {
+      "flag": "-P, --port",
+      "short": "-P",
+      "long": "--port",
+      "description": "Specify SSH port (default is 22)",
+      "category": "connection",
+      "example": "scp -P 2222 file.txt user@server:/path/",
+      "use_case": "Use non-standard SSH port"
+    },
+    {
+      "flag": "-i, --identity-file",
+      "short": "-i",
+      "long": "--identity-file",
+      "description": "Use specified SSH key file",
+      "category": "authentication",
+      "example": "scp -i ~/.ssh/key.pem file.txt user@server:/path/",
+      "use_case": "Authenticate using specific SSH key"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose mode (debugging)",
+      "category": "debug",
+      "example": "scp -v file.txt user@server:/path/",
+      "use_case": "Show detailed transfer information"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Copy file to remote server",
+      "command": "scp file.txt user@example.com:/home/user/",
+      "description": "Upload file to remote server",
+      "output": "file.txt                                    100% 1024     1.0KB/s   00:01",
+      "output_explanation": {
+        "format": "Transfer progress and completion",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "File being transferred",
+            "breakdown": {
+              "format": "filename progress speed time"
+            }
+          },
+          {
+            "element": "100%",
+            "meaning": "Transfer complete",
+            "breakdown": {
+              "progress": "Shows percentage complete"
+            }
+          },
+          {
+            "element": "1.0KB/s",
+            "meaning": "Transfer speed",
+            "breakdown": {
+              "useful": "Shows upload/download speed"
+            }
+          }
+        ],
+        "notes": "Shows transfer progress. Prompts for password (or uses SSH key). File copied to remote server."
+      },
+      "use_case": "Upload files to remote servers"
+    },
+    {
+      "title": "Copy file from remote server",
+      "command": "scp user@example.com:/path/file.txt .",
+      "description": "Download file from remote server",
+      "output": "file.txt                                    100% 1024     1.0KB/s   00:01",
+      "output_explanation": {
+        "format": "Transfer progress and completion",
+        "elements": [
+          {
+            "element": "user@example.com:/path/file.txt",
+            "meaning": "Remote file path",
+            "breakdown": {
+              "format": "user@host:path - remote file location",
+              "destination": ". means current directory"
+            }
+          }
+        ],
+        "notes": "Downloads file from remote server to current directory. Format: user@host:remote_path local_path"
+      },
+      "use_case": "Download files from remote servers"
+    },
+    {
+      "title": "Copy directory recursively",
+      "command": "scp -r project/ user@server:/home/user/",
+      "description": "Copy entire directory to remote server",
+      "output": "(shows progress for each file in directory)",
+      "output_explanation": {
+        "format": "Recursive transfer progress",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive - copies directory and all contents",
+            "breakdown": {
+              "behavior": "Copies entire directory tree",
+              "useful": "Essential for copying projects, backups, etc.",
+              "common": "Very common for deployment and backups"
+            }
+          }
+        ],
+        "notes": "Copies entire directory recursively. Shows progress for each file. Essential for deploying projects."
+      },
+      "use_case": "Copy entire directories to/from remote servers"
+    },
+    {
+      "title": "Copy with SSH key",
+      "command": "scp -i ~/.ssh/key.pem file.txt user@server:/path/",
+      "description": "Use specific SSH key for authentication",
+      "output": "(transfer progress, no password prompt)",
+      "output_explanation": {
+        "format": "Transfer using key authentication",
+        "elements": [
+          {
+            "element": "-i ~/.ssh/key.pem",
+            "meaning": "Use specified SSH key",
+            "breakdown": {
+              "key_based": "Uses SSH key instead of password",
+              "secure": "More secure and convenient",
+              "common": "Standard for cloud instances"
+            }
+          }
+        ],
+        "notes": "Uses SSH key for authentication. No password prompt. Common for cloud servers and automated transfers."
+      },
+      "use_case": "Transfer files using SSH keys (cloud instances, automation)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "scp is the same as cp",
+      "misconception": "scp works exactly like cp",
+      "reality": "scp works over network using SSH, requires authentication, and has network overhead. cp is local only and instant.",
+      "tip": "scp = secure copy over network (SSH). cp = local copy. scp requires network connection and authentication."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong path format",
+      "description": "Using incorrect remote path format",
+      "solution": "Remote paths: user@host:/absolute/path or user@host:relative/path. Local paths: regular paths. Always use : after hostname for remote."
+    },
+    {
+      "issue": "Forgetting -r for directories",
+      "description": "scp fails when copying directories without -r",
+      "solution": "Always use scp -r for directories. Without -r, scp only works for files."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ssh",
+      "relationship": "Remote access; scp uses SSH protocol for file transfer",
+      "description": "Secure shell remote access (scp uses SSH for transfers)"
+    },
+    {
+      "command": "rsync",
+      "relationship": "File sync; rsync is more advanced than scp",
+      "description": "Advanced file synchronization (more features than scp)"
+    },
+    {
+      "command": "cp",
+      "relationship": "Local copy; cp for local, scp for remote",
+      "description": "Copy files locally (scp for network transfers)"
+    }
+  ],
+  "best_practices": [
+    "Use scp -r for directories",
+    "Use scp -i for SSH key authentication",
+    "Use absolute paths for remote destinations",
+    "Verify file paths before transferring",
+    "Use scp for secure file transfers over network",
+    "Consider rsync for large transfers or synchronization"
+  ],
+  "performance_tips": [
+    "scp speed depends on network connection",
+    "Use rsync for large transfers (more efficient)",
+    "scp is encrypted (secure but adds overhead)"
+  ],
+  "additional_notes": {
+    "ssh_based": "scp uses SSH protocol - same authentication as ssh command",
+    "path_format": "Remote: user@host:path, Local: regular path. Colon (:) separates host from path.",
+    "vs_rsync": "scp = simple secure copy. rsync = advanced sync with resume, compression, etc.",
+    "common_use": "Very common: scp file user@server:/path (upload), scp user@server:/path/file . (download), scp -r dir/ user@server:/path (directory)"
+  }
+}
+

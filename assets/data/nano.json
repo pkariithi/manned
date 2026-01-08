@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "name": "nano",
+    "displayName": "nano - Simple text editor",
+    "category": "File & Directory Operations",
+    "tags": ["editor", "text", "files", "beginner"],
+    "description": "Simple, beginner-friendly text editor",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU nano 6.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "nano is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "nano is a simple, beginner-friendly text editor for the terminal. Unlike vim or emacs, nano is easy to use with on-screen help and intuitive keyboard shortcuts. It's perfect for quick file edits, configuration files, and beginners learning to edit files in the terminal.",
+    "when_to_use": [
+      "Edit text files",
+      "Edit configuration files",
+      "Quick file modifications",
+      "Beginner-friendly text editing",
+      "Edit system files (with sudo)",
+      "Create and edit scripts"
+    ]
+  },
+  "syntax": {
+    "basic": "nano [OPTIONS] [FILE]",
+    "description": "Open FILE in nano editor. If FILE doesn't exist, nano creates it. Use keyboard shortcuts shown at bottom of screen.",
+    "examples": [
+      "nano file.txt",
+      "nano /etc/hosts",
+      "sudo nano /etc/nginx/nginx.conf",
+      "nano +10 file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "+LINE",
+      "short": null,
+      "long": null,
+      "description": "Start at specified line number",
+      "category": "navigation",
+      "example": "nano +10 file.txt",
+      "use_case": "Open file and jump to line 10"
+    },
+    {
+      "flag": "-w, --nowrap",
+      "short": "-w",
+      "long": "--nowrap",
+      "description": "Disable line wrapping",
+      "category": "display",
+      "example": "nano -w file.txt",
+      "use_case": "Edit files with long lines without wrapping"
+    },
+    {
+      "flag": "-B, --backup",
+      "short": "-B",
+      "long": "--backup",
+      "description": "Create backup file when saving",
+      "category": "safety",
+      "example": "nano -B file.txt",
+      "use_case": "Automatically create backup (.save file) when saving"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Edit file",
+      "command": "nano file.txt",
+      "description": "Open file in nano editor",
+      "output": "(nano editor opens with file contents and help at bottom)",
+      "output_explanation": {
+        "format": "Nano editor interface",
+        "elements": [
+          {
+            "element": "File contents",
+            "meaning": "File displayed in editor",
+            "breakdown": {
+              "display": "File contents shown in editable area",
+              "cursor": "Cursor can be moved with arrow keys"
+            }
+          },
+          {
+            "element": "Help bar at bottom",
+            "meaning": "Keyboard shortcuts shown",
+            "breakdown": {
+              "shortcuts": "Common shortcuts: ^X = Ctrl+X (exit), ^O = Ctrl+O (save), ^W = Ctrl+W (search)",
+              "format": "^ = Ctrl key",
+              "helpful": "On-screen help makes nano beginner-friendly"
+            }
+          }
+        ],
+        "notes": "Opens file in nano. Helpful shortcuts shown at bottom. ^ means Ctrl key. Type text, use Ctrl+O to save, Ctrl+X to exit."
+      },
+      "use_case": "Edit text files easily (beginner-friendly)"
+    },
+    {
+      "title": "Create new file",
+      "command": "nano newfile.txt",
+      "description": "Create and edit new file",
+      "output": "(nano opens with empty buffer, ready for input)",
+      "output_explanation": {
+        "format": "Empty editor ready for input",
+        "elements": [
+          {
+            "element": "Empty buffer",
+            "meaning": "New file - no content yet",
+            "breakdown": {
+              "behavior": "If file doesn't exist, nano creates it when you save",
+              "useful": "Easy way to create new files"
+            }
+          }
+        ],
+        "notes": "Opens empty editor. Type content, then Ctrl+O to save (creates file), Ctrl+X to exit."
+      },
+      "use_case": "Create new text files"
+    },
+    {
+      "title": "Edit system file",
+      "command": "sudo nano /etc/hosts",
+      "description": "Edit system configuration file",
+      "output": "(nano opens with /etc/hosts file contents)",
+      "output_explanation": {
+        "format": "System file in editor",
+        "elements": [
+          {
+            "element": "sudo nano",
+            "meaning": "Edit with root privileges",
+            "breakdown": {
+              "why": "System files require root access to modify",
+              "safe": "nano is safer than vi/vim for beginners editing system files"
+            }
+          }
+        ],
+        "notes": "Edits system file with root privileges. nano is beginner-friendly alternative to vi/vim for system file editing."
+      },
+      "use_case": "Edit system configuration files (requires sudo)"
+    },
+    {
+      "title": "Jump to specific line",
+      "command": "nano +10 file.txt",
+      "description": "Open file and jump to line 10",
+      "output": "(nano opens with cursor at line 10)",
+      "output_explanation": {
+        "format": "File opened at specified line",
+        "elements": [
+          {
+            "element": "+10",
+            "meaning": "Start at line 10",
+            "breakdown": {
+              "useful": "Jump to specific line immediately",
+              "common": "Useful for large files or fixing specific lines"
+            }
+          }
+        ],
+        "notes": "Opens file with cursor at specified line. Useful for large files or when you know the line number to edit."
+      },
+      "use_case": "Open file and jump to specific line number"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "nano is the same as vim",
+      "misconception": "nano and vim work the same way",
+      "reality": "nano is much simpler - you can type immediately, shortcuts are shown on screen, Ctrl+X to exit. vim has modes and is more complex.",
+      "tip": "nano = simple, type and edit. vim = modes, more powerful but complex. Use nano for beginners, vim for advanced users."
+    },
+    {
+      "title": "nano requires special commands to type",
+      "misconception": "nano has insert mode like vim",
+      "reality": "nano works like a normal text editor - just start typing. No modes, no special commands needed. Arrow keys move cursor, type to add text.",
+      "tip": "nano works like Notepad - just type. No modes or special commands needed to start typing."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not knowing how to save and exit",
+      "description": "Getting stuck in nano",
+      "solution": "Ctrl+O to save (Write Out), then Ctrl+X to exit. The shortcuts are shown at bottom of screen. ^ means Ctrl key."
+    },
+    {
+      "issue": "Accidentally exiting without saving",
+      "description": "Closing nano without saving changes",
+      "solution": "nano will warn you if you try to exit with unsaved changes. Press Y to save, N to discard, or Ctrl+C to cancel."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "vim",
+      "relationship": "Text editor; nano is simple, vim is advanced",
+      "description": "Advanced text editor (more powerful but complex than nano)"
+    },
+    {
+      "command": "cat",
+      "relationship": "View files; cat to view, nano to edit",
+      "description": "Display file contents (nano edits, cat views)"
+    }
+  ],
+  "best_practices": [
+    "Use nano for quick edits and beginners",
+    "Remember: ^ = Ctrl key (shown in help)",
+    "Use Ctrl+O to save (Write Out), Ctrl+X to exit",
+    "Use Ctrl+W to search within file",
+    "Use Ctrl+K to cut line, Ctrl+U to paste",
+    "Use sudo nano for system files",
+    "Read help at bottom of screen for shortcuts"
+  ],
+  "performance_tips": [
+    "nano is fast and lightweight",
+    "Good for small to medium files",
+    "For very large files, consider vim or less"
+  ],
+  "additional_notes": {
+    "keyboard_shortcuts": "Common: ^X (Ctrl+X) = exit, ^O (Ctrl+O) = save, ^W (Ctrl+W) = search, ^K (Ctrl+K) = cut line, ^U (Ctrl+U) = paste, ^ = Ctrl key",
+    "vs_vim": "nano = simple, type immediately, on-screen help. vim = modes, more powerful, steeper learning curve.",
+    "beginner_friendly": "nano is perfect for beginners - no modes, intuitive, help always visible",
+    "common_use": "Very common: nano file.txt (edit), sudo nano /etc/file (system file), nano +10 file.txt (jump to line)"
+  }
+}
+

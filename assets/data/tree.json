@@ -1,0 +1,307 @@
+{
+  "metadata": {
+    "name": "tree",
+    "displayName": "tree - Display directory tree structure",
+    "category": "File & Directory Operations",
+    "tags": ["directory", "tree", "structure", "visual"],
+    "description": "Display directory structure as a tree",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "tree 2.1+"
+  },
+  "installation": {
+    "required": true,
+    "status": "installable",
+    "package": {
+      "name": "tree",
+      "manager": "apt",
+      "command": "sudo apt install tree"
+    },
+    "note": "tree is not installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "tree displays directory structures in a tree-like format, making it easy to visualize the hierarchy of files and directories. It's particularly useful for understanding project structure and finding files in nested directories.",
+    "when_to_use": [
+      "Visualize directory structure",
+      "Understand project layout",
+      "See nested directory hierarchies",
+      "Document directory structure",
+      "Find files in complex directory trees",
+      "Get an overview of a directory"
+    ]
+  },
+  "syntax": {
+    "basic": "tree [OPTIONS] [DIRECTORY]",
+    "description": "Display directory tree for DIRECTORY (or current directory if omitted). Various options control depth, filtering, and output format.",
+    "examples": [
+      "tree",
+      "tree /path/to/directory",
+      "tree -L 2",
+      "tree -d",
+      "tree -I 'node_modules|.git'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --dirsonly",
+      "short": "-d",
+      "long": "--dirsonly",
+      "description": "List directories only (no files)",
+      "category": "filter",
+      "example": "tree -d",
+      "use_case": "Show only directory structure without files"
+    },
+    {
+      "flag": "-L, --max-depth",
+      "short": "-L",
+      "long": "--max-depth",
+      "description": "Max depth of directory tree to display",
+      "category": "filter",
+      "example": "tree -L 2",
+      "use_case": "Limit tree depth to 2 levels (useful for large trees)"
+    },
+    {
+      "flag": "-I, --ignore",
+      "short": "-I",
+      "long": "--ignore",
+      "description": "Ignore files/directories matching pattern",
+      "category": "filter",
+      "example": "tree -I 'node_modules|.git'",
+      "use_case": "Exclude node_modules and .git from tree output"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show hidden files (starting with .)",
+      "category": "display",
+      "example": "tree -a",
+      "use_case": "Include hidden files and directories in tree output"
+    },
+    {
+      "flag": "-f, --full-path",
+      "short": "-f",
+      "long": "--full-path",
+      "description": "Print full path prefix for each file",
+      "category": "display",
+      "example": "tree -f",
+      "use_case": "Show full absolute paths instead of relative paths"
+    },
+    {
+      "flag": "-s, --du",
+      "short": "-s",
+      "long": "--du",
+      "description": "Print size of each file/directory",
+      "category": "display",
+      "example": "tree -s",
+      "use_case": "Show file and directory sizes"
+    },
+    {
+      "flag": "-h, --human-readable",
+      "short": "-h",
+      "long": "--human-readable",
+      "description": "Print sizes in human readable format",
+      "category": "display",
+      "example": "tree -sh",
+      "use_case": "Show sizes in KB, MB, GB (combine with -s)"
+    },
+    {
+      "flag": "-P, --pattern",
+      "short": "-P",
+      "long": "--pattern",
+      "description": "List only files matching pattern",
+      "category": "filter",
+      "example": "tree -P '*.txt'",
+      "use_case": "Show only files matching a pattern (e.g., only .txt files)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic directory tree",
+      "command": "tree",
+      "description": "Display tree structure of current directory",
+      "output": ".\n├── file1.txt\n├── file2.txt\n├── dir1\n│   ├── file3.txt\n│   └── subdir\n│       └── file4.txt\n└── dir2\n    └── file5.txt",
+      "output_explanation": {
+        "format": "Tree structure using box-drawing characters",
+        "elements": [
+          {
+            "element": ".",
+            "meaning": "Root directory (current directory)"
+          },
+          {
+            "element": "├──",
+            "meaning": "Branch connecting to next item at same level"
+          },
+          {
+            "element": "│",
+            "meaning": "Vertical line showing hierarchy depth"
+          },
+          {
+            "element": "└──",
+            "meaning": "Last item in a level"
+          }
+        ],
+        "notes": "The tree structure clearly shows parent-child relationships and directory hierarchy"
+      },
+      "use_case": "Quickly visualize directory structure"
+    },
+    {
+      "title": "Limit depth",
+      "command": "tree -L 2",
+      "description": "Show only 2 levels deep",
+      "output": ".\n├── file1.txt\n├── dir1\n│   ├── file3.txt\n│   └── subdir\n└── dir2\n    └── file5.txt",
+      "output_explanation": {
+        "format": "Tree truncated to specified depth",
+        "elements": [
+          {
+            "element": "-L 2",
+            "meaning": "Limit tree to 2 levels deep",
+            "breakdown": {
+              "level_1": "Direct files and subdirectories",
+              "level_2": "Contents of subdirectories (but not deeper)",
+              "useful": "Prevents overwhelming output for deep trees"
+            }
+          }
+        ],
+        "notes": "Useful for large projects where you only need to see top few levels"
+      },
+      "use_case": "View directory structure without going too deep"
+    },
+    {
+      "title": "Directories only",
+      "command": "tree -d",
+      "description": "Show only directories, no files",
+      "output": ".\n├── dir1\n│   └── subdir\n└── dir2",
+      "output_explanation": {
+        "format": "Tree showing only directory structure",
+        "elements": [
+          {
+            "element": "-d flag",
+            "meaning": "Lists directories only, excludes all files",
+            "breakdown": {
+              "clean": "Shows just the folder structure",
+              "useful": "Easier to see directory hierarchy without file clutter"
+            }
+          }
+        ],
+        "notes": "Perfect for understanding folder organization without file details"
+      },
+      "use_case": "Visualize directory structure without file clutter"
+    },
+    {
+      "title": "Ignore specific directories",
+      "command": "tree -I 'node_modules|.git'",
+      "description": "Hide node_modules and .git directories",
+      "output": ".\n├── src\n│   └── main.js\n├── package.json\n└── README.md",
+      "output_explanation": {
+        "format": "Tree excluding ignored patterns",
+        "elements": [
+          {
+            "element": "-I flag",
+            "meaning": "Ignore patterns (supports regex)",
+            "breakdown": {
+              "pattern": "'node_modules|.git' - regex OR pattern",
+              "behavior": "Excludes any matching directories/files from output",
+              "useful": "Common for hiding build artifacts, dependencies, version control"
+            }
+          }
+        ],
+        "notes": "Essential for large projects where you want to hide common directories like node_modules, .git, build/, etc."
+      },
+      "use_case": "View project structure without dependencies and version control folders"
+    },
+    {
+      "title": "Show sizes",
+      "command": "tree -sh",
+      "description": "Display tree with human-readable file sizes",
+      "output": ".\n├── [ 1.2K]  file1.txt\n├── [  15M]  large_file.zip\n└── [ 512K]  dir1\n    └── [ 2.1K]  file3.txt",
+      "output_explanation": {
+        "format": "Tree with file sizes in brackets",
+        "elements": [
+          {
+            "element": "[ 1.2K]",
+            "meaning": "File size in human-readable format",
+            "breakdown": {
+              "-s": "Show sizes",
+              "-h": "Human-readable format (KB, MB, GB)",
+              "format": "[size] filename"
+            }
+          }
+        ],
+        "notes": "Useful for identifying large files in a directory structure"
+      },
+      "use_case": "See which files/directories are taking up space"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "tree shows file contents",
+      "misconception": "tree displays file contents like cat",
+      "reality": "tree only shows directory structure and file/directory names, not file contents. Use cat, less, or editors to view file contents.",
+      "tip": "tree = structure only. Use cat/less/head/tail to view file contents."
+    },
+    {
+      "title": "tree is installed by default",
+      "misconception": "tree is available on all Linux systems",
+      "reality": "tree is not installed by default on most distributions. Install it with: sudo apt install tree (or equivalent for your distro).",
+      "tip": "Install tree first: sudo apt install tree, then use it."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "tree on very large directories",
+      "description": "tree can be slow on huge directory trees",
+      "solution": "Use -L to limit depth, or -I to ignore large subdirectories. Or use find with -type d for similar effect."
+    },
+    {
+      "issue": "tree output too long",
+      "description": "Large projects produce overwhelming tree output",
+      "solution": "Use -L to limit depth (e.g., -L 2), or -I to exclude patterns. Or pipe to less: tree | less"
+    },
+    {
+      "issue": "Not excluding build artifacts",
+      "description": "tree shows node_modules, build/, dist/ making output cluttered",
+      "solution": "Use -I flag: tree -I 'node_modules|build|dist|.git' to exclude common build/artifact directories"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "find",
+      "relationship": "Find files; tree shows structure, find searches",
+      "description": "Find files by name or criteria (complements tree's visual structure)"
+    },
+    {
+      "command": "ls",
+      "relationship": "List files; tree shows hierarchy, ls shows flat list",
+      "description": "List directory contents (tree shows structured hierarchy)"
+    },
+    {
+      "command": "du",
+      "relationship": "Disk usage; tree shows structure, du shows sizes",
+      "description": "Show disk usage (tree -s combines structure with sizes)"
+    }
+  ],
+  "best_practices": [
+    "Use -L to limit depth for large projects",
+    "Use -I to exclude common directories (node_modules, .git, build, etc.)",
+    "Use -d to show only directory structure without files",
+    "Use -sh to see file sizes in human-readable format",
+    "Pipe to less for long output: tree | less",
+    "Save tree output: tree > structure.txt to document project layout",
+    "Use -a to include hidden files when needed"
+  ],
+  "performance_tips": [
+    "tree is fast for small to medium directory trees",
+    "Use -L to limit depth - significantly faster for large trees",
+    "Use -I to skip large subdirectories (like node_modules)",
+    "For very large directories, consider find instead"
+  ],
+  "additional_notes": {
+    "installation": "tree is not installed by default - install with: sudo apt install tree",
+    "output_format": "Uses Unicode box-drawing characters for tree structure (│ ├ └)",
+    "pattern_matching": "-I and -P support regex patterns for filtering",
+    "alternatives": "If tree not available, use: find . -print | sed 's;[^/]*/;|____;g;s;____|; |;g'",
+    "documentation": "Common use: tree -I 'node_modules|.git' > project-structure.txt to document project layout"
+  }
+}
+

@@ -1,0 +1,238 @@
+{
+  "metadata": {
+    "name": "sudo",
+    "displayName": "sudo - Execute commands as another user",
+    "category": "System Management",
+    "tags": ["permissions", "admin", "root", "security", "essential"],
+    "description": "Execute commands with elevated privileges",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "sudo 1.9+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "sudo is installed by default on most Linux distributions (Ubuntu, Debian, etc.)"
+  },
+  "overview": {
+    "summary": "sudo (superuser do) allows a permitted user to execute commands as another user, typically the root user. It's the safe way to perform administrative tasks without logging in as root. sudo provides an audit trail of all commands executed.",
+    "when_to_use": [
+      "Install software packages",
+      "Modify system files",
+      "Start/stop system services",
+      "Change file permissions",
+      "Access restricted directories",
+      "Perform administrative tasks"
+    ]
+  },
+  "syntax": {
+    "basic": "sudo [OPTIONS] COMMAND [ARGUMENTS]",
+    "description": "Execute COMMAND with elevated privileges. You'll be prompted for your password (not root's password).",
+    "examples": [
+      "sudo apt update",
+      "sudo systemctl restart service",
+      "sudo nano /etc/hosts",
+      "sudo -u username command"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "Run command as specified user instead of root",
+      "category": "user",
+      "example": "sudo -u www-data command",
+      "use_case": "Execute command as a specific user (e.g., web server user)"
+    },
+    {
+      "flag": "-i, --login",
+      "short": "-i",
+      "long": "--login",
+      "description": "Run login shell as target user",
+      "category": "shell",
+      "example": "sudo -i",
+      "use_case": "Start an interactive root shell with environment variables"
+    },
+    {
+      "flag": "-s, --shell",
+      "short": "-s",
+      "long": "--shell",
+      "description": "Run shell as target user",
+      "category": "shell",
+      "example": "sudo -s",
+      "use_case": "Start root shell without changing environment"
+    },
+    {
+      "flag": "-k, --reset-timestamp",
+      "short": "-k",
+      "long": "--reset-timestamp",
+      "description": "Invalidate timestamp (force password prompt)",
+      "category": "security",
+      "example": "sudo -k",
+      "use_case": "Force password prompt on next sudo command"
+    },
+    {
+      "flag": "-v, --validate",
+      "short": "-v",
+      "long": "--validate",
+      "description": "Update timestamp (extend sudo session)",
+      "category": "session",
+      "example": "sudo -v",
+      "use_case": "Extend sudo session without running a command"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Install package with sudo",
+      "command": "sudo apt install firefox",
+      "description": "Install software package (requires root privileges)",
+      "output": "[sudo] password for user: \nReading package lists... Done\n...",
+      "output_explanation": {
+        "format": "Password prompt followed by command output",
+        "elements": [
+          {
+            "element": "[sudo] password for user:",
+            "meaning": "Password prompt (enters your user password, not root)",
+            "breakdown": {
+              "security": "Prompts for YOUR password, not root password",
+              "timeout": "Password cached for 15 minutes by default",
+              "note": "Password input is hidden (no characters shown)"
+            }
+          }
+        ],
+        "notes": "You'll be prompted for your password. After entering it, sudo caches your credentials for 15 minutes (default)."
+      },
+      "use_case": "Perform administrative tasks like installing software"
+    },
+    {
+      "title": "Edit system file",
+      "command": "sudo nano /etc/hosts",
+      "description": "Edit a system configuration file",
+      "output": "(opens nano editor with /etc/hosts file)",
+      "output_explanation": {
+        "format": "Opens text editor with elevated privileges",
+        "elements": [
+          {
+            "element": "sudo nano",
+            "meaning": "Opens nano editor with root privileges",
+            "breakdown": {
+              "why": "System files in /etc require root access to modify",
+              "safe": "sudo is safer than logging in as root directly"
+            }
+          }
+        ],
+        "notes": "System files require root access. Use sudo to edit them safely."
+      },
+      "use_case": "Edit system configuration files"
+    },
+    {
+      "title": "Run command as specific user",
+      "command": "sudo -u www-data ls /var/www",
+      "description": "Execute command as a different user",
+      "output": "(output of ls command as www-data user)",
+      "output_explanation": {
+        "format": "Command executed with specified user's privileges",
+        "elements": [
+          {
+            "element": "-u www-data",
+            "meaning": "Run command as www-data user",
+            "breakdown": {
+              "useful": "Test permissions from another user's perspective",
+              "common": "Often used with service users (www-data, postgres, etc.)"
+            }
+          }
+        ],
+        "notes": "Useful for testing permissions or running commands as service users."
+      },
+      "use_case": "Execute command with another user's privileges"
+    },
+    {
+      "title": "Start root shell",
+      "command": "sudo -i",
+      "description": "Start interactive root shell",
+      "output": "root@hostname:/home/user#",
+      "output_explanation": {
+        "format": "Root shell prompt",
+        "elements": [
+          {
+            "element": "root@hostname",
+            "meaning": "You're now in root shell",
+            "breakdown": {
+              "prompt": "Prompt changes to show root user",
+              "environment": "Loads root's environment variables",
+              "warning": "Be careful - all commands run as root"
+            }
+          }
+        ],
+        "notes": "Starts interactive root shell. Type 'exit' to return to normal user. Use with caution!"
+      },
+      "use_case": "Work in root shell for multiple administrative commands"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "sudo uses root password",
+      "misconception": "sudo prompts for root password",
+      "reality": "sudo prompts for YOUR password, not root's password. This is a key security feature - you don't need to know root's password.",
+      "tip": "sudo uses your password. If you don't have sudo access, ask your administrator to add you to the sudoers group."
+    },
+    {
+      "title": "sudo is the same as su",
+      "misconception": "sudo and su work the same way",
+      "reality": "sudo executes a single command as another user. su switches to another user's shell. sudo is generally preferred for security and audit trails.",
+      "tip": "Use sudo for single commands. Use su only when you need to run multiple commands as another user."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using sudo unnecessarily",
+      "description": "Running commands with sudo that don't need root access",
+      "solution": "Only use sudo when necessary. Regular file operations in your home directory don't need sudo. Check if command works without sudo first."
+    },
+    {
+      "issue": "sudo password timeout",
+      "description": "Forgetting that sudo caches password for 15 minutes",
+      "solution": "sudo caches your password for 15 minutes (default). After that, you'll be prompted again. Use sudo -k to invalidate immediately."
+    },
+    {
+      "issue": "Not having sudo access",
+      "description": "Getting 'user is not in sudoers file' error",
+      "solution": "Ask your system administrator to add you to the sudoers group: sudo usermod -aG sudo username (requires root access to run this)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "su",
+      "relationship": "Switch user; sudo for single command, su for shell",
+      "description": "Switch to another user (typically root) - different from sudo"
+    },
+    {
+      "command": "visudo",
+      "relationship": "Configure sudo; edit sudoers file safely",
+      "description": "Edit sudoers configuration file safely"
+    }
+  ],
+  "best_practices": [
+    "Only use sudo when necessary - don't use it for regular file operations",
+    "Read commands carefully before entering password - typos can be dangerous",
+    "Use sudo -v to extend session if you're doing multiple sudo commands",
+    "Never share your sudo password",
+    "Use sudo -u to run commands as specific users when needed",
+    "Check if command works without sudo first",
+    "Be careful with destructive commands (rm, dd, etc.) when using sudo"
+  ],
+  "performance_tips": [
+    "sudo is fast - password caching makes subsequent commands instant",
+    "Use sudo -v to extend session before running multiple sudo commands",
+    "sudo has minimal performance overhead"
+  ],
+  "additional_notes": {
+    "password_caching": "sudo caches your password for 15 minutes (default). After that, you'll be prompted again.",
+    "security": "sudo provides audit trail - all sudo commands are logged in /var/log/auth.log",
+    "sudoers": "User permissions are configured in /etc/sudoers (edit with visudo, never directly)",
+    "vs_su": "sudo is preferred over su for security - it provides better audit trails and doesn't require root password",
+    "common_use": "Most common pattern: sudo apt install package, sudo systemctl restart service, sudo nano /etc/file"
+  }
+}
+

@@ -1,0 +1,562 @@
+{
+  "metadata": {
+    "name": "htop",
+    "displayName": "htop - Interactive process viewer",
+    "category": "System Information",
+    "tags": ["processes", "system", "monitoring", "performance", "interactive"],
+    "description": "Interactive process and system resource monitor",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "3.0.0+"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "htop",
+      "manager": "apt",
+      "command": "sudo apt install htop",
+      "alternative_managers": [
+        {
+          "manager": "snap",
+          "command": "sudo snap install htop"
+        }
+      ]
+    },
+    "verification": {
+      "command": "htop --version",
+      "expected_output": "htop [version number]"
+    },
+    "notes": [
+      "htop is not included in standard Ubuntu installations",
+      "Installation requires sudo/administrator privileges",
+      "The package is available in Ubuntu's default repositories, so no additional repositories need to be added"
+    ],
+    "post_installation": "After installation, simply run 'htop' to start the interactive monitor"
+  },
+  "overview": {
+    "summary": "htop is an interactive process viewer and system monitor that provides a real-time, colorful, and user-friendly interface for monitoring system resources (CPU, memory, swap) and managing processes. It's an enhanced alternative to the traditional 'top' command.",
+    "when_to_use": [
+      "Monitor CPU and memory usage in real-time",
+      "View running processes with detailed information",
+      "Kill or renice processes interactively",
+      "Identify resource-intensive applications",
+      "Troubleshoot system performance issues",
+      "Track system load and uptime"
+    ]
+  },
+  "syntax": {
+    "basic": "htop [OPTIONS]",
+    "description": "htop runs as an interactive application without requiring file or process arguments in most cases.",
+    "examples": [
+      "htop",
+      "htop -d 5",
+      "htop -s PERCENT_CPU"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --delay=DELAY",
+      "short": "-d",
+      "long": "--delay",
+      "description": "Set the delay between updates in tenths of seconds (default: 10 = 1 second)",
+      "category": "display",
+      "example": "htop -d 5",
+      "use_case": "Update every 0.5 seconds for more frequent refreshes, or slower for less CPU usage"
+    },
+    {
+      "flag": "-s, --sort-key=COLUMN",
+      "short": "-s",
+      "long": "--sort-key",
+      "description": "Sort by the specified column (e.g., PERCENT_CPU, PERCENT_MEM, TIME, COMMAND)",
+      "category": "sorting",
+      "example": "htop -s PERCENT_CPU",
+      "use_case": "Start with processes sorted by CPU usage to quickly find resource-heavy processes"
+    },
+    {
+      "flag": "-u, --user=USERNAME",
+      "short": "-u",
+      "long": "--user",
+      "description": "Show only processes owned by the specified user",
+      "category": "filtering",
+      "example": "htop -u username",
+      "use_case": "Filter to see only processes belonging to a specific user"
+    },
+    {
+      "flag": "-p, --pid=PID[,PID,...]",
+      "short": "-p",
+      "long": "--pid",
+      "description": "Show only the specified PIDs (process IDs)",
+      "category": "filtering",
+      "example": "htop -p 1234,5678",
+      "use_case": "Monitor specific processes by their process IDs"
+    },
+    {
+      "flag": "-C, --no-color",
+      "short": "-C",
+      "long": "--no-color",
+      "description": "Use a monochrome color scheme",
+      "category": "display",
+      "example": "htop -C",
+      "use_case": "For terminals that don't support colors or for better visibility in certain contexts"
+    },
+    {
+      "flag": "-t, --tree",
+      "short": "-t",
+      "long": "--tree",
+      "description": "Show processes in a tree view by default",
+      "category": "display",
+      "example": "htop -t",
+      "use_case": "See parent-child relationships between processes more clearly"
+    },
+    {
+      "flag": "-h, --help",
+      "short": "-h",
+      "long": "--help",
+      "description": "Display help message and exit",
+      "category": "info",
+      "example": "htop --help",
+      "use_case": "View all available options"
+    },
+    {
+      "flag": "-v, --version",
+      "short": "-v",
+      "long": "--version",
+      "description": "Output version information and exit",
+      "category": "info",
+      "example": "htop --version",
+      "use_case": "Check installed version of htop"
+    }
+  ],
+  "interactive_controls": [
+    {
+      "key": "F1 or h",
+      "action": "Show help screen",
+      "description": "Display all available keyboard shortcuts"
+    },
+    {
+      "key": "F2",
+      "action": "Setup / Configure",
+      "description": "Enter setup menu to configure display options, colors, and meters"
+    },
+    {
+      "key": "F3",
+      "action": "Search",
+      "description": "Search for a process by name"
+    },
+    {
+      "key": "F4",
+      "action": "Filter",
+      "description": "Filter processes by criteria (user, command, etc.)"
+    },
+    {
+      "key": "F5",
+      "action": "Tree view toggle",
+      "description": "Switch between flat and tree view of processes"
+    },
+    {
+      "key": "F6",
+      "action": "Sort by",
+      "description": "Change sorting column (CPU%, MEM%, TIME, etc.)"
+    },
+    {
+      "key": "F7",
+      "action": "Decrease nice value",
+      "description": "Increase process priority (requires root for negative nice values)"
+    },
+    {
+      "key": "F8",
+      "action": "Increase nice value",
+      "description": "Decrease process priority (lower priority)"
+    },
+    {
+      "key": "F9",
+      "action": "Kill process",
+      "description": "Send kill signal to selected process (SIGTERM, SIGKILL, etc.)"
+    },
+    {
+      "key": "F10 or q",
+      "action": "Quit",
+      "description": "Exit htop"
+    },
+    {
+      "key": "Arrow keys",
+      "action": "Navigate",
+      "description": "Move up/down to select processes, left/right to scroll"
+    },
+    {
+      "key": "Space",
+      "action": "Tag process",
+      "description": "Tag a process for batch operations"
+    },
+    {
+      "key": "u",
+      "action": "Filter by user",
+      "description": "Show processes for a specific user"
+    },
+    {
+      "key": "t",
+      "action": "Toggle tree view",
+      "description": "Show/hide process tree"
+    },
+    {
+      "key": "k",
+      "action": "Kill process",
+      "description": "Kill the selected process (alternative to F9)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic usage",
+      "command": "htop",
+      "description": "Start htop with default settings - shows all processes sorted by CPU usage",
+      "output_explanation": {
+        "header": {
+          "section": "Top header bar - System resource meters",
+          "elements": [
+            {
+              "element": "CPU usage bars",
+              "meaning": "Per-core CPU utilization displayed as colored bars",
+              "breakdown": {
+                "blue": "Low priority processes (nice > 0)",
+                "green": "Normal priority processes",
+                "red": "High priority processes (nice < 0)",
+                "yellow": "Kernel threads (system processes)"
+              },
+              "format": "Multiple bars, one per CPU core (e.g., [|||          ] 30% = 30% usage)"
+            },
+            {
+              "element": "Memory bar",
+              "meaning": "RAM usage meter",
+              "breakdown": {
+                "green": "Used memory",
+                "blue": "Buffers",
+                "orange": "Cache"
+              },
+              "format": "[|||||||||    ] 2.1G/8.0G = 2.1GB used out of 8GB total"
+            },
+            {
+              "element": "Swap bar",
+              "meaning": "Swap space usage",
+              "breakdown": {
+                "green": "Used swap",
+                "gray": "Free swap"
+              },
+              "format": "[            ] 0K/2.0G = swap space usage"
+            },
+            {
+              "element": "Load average",
+              "meaning": "System load (1 min, 5 min, 15 min averages)",
+              "format": "Load average: 0.52 0.48 0.45",
+              "interpretation": "For 4-core CPU, load < 4.0 means system is handling load well"
+            },
+            {
+              "element": "Uptime",
+              "meaning": "How long the system has been running",
+              "format": "Up 5 days, 12:30:15"
+            }
+          ]
+        },
+        "process_list": {
+          "section": "Process list - Main display area",
+          "columns": [
+            {
+              "column": "PID",
+              "meaning": "Process ID - unique identifier for each process"
+            },
+            {
+              "column": "USER",
+              "meaning": "Username who owns/runs the process"
+            },
+            {
+              "column": "PRI",
+              "meaning": "Priority - lower number = higher priority (usually 20)"
+            },
+            {
+              "column": "NI",
+              "meaning": "Nice value - affects priority (-20 to 19, default 0)"
+            },
+            {
+              "column": "VIRT",
+              "meaning": "Virtual memory - total memory the process can access"
+            },
+            {
+              "column": "RES",
+              "meaning": "Resident memory - actual RAM currently used by the process"
+            },
+            {
+              "column": "SHR",
+              "meaning": "Shared memory - memory shared with other processes"
+            },
+            {
+              "column": "S",
+              "meaning": "Process state: R (Running), S (Sleeping), Z (Zombie), etc."
+            },
+            {
+              "column": "CPU%",
+              "meaning": "CPU usage percentage (per core usage can exceed 100% on multi-core)"
+            },
+            {
+              "column": "MEM%",
+              "meaning": "Memory usage percentage of total RAM"
+            },
+            {
+              "column": "TIME+",
+              "meaning": "Total CPU time consumed by the process"
+            },
+            {
+              "column": "Command",
+              "meaning": "Process name or command line"
+            }
+          ],
+          "example_row": "12345 user 20   0  500M  100M  50M S  25.0  1.2  0:05.30 firefox",
+          "row_breakdown": {
+            "12345": "PID - Process ID",
+            "user": "Owner username",
+            "20": "Priority",
+            "0": "Nice value (default)",
+            "500M": "500MB virtual memory",
+            "100M": "100MB resident (actual RAM) memory",
+            "50M": "50MB shared memory",
+            "S": "Sleeping state",
+            "25.0": "25% CPU usage",
+            "1.2": "1.2% of total RAM",
+            "0:05.30": "5 minutes 30 seconds of CPU time",
+            "firefox": "Process name (Firefox browser)"
+          }
+        },
+        "footer": {
+          "section": "Bottom footer - Function key shortcuts",
+          "meaning": "Shows available keyboard shortcuts (F1-F10) and their functions"
+        }
+      },
+      "use_case": "Quick overview of system resource usage and running processes"
+    },
+    {
+      "title": "Faster refresh rate",
+      "command": "htop -d 2",
+      "description": "Update display every 0.2 seconds for more frequent monitoring",
+      "output_explanation": {
+        "difference": "Same display format as default htop, but updates more frequently",
+        "refresh_rate": {
+          "default": "10 (1 second updates)",
+          "this_example": "2 (0.2 second updates = 5 times per second)",
+          "impact": "More responsive to rapid changes, but htop itself uses slightly more CPU for frequent redraws"
+        },
+        "when_useful": "Monitoring CPU spikes, watching process startup/shutdown, tracking rapidly changing resource usage"
+      },
+      "use_case": "When you need to monitor rapidly changing processes (may use more CPU)"
+    },
+    {
+      "title": "Sort by memory usage",
+      "command": "htop -s PERCENT_MEM",
+      "description": "Start with processes sorted by memory percentage",
+      "output_explanation": {
+        "sorting": "Process list sorted by MEM% column in descending order",
+        "display_order": {
+          "first": "Processes using the most memory appear at the top",
+          "example": "firefox (2.5G, 31% MEM) at top, then chrome (1.8G, 22% MEM), etc.",
+          "last": "Small processes (< 0.1% MEM) appear at the bottom"
+        },
+        "columns": "All columns remain the same, but list order changes based on memory usage",
+        "when_useful": "Finding memory leaks, identifying applications consuming most RAM, troubleshooting out-of-memory issues"
+      },
+      "use_case": "Identify memory-intensive applications first"
+    },
+    {
+      "title": "Tree view",
+      "command": "htop -t",
+      "description": "Show processes in tree format from the start",
+      "output_explanation": {
+        "format": "Processes displayed in hierarchical tree structure showing parent-child relationships",
+        "display_structure": {
+          "indentation": "Child processes indented under their parent",
+          "indicators": "Lines and symbols show the process hierarchy",
+          "example": "systemd (PID 1)\n  ├─ systemd-logind (PID 567)\n  │   └─ dbus-daemon (PID 890)\n  └─ NetworkManager (PID 789)\n      └─ dhclient (PID 1234)"
+        },
+        "benefits": [
+          "See which processes spawned other processes",
+          "Understand process dependencies",
+          "Kill parent process to stop entire process tree",
+          "Identify orphaned processes (no parent)"
+        ],
+        "interpretation": {
+          "parent": "Process that started another process (appears at higher level)",
+          "child": "Process started by another (indented below parent)",
+          "sibling": "Processes at same level with same parent"
+        }
+      },
+      "use_case": "See parent-child process relationships immediately"
+    },
+    {
+      "title": "Monitor specific user",
+      "command": "htop -u username",
+      "description": "Show only processes owned by the specified user",
+      "output_explanation": {
+        "filter": "Only processes with USER column matching specified username are displayed",
+        "display_changes": {
+          "header": "System resource meters still show total system usage (all users)",
+          "process_list": "Only shows processes owned by 'username'",
+          "other_users": "Processes owned by root, system users, and other accounts are hidden"
+        },
+        "example_scenario": {
+          "command": "htop -u alice",
+          "result": "Shows only processes where USER column = alice",
+          "typical_output": [
+            "alice's firefox processes",
+            "alice's terminal processes",
+            "alice's application instances",
+            "No system processes, no root processes, no other user processes"
+          ]
+        },
+        "use_cases": [
+          "Troubleshooting a specific user's applications",
+          "Monitoring resource usage per user on multi-user systems",
+          "Finding all processes started by a particular user account"
+        ]
+      },
+      "use_case": "Focus on processes belonging to a particular user account"
+    },
+    {
+      "title": "Monitor specific processes",
+      "command": "htop -p 1234,5678",
+      "description": "Track only processes with PIDs 1234 and 5678",
+      "output_explanation": {
+        "filter": "Only processes with specified PIDs are displayed",
+        "display_changes": {
+          "header": "System resource meters show total system usage",
+          "process_list": "Shows only the 2 processes: PID 1234 and PID 5678",
+          "others": "All other processes are hidden"
+        },
+        "example_scenario": {
+          "command": "htop -p 1234,5678",
+          "result": "Process list contains exactly 2 entries",
+          "output_format": "Same column structure, but filtered list",
+          "typical_use": "Monitoring specific services or applications you know the PID of"
+        },
+        "pid_syntax": {
+          "single": "-p 1234 (one process)",
+          "multiple": "-p 1234,5678,9012 (comma-separated list)",
+          "range": "Not directly supported; use ps to find PIDs first"
+        },
+        "when_useful": [
+          "Tracking specific services or daemons",
+          "Monitoring processes you've identified as problematic",
+          "Focusing on known PIDs without clutter from other processes"
+        ],
+        "getting_pids": "Use 'ps aux | grep processname' or 'pgrep processname' to find PIDs first"
+      },
+      "use_case": "Monitor specific applications or services you're interested in"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "htop requires root privileges to run",
+      "misconception": "Many users think htop needs sudo to function",
+      "reality": "htop can run as a regular user and show all processes. Root privileges are only needed for certain operations like renice to negative values or killing system processes.",
+      "tip": "Run htop normally first. Only use sudo htop if you need to modify system processes."
+    },
+    {
+      "title": "htop shows all system information",
+      "misconception": "htop displays everything about the system",
+      "reality": "htop focuses on CPU, memory, and processes. For detailed system info, use other tools like df (disk space), iotop (I/O), or netstat (network).",
+      "tip": "Use htop for CPU/memory/process monitoring. Combine with other tools for complete system monitoring."
+    },
+    {
+      "title": "High CPU percentage is always bad",
+      "misconception": "If a process shows 100% CPU, something is wrong",
+      "reality": "100% CPU usage on one core is normal for single-threaded applications. Modern CPUs have multiple cores, so one process can't fully utilize all cores unless it's multi-threaded.",
+      "tip": "Check if high CPU usage persists over time and if it affects system responsiveness before worrying."
+    },
+    {
+      "title": "htop and top are the same",
+      "misconception": "htop is just a colorful version of top",
+      "reality": "htop offers interactive controls (mouse support, better sorting, tree view), better visualization, and easier process management. However, top is more universally available and uses less resources.",
+      "tip": "Use htop for interactive monitoring, top for scripts or minimal systems."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Killing the wrong process",
+      "description": "Accidentally killing important system processes",
+      "solution": "Always verify the process name and PID before killing. Use F3 to search by name. Avoid killing processes you don't understand. System processes (owned by root) are usually safe to leave alone."
+    },
+    {
+      "issue": "Too frequent updates causing lag",
+      "description": "Setting very low delay values can cause htop itself to consume significant CPU",
+      "solution": "Use default delay (1 second) for most cases. Only use faster updates (like -d 2) when necessary for short periods."
+    },
+    {
+      "issue": "Color issues in terminal",
+      "description": "Colors may not display correctly in some terminal emulators",
+      "solution": "Use -C flag for monochrome mode, or configure terminal color support. Check terminal color capabilities with echo $TERM"
+    },
+    {
+      "issue": "Not seeing all processes",
+      "description": "Some processes may be hidden or filtered out",
+      "solution": "Press 'u' then select 'root' to see all processes including system ones. Check filters (F4) to ensure nothing is filtered."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "top",
+      "relationship": "Original process viewer; htop's predecessor",
+      "description": "Basic process viewer available on all Linux systems (no installation needed)"
+    },
+    {
+      "command": "ps",
+      "relationship": "Process snapshot; shows process information at a point in time",
+      "description": "List processes (static view, not interactive like htop)"
+    },
+    {
+      "command": "kill",
+      "relationship": "Kill processes from command line; htop can do this interactively",
+      "description": "Terminate processes by PID"
+    },
+    {
+      "command": "free",
+      "relationship": "Memory information; htop shows this in the header",
+      "description": "Display memory usage information"
+    },
+    {
+      "command": "uptime",
+      "relationship": "System uptime; shown in htop header",
+      "description": "Show how long the system has been running"
+    },
+    {
+      "command": "iotop",
+      "relationship": "I/O monitoring; complements htop's CPU/memory focus",
+      "description": "Monitor disk I/O usage by process (requires installation)"
+    },
+    {
+      "command": "nethogs",
+      "relationship": "Network monitoring; complements htop's system monitoring",
+      "description": "Monitor network usage by process (requires installation)"
+    }
+  ],
+  "best_practices": [
+    "Use tree view (F5 or -t flag) to understand process relationships and find parent processes",
+    "Press F2 to customize the display - add/remove meters, change colors, and configure columns",
+    "Use F4 to filter processes when looking for specific applications",
+    "Sort by CPU% (F6) when troubleshooting performance issues",
+    "Sort by MEM% when checking for memory leaks",
+    "Use F9 to kill processes gracefully - try SIGTERM first, then SIGKILL if needed",
+    "Tag processes (Space) to perform batch operations on multiple processes",
+    "Monitor specific users (-u flag) when troubleshooting multi-user systems"
+  ],
+  "performance_tips": [
+    "htop itself uses minimal resources (~1-2% CPU) but setting very low delays increases overhead",
+    "Tree view adds slight overhead but provides valuable process relationship information",
+    "Filtering processes reduces CPU usage by showing fewer processes to update",
+    "On systems with many processes (1000+), consider filtering or using ps with grep for faster results"
+  ],
+  "additional_notes": {
+    "header_information": "The header shows: CPU usage bars (per core), memory usage, swap usage, load average, uptime, and process/thread counts",
+    "process_information": "Columns show: PID, user, priority (PR), nice value (NI), virtual memory (VIRT), resident memory (RES), shared memory (SHR), CPU%, MEM%, time running (TIME+), and command",
+    "color_coding": "Process bars are color-coded: blue = low priority, green = normal, yellow = kernel threads, red = high priority",
+    "mouse_support": "htop supports mouse interaction - click to select processes, scroll to navigate, click column headers to sort",
+    "configuration": "User configuration is stored in ~/.config/htop/htoprc - settings persist between sessions",
+    "comparison_with_top": "htop is more user-friendly but top is more universal and scriptable. Learn both for different use cases."
+  }
+}
+

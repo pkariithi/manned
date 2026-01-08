@@ -1,0 +1,231 @@
+{
+  "metadata": {
+    "name": "less",
+    "displayName": "less - View file contents page by page",
+    "category": "File & Directory Operations",
+    "tags": ["files", "view", "pager", "navigation"],
+    "description": "Display file contents with scrolling and search",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "less 590+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "less is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "less is a file viewer that displays file contents page by page with scrolling capabilities. It's more powerful than more and cat - you can scroll both forward and backward, search, and navigate efficiently. Essential for viewing large files and log files.",
+    "when_to_use": [
+      "View large files",
+      "Read log files",
+      "Browse file contents with scrolling",
+      "Search within files",
+      "View files without loading entire content",
+      "Navigate through long documents"
+    ]
+  },
+  "syntax": {
+    "basic": "less [OPTIONS] FILE",
+    "description": "Display FILE contents. Use arrow keys to scroll, / to search, q to quit.",
+    "examples": [
+      "less file.txt",
+      "less +F log.txt",
+      "less -N file.txt",
+      "less /var/log/syslog"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-N, --LINE-NUMBERS",
+      "short": "-N",
+      "long": "--LINE-NUMBERS",
+      "description": "Show line numbers",
+      "category": "display",
+      "example": "less -N file.txt",
+      "use_case": "Display file with line numbers for reference"
+    },
+    {
+      "flag": "+F",
+      "short": null,
+      "long": null,
+      "description": "Follow file (like tail -f)",
+      "category": "monitoring",
+      "example": "less +F log.txt",
+      "use_case": "Monitor log file in real-time (press Ctrl+C to stop following, F to resume)"
+    },
+    {
+      "flag": "-S, --chop-long-lines",
+      "short": "-S",
+      "long": "--chop-long-lines",
+      "description": "Chop long lines instead of wrapping",
+      "category": "display",
+      "example": "less -S file.txt",
+      "use_case": "Display long lines without wrapping (useful for wide data)"
+    },
+    {
+      "flag": "-i, --ignore-case",
+      "short": "-i",
+      "long": "--ignore-case",
+      "description": "Case-insensitive search",
+      "category": "search",
+      "example": "less -i file.txt",
+      "use_case": "Search without case sensitivity"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View file",
+      "command": "less file.txt",
+      "description": "Open file in less viewer",
+      "output": "(file contents displayed, one page at a time)",
+      "output_explanation": {
+        "format": "File contents displayed in pager",
+        "elements": [
+          {
+            "element": "File display",
+            "meaning": "File contents shown one screen at a time",
+            "breakdown": {
+              "navigation": "Use arrow keys, Page Up/Down to navigate",
+              "search": "Press / to search, n for next, N for previous",
+              "quit": "Press q to quit",
+              "help": "Press h for help"
+            }
+          }
+        ],
+        "notes": "Opens file in less. Use arrow keys to scroll, /pattern to search, q to quit. Much better than cat for large files."
+      },
+      "use_case": "View file contents with scrolling (better than cat for large files)"
+    },
+    {
+      "title": "View with line numbers",
+      "command": "less -N file.txt",
+      "description": "Display file with line numbers",
+      "output": "     1  Line 1 of file\n     2  Line 2 of file\n     3  Line 3 of file",
+      "output_explanation": {
+        "format": "File with line numbers displayed",
+        "elements": [
+          {
+            "element": "-N flag",
+            "meaning": "Shows line numbers on left side",
+            "breakdown": {
+              "useful": "Reference specific lines when discussing code or logs",
+              "format": "Line numbers right-aligned, then content"
+            }
+          }
+        ],
+        "notes": "Shows line numbers. Useful for referencing specific lines in code or logs."
+      },
+      "use_case": "View file with line numbers for reference"
+    },
+    {
+      "title": "Follow log file",
+      "command": "less +F /var/log/syslog",
+      "description": "Monitor log file in real-time",
+      "output": "(displays log file and updates as new entries are added)",
+      "output_explanation": {
+        "format": "Real-time log monitoring",
+        "elements": [
+          {
+            "element": "+F",
+            "meaning": "Follow mode - shows new lines as they're added",
+            "breakdown": {
+              "behavior": "Displays file and updates in real-time",
+              "control": "Press Ctrl+C to stop following, F to resume",
+              "useful": "Like tail -f but with less navigation features"
+            }
+          }
+        ],
+        "notes": "Follows file like tail -f but with less features. Press Ctrl+C to stop following, F to resume. Press q to quit."
+      },
+      "use_case": "Monitor log files in real-time with navigation capabilities"
+    },
+    {
+      "title": "Search in file",
+      "command": "less file.txt",
+      "description": "Open file and search for pattern",
+      "output": "(file displayed, then after pressing / and typing pattern, highlights matches)",
+      "output_explanation": {
+        "format": "Search functionality",
+        "elements": [
+          {
+            "element": "/pattern",
+            "meaning": "Search for pattern in file",
+            "breakdown": {
+              "usage": "Press /, type pattern, press Enter",
+              "navigate": "Press n for next match, N for previous match",
+              "highlight": "Matches are highlighted"
+            }
+          }
+        ],
+        "notes": "Press / to search, type pattern, Enter to search. Press n for next match, N for previous. Very useful for finding specific content."
+      },
+      "use_case": "Search for specific content within a file"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "less is the same as more",
+      "misconception": "less and more are identical",
+      "reality": "less is more powerful than more - you can scroll backward, search, and navigate more efficiently. 'less' is actually 'more' backwards, and it's better.",
+      "tip": "Use less instead of more - it's more powerful and allows backward scrolling."
+    },
+    {
+      "title": "less loads entire file",
+      "misconception": "less loads the whole file into memory",
+      "reality": "less loads file content as needed, making it efficient for very large files. It doesn't load the entire file at once.",
+      "tip": "less is efficient for large files - it loads content as you scroll."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not knowing how to quit",
+      "description": "Getting stuck in less viewer",
+      "solution": "Press q to quit. Press h for help to see all commands. Common: q=quit, /search, n=next, N=previous, arrow keys=scroll."
+    },
+    {
+      "issue": "Using cat instead of less",
+      "description": "Using cat on large files floods terminal",
+      "solution": "Use less for large files. cat is only for small files. less allows scrolling and searching."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "more",
+      "relationship": "File viewer; less is more powerful than more",
+      "description": "View files page by page (less is better - allows backward scrolling)"
+    },
+    {
+      "command": "cat",
+      "relationship": "View files; cat for small files, less for large files",
+      "description": "Display entire file (use less for large files)"
+    },
+    {
+      "command": "tail",
+      "relationship": "View end; tail for end of files, less for full file",
+      "description": "Display last lines of files (less can view entire file)"
+    }
+  ],
+  "best_practices": [
+    "Use less for large files instead of cat",
+    "Press / to search, n for next match, N for previous",
+    "Use arrow keys or Page Up/Down to navigate",
+    "Press q to quit",
+    "Use less -N for line numbers",
+    "Use less +F to follow log files",
+    "Press h for help to see all commands"
+  ],
+  "performance_tips": [
+    "less is efficient - loads content as needed, not all at once",
+    "Much faster than cat for large files",
+    "No performance issues even with very large files"
+  ],
+  "additional_notes": {
+    "navigation": "Arrow keys = scroll, Page Up/Down = page, / = search, n/N = next/prev match, q = quit, h = help",
+    "vs_more": "less is more powerful than more - allows backward scrolling and better search",
+    "vs_cat": "Use less for large files, cat for small files. less allows scrolling and searching.",
+    "follow_mode": "Use +F to follow files like tail -f, but with less navigation features",
+    "common_usage": "Very common: less file.txt (view), less -N file.txt (with line numbers), less +F log.txt (follow)"
+  }
+}
+

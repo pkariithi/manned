@@ -1,0 +1,689 @@
+{
+  "metadata": {
+    "name": "find",
+    "displayName": "find - Search for files and directories",
+    "category": "File & Directory Operations",
+    "tags": ["files", "search", "directory", "locate", "advanced"],
+    "description": "Search for files and directories in a directory hierarchy",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "GNU findutils 4.8.0+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "find is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "find is a powerful command-line utility for searching files and directories in a directory hierarchy. It can search by name, type, size, modification time, permissions, and many other criteria. Unlike ls, find can recursively search through all subdirectories.",
+    "when_to_use": [
+      "Search for files by name across the entire directory tree",
+      "Find files matching specific criteria (size, date, permissions)",
+      "Locate files that were modified recently or are larger than a certain size",
+      "Find and perform actions on files (delete, move, execute commands)",
+      "Search for files by type (regular files, directories, symlinks)",
+      "Locate files based on complex combinations of criteria"
+    ]
+  },
+  "syntax": {
+    "basic": "find [STARTING_DIRECTORY] [SEARCH_CRITERIA] [ACTIONS]",
+    "description": "find searches from the starting directory (or current directory if omitted) recursively through all subdirectories, matching files against search criteria, and optionally performing actions on matched files.",
+    "examples": [
+      "find . -name \"*.txt\"",
+      "find /home/user -type f -size +100M",
+      "find /var/log -mtime -7",
+      "find . -name \"*.old\" -delete"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-name PATTERN",
+      "short": "-name",
+      "long": null,
+      "description": "Search for files matching the name pattern (case-sensitive)",
+      "category": "search_criteria",
+      "example": "find . -name \"*.txt\"",
+      "use_case": "Find all files with .txt extension in current directory and subdirectories",
+      "wildcards": "Supports wildcards: * (any characters), ? (single character), [] (character class)"
+    },
+    {
+      "flag": "-iname PATTERN",
+      "short": "-iname",
+      "long": null,
+      "description": "Search for files matching the name pattern (case-insensitive)",
+      "category": "search_criteria",
+      "example": "find . -iname \"*.PDF\"",
+      "use_case": "Find files regardless of case (finds .pdf, .PDF, .Pdf, etc.)"
+    },
+    {
+      "flag": "-type TYPE",
+      "short": "-type",
+      "long": null,
+      "description": "Search for files of specified type",
+      "category": "search_criteria",
+      "example": "find . -type f",
+      "use_case": "Find only regular files, excluding directories",
+      "types": {
+        "f": "Regular file",
+        "d": "Directory",
+        "l": "Symbolic link",
+        "b": "Block device",
+        "c": "Character device",
+        "p": "Named pipe (FIFO)",
+        "s": "Socket"
+      }
+    },
+    {
+      "flag": "-size SIZE",
+      "short": "-size",
+      "long": null,
+      "description": "Search for files matching the specified size",
+      "category": "search_criteria",
+      "example": "find . -size +100M",
+      "use_case": "Find files larger than 100 megabytes",
+      "syntax": {
+        "+": "Larger than specified size",
+        "-": "Smaller than specified size",
+        "no prefix": "Exactly the specified size",
+        "units": "c (bytes), k (kilobytes), M (megabytes), G (gigabytes)"
+      }
+    },
+    {
+      "flag": "-mtime DAYS",
+      "short": "-mtime",
+      "long": null,
+      "description": "Search for files modified N days ago",
+      "category": "search_criteria",
+      "example": "find . -mtime -7",
+      "use_case": "Find files modified within the last 7 days",
+      "syntax": {
+        "+": "Modified more than N days ago",
+        "-": "Modified less than N days ago",
+        "no prefix": "Modified exactly N days ago (rarely used)"
+      },
+      "note": "Fractional days are not supported; -1 means within the last 24 hours"
+    },
+    {
+      "flag": "-mmin MINUTES",
+      "short": "-mmin",
+      "long": null,
+      "description": "Search for files modified N minutes ago",
+      "category": "search_criteria",
+      "example": "find . -mmin -60",
+      "use_case": "Find files modified within the last hour",
+      "syntax": {
+        "+": "Modified more than N minutes ago",
+        "-": "Modified less than N minutes ago"
+      }
+    },
+    {
+      "flag": "-user USERNAME",
+      "short": "-user",
+      "long": null,
+      "description": "Search for files owned by specified user",
+      "category": "search_criteria",
+      "example": "find . -user alice",
+      "use_case": "Find all files owned by user 'alice'"
+    },
+    {
+      "flag": "-perm MODE",
+      "short": "-perm",
+      "long": null,
+      "description": "Search for files with specific permissions",
+      "category": "search_criteria",
+      "example": "find . -perm 644",
+      "use_case": "Find files with exactly 644 permissions (rw-r--r--)"
+    },
+    {
+      "flag": "-exec COMMAND {} \\;",
+      "short": "-exec",
+      "long": null,
+      "description": "Execute a command on each found file",
+      "category": "action",
+      "example": "find . -name \"*.txt\" -exec ls -lh {} \\;",
+      "use_case": "Run a command (like ls, rm, mv) on each matched file",
+      "note": "{} is replaced by the file path; \\; terminates the command"
+    },
+    {
+      "flag": "-delete",
+      "short": "-delete",
+      "long": null,
+      "description": "Delete matched files",
+      "category": "action",
+      "example": "find . -name \"*.tmp\" -delete",
+      "use_case": "Remove all .tmp files (use with caution!)",
+      "warning": "This permanently deletes files. Always test with -print first."
+    },
+    {
+      "flag": "-print",
+      "short": "-print",
+      "long": null,
+      "description": "Print found files (default action if no action specified)",
+      "category": "action",
+      "example": "find . -name \"*.txt\" -print",
+      "use_case": "Explicitly print matching files (usually redundant as it's the default)"
+    },
+    {
+      "flag": "-maxdepth LEVELS",
+      "short": "-maxdepth",
+      "long": null,
+      "description": "Limit search depth to specified number of directory levels",
+      "category": "control",
+      "example": "find . -maxdepth 2 -name \"*.txt\"",
+      "use_case": "Search only in current directory and one level deep (no deeper)"
+    },
+    {
+      "flag": "-mindepth LEVELS",
+      "short": "-mindepth",
+      "long": null,
+      "description": "Start search at specified directory level",
+      "category": "control",
+      "example": "find . -mindepth 2 -name \"*.txt\"",
+      "use_case": "Skip current directory, start searching from subdirectories"
+    },
+    {
+      "flag": "-o (OR)",
+      "short": "-o",
+      "long": null,
+      "description": "Logical OR operator to combine criteria",
+      "category": "operator",
+      "example": "find . -name \"*.txt\" -o -name \"*.pdf\"",
+      "use_case": "Find files matching either criteria",
+      "note": "Must use parentheses for grouping: \\( -name \"*.txt\" -o -name \"*.pdf\" \\)"
+    },
+    {
+      "flag": "-a (AND)",
+      "short": "-a",
+      "long": null,
+      "description": "Logical AND operator (default, rarely needed explicitly)",
+      "category": "operator",
+      "example": "find . -type f -a -size +100M",
+      "use_case": "Find files that match all criteria",
+      "note": "Usually implicit when criteria are listed without -o"
+    },
+    {
+      "flag": "-not or !",
+      "short": "-not",
+      "long": "!",
+      "description": "Negate the following criteria",
+      "category": "operator",
+      "example": "find . -not -name \"*.txt\"",
+      "use_case": "Find files that don't match the pattern"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Find files by name",
+      "command": "find . -name \"*.txt\"",
+      "description": "Search for all .txt files in current directory and all subdirectories",
+      "output": "./documents/notes.txt\n./projects/report.txt\n./backup/old_file.txt",
+      "output_explanation": {
+        "format": "List of file paths, one per line, relative to the starting directory",
+        "elements": [
+          {
+            "element": "./documents/notes.txt",
+            "meaning": "Found file in subdirectory 'documents'",
+            "path_breakdown": {
+              ".": "Current directory (starting point)",
+              "/documents/": "Subdirectory",
+              "notes.txt": "Matching filename"
+            }
+          },
+          {
+            "element": "./projects/report.txt",
+            "meaning": "Found file in 'projects' subdirectory"
+          },
+          {
+            "element": "./backup/old_file.txt",
+            "meaning": "Found file in 'backup' subdirectory"
+          }
+        ],
+        "notes": "Paths are relative to the starting directory (.). Use absolute paths if starting from root (/). The wildcard * matches any characters before .txt"
+      },
+      "use_case": "Locate all text files in a project or find configuration files by extension"
+    },
+    {
+      "title": "Find files by type",
+      "command": "find /home/user -type f -name \"*.log\"",
+      "description": "Find only regular files (not directories) with .log extension in user's home directory",
+      "output": "/home/user/.local/share/app.log\n/home/user/projects/app1/debug.log\n/home/user/projects/app2/error.log",
+      "output_explanation": {
+        "format": "Absolute paths to matching regular files only",
+        "elements": [
+          {
+            "element": "/home/user/.local/share/app.log",
+            "meaning": "Regular file found in hidden directory",
+            "breakdown": {
+              "-type f": "Only regular files (excludes directories, symlinks, etc.)",
+              "path": "Absolute path from root",
+              "hidden_dir": ".local is a hidden directory (starts with dot)"
+            }
+          },
+          {
+            "element": "/home/user/projects/app1/debug.log",
+            "meaning": "Regular file in nested subdirectory"
+          },
+          {
+            "element": "/home/user/projects/app2/error.log",
+            "meaning": "Another regular file in different subdirectory"
+          }
+        ],
+        "type_comparison": {
+          "with_type_f": "Only regular files (what most searches want)",
+          "without_type": "Would include directories named *.log and symlinks"
+        },
+        "notes": "Always use -type f when searching for files unless you specifically want directories"
+      },
+      "use_case": "Find log files for troubleshooting or cleanup"
+    },
+    {
+      "title": "Find large files",
+      "command": "find ~ -type f -size +100M",
+      "description": "Find files larger than 100 megabytes in home directory",
+      "output": "/home/user/Videos/movie.mp4\n/home/user/downloads/iso_image.iso\n/home/user/.local/share/virtualbox/vm.vdi",
+      "output_explanation": {
+        "format": "List of files exceeding the size threshold",
+        "elements": [
+          {
+            "element": "/home/user/Videos/movie.mp4",
+            "meaning": "Large video file (likely > 100MB)",
+            "breakdown": {
+              "-size +100M": "Files larger than 100 megabytes",
+              "+": "Greater than (could also use - for less than)",
+              "100M": "100 megabytes (M = MB, G = GB, k = KB, c = bytes)"
+            }
+          },
+          {
+            "element": "/home/user/downloads/iso_image.iso",
+            "meaning": "Large disk image file"
+          },
+          {
+            "element": "/home/user/.local/share/virtualbox/vm.vdi",
+            "meaning": "Virtual machine disk file (can be very large)"
+          }
+        ],
+        "size_units": {
+          "c": "Bytes (exact count)",
+          "k": "Kilobytes (1024 bytes)",
+          "M": "Megabytes (1024 KB = 1,048,576 bytes)",
+          "G": "Gigabytes (1024 MB)",
+          "note": "Sizes are approximate; find works with 512-byte blocks internally"
+        },
+        "notes": "Useful for freeing up disk space. Combine with -ls for detailed size info"
+      },
+      "use_case": "Identify files taking up the most disk space for cleanup"
+    },
+    {
+      "title": "Find recently modified files",
+      "command": "find /var/log -type f -mtime -7",
+      "description": "Find files modified within the last 7 days in /var/log",
+      "output": "/var/log/syslog\n/var/log/auth.log\n/var/log/apt/history.log",
+      "output_explanation": {
+        "format": "List of files modified within the specified time period",
+        "elements": [
+          {
+            "element": "/var/log/syslog",
+            "meaning": "System log file modified recently",
+            "breakdown": {
+              "-mtime -7": "Modified less than 7 days ago",
+              "-": "Less than (within the last N days)",
+              "+": "More than (older than N days)",
+              "no prefix": "Exactly N days ago (rare)"
+            }
+          },
+          {
+            "element": "/var/log/auth.log",
+            "meaning": "Authentication log modified within last week"
+          },
+          {
+            "element": "/var/log/apt/history.log",
+            "meaning": "Package manager history modified recently"
+          }
+        ],
+        "time_calculation": {
+          "-7": "Modified within the last 7 days (168 hours)",
+          "-1": "Modified within the last 24 hours",
+          "+30": "Modified more than 30 days ago (older than a month)"
+        },
+        "notes": "Useful for monitoring, backups, or finding recently changed files. Use -mmin for minutes-based searches"
+      },
+      "use_case": "Monitor log activity or find recently changed files for backup"
+    },
+    {
+      "title": "Find and list with details",
+      "command": "find . -type f -name \"*.pdf\" -exec ls -lh {} \\;",
+      "description": "Find PDF files and display detailed information about each",
+      "output": "-rw-r--r-- 1 user user 2.5M Jan 15 10:30 ./documents/report.pdf\n-rw-r--r-- 1 user user 500K Jan 12 14:20 ./projects/presentation.pdf\n-rw-r--r-- 1 user user 1.2M Jan 10 09:15 ./downloads/manual.pdf",
+      "output_explanation": {
+        "format": "ls -l output for each matched file",
+        "elements": [
+          {
+            "element": "-rw-r--r-- 1 user user 2.5M Jan 15 10:30 ./documents/report.pdf",
+            "meaning": "Detailed file information in ls format",
+            "breakdown": {
+              "-exec ls -lh {} \\;": "Execute ls -lh command on each found file",
+              "{}": "Placeholder replaced by each file path",
+              "\\;": "Terminates the -exec command (semicolon is escaped)",
+              "output": "Standard ls -l format showing permissions, size, date, filename"
+            }
+          }
+        ],
+        "exec_syntax": {
+          "command_format": "-exec command {} \\;",
+          "{}": "Replaced with each matched file path",
+          "\\;": "Escaped semicolon ends the command (space before \\; is required)",
+          "note": "Each file is processed individually; {} is replaced once per file"
+        },
+        "alternative": "Use -ls instead of -exec ls -lh {} \\; for simpler syntax: find . -type f -name \"*.pdf\" -ls",
+        "notes": "Useful when you need more information about found files. The -lh flag shows human-readable sizes"
+      },
+      "use_case": "Find files and immediately see their sizes, permissions, and modification dates"
+    },
+    {
+      "title": "Find and delete",
+      "command": "find ~/Downloads -name \"*.tmp\" -type f -delete",
+      "description": "Find and remove all .tmp files in Downloads directory",
+      "output": "(no output - files are deleted)",
+      "output_explanation": {
+        "format": "No output on success (files are silently deleted)",
+        "elements": [
+          {
+            "element": "(no output)",
+            "meaning": "Command succeeded; files were deleted",
+            "breakdown": {
+              "-delete": "Removes matched files permanently",
+              "warning": "This action cannot be undone!",
+              "safety": "Always test first with -print or -ls to see what would be deleted"
+            }
+          }
+        ],
+        "safety_procedure": {
+          "step1": "First run: find ~/Downloads -name \"*.tmp\" -type f -print",
+          "step2": "Review the output carefully",
+          "step3": "Then run: find ~/Downloads -name \"*.tmp\" -type f -delete",
+          "note": "Never use -delete without first verifying what will be deleted"
+        },
+        "error_output": {
+          "scenario": "If permission denied: 'find: cannot delete './protected.tmp': Permission denied'",
+          "meaning": "Some files couldn't be deleted (may need sudo or different permissions)"
+        },
+        "notes": "Use with extreme caution! Consider using -exec rm {} \\; for more control (with -i for interactive deletion)"
+      },
+      "use_case": "Clean up temporary files (use with caution!)"
+    },
+    {
+      "title": "Limited depth search",
+      "command": "find . -maxdepth 2 -name \"*.conf\"",
+      "description": "Search for .conf files only in current directory and one level deep",
+      "output": "./app.conf\n./config/server.conf\n./config/database.conf",
+      "output_explanation": {
+        "format": "Files found within the depth limit",
+        "elements": [
+          {
+            "element": "./app.conf",
+            "meaning": "File in current directory (depth 0)",
+            "depth": 0
+          },
+          {
+            "element": "./config/server.conf",
+            "meaning": "File one level deep in 'config' subdirectory (depth 1)",
+            "depth": 1
+          },
+          {
+            "element": "./config/database.conf",
+            "meaning": "File one level deep (depth 1)",
+            "depth": 1
+          }
+        ],
+        "depth_explanation": {
+          "maxdepth 0": "Only current directory (no subdirectories)",
+          "maxdepth 1": "Current directory + immediate subdirectories",
+          "maxdepth 2": "Current + one level deep",
+          "no maxdepth": "Search all subdirectories recursively (default)"
+        },
+        "excluded": "Files in ./config/subfolder/app.conf would NOT be found (depth 2 is excluded)",
+        "notes": "Useful for faster searches or when you only care about top-level files. Saves time on large directory trees"
+      },
+      "use_case": "Quick search without deep recursion, or when you know files are near the surface"
+    },
+    {
+      "title": "Combined criteria",
+      "command": "find /home -type f -name \"*.log\" -size +10M -mtime -30",
+      "description": "Find large log files modified recently in /home",
+      "output": "/home/user/apps/service1/access.log\n/home/user/apps/service2/error.log",
+      "output_explanation": {
+        "format": "Files matching ALL criteria (AND logic)",
+        "elements": [
+          {
+            "element": "/home/user/apps/service1/access.log",
+            "meaning": "File matching all four criteria",
+            "criteria_match": {
+              "type f": "✓ Regular file",
+              "name *.log": "✓ Has .log extension",
+              "size +10M": "✓ Larger than 10MB",
+              "mtime -30": "✓ Modified within last 30 days"
+            }
+          }
+        ],
+        "logical_operators": {
+          "default": "Multiple criteria are ANDed together (all must match)",
+          "OR": "Use -o: find . \\( -name \"*.txt\" -o -name \"*.pdf\" \\)",
+          "NOT": "Use ! or -not: find . ! -name \"*.tmp\"",
+          "grouping": "Use parentheses with escaping: \\( criteria1 -o criteria2 \\)"
+        },
+        "combining_rules": {
+          "all_match": "find . -type f -name \"*.txt\" -size +1M (must be file AND .txt AND > 1MB)",
+          "or_match": "find . \\( -name \"*.txt\" -o -name \"*.pdf\" \\) (either .txt OR .pdf)",
+          "complex": "find . -type f \\( -name \"*.log\" -o -name \"*.tmp\" \\) -size +10M (log OR tmp files > 10MB)"
+        },
+        "notes": "Multiple criteria default to AND. Use parentheses for grouping when mixing AND/OR"
+      },
+      "use_case": "Find files matching multiple specific conditions for cleanup or monitoring"
+    },
+    {
+      "title": "Case-insensitive search",
+      "command": "find . -iname \"*.JPG\"",
+      "description": "Find image files regardless of case (.jpg, .JPG, .Jpg, etc.)",
+      "output": "./photos/vacation.JPG\n./photos/IMG_001.jpg\n./backup/image.Jpg",
+      "output_explanation": {
+        "format": "Files matching the pattern regardless of case",
+        "elements": [
+          {
+            "element": "./photos/vacation.JPG",
+            "meaning": "Uppercase extension matches",
+            "case": "UPPERCASE"
+          },
+          {
+            "element": "./photos/IMG_001.jpg",
+            "meaning": "Lowercase extension matches",
+            "case": "lowercase"
+          },
+          {
+            "element": "./backup/image.Jpg",
+            "meaning": "Mixed case extension matches",
+            "case": "Mixed"
+          }
+        ],
+        "comparison": {
+          "-name \"*.JPG\"": "Would only find .JPG files (case-sensitive)",
+          "-iname \"*.JPG\"": "Finds .jpg, .JPG, .Jpg, .jPg, etc. (case-insensitive)"
+        },
+        "notes": "Useful when file extensions have inconsistent casing, especially when dealing with files from different operating systems"
+      },
+      "use_case": "Find files with inconsistent case extensions, especially on mixed-case file systems"
+    },
+    {
+      "title": "Find directories only",
+      "command": "find /home/user -type d -name \"projects\"",
+      "description": "Find all directories named 'projects'",
+      "output": "/home/user/projects\n/home/user/Documents/projects\n/home/user/old/projects",
+      "output_explanation": {
+        "format": "List of directory paths matching the criteria",
+        "elements": [
+          {
+            "element": "/home/user/projects",
+            "meaning": "Directory found at this path",
+            "type": "d = directory (not a file)"
+          },
+          {
+            "element": "/home/user/Documents/projects",
+            "meaning": "Nested 'projects' directory in Documents"
+          },
+          {
+            "element": "/home/user/old/projects",
+            "meaning": "Another 'projects' directory in 'old' folder"
+          }
+        ],
+        "type_comparison": {
+          "-type d": "Directories only (what you want for folder searches)",
+          "-type f": "Regular files only",
+          "no -type": "Would find both files and directories named 'projects'"
+        },
+        "notes": "Useful for finding project folders, config directories, or organizing directory structures"
+      },
+      "use_case": "Locate all directories with a specific name across the file system"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "find searches only the current directory",
+      "misconception": "find only looks in the current directory like ls",
+      "reality": "find recursively searches all subdirectories by default. If you want to search only the current directory, use -maxdepth 0 or -maxdepth 1.",
+      "tip": "Remember: find is recursive. Use -maxdepth to limit search depth."
+    },
+    {
+      "title": "find requires wildcards in -name",
+      "misconception": "You must always use wildcards (*, ?) with -name",
+      "reality": "You can search for exact names: find . -name 'myfile.txt'. Wildcards are optional and only needed when searching for patterns.",
+      "tip": "Exact match: find . -name 'exact.txt'. Pattern match: find . -name '*.txt'"
+    },
+    {
+      "title": "-size uses exact bytes",
+      "misconception": "-size +100M means exactly 100 megabytes",
+      "reality": "-size works with 512-byte blocks internally. +100M means larger than 100MB (approximately), not exactly 100MB. The calculation is approximate due to block rounding.",
+      "tip": "Use -size +100M to find files larger than 100MB. Exact sizes are not possible due to block allocation."
+    },
+    {
+      "title": "-mtime -1 means within the last hour",
+      "misconception": "-mtime -1 means files modified in the last hour",
+      "reality": "-mtime works in 24-hour periods. -mtime -1 means modified within the last 24 hours, not the last hour. Use -mmin for minute-based searches.",
+      "tip": "Days: -mtime. Minutes: -mmin. -mtime -1 = last 24 hours, -mmin -60 = last hour"
+    },
+    {
+      "title": "find is slow",
+      "misconception": "find is always slow because it searches everything",
+      "reality": "find can be fast if you use appropriate criteria and limits. Use -maxdepth to limit depth, start from specific directories, and combine criteria effectively. For simple filename searches, locate may be faster.",
+      "tip": "Start from specific directories, use -maxdepth when possible, and combine multiple criteria to narrow results quickly"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting to quote wildcards",
+      "description": "Wildcards (*, ?, []) are expanded by the shell before find sees them",
+      "solution": "Always quote patterns: find . -name \"*.txt\" not find . -name *.txt. Unquoted wildcards may match files in the current directory unexpectedly.",
+      "example": {
+        "wrong": "find . -name *.txt",
+        "right": "find . -name \"*.txt\""
+      }
+    },
+    {
+      "issue": "Deleting files accidentally",
+      "description": "Using -delete without first checking what will be deleted",
+      "solution": "Always test first: find . -name \"*.tmp\" -print. Review the output, then use -delete. Never combine -delete with -exec rm {} \\; (redundant and dangerous).",
+      "safe_procedure": [
+        "Step 1: find . -name \"*.tmp\" -ls",
+        "Step 2: Review output carefully",
+        "Step 3: find . -name \"*.tmp\" -delete"
+      ]
+    },
+    {
+      "issue": "Escaping semicolon in -exec",
+      "description": "Forgetting to escape the semicolon or space in -exec commands",
+      "solution": "Use \\; (backslash-semicolon) to terminate -exec commands. There must be a space before \\;. Alternatively, use -exec with + for better performance.",
+      "examples": {
+        "wrong": "find . -name \"*.txt\" -exec ls {} ;",
+        "right": "find . -name \"*.txt\" -exec ls {} \\;",
+        "better": "find . -name \"*.txt\" -exec ls {} + (more efficient)"
+      }
+    },
+    {
+      "issue": "Confusing -mtime signs",
+      "description": "Mixing up + and - signs with -mtime",
+      "solution": "Remember: - means less than (recent), + means more than (old). -mtime -7 = within last 7 days, -mtime +30 = older than 30 days.",
+      "mnemonic": "Minus = recent (within), Plus = old (older than)"
+    },
+    {
+      "issue": "Searching from root by accident",
+      "description": "Forgetting to specify a starting directory searches from current directory, or accidentally searching from /",
+      "solution": "Always specify the starting directory explicitly. Use . for current directory, ~ for home, or absolute paths. Avoid find / unless you specifically need to search the entire system.",
+      "performance": "Searching from / can take a very long time and may search protected system directories."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "locate",
+      "relationship": "Faster filename search using a pre-built database",
+      "description": "Find files quickly using updatedb database (requires installation: sudo apt install mlocate)"
+    },
+    {
+      "command": "grep",
+      "relationship": "Search within file contents; often combined with find",
+      "description": "find . -name \"*.txt\" -exec grep \"searchterm\" {} \\;"
+    },
+    {
+      "command": "xargs",
+      "relationship": "More efficient alternative to -exec for some operations",
+      "description": "find . -name \"*.txt\" | xargs rm (more efficient than -exec for many files)"
+    },
+    {
+      "command": "ls",
+      "relationship": "List directory contents; find searches recursively",
+      "description": "ls shows current directory, find searches entire tree"
+    },
+    {
+      "command": "whereis",
+      "relationship": "Find binaries, sources, and manual pages",
+      "description": "whereis commandname (searches standard locations for program files)"
+    },
+    {
+      "command": "which",
+      "relationship": "Find executable path in PATH",
+      "description": "which commandname (shows full path to executable)"
+    }
+  ],
+  "best_practices": [
+    "Always quote wildcard patterns to prevent shell expansion: find . -name \"*.txt\"",
+    "Test find commands with -print or -ls before using -delete or -exec with destructive commands",
+    "Use -type f when searching for files (excludes directories unless you specifically want them)",
+    "Specify starting directory explicitly: use . (current), ~ (home), or absolute paths",
+    "Use -maxdepth to limit search depth when you don't need deep recursion (faster searches)",
+    "Combine criteria effectively to narrow results before performing actions",
+    "Use -exec with + instead of \\; when processing many files (more efficient): find . -name \"*.txt\" -exec rm {} +",
+    "Use locate for simple filename searches (if updatedb is maintained) - it's much faster",
+    "Quote or escape special characters in patterns and filenames",
+    "Check file permissions before deleting - use -ls first to see ownership and permissions"
+  ],
+  "performance_tips": [
+    "Start from the most specific directory possible (don't search / if you only need /home)",
+    "Use -maxdepth to limit recursion depth - searching only 2-3 levels deep is much faster",
+    "Put most selective criteria first (e.g., -name before -type) - find evaluates left to right",
+    "Use locate instead of find for simple filename searches if the database is up to date",
+    "Avoid searching network filesystems or very large directory trees if possible",
+    "Use -exec with + (plus) instead of \\; (semicolon) - processes multiple files per command invocation",
+    "Combine -prune with -name to skip entire subdirectories (advanced optimization)"
+  ],
+  "additional_notes": {
+    "operators_precedence": "Logical operators precedence: ( ) > ! > -a (AND) > -o (OR). Use parentheses for clarity.",
+    "exec_vs_xargs": "-exec {} \\; runs command once per file. -exec {} + or xargs batches files together (more efficient for many files).",
+    "permissions": "You can only find files in directories you have permission to read. Use sudo find if you need to search system directories.",
+    "symlinks": "By default, find follows symlinks. Use -P to never follow, -L to always follow, -H to follow only on command line arguments.",
+    "complex_examples": {
+      "find_and_grep": "find . -name \"*.log\" -exec grep -l \"error\" {} \\; (find log files containing 'error')",
+      "find_recent_large": "find ~ -type f -size +50M -mtime -7 (large files modified recently)",
+      "find_not_owned": "find /home -type f ! -user $(whoami) (files not owned by current user)",
+      "find_executable": "find /usr/bin -type f -perm /111 (find executable files)"
+    },
+    "safety_reminder": "Always verify find results with -print or -ls before using -delete or destructive -exec commands. Test on a small subset first."
+  }
+}
+

@@ -1,0 +1,211 @@
+{
+  "metadata": {
+    "name": "wc",
+    "displayName": "wc - Word count",
+    "category": "Text Processing",
+    "tags": ["text", "count", "words", "lines", "bytes"],
+    "description": "Count lines, words, and bytes in files",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "wc is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "wc (word count) counts lines, words, and bytes in files. It's useful for getting file statistics, checking file sizes, counting code lines, and analyzing text files. Simple but essential for file analysis.",
+    "when_to_use": [
+      "Count lines in files",
+      "Count words in documents",
+      "Get file statistics",
+      "Count code lines",
+      "Check file size in bytes",
+      "Analyze text files"
+    ]
+  },
+  "syntax": {
+    "basic": "wc [OPTIONS] [FILE...]",
+    "description": "Count lines, words, and bytes in FILE(s). If no file specified, reads from stdin. Shows: lines words bytes filename",
+    "examples": [
+      "wc file.txt",
+      "wc -l file.txt",
+      "wc -w file.txt",
+      "wc *.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --lines",
+      "short": "-l",
+      "long": "--lines",
+      "description": "Count only lines",
+      "category": "count",
+      "example": "wc -l file.txt",
+      "use_case": "Get line count only (very common)"
+    },
+    {
+      "flag": "-w, --words",
+      "short": "-w",
+      "long": "--words",
+      "description": "Count only words",
+      "category": "count",
+      "example": "wc -w file.txt",
+      "use_case": "Get word count only"
+    },
+    {
+      "flag": "-c, --bytes",
+      "short": "-c",
+      "long": "--bytes",
+      "description": "Count only bytes",
+      "category": "count",
+      "example": "wc -c file.txt",
+      "use_case": "Get byte count (file size)"
+    },
+    {
+      "flag": "-m, --chars",
+      "short": "-m",
+      "long": "--chars",
+      "description": "Count characters (may differ from bytes for multibyte)",
+      "category": "count",
+      "example": "wc -m file.txt",
+      "use_case": "Count characters instead of bytes"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Count lines, words, bytes",
+      "command": "wc file.txt",
+      "description": "Get all counts for file",
+      "output": "  100   500  10240 file.txt",
+      "output_explanation": {
+        "format": "Lines, words, bytes, filename",
+        "elements": [
+          {
+            "element": "100",
+            "meaning": "Number of lines",
+            "breakdown": {
+              "format": "lines words bytes filename",
+              "lines": "First number = line count"
+            }
+          },
+          {
+            "element": "500",
+            "meaning": "Number of words",
+            "breakdown": {
+              "words": "Second number = word count"
+            }
+          },
+          {
+            "element": "10240",
+            "meaning": "Number of bytes (file size)",
+            "breakdown": {
+              "bytes": "Third number = byte count (file size)"
+            }
+          },
+          {
+            "element": "file.txt",
+            "meaning": "Filename",
+            "breakdown": {
+              "filename": "File that was counted"
+            }
+          }
+        ],
+        "notes": "Shows lines, words, bytes, and filename. Format: lines words bytes filename."
+      },
+      "use_case": "Get file statistics (lines, words, size)"
+    },
+    {
+      "title": "Count lines only",
+      "command": "wc -l file.txt",
+      "description": "Get only line count",
+      "output": "100 file.txt",
+      "output_explanation": {
+        "format": "Line count and filename",
+        "elements": [
+          {
+            "element": "-l",
+            "meaning": "Count only lines",
+            "breakdown": {
+              "common": "Most common wc usage",
+              "useful": "Count code lines, log entries, etc.",
+              "format": "number filename"
+            }
+          }
+        ],
+        "notes": "Shows only line count. Very common usage. Useful for counting code lines, log entries, etc."
+      },
+      "use_case": "Count lines in files (very common - code, logs)"
+    },
+    {
+      "title": "Count words",
+      "command": "wc -w document.txt",
+      "description": "Get word count",
+      "output": "500 document.txt",
+      "output_explanation": {
+        "format": "Word count and filename",
+        "elements": [
+          {
+            "element": "-w",
+            "meaning": "Count only words",
+            "breakdown": {
+              "useful": "Word count for documents, articles",
+              "format": "number filename"
+            }
+          }
+        ],
+        "notes": "Shows word count. Useful for documents, articles, text analysis."
+      },
+      "use_case": "Count words in documents"
+    },
+    {
+      "title": "Count multiple files",
+      "command": "wc *.txt",
+      "description": "Count all text files",
+      "output": "  100   500  10240 file1.txt\n   50   250   5120 file2.txt\n  150   750  15360 total",
+      "output_explanation": {
+        "format": "Counts for each file plus total",
+        "elements": [
+          {
+            "element": "total",
+            "meaning": "Sum of all files",
+            "breakdown": {
+              "useful": "Get totals across multiple files",
+              "format": "Each file shown, then total line"
+            }
+          }
+        ],
+        "notes": "Shows counts for each file, then total. Useful for getting statistics across multiple files."
+      },
+      "use_case": "Get statistics for multiple files"
+    }
+  ],
+  "misconceptions": [],
+  "common_pitfalls": [],
+  "related_commands": [
+    {
+      "command": "ls",
+      "relationship": "File info; ls shows files, wc counts content",
+      "description": "List files (wc counts file contents)"
+    }
+  ],
+  "best_practices": [
+    "Use wc -l for line counts (most common)",
+    "Use wc -w for word counts",
+    "Use wc -c for byte counts (file size)",
+    "Use wc with wildcards for multiple files",
+    "Combine with other commands: ls | wc -l (count files)"
+  ],
+  "performance_tips": [
+    "wc is very fast",
+    "Efficient for large files",
+    "No performance issues"
+  ],
+  "additional_notes": {
+    "format": "Default output: lines words bytes filename",
+    "common_usage": "Most common: wc -l (line count), wc -w (word count), wc -c (byte count)",
+    "piping": "Common pattern: ls | wc -l (count files), cat file | wc -l (count lines)"
+  }
+}
+

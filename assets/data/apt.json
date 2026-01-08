@@ -1,0 +1,323 @@
+{
+  "metadata": {
+    "name": "apt",
+    "displayName": "apt - Package management (Debian/Ubuntu)",
+    "category": "System Management",
+    "tags": ["package", "install", "update", "apt", "debian", "ubuntu"],
+    "description": "Advanced Package Tool for managing software packages",
+    "popularity": 10,
+    "difficulty": "intermediate",
+    "version": "apt 2.4+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "apt is built-in on Debian/Ubuntu systems by default"
+  },
+  "overview": {
+    "summary": "apt (Advanced Package Tool) is the modern command-line package manager for Debian and Ubuntu systems. It provides a high-level interface for managing software packages, handling installation, updates, removals, and package information. apt simplifies package management compared to the older apt-get command.",
+    "when_to_use": [
+      "Install software packages",
+      "Update package lists",
+      "Upgrade installed packages",
+      "Remove packages",
+      "Search for packages",
+      "Show package information"
+    ]
+  },
+  "syntax": {
+    "basic": "apt [COMMAND] [OPTIONS] [PACKAGE...]",
+    "description": "Package management commands. Common commands: install, update, upgrade, remove, search, show.",
+    "examples": [
+      "sudo apt update",
+      "sudo apt install package-name",
+      "apt search keyword",
+      "apt list --installed"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-y, --yes",
+      "short": "-y",
+      "long": "--yes",
+      "description": "Automatically answer yes to prompts",
+      "category": "operation",
+      "example": "sudo apt install -y package",
+      "use_case": "Skip confirmation prompts (useful in scripts)"
+    },
+    {
+      "flag": "--dry-run",
+      "short": null,
+      "long": "--dry-run",
+      "description": "Show what would be done without actually doing it",
+      "category": "safety",
+      "example": "sudo apt upgrade --dry-run",
+      "use_case": "Preview changes before applying them"
+    },
+    {
+      "flag": "-v, --version",
+      "short": "-v",
+      "long": "--version",
+      "description": "Show version information",
+      "category": "display",
+      "example": "apt --version",
+      "use_case": "Display apt version"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Update package lists",
+      "command": "sudo apt update",
+      "description": "Refresh package index from repositories",
+      "output": "Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]\nGet:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [118 kB]\n...\nFetched 2,345 kB in 5s (469 kB/s)\nReading package lists... Done",
+      "output_explanation": {
+        "format": "Download progress and package list update",
+        "elements": [
+          {
+            "element": "Get:1 http://...",
+            "meaning": "Downloading package index from repository",
+            "breakdown": {
+              "behavior": "Downloads latest package information from configured repositories",
+              "required": "Run this before installing/upgrading packages to get latest versions",
+              "time": "Usually takes a few seconds to download package lists"
+            }
+          },
+          {
+            "element": "Fetched 2,345 kB",
+            "meaning": "Total amount of data downloaded",
+            "breakdown": {
+              "format": "Total size in KB/MB",
+              "speed": "Download speed shown (kB/s)",
+              "done": "Reading package lists... Done indicates completion"
+            }
+          }
+        ],
+        "notes": "Always run apt update before installing packages to ensure you get latest versions. This updates package lists, not packages themselves."
+      },
+      "use_case": "Refresh package information before installing or upgrading"
+    },
+    {
+      "title": "Install a package",
+      "command": "sudo apt install firefox",
+      "description": "Install firefox package and dependencies",
+      "output": "Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed:\n  firefox firefox-locale-en\n0 upgraded, 2 newly installed, 0 to remove, 0 not upgraded.\nNeed to get 89.5 MB of archives.\nAfter this operation, 134 MB of additional disk space will be used.\nDo you want to continue? [Y/n] y",
+      "output_explanation": {
+        "format": "Installation summary with confirmation prompt",
+        "elements": [
+          {
+            "element": "The following NEW packages will be installed:",
+            "meaning": "Lists packages that will be installed (including dependencies)",
+            "breakdown": {
+              "shows": "Package name plus any required dependencies",
+              "review": "Good to review what will be installed",
+              "dependencies": "apt automatically resolves and installs dependencies"
+            }
+          },
+          {
+            "element": "Need to get 89.5 MB",
+            "meaning": "Download size required",
+            "breakdown": {
+              "size": "Total download size for all packages",
+              "disk": "Additional disk space needed after installation",
+              "confirm": "Prompts for confirmation before proceeding"
+            }
+          }
+        ],
+        "notes": "Shows what will be installed and asks for confirmation. Use -y flag to skip confirmation. Requires sudo."
+      },
+      "use_case": "Install software packages from repositories"
+    },
+    {
+      "title": "Search for packages",
+      "command": "apt search firefox",
+      "description": "Search for packages matching keyword",
+      "output": "Sorting... Done\nFull Text Search... Done\nfirefox/jammy 1:1.13+snap-1ubuntu1 amd64\n  The Firefox web browser\n\nfirefox-locale-en/jammy 1:1.13+snap-1ubuntu1 amd64\n  English language pack for Firefox",
+      "output_explanation": {
+        "format": "List of matching packages with descriptions",
+        "elements": [
+          {
+            "element": "firefox/jammy 1:1.13+snap-1ubuntu1 amd64",
+            "meaning": "Package name/version/repository/architecture",
+            "breakdown": {
+              "format": "package/repository version architecture",
+              "description": "Short description shown below each package",
+              "useful": "Helps identify the correct package to install"
+            }
+          }
+        ],
+        "notes": "Search searches package names and descriptions. No sudo needed for search. Use to find packages before installing."
+      },
+      "use_case": "Find packages by keyword before installing"
+    },
+    {
+      "title": "List installed packages",
+      "command": "apt list --installed",
+      "description": "Show all installed packages",
+      "output": "Listing... Done\nfirefox/jammy,now 1:1.13+snap-1ubuntu1 amd64 [installed]\ngnome-terminal/jammy,now 3.46.0-1ubuntu1 amd64 [installed]\n...",
+      "output_explanation": {
+        "format": "List of installed packages with version info",
+        "elements": [
+          {
+            "element": "firefox/jammy,now 1:1.13+snap-1ubuntu1 amd64 [installed]",
+            "meaning": "Package name, version, and install status",
+            "breakdown": {
+              "format": "package/repository,version architecture [status]",
+              "status": "[installed] indicates package is installed",
+              "useful": "Can grep to find specific packages: apt list --installed | grep firefox"
+            }
+          }
+        ],
+        "notes": "Shows all installed packages. Can be long output - pipe to grep or less. No sudo needed."
+      },
+      "use_case": "Check what packages are installed on the system"
+    },
+    {
+      "title": "Upgrade all packages",
+      "command": "sudo apt upgrade",
+      "description": "Upgrade all installed packages to latest versions",
+      "output": "Reading package lists... Done\nBuilding dependency tree... Done\n...\nThe following packages will be upgraded:\n  firefox libc6\n2 upgraded, 0 newly installed, 0 to remove, 0 not upgraded.\nNeed to get 45.2 MB of archives.",
+      "output_explanation": {
+        "format": "List of packages to be upgraded",
+        "elements": [
+          {
+            "element": "The following packages will be upgraded:",
+            "meaning": "Lists packages that have available updates",
+            "breakdown": {
+              "behavior": "Upgrades existing packages to newer versions",
+              "differs": "Different from apt update (updates lists) and apt install (installs new)",
+              "safe": "Generally safe, but review what will be upgraded"
+            }
+          }
+        ],
+        "notes": "Upgrades all installed packages. Run apt update first. Use apt upgrade (not apt-get upgrade) for better dependency handling."
+      },
+      "use_case": "Update all installed packages to latest versions"
+    },
+    {
+      "title": "Show package information",
+      "command": "apt show firefox",
+      "description": "Display detailed information about a package",
+      "output": "Package: firefox\nVersion: 1:1.13+snap-1ubuntu1\nPriority: optional\nSection: web\nMaintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nInstalled-Size: 134 MB\nDescription: The Firefox web browser",
+      "output_explanation": {
+        "format": "Detailed package metadata",
+        "elements": [
+          {
+            "element": "Package information",
+            "meaning": "Shows version, maintainer, size, description, dependencies",
+            "breakdown": {
+              "version": "Package version number",
+              "size": "Disk space required (Installed-Size)",
+              "description": "What the package does",
+              "dependencies": "Required packages listed"
+            }
+          }
+        ],
+        "notes": "Shows comprehensive package information. Useful before installing to verify it's the right package. No sudo needed."
+      },
+      "use_case": "Get detailed information about a package before installing"
+    },
+    {
+      "title": "Remove a package",
+      "command": "sudo apt remove firefox",
+      "description": "Uninstall a package",
+      "output": "Reading package lists... Done\nBuilding dependency tree... Done\nThe following packages will be REMOVED:\n  firefox firefox-locale-en\n0 upgraded, 0 newly installed, 2 to remove, 0 not upgraded.\nAfter this operation, 134 MB disk space will be freed.",
+      "output_explanation": {
+        "format": "Removal summary with confirmation",
+        "elements": [
+          {
+            "element": "The following packages will be REMOVED:",
+            "meaning": "Lists packages that will be removed",
+            "breakdown": {
+              "behavior": "Removes package but keeps configuration files",
+              "purge": "Use apt purge to also remove configuration files",
+              "space": "Shows disk space that will be freed"
+            }
+          }
+        ],
+        "notes": "Removes package but keeps config files. Use apt purge to remove everything including configs. Requires sudo."
+      },
+      "use_case": "Uninstall packages you no longer need"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "apt update upgrades packages",
+      "misconception": "apt update upgrades installed packages",
+      "reality": "apt update only refreshes package lists from repositories. Use apt upgrade to actually upgrade packages. Update refreshes lists, upgrade updates packages.",
+      "tip": "apt update = refresh package lists. apt upgrade = upgrade packages. Always run update first, then upgrade."
+    },
+    {
+      "title": "apt and apt-get are the same",
+      "misconception": "apt and apt-get work exactly the same",
+      "reality": "apt is a newer, user-friendly interface. apt-get is the older command. apt provides progress bars and better output, but apt-get is more stable for scripts.",
+      "tip": "Use apt for interactive use (better UI). Use apt-get in scripts (more stable). Most commands are similar."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting sudo",
+      "description": "Most apt commands require root privileges",
+      "solution": "Use sudo for install, update, upgrade, remove. Search and show don't need sudo."
+    },
+    {
+      "issue": "Not running update before upgrade",
+      "description": "Trying to upgrade without updating package lists first",
+      "solution": "Always run sudo apt update before sudo apt upgrade to get latest package information."
+    },
+    {
+      "issue": "Using wrong package name",
+      "description": "Package names might differ from common names",
+      "solution": "Use apt search keyword to find correct package name before installing. Package names are usually lowercase with hyphens."
+    },
+    {
+      "issue": "Installing from untrusted sources",
+      "description": "Adding repositories without verifying trustworthiness",
+      "solution": "Only add repositories from trusted sources. Be careful with PPAs (Personal Package Archives)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "apt-get",
+      "relationship": "Older package manager; apt is newer interface",
+      "description": "Older package management tool (apt is preferred for interactive use)"
+    },
+    {
+      "command": "apt-cache",
+      "relationship": "Package cache; apt search uses it",
+      "description": "Query package cache (apt search uses it internally)"
+    },
+    {
+      "command": "dpkg",
+      "relationship": "Low-level package manager; apt uses dpkg",
+      "description": "Low-level package manager (apt is built on top of dpkg)"
+    },
+    {
+      "command": "snap",
+      "relationship": "Alternative package manager; snap packages vs apt packages",
+      "description": "Alternative package manager for snap packages"
+    }
+  ],
+  "best_practices": [
+    "Always run sudo apt update before installing or upgrading",
+    "Use apt search to find packages before installing",
+    "Use apt show to check package details before installing",
+    "Use sudo apt upgrade regularly to keep system updated",
+    "Use apt list --installed | grep package to check if package is installed",
+    "Review what will be installed before confirming",
+    "Use --dry-run to preview changes without applying them"
+  ],
+  "performance_tips": [
+    "apt update is usually fast (few seconds) - run it regularly",
+    "apt search can be slow on first run (indexes packages)",
+    "Use apt-cache search for faster package searching in some cases",
+    "apt list can be slow - pipe to grep or less for large lists"
+  ],
+  "additional_notes": {
+    "update_vs_upgrade": "apt update refreshes package lists, apt upgrade upgrades packages. Always run update first.",
+    "sudo_required": "Most apt commands need sudo (install, update, upgrade, remove). Search and show don't need sudo.",
+    "vs_apt-get": "apt is newer with better UI. apt-get is older but more stable for scripts. Most commands work the same.",
+    "package_names": "Package names are usually lowercase with hyphens. Use apt search to find correct names.",
+    "repositories": "Packages come from repositories configured in /etc/apt/sources.list and /etc/apt/sources.list.d/"
+  }
+}
+

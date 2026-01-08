@@ -1,0 +1,275 @@
+{
+  "metadata": {
+    "name": "kill",
+    "displayName": "kill - Send signals to processes",
+    "category": "System Management",
+    "tags": ["processes", "system", "signals", "terminate"],
+    "description": "Terminate or send signals to processes",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "kill is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "kill sends signals to processes, most commonly used to terminate processes. Despite its name, kill can send various signals (not just termination). The default signal is TERM (15), which requests a process to terminate gracefully. Use killall or pkill to kill processes by name instead of PID.",
+    "when_to_use": [
+      "Terminate a running process",
+      "Force quit an unresponsive program",
+      "Send signals to processes",
+      "Stop a specific process by PID",
+      "Restart a daemon service",
+      "Clean up zombie processes"
+    ]
+  },
+  "syntax": {
+    "basic": "kill [OPTIONS] PID...",
+    "description": "Send signal to process(es) specified by PID(s). Default signal is TERM (15). Multiple PIDs can be specified.",
+    "examples": [
+      "kill 1234",
+      "kill -9 1234",
+      "kill -HUP 1234",
+      "kill -l"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List all signal names",
+      "category": "display",
+      "example": "kill -l",
+      "use_case": "See all available signals and their numbers"
+    },
+    {
+      "flag": "-s, --signal",
+      "short": "-s",
+      "long": "--signal",
+      "description": "Specify signal to send (name or number)",
+      "category": "operation",
+      "example": "kill -s TERM 1234",
+      "use_case": "Send a specific signal by name or number"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Terminate process gracefully",
+      "command": "kill 1234",
+      "description": "Send TERM signal (default) to process 1234",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means signal was sent successfully",
+        "elements": [
+          {
+            "element": "1234",
+            "meaning": "Process ID (PID) - found using ps or pgrep",
+            "breakdown": {
+              "default": "Sends TERM signal (15) - requests graceful termination",
+              "behavior": "Process receives signal and can clean up before exiting",
+              "polite": "Allows process to save data and close files properly"
+            }
+          }
+        ],
+        "notes": "Default kill sends TERM signal (15) which requests graceful shutdown. Process may refuse if it's stuck."
+      },
+      "use_case": "Terminate a process politely (allows cleanup)"
+    },
+    {
+      "title": "Force kill process",
+      "command": "kill -9 1234",
+      "description": "Force terminate process immediately (cannot be ignored)",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means signal was sent successfully",
+        "elements": [
+          {
+            "element": "-9",
+            "meaning": "KILL signal (signal 9) - cannot be ignored",
+            "breakdown": {
+              "signal": "KILL (9) forces immediate termination",
+              "behavior": "Process is killed immediately without cleanup",
+              "warning": "Use only when normal kill doesn't work - no cleanup possible"
+            }
+          }
+        ],
+        "notes": "Use kill -9 only as last resort - process cannot clean up, may lose data. Try regular kill first."
+      },
+      "use_case": "Force kill an unresponsive process that won't terminate normally"
+    },
+    {
+      "title": "Restart daemon (SIGHUP)",
+      "command": "kill -HUP 1234",
+      "description": "Send HUP signal to reload configuration",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means signal was sent successfully",
+        "elements": [
+          {
+            "element": "-HUP",
+            "meaning": "Hang Up signal - often used to reload configuration",
+            "breakdown": {
+              "common_use": "Many daemons use HUP to reload config files",
+              "behavior": "Process typically re-reads configuration and continues running",
+              "example": "Web servers often reload config on HUP without stopping"
+            }
+          }
+        ],
+        "notes": "Common for system services - sends HUP signal which many daemons interpret as 'reload configuration'"
+      },
+      "use_case": "Reload configuration of a running daemon service"
+    },
+    {
+      "title": "List all signals",
+      "command": "kill -l",
+      "description": "Display all available signals and their numbers",
+      "output": " 1) SIGHUP   2) SIGINT   3) SIGQUIT  4) SIGILL   5) SIGTRAP\n 6) SIGABRT  7) SIGBUS   8) SIGFPE   9) SIGKILL 10) SIGUSR1\n11) SIGSEGV 12) SIGUSR2 13) SIGPIPE 14) SIGALRM 15) SIGTERM\n16) SIGSTKFLT   17) SIGCHLD   18) SIGCONT   19) SIGSTOP   20) SIGTSTP",
+      "output_explanation": {
+        "format": "Numbered list of all available signals",
+        "elements": [
+          {
+            "element": "9) SIGKILL",
+            "meaning": "Signal number 9 is KILL signal",
+            "breakdown": {
+              "format": "number) SIGNAL_NAME",
+              "common": "Common signals: 1=HUP, 9=KILL, 15=TERM",
+              "usage": "Use number or name: kill -9 or kill -KILL (same thing)"
+            }
+          }
+        ],
+        "notes": "Shows all signals. Common ones: TERM (15) for graceful termination, KILL (9) for force kill, HUP (1) for reload"
+      },
+      "use_case": "See all available signals and their numbers"
+    },
+    {
+      "title": "Kill multiple processes",
+      "command": "kill 1234 5678 9012",
+      "description": "Send TERM signal to multiple processes",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means signals were sent successfully",
+        "elements": [
+          {
+            "element": "Multiple PIDs",
+            "meaning": "Can specify multiple process IDs",
+            "breakdown": {
+              "behavior": "Sends signal to each specified PID",
+              "useful": "Terminate multiple related processes at once"
+            }
+          }
+        ],
+        "notes": "You can kill multiple processes by providing multiple PIDs separated by spaces"
+      },
+      "use_case": "Terminate multiple processes at once"
+    },
+    {
+      "title": "Error: Permission denied",
+      "command": "kill 1234",
+      "description": "Attempting to kill a process owned by another user",
+      "output": "kill: (1234) - Operation not permitted",
+      "output_explanation": {
+        "format": "Error message when you lack permission",
+        "elements": [
+          {
+            "element": "kill: (1234) - Operation not permitted",
+            "meaning": "You don't have permission to kill this process",
+            "breakdown": {
+              "reason": "Process belongs to another user or is a system process",
+              "solution": "Use sudo to kill other users' processes, or only kill your own processes"
+            }
+          }
+        ],
+        "notes": "You can only kill your own processes. Use sudo kill for system processes or other users' processes."
+      },
+      "use_case": "Understanding error messages when kill fails"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "kill always kills processes",
+      "misconception": "kill always terminates processes immediately",
+      "reality": "kill sends signals. The default TERM signal requests graceful shutdown, which processes can ignore or handle. Only KILL (-9) forces immediate termination.",
+      "tip": "kill (default) = polite request to terminate. kill -9 = force kill (cannot be ignored)."
+    },
+    {
+      "title": "kill works on process names",
+      "misconception": "kill can kill processes by name like kill firefox",
+      "reality": "kill requires process ID (PID), not name. Use killall firefox or pkill firefox to kill by name, or find PID first with ps aux | grep firefox.",
+      "tip": "kill needs PID. Use killall or pkill for name-based killing, or ps | grep to find PID first."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Killing wrong process",
+      "description": "Mistyping PID and killing wrong process",
+      "solution": "Always verify PID with ps first. Use ps aux | grep processname to find correct PID. Double-check before killing."
+    },
+    {
+      "issue": "Using kill -9 first",
+      "description": "Using force kill (-9) before trying normal kill",
+      "solution": "Always try normal kill first (kill PID). Only use kill -9 if normal kill doesn't work. Force kill prevents cleanup and may cause data loss."
+    },
+    {
+      "issue": "Killing system processes",
+      "description": "Accidentally killing system processes",
+      "solution": "Be careful with system PIDs (low numbers). Check what process is before killing. Use killall/pkill with caution."
+    },
+    {
+      "issue": "Not finding PID correctly",
+      "description": "Using wrong PID or PID that no longer exists",
+      "solution": "Use ps aux | grep processname to find PID. The PID is in the second column. Verify it's the correct process."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ps",
+      "relationship": "Lists processes; use ps to find PID for kill",
+      "description": "Find process IDs before using kill"
+    },
+    {
+      "command": "pgrep",
+      "relationship": "Find processes by name; returns PIDs for kill",
+      "description": "Find PIDs by process name: kill $(pgrep firefox)"
+    },
+    {
+      "command": "killall",
+      "relationship": "Kill by name; kill needs PID, killall uses name",
+      "description": "Kill processes by name instead of PID"
+    },
+    {
+      "command": "pkill",
+      "relationship": "Kill by name; similar to killall",
+      "description": "Kill processes by name using pattern matching"
+    },
+    {
+      "command": "top",
+      "relationship": "Monitor processes; find PID in top, then kill",
+      "description": "Interactive process monitor - can also kill processes (press 'k' in top)"
+    }
+  ],
+  "best_practices": [
+    "Always verify PID with ps before killing: ps aux | grep processname",
+    "Try normal kill first (kill PID), only use kill -9 if it doesn't work",
+    "Use kill -l to see all available signals",
+    "Use killall or pkill for name-based killing instead of finding PID",
+    "Only kill your own processes unless you have sudo",
+    "Be careful with system processes - verify what you're killing",
+    "Use kill -HUP to reload daemon configuration instead of kill/restart"
+  ],
+  "performance_tips": [
+    "kill is instant - signals are sent immediately",
+    "Use killall/pkill for faster name-based process management",
+    "Combining with pgrep: kill $(pgrep firefox) to kill by name via PID"
+  ],
+  "additional_notes": {
+    "signals": "kill sends signals, not direct termination. Default TERM (15) requests shutdown, KILL (9) forces it.",
+    "pid_requirement": "kill requires process ID (PID). Use ps, pgrep, or top to find PIDs, or use killall/pkill for name-based killing.",
+    "signal_names": "Signals can be specified by number (-9) or name (-KILL). Both are equivalent.",
+    "permissions": "You can only kill your own processes. Use sudo for system processes or other users' processes.",
+    "common_signals": "TERM (15) = graceful termination, KILL (9) = force kill, HUP (1) = reload config, INT (2) = interrupt (Ctrl+C)"
+  }
+}
+

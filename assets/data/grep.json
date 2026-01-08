@@ -1,0 +1,377 @@
+{
+  "metadata": {
+    "name": "grep",
+    "displayName": "grep - Search text patterns in files",
+    "category": "Text Processing",
+    "tags": ["search", "text", "pattern", "filter", "basic"],
+    "description": "Search for patterns in files using regular expressions",
+    "popularity": 10,
+    "difficulty": "intermediate",
+    "version": "GNU grep 3.7+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "grep is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "grep (global regular expression print) searches for patterns in files or input streams. It's one of the most powerful and commonly used text processing tools, capable of finding lines matching regular expressions. It's essential for log analysis, code searching, and text filtering.",
+    "when_to_use": [
+      "Search for specific text in files",
+      "Find lines matching patterns",
+      "Filter command output",
+      "Search in multiple files",
+      "Analyze log files",
+      "Extract specific information from text"
+    ]
+  },
+  "syntax": {
+    "basic": "grep [OPTIONS] PATTERN [FILE...]",
+    "description": "Search for PATTERN in FILE(s). If no files are specified, grep reads from standard input. PATTERN can be a simple string or a regular expression.",
+    "examples": [
+      "grep pattern file.txt",
+      "grep -r pattern directory/",
+      "grep -i pattern file.txt",
+      "grep -n pattern file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-i, --ignore-case",
+      "short": "-i",
+      "long": "--ignore-case",
+      "description": "Ignore case distinctions in patterns and input",
+      "category": "matching",
+      "example": "grep -i error log.txt",
+      "use_case": "Search case-insensitively (finds 'error', 'Error', 'ERROR')"
+    },
+    {
+      "flag": "-n, --line-number",
+      "short": "-n",
+      "long": "--line-number",
+      "description": "Print line number with output lines",
+      "category": "display",
+      "example": "grep -n pattern file.txt",
+      "use_case": "Show line numbers where matches occur"
+    },
+    {
+      "flag": "-r, -R, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Search directories recursively",
+      "category": "search",
+      "example": "grep -r pattern directory/",
+      "use_case": "Search for pattern in all files within a directory tree"
+    },
+    {
+      "flag": "-v, --invert-match",
+      "short": "-v",
+      "long": "--invert-match",
+      "description": "Select non-matching lines",
+      "category": "matching",
+      "example": "grep -v pattern file.txt",
+      "use_case": "Show lines that DON'T match the pattern (inverse search)"
+    },
+    {
+      "flag": "-c, --count",
+      "short": "-c",
+      "long": "--count",
+      "description": "Print only count of matching lines",
+      "category": "display",
+      "example": "grep -c pattern file.txt",
+      "use_case": "Count how many lines match instead of showing the lines"
+    },
+    {
+      "flag": "-l, --files-with-matches",
+      "short": "-l",
+      "long": "--files-with-matches",
+      "description": "Print only names of files with matches",
+      "category": "display",
+      "example": "grep -l pattern *.txt",
+      "use_case": "Find which files contain the pattern (without showing matching lines)"
+    },
+    {
+      "flag": "-w, --word-regexp",
+      "short": "-w",
+      "long": "--word-regexp",
+      "description": "Match only whole words",
+      "category": "matching",
+      "example": "grep -w error file.txt",
+      "use_case": "Find 'error' but not 'errors' or 'terror' (whole word match only)"
+    },
+    {
+      "flag": "-E, --extended-regexp",
+      "short": "-E",
+      "long": "--extended-regexp",
+      "description": "Use extended regular expressions",
+      "category": "matching",
+      "example": "grep -E 'error|warning' file.txt",
+      "use_case": "Use advanced regex patterns (| for OR, + for one or more, etc.)"
+    },
+    {
+      "flag": "--color",
+      "short": null,
+      "long": "--color",
+      "description": "Highlight matching text (usually auto-enabled)",
+      "category": "display",
+      "example": "grep --color=always pattern file.txt",
+      "use_case": "Always show colored output even when piping (default is auto)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic search",
+      "command": "grep error log.txt",
+      "description": "Find all lines containing 'error' in a file",
+      "output": "2024-01-15 10:30:45 ERROR: Connection failed\n2024-01-15 11:15:22 error in processing\n2024-01-15 12:00:01 ERROR: Timeout occurred",
+      "output_explanation": {
+        "format": "Lines matching the pattern displayed one per line",
+        "elements": [
+          {
+            "element": "Matching lines",
+            "meaning": "Only lines containing the search pattern are shown",
+            "breakdown": {
+              "highlighting": "Matching text is usually highlighted in color (if terminal supports)",
+              "context": "Shows full lines that contain the pattern"
+            }
+          }
+        ],
+        "notes": "grep is case-sensitive by default. Use -i for case-insensitive search."
+      },
+      "use_case": "Find specific text in a file quickly"
+    },
+    {
+      "title": "Case-insensitive search",
+      "command": "grep -i error log.txt",
+      "description": "Find 'error' regardless of case",
+      "output": "2024-01-15 10:30:45 ERROR: Connection failed\n2024-01-15 11:15:22 error in processing\n2024-01-15 12:00:01 Error handling failed",
+      "output_explanation": {
+        "format": "Matches 'error', 'Error', 'ERROR', etc.",
+        "elements": [
+          {
+            "element": "-i flag",
+            "meaning": "Ignores case differences in both pattern and input"
+          }
+        ],
+        "notes": "Useful when you're not sure about capitalization of the search term"
+      },
+      "use_case": "Search when case might vary"
+    },
+    {
+      "title": "Search with line numbers",
+      "command": "grep -n error log.txt",
+      "description": "Show line numbers with matches",
+      "output": "45:2024-01-15 10:30:45 ERROR: Connection failed\n128:2024-01-15 11:15:22 error in processing\n245:2024-01-15 12:00:01 ERROR: Timeout occurred",
+      "output_explanation": {
+        "format": "Line number: matching line content",
+        "elements": [
+          {
+            "element": "45:",
+            "meaning": "Line number where the match was found",
+            "breakdown": {
+              "format": "line_number:line_content",
+              "useful": "Helps you locate matches in the file quickly"
+            }
+          }
+        ],
+        "notes": "Essential for finding matches in large files - use with an editor to jump to that line"
+      },
+      "use_case": "Find matches and know exactly where they are in the file"
+    },
+    {
+      "title": "Recursive search",
+      "command": "grep -r pattern project/",
+      "description": "Search in all files within a directory tree",
+      "output": "project/src/main.c:15:  printf(\"pattern found\");\nproject/include/utils.h:42:  #define PATTERN_SIZE 1024\nproject/tests/test.c:8:  test_pattern();",
+      "output_explanation": {
+        "format": "filename:line_content for each match",
+        "elements": [
+          {
+            "element": "project/src/main.c:15:",
+            "meaning": "File path followed by line number and matching line",
+            "breakdown": {
+              "format": "file_path:line_number:line_content",
+              "recursive": "Searches all files in directory and subdirectories"
+            }
+          }
+        ],
+        "notes": "Useful for searching codebases or log directories. Combine with -l to see only file names."
+      },
+      "use_case": "Search across multiple files in a directory tree"
+    },
+    {
+      "title": "Inverse match",
+      "command": "grep -v error log.txt",
+      "description": "Show lines that DON'T contain the pattern",
+      "output": "2024-01-15 10:25:30 INFO: System started\n2024-01-15 10:29:12 INFO: User logged in\n2024-01-15 11:20:05 WARNING: Low memory",
+      "output_explanation": {
+        "format": "All lines except those matching the pattern",
+        "elements": [
+          {
+            "element": "-v flag",
+            "meaning": "Inverts the match - shows lines that DON'T match",
+            "breakdown": {
+              "behavior": "Filters out matching lines, shows everything else",
+              "useful": "Great for filtering out unwanted lines from output"
+            }
+          }
+        ],
+        "notes": "Useful for filtering logs to exclude errors, or removing specific patterns from output"
+      },
+      "use_case": "Exclude certain lines from output (filter out errors, comments, etc.)"
+    },
+    {
+      "title": "Count matches",
+      "command": "grep -c error log.txt",
+      "description": "Count how many lines match",
+      "output": "42",
+      "output_explanation": {
+        "format": "Just the number of matching lines",
+        "elements": [
+          {
+            "element": "42",
+            "meaning": "Number of lines containing the pattern",
+            "breakdown": {
+              "behavior": "Doesn't show the lines, just the count",
+              "useful": "Quick way to know how many occurrences exist"
+            }
+          }
+        ],
+        "notes": "Faster than grepping and counting manually - useful for statistics"
+      },
+      "use_case": "Count occurrences without seeing all the matches"
+    },
+    {
+      "title": "Whole word match",
+      "command": "grep -w error file.txt",
+      "description": "Match only complete words",
+      "output": "Found an error in the system",
+      "output_explanation": {
+        "format": "Only matches when pattern is a complete word",
+        "elements": [
+          {
+            "element": "-w flag",
+            "meaning": "Matches only whole words, not partial words",
+            "breakdown": {
+              "example": "grep 'error' matches 'error' and 'terror'",
+              "with_-w": "grep -w 'error' matches only 'error' (not 'terror' or 'errors')"
+            }
+          }
+        ],
+        "notes": "Prevents partial matches - 'error' won't match 'errors', 'terror', etc."
+      },
+      "use_case": "Find exact word matches, avoiding partial matches"
+    },
+    {
+      "title": "Extended regex (OR pattern)",
+      "command": "grep -E 'error|warning|critical' log.txt",
+      "description": "Search for multiple patterns (error OR warning OR critical)",
+      "output": "2024-01-15 10:30:45 ERROR: Connection failed\n2024-01-15 11:15:22 WARNING: Low memory\n2024-01-15 12:00:01 CRITICAL: System down",
+      "output_explanation": {
+        "format": "Lines matching any of the patterns",
+        "elements": [
+          {
+            "element": "-E flag",
+            "meaning": "Enables extended regular expressions",
+            "breakdown": {
+              "|": "OR operator - matches if any pattern matches",
+              "other": "Also enables + (one or more), ? (optional), {} (repetition)"
+            }
+          }
+        ],
+        "notes": "Useful for searching multiple variations of a term. Alternative: grep 'error\\|warning' (without -E, need escaped |)"
+      },
+      "use_case": "Search for multiple different patterns at once"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "grep only works with files",
+      "misconception": "grep can only search in files",
+      "reality": "grep can search in files, but also reads from standard input. You can pipe output to grep: ps aux | grep firefox",
+      "tip": "grep works great with pipes - many commands pipe to grep for filtering: ls -la | grep txt"
+    },
+    {
+      "title": "grep is case-sensitive only",
+      "misconception": "grep always requires exact case matching",
+      "reality": "By default grep is case-sensitive, but use -i flag for case-insensitive searches. This is often needed.",
+      "tip": "Always consider using -i when searching user-generated content or logs where capitalization may vary"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not escaping special characters in patterns",
+      "description": "Special regex characters like . * + need escaping when searching for literal characters",
+      "solution": "Use -F for fixed strings (no regex), or escape special characters: grep '\\+.*' (to search for literal + and .)"
+    },
+    {
+      "issue": "Searching in binary files",
+      "description": "grep can match binary content and show garbled output",
+      "solution": "Use grep -I to skip binary files, or --text to force text mode. Check file type first with file command."
+    },
+    {
+      "issue": "Recursive search being too slow",
+      "description": "grep -r can be slow on large directory trees",
+      "solution": "Use --exclude-dir to skip directories (like .git, node_modules). Or use find with -exec grep for more control."
+    },
+    {
+      "issue": "Not using word boundaries for exact matches",
+      "description": "Searching 'error' matches 'terror', 'errors', etc.",
+      "solution": "Use -w for whole word matches, or use regex word boundaries: grep '\\berror\\b'"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "find",
+      "relationship": "Find files; grep searches within files",
+      "description": "Find files by name, then use grep to search within them"
+    },
+    {
+      "command": "sed",
+      "relationship": "Text editing; grep finds, sed edits",
+      "description": "Search and replace text (more powerful than grep for editing)"
+    },
+    {
+      "command": "awk",
+      "relationship": "Text processing; grep filters, awk processes",
+      "description": "Advanced text processing (can do what grep does and more)"
+    },
+    {
+      "command": "rgrep",
+      "relationship": "Recursive grep; similar to grep -r",
+      "description": "Recursive grep (some systems have this as alias for grep -r)"
+    },
+    {
+      "command": "ag",
+      "relationship": "Advanced grep; faster alternative to grep -r",
+      "description": "The Silver Searcher - faster recursive grep (requires installation)"
+    }
+  ],
+  "best_practices": [
+    "Use -i for case-insensitive searches when case might vary",
+    "Use -n to show line numbers - essential for large files",
+    "Use -r for recursive searches in directories",
+    "Use -w for whole word matches to avoid partial matches",
+    "Use -E for extended regex when using OR (|) or other advanced patterns",
+    "Use -l to find which files contain matches (faster than showing all matches)",
+    "Use -c to count matches instead of displaying them",
+    "Use -v to filter out unwanted lines",
+    "Combine with pipes: ps aux | grep firefox",
+    "Use --exclude-dir to skip directories in recursive searches"
+  ],
+  "performance_tips": [
+    "grep is very fast for text search",
+    "Use --exclude-dir for recursive searches to skip large directories (.git, node_modules)",
+    "Use -F for fixed strings (no regex) - faster than regex matching",
+    "For very large files, grep might be slower - consider splitting files first",
+    "Use grep -l first to find files, then grep specific files if needed"
+  ],
+  "additional_notes": {
+    "regex_support": "grep supports regular expressions - use -E for extended regex, or -P for Perl-compatible regex (if available)",
+    "piping": "grep works great with pipes - many commands pipe output to grep for filtering",
+    "binary_files": "Be careful with binary files - use -I to skip them or --text to force text mode",
+    "color_output": "grep usually highlights matches in color (if terminal supports). Use --color=always for pipes, --color=never to disable",
+    "fixed_strings": "Use -F or fgrep for fixed string search (no regex interpretation) - faster and safer for literal strings"
+  }
+}
+

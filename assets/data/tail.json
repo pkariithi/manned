@@ -1,0 +1,260 @@
+{
+  "metadata": {
+    "name": "tail",
+    "displayName": "tail - Display end of files",
+    "category": "File & Directory Operations",
+    "tags": ["files", "view", "logs", "monitoring"],
+    "description": "Display last lines of files",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "tail is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "tail displays the last lines of files. It's essential for monitoring log files, viewing recent entries, and checking the end of large files. The -f option follows file changes in real-time, making it perfect for log monitoring.",
+    "when_to_use": [
+      "View end of log files",
+      "Monitor log files in real-time",
+      "Check last lines of large files",
+      "See recent file entries",
+      "Debug by viewing recent output",
+      "Monitor application logs"
+    ]
+  },
+  "syntax": {
+    "basic": "tail [OPTIONS] FILE...",
+    "description": "Display last lines of FILE(s). Default shows last 10 lines. Multiple files can be specified.",
+    "examples": [
+      "tail file.txt",
+      "tail -n 20 file.txt",
+      "tail -f log.txt",
+      "tail -f /var/log/syslog"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --lines",
+      "short": "-n",
+      "long": "--lines",
+      "description": "Number of lines to display",
+      "category": "display",
+      "example": "tail -n 50 file.txt",
+      "use_case": "Show last 50 lines instead of default 10"
+    },
+    {
+      "flag": "-f, --follow",
+      "short": "-f",
+      "long": "--follow",
+      "description": "Follow file and display new lines as they're added",
+      "category": "monitoring",
+      "example": "tail -f log.txt",
+      "use_case": "Monitor log file in real-time (press Ctrl+C to stop)"
+    },
+    {
+      "flag": "-F, --follow=name --retry",
+      "short": "-F",
+      "long": "--follow=name",
+      "description": "Follow file by name (reopens if file rotates)",
+      "category": "monitoring",
+      "example": "tail -F log.txt",
+      "use_case": "Follow log file even if it's rotated/renamed"
+    },
+    {
+      "flag": "-c, --bytes",
+      "short": "-c",
+      "long": "--bytes",
+      "description": "Display last N bytes instead of lines",
+      "category": "display",
+      "example": "tail -c 100 file.txt",
+      "use_case": "Show last 100 bytes of file"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View last 10 lines",
+      "command": "tail file.txt",
+      "description": "Display last 10 lines of file (default)",
+      "output": "Line 91\nLine 92\nLine 93\nLine 94\nLine 95\nLine 96\nLine 97\nLine 98\nLine 99\nLine 100",
+      "output_explanation": {
+        "format": "Last 10 lines of file displayed",
+        "elements": [
+          {
+            "element": "Last 10 lines",
+            "meaning": "Default behavior - shows last 10 lines",
+            "breakdown": {
+              "default": "Shows last 10 lines if no -n specified",
+              "useful": "Perfect for checking end of files quickly",
+              "common": "Most common use case"
+            }
+          }
+        ],
+        "notes": "Default shows last 10 lines. Use -n to change number of lines."
+      },
+      "use_case": "Quickly check the end of a file"
+    },
+    {
+      "title": "View last N lines",
+      "command": "tail -n 50 log.txt",
+      "description": "Display last 50 lines of log file",
+      "output": "(last 50 lines of log.txt)",
+      "output_explanation": {
+        "format": "Last N lines displayed",
+        "elements": [
+          {
+            "element": "-n 50",
+            "meaning": "Show last 50 lines",
+            "breakdown": {
+              "flexible": "Can specify any number of lines",
+              "useful": "See more context from log files",
+              "common": "Common for log analysis"
+            }
+          }
+        ],
+        "notes": "Use -n to specify exact number of lines. Useful for log files where you need more context."
+      },
+      "use_case": "View more lines from end of file (logs, large files)"
+    },
+    {
+      "title": "Follow log file in real-time",
+      "command": "tail -f /var/log/syslog",
+      "description": "Monitor log file as new entries are added",
+      "output": "(displays new log entries as they appear, updates continuously)",
+      "output_explanation": {
+        "format": "Real-time log monitoring",
+        "elements": [
+          {
+            "element": "-f flag",
+            "meaning": "Follow file - shows new lines as they're added",
+            "breakdown": {
+              "behavior": "Displays existing lines, then shows new lines as file grows",
+              "interactive": "Runs continuously until Ctrl+C",
+              "useful": "Perfect for monitoring application logs, system logs",
+              "common": "Very common for debugging and monitoring"
+            }
+          }
+        ],
+        "notes": "Shows file contents and updates in real-time as new lines are added. Press Ctrl+C to stop. Essential for log monitoring."
+      },
+      "use_case": "Monitor log files in real-time (debugging, system monitoring)"
+    },
+    {
+      "title": "Follow with file rotation support",
+      "command": "tail -F application.log",
+      "description": "Follow file even if it's rotated or renamed",
+      "output": "(continues following even after log rotation)",
+      "output_explanation": {
+        "format": "Follows file by name, not file descriptor",
+        "elements": [
+          {
+            "element": "-F flag",
+            "meaning": "Follow by name - reopens if file rotates",
+            "breakdown": {
+              "vs_-f": "Unlike -f, -F reopens file if it's rotated/renamed",
+              "useful": "Log rotation is common - old log renamed, new log created",
+              "behavior": "Automatically switches to new file after rotation"
+            }
+          }
+        ],
+        "notes": "Use -F instead of -f for log files that rotate. Automatically follows new file after rotation."
+      },
+      "use_case": "Monitor rotating log files (production systems)"
+    },
+    {
+      "title": "View multiple files",
+      "command": "tail log1.txt log2.txt log3.txt",
+      "description": "Display last lines from multiple files",
+      "output": "==> log1.txt <==\n(last 10 lines)\n\n==> log2.txt <==\n(last 10 lines)\n\n==> log3.txt <==\n(last 10 lines)",
+      "output_explanation": {
+        "format": "Each file shown with header",
+        "elements": [
+          {
+            "element": "==> filename <==",
+            "meaning": "Header showing which file's content follows",
+            "breakdown": {
+              "format": "File header, then content, then next file",
+              "useful": "Compare end of multiple log files",
+              "common": "Useful for multi-service monitoring"
+            }
+          }
+        ],
+        "notes": "Shows last lines from each file with clear headers. Useful for comparing multiple log files."
+      },
+      "use_case": "View end of multiple files at once"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "tail shows beginning of file",
+      "misconception": "tail displays the start of files",
+      "reality": "tail shows the END of files. Use head to see the beginning. tail is perfect for logs where recent entries are at the end.",
+      "tip": "tail = end of file, head = beginning of file. tail is most useful for logs."
+    },
+    {
+      "title": "tail -f requires file to exist",
+      "misconception": "tail -f only works on existing files",
+      "reality": "tail -f can follow files that don't exist yet - it will wait and display content when file is created. Useful for monitoring new log files.",
+      "tip": "tail -f works on non-existent files - it waits for file creation."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using tail on binary files",
+      "description": "tail on binary files shows garbled output",
+      "solution": "tail works best on text files. For binary files, use appropriate tools or hexdump."
+    },
+    {
+      "issue": "Forgetting Ctrl+C to stop -f",
+      "description": "tail -f runs continuously and doesn't stop",
+      "solution": "Press Ctrl+C to stop tail -f. It runs until interrupted."
+    },
+    {
+      "issue": "Using -f instead of -F for rotating logs",
+      "description": "tail -f stops following after log rotation",
+      "solution": "Use tail -F for log files that rotate. -F reopens file after rotation."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "head",
+      "relationship": "View beginning; tail shows end, head shows beginning",
+      "description": "Display first lines of files (opposite of tail)"
+    },
+    {
+      "command": "less",
+      "relationship": "View files; tail for end, less for full file",
+      "description": "View entire files with scrolling (more powerful than tail)"
+    },
+    {
+      "command": "cat",
+      "relationship": "View files; tail for end, cat for all",
+      "description": "Display entire file contents (use tail for large files)"
+    }
+  ],
+  "best_practices": [
+    "Use tail -f for real-time log monitoring",
+    "Use tail -F for log files that rotate",
+    "Use -n to specify number of lines (default is 10)",
+    "Combine with grep: tail -f log.txt | grep error",
+    "Use tail for large files instead of cat",
+    "Press Ctrl+C to stop tail -f",
+    "Use tail for log files where recent entries matter most"
+  ],
+  "performance_tips": [
+    "tail is very fast - only reads end of file",
+    "tail -f has minimal overhead for log monitoring",
+    "Much faster than cat for large files (only reads last N lines)",
+    "Use tail instead of cat for log files"
+  ],
+  "additional_notes": {
+    "default_lines": "Default shows last 10 lines. Use -n to change.",
+    "follow_mode": "tail -f is essential for log monitoring - shows new entries as they appear",
+    "log_rotation": "Use -F instead of -f for log files that rotate (common in production)",
+    "multiple_files": "Can specify multiple files - each shown with header",
+    "common_pattern": "Very common pattern: tail -f /var/log/syslog for system monitoring, tail -f application.log for app logs"
+  }
+}
+

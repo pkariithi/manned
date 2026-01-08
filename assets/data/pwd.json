@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "name": "pwd",
+    "displayName": "pwd - Print working directory",
+    "category": "File & Directory Operations",
+    "tags": ["directory", "navigation", "filesystem", "basic"],
+    "description": "Display the current working directory path",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "pwd is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "pwd (print working directory) displays the absolute path of the current working directory. It's essential for knowing where you are in the filesystem, especially after navigating with cd or in scripts where you need to know the current location.",
+    "when_to_use": [
+      "Check your current directory location",
+      "Verify where you are after using cd",
+      "Use in scripts to determine current path",
+      "See absolute path of your current location",
+      "Confirm you're in the right directory",
+      "Display current directory for documentation or logging"
+    ]
+  },
+  "syntax": {
+    "basic": "pwd [OPTIONS]",
+    "description": "Display the absolute path of the current working directory. Without options, it shows the logical path (after following symlinks).",
+    "examples": [
+      "pwd",
+      "pwd -P",
+      "pwd -L"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-L, --logical",
+      "short": "-L",
+      "long": "--logical",
+      "description": "Print logical path (follow symlinks - default behavior)",
+      "category": "format",
+      "example": "pwd -L",
+      "use_case": "Show the logical path as you navigated it (default)"
+    },
+    {
+      "flag": "-P, --physical",
+      "short": "-P",
+      "long": "--physical",
+      "description": "Print physical path (resolve all symlinks)",
+      "category": "format",
+      "example": "pwd -P",
+      "use_case": "Show the actual physical path after resolving all symbolic links"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic usage",
+      "command": "pwd",
+      "description": "Display the current working directory",
+      "output": "/home/user/Documents",
+      "output_explanation": {
+        "format": "Absolute path from root to current directory",
+        "elements": [
+          {
+            "element": "/home/user/Documents",
+            "meaning": "Full absolute path to current directory",
+            "breakdown": {
+              "/": "Root directory",
+              "home": "Home directory for all users",
+              "user": "Specific user's home folder",
+              "Documents": "Documents subdirectory - your current location"
+            }
+          }
+        ],
+        "notes": "pwd always shows absolute paths starting from root (/). Use this to know exactly where you are."
+      },
+      "use_case": "Quickly check your current location in the filesystem"
+    },
+    {
+      "title": "Physical path (resolve symlinks)",
+      "command": "pwd -P",
+      "description": "Show physical path after resolving all symbolic links",
+      "output": "/home/user/actual/documents",
+      "output_explanation": {
+        "format": "Physical path after resolving symlinks",
+        "elements": [
+          {
+            "element": "/home/user/actual/documents",
+            "meaning": "Actual physical directory path",
+            "breakdown": {
+              "-P": "Physical option resolves symlinks",
+              "difference": "If Documents is a symlink, -P shows where it actually points"
+            }
+          }
+        ],
+        "notes": "Use -P when you want the actual physical location, not the symlink path"
+      },
+      "use_case": "See the actual physical location when inside a symlinked directory"
+    },
+    {
+      "title": "Logical path (default)",
+      "command": "pwd -L",
+      "description": "Show logical path (default behavior, following symlinks)",
+      "output": "/home/user/Documents",
+      "output_explanation": {
+        "format": "Logical path as navigated",
+        "elements": [
+          {
+            "element": "/home/user/Documents",
+            "meaning": "Path as you navigated it, including symlinks",
+            "breakdown": {
+              "-L": "Logical option (default)",
+              "behavior": "Shows path including symlinks as you see them"
+            }
+          }
+        ],
+        "notes": "This is the default behavior - shows the path you see, even if it's a symlink"
+      },
+      "use_case": "See the logical path including symlinks (default behavior)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "pwd shows relative paths",
+      "misconception": "pwd might show a relative path based on where you started",
+      "reality": "pwd always shows the absolute path starting from root (/). It never shows relative paths.",
+      "tip": "pwd always returns absolute paths starting with /"
+    },
+    {
+      "title": "pwd changes the directory",
+      "misconception": "pwd navigates to a directory",
+      "reality": "pwd only displays your current location - it doesn't change directories. Use cd to change directories.",
+      "tip": "pwd is read-only - it only shows where you are, not where you're going"
+    },
+    {
+      "title": "pwd shows tilde for home directory",
+      "misconception": "pwd might show ~ for home directory",
+      "reality": "pwd always shows the full absolute path. Even if you're in your home directory, it shows /home/username, not ~",
+      "tip": "pwd expands ~ and shows full paths, never shortcuts"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Confusing logical vs physical paths",
+      "description": "Not understanding the difference between -L and -P options",
+      "solution": "Use -L (logical, default) to see path as you navigated it. Use -P (physical) to see actual location after resolving symlinks."
+    },
+    {
+      "issue": "Expecting relative paths",
+      "description": "Expecting pwd to show paths relative to a starting point",
+      "solution": "pwd always shows absolute paths from root. Use relative paths in commands if needed (like ../parent)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cd",
+      "relationship": "Changes directory; use pwd after cd to verify location",
+      "description": "Change directory, then use pwd to confirm you're in the right place"
+    },
+    {
+      "command": "ls",
+      "relationship": "Lists directory contents; shows what's in the directory shown by pwd",
+      "description": "List contents of the directory shown by pwd"
+    },
+    {
+      "command": "basename",
+      "relationship": "Extracts filename; use with pwd to get just the directory name",
+      "description": "Get just the directory name: basename $(pwd)"
+    },
+    {
+      "command": "dirname",
+      "relationship": "Extracts directory path; use with pwd to get parent directory",
+      "description": "Get parent directory: dirname $(pwd)"
+    }
+  ],
+  "best_practices": [
+    "Use pwd after cd to verify you're in the expected directory",
+    "Use pwd in scripts to log current location or set variables",
+    "Use -P when you need the actual physical location (not symlink path)",
+    "Combine with basename to get just current directory name: basename $(pwd)",
+    "Use in command substitution: cd $(pwd)/subdirectory",
+    "Check location before important operations in scripts"
+  ],
+  "performance_tips": [
+    "pwd is very fast - it's a simple built-in command",
+    "No performance difference between -L and -P options",
+    "Useful in scripts where you need to know current location quickly"
+  ],
+  "additional_notes": {
+    "always_absolute": "pwd always returns absolute paths starting from root (/)",
+    "symlink_handling": "Default behavior (-L) shows logical path including symlinks. Use -P for physical path after resolving symlinks.",
+    "scripting": "Common in scripts: CURRENT_DIR=$(pwd) to save current location",
+    "prompt_integration": "Shell prompts often include pwd functionality (\\w in PS1 shows current directory)"
+  }
+}
+

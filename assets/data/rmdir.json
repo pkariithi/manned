@@ -1,0 +1,289 @@
+{
+  "metadata": {
+    "name": "rmdir",
+    "displayName": "rmdir - Remove empty directories",
+    "category": "File & Directory Operations",
+    "tags": ["directory", "delete", "remove", "basic"],
+    "description": "Remove empty directories",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "rmdir is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "rmdir (remove directory) deletes empty directories only. Unlike rm -r, rmdir is safer because it only removes directories that are completely empty. This prevents accidental deletion of directories with contents. For non-empty directories, use rm -r instead.",
+    "when_to_use": [
+      "Remove empty directories safely",
+      "Clean up empty directory structures",
+      "Remove directories without risk of deleting files",
+      "Delete empty parent directories recursively",
+      "Ensure directory is truly empty before removal",
+      "Safer alternative to rm -r for empty directories"
+    ]
+  },
+  "syntax": {
+    "basic": "rmdir [OPTIONS] DIRECTORY...",
+    "description": "Remove the specified empty directory(ies). Multiple empty directories can be removed at once. Non-empty directories will cause an error.",
+    "examples": [
+      "rmdir emptydir",
+      "rmdir -p path/to/empty/dir",
+      "rmdir dir1 dir2 dir3",
+      "rmdir -v empty/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-p, --parents",
+      "short": "-p",
+      "long": "--parents",
+      "description": "Remove directory and its empty parent directories",
+      "category": "operation",
+      "example": "rmdir -p path/to/empty/dir",
+      "use_case": "Remove empty directory and all empty parent directories in the path"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show what is being removed",
+      "category": "display",
+      "example": "rmdir -v dir1 dir2",
+      "use_case": "See which directories are being removed - useful for confirmation"
+    },
+    {
+      "flag": "--ignore-fail-on-non-empty",
+      "short": null,
+      "long": "--ignore-fail-on-non-empty",
+      "description": "Ignore errors if directory is not empty",
+      "category": "operation",
+      "example": "rmdir --ignore-fail-on-non-empty dir/",
+      "use_case": "Don't error if directory has contents (rarely used)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Remove a single empty directory",
+      "command": "rmdir emptydir",
+      "description": "Delete an empty directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the empty directory was successfully removed",
+        "elements": [
+          {
+            "element": "emptydir",
+            "meaning": "Empty directory to be removed",
+            "breakdown": {
+              "requirement": "Directory must be completely empty (no files, no subdirectories)",
+              "success": "Directory is removed if empty",
+              "error": "Will error if directory has any contents"
+            }
+          }
+        ],
+        "notes": "rmdir only works on empty directories. Use ls to verify directory is empty first, or use rm -r for non-empty directories."
+      },
+      "use_case": "Remove an empty directory safely"
+    },
+    {
+      "title": "Remove multiple empty directories",
+      "command": "rmdir dir1 dir2 dir3",
+      "description": "Remove multiple empty directories at once",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all empty directories were removed successfully",
+        "elements": [
+          {
+            "element": "dir1 dir2 dir3",
+            "meaning": "Multiple empty directories to remove",
+            "breakdown": {
+              "all_removed": "All three directories are removed if they're all empty",
+              "partial": "If one has contents, that one fails but others succeed",
+              "verification": "Each must be empty for removal"
+            }
+          }
+        ],
+        "notes": "You can remove multiple empty directories in one command. Each must be empty."
+      },
+      "use_case": "Clean up multiple empty directories at once"
+    },
+    {
+      "title": "Remove directory and empty parents",
+      "command": "rmdir -p path/to/empty/dir",
+      "description": "Remove directory and all empty parent directories",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means directory and empty parents were removed",
+        "elements": [
+          {
+            "element": "-p",
+            "meaning": "Parents flag - removes empty parent directories too",
+            "breakdown": {
+              "behavior": "Removes dir/, then to/ (if empty), then path/ (if empty), working backwards",
+              "requirement": "Each parent directory must be empty after removing child",
+              "useful": "Cleans up entire empty directory structure"
+            }
+          },
+          {
+            "element": "path/to/empty/dir",
+            "meaning": "Directory path to remove (and empty parents)"
+          }
+        ],
+        "notes": "The -p flag works backwards - removes the directory, then parent if empty, then grandparent if empty, etc."
+      },
+      "use_case": "Clean up empty directory structure completely"
+    },
+    {
+      "title": "Verbose removal (show progress)",
+      "command": "rmdir -v dir1 dir2",
+      "description": "Remove directories with verbose output",
+      "output": "rmdir: removing directory, 'dir1'\nrmdir: removing directory, 'dir2'",
+      "output_explanation": {
+        "format": "Shows each directory being removed",
+        "elements": [
+          {
+            "element": "rmdir: removing directory, 'dir1'",
+            "meaning": "Confirmation message for each removed directory",
+            "breakdown": {
+              "-v": "Verbose mode shows each removal",
+              "confirmation": "Each directory is listed as it's removed"
+            }
+          }
+        ],
+        "notes": "Use -v to see which directories are being removed, especially with -p flag"
+      },
+      "use_case": "See which directories are being removed for verification"
+    },
+    {
+      "title": "Error: Directory not empty",
+      "command": "rmdir dirwithfiles",
+      "description": "Attempting to remove a directory that contains files",
+      "output": "rmdir: failed to remove 'dirwithfiles': Directory not empty",
+      "output_explanation": {
+        "format": "Error message when directory has contents",
+        "elements": [
+          {
+            "element": "rmdir: failed to remove 'dirwithfiles': Directory not empty",
+            "meaning": "Directory contains files or subdirectories, cannot be removed",
+            "breakdown": {
+              "error": "Directory not empty",
+              "solution": "Use rm -r to remove directory with contents, or delete contents first then rmdir"
+            }
+          }
+        ],
+        "notes": "This is a safety feature - rmdir prevents accidental deletion of directories with files. Use rm -r if you want to remove non-empty directories."
+      },
+      "use_case": "Understanding error messages when directory removal fails"
+    },
+    {
+      "title": "Error: No such file or directory",
+      "command": "rmdir nonexistent",
+      "description": "Attempting to remove a directory that doesn't exist",
+      "output": "rmdir: failed to remove 'nonexistent': No such file or directory",
+      "output_explanation": {
+        "format": "Error message when directory doesn't exist",
+        "elements": {
+          "element": "rmdir: failed to remove 'nonexistent': No such file or directory",
+          "meaning": "Directory doesn't exist or path is incorrect",
+          "breakdown": {
+            "error": "No such file or directory",
+            "solution": "Check path with ls or use correct directory name"
+          }
+        },
+        "notes": "Verify directory exists with ls before trying to remove it"
+      },
+      "use_case": "Understanding error messages when directory doesn't exist"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "rmdir removes directories with contents",
+      "misconception": "rmdir can delete directories that have files in them",
+      "reality": "rmdir only removes empty directories. For directories with contents, use rm -r instead. This is a safety feature.",
+      "tip": "rmdir = remove empty directories only. rm -r = remove directories with contents."
+    },
+    {
+      "title": "rmdir needs -r flag like rm",
+      "misconception": "rmdir requires -r to remove directories",
+      "reality": "rmdir works on directories by default (but only empty ones). It doesn't need -r. The -r flag is for rm, not rmdir.",
+      "tip": "rmdir works on directories directly - no special flags needed, but directory must be empty"
+    },
+    {
+      "title": "rmdir is the same as rm -r",
+      "misconception": "rmdir and rm -r do the same thing",
+      "reality": "rmdir only removes empty directories (safer). rm -r removes directories with all contents (powerful but dangerous).",
+      "tip": "Use rmdir for empty directories (safer). Use rm -r for directories with contents (dangerous)."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Trying to remove non-empty directory",
+      "description": "rmdir fails when directory has files or subdirectories",
+      "solution": "Check if directory is empty with ls first. Use rm -r to remove directories with contents, or delete contents first then use rmdir."
+    },
+    {
+      "issue": "Forgetting -p for parent cleanup",
+      "description": "Not removing empty parent directories",
+      "solution": "Use rmdir -p to remove directory and all empty parents in the path. This cleans up the entire structure."
+    },
+    {
+      "issue": "Hidden files prevent removal",
+      "description": "Directory appears empty but has hidden files (.files)",
+      "solution": "Use ls -a to see hidden files. Remove them first, or use rm -r if you want to remove everything including hidden files."
+    },
+    {
+      "issue": "Permission denied",
+      "description": "Cannot remove directory due to permissions",
+      "solution": "Use sudo if you need to remove system directories, or check permissions with ls -ld. You need write permission on parent directory."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "rm",
+      "relationship": "Removes directories with contents; rmdir only removes empty ones",
+      "description": "Remove directories with contents using rm -r (more powerful but dangerous)"
+    },
+    {
+      "command": "mkdir",
+      "relationship": "Creates directories; rmdir removes them",
+      "description": "Create directories that can later be removed with rmdir"
+    },
+    {
+      "command": "ls",
+      "relationship": "Lists directory contents; use before rmdir to verify directory is empty",
+      "description": "Check if directory is empty before using rmdir"
+    },
+    {
+      "command": "find",
+      "relationship": "Find empty directories; use to locate empty directories for rmdir",
+      "description": "Find empty directories: find . -type d -empty"
+    }
+  ],
+  "best_practices": [
+    "Always verify directory is empty with ls before using rmdir",
+    "Use ls -a to check for hidden files that might prevent removal",
+    "Use -p to remove empty parent directories as well",
+    "Use -v for verbose output to see what's being removed",
+    "Use rmdir instead of rm -r when you want safety (only removes if empty)",
+    "Use rmdir -p to clean up entire empty directory structures",
+    "Check directory exists with ls before removing",
+    "Consider using rmdir in scripts where you want to ensure directory is truly empty before removal"
+  ],
+  "performance_tips": [
+    "rmdir is very fast - removes empty directories instantly",
+    "Removing multiple empty directories at once is efficient",
+    "Using -p is fast for cleaning up empty structures",
+    "rmdir is safer than rm -r because it won't accidentally delete files"
+  ],
+  "additional_notes": {
+    "safety_feature": "rmdir only removes empty directories - this is a safety feature to prevent accidental deletion of files",
+    "empty_requirement": "Directory must be completely empty (no files, no subdirectories, including hidden files)",
+    "hidden_files": "Hidden files (starting with .) will prevent rmdir from working - check with ls -a",
+    "parent_removal": "The -p flag removes empty parent directories recursively, working backwards up the path",
+    "comparison": "rmdir is safer than rm -r because it only works on empty directories. Use rm -r for directories with contents.",
+    "alternatives": "For non-empty directories, use rm -r (dangerous) or delete contents first then rmdir (safer)"
+  }
+}
+

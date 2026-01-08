@@ -1,0 +1,226 @@
+{
+  "metadata": {
+    "name": "zip",
+    "displayName": "zip - Create ZIP archives",
+    "category": "File & Directory Operations",
+    "tags": ["archive", "compress", "zip", "files"],
+    "description": "Create and manage ZIP archive files",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "Info-ZIP 3.0+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "zip is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "zip creates ZIP archive files, compressing and bundling multiple files into a single archive. ZIP is a widely supported format, compatible with Windows, macOS, and Linux. Essential for creating backups, sharing files, and organizing multiple files into single archives.",
+    "when_to_use": [
+      "Create ZIP archives",
+      "Compress multiple files",
+      "Create backups",
+      "Share files",
+      "Organize files into archives",
+      "Compress files for transfer"
+    ]
+  },
+  "syntax": {
+    "basic": "zip [OPTIONS] ARCHIVE.zip FILES...",
+    "description": "Create ARCHIVE.zip containing FILES. Can include multiple files and directories. Use -r for directories.",
+    "examples": [
+      "zip archive.zip file1.txt file2.txt",
+      "zip -r archive.zip directory/",
+      "zip -9 archive.zip files/",
+      "unzip archive.zip"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-r, --recurse-paths",
+      "short": "-r",
+      "long": "--recurse-paths",
+      "description": "Recurse into directories",
+      "category": "operation",
+      "example": "zip -r archive.zip directory/",
+      "use_case": "Include directories and all contents"
+    },
+    {
+      "flag": "-9, --best",
+      "short": "-9",
+      "long": "--best",
+      "description": "Maximum compression",
+      "category": "compression",
+      "example": "zip -9 archive.zip files/",
+      "use_case": "Best compression (slower but smaller files)"
+    },
+    {
+      "flag": "-0, --store",
+      "short": "-0",
+      "long": "--store",
+      "description": "No compression (store only)",
+      "category": "compression",
+      "example": "zip -0 archive.zip files/",
+      "use_case": "Fast archiving without compression"
+    },
+    {
+      "flag": "-x, --exclude",
+      "short": "-x",
+      "long": "--exclude",
+      "description": "Exclude files matching pattern",
+      "category": "filter",
+      "example": "zip -r archive.zip . -x '*.log'",
+      "use_case": "Exclude specific files from archive"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose output",
+      "category": "display",
+      "example": "zip -v archive.zip files/",
+      "use_case": "Show detailed compression information"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create ZIP archive",
+      "command": "zip archive.zip file1.txt file2.txt",
+      "description": "Create archive with multiple files",
+      "output": "  adding: file1.txt (deflated 45%)\n  adding: file2.txt (deflated 52%)",
+      "output_explanation": {
+        "format": "Compression progress",
+        "elements": [
+          {
+            "element": "adding: file1.txt",
+            "meaning": "File being added to archive",
+            "breakdown": {
+              "progress": "Shows each file as it's added"
+            }
+          },
+          {
+            "element": "(deflated 45%)",
+            "meaning": "Compression ratio",
+            "breakdown": {
+              "compression": "Shows how much file was compressed",
+              "percentage": "45% means file is 45% smaller in archive"
+            }
+          }
+        ],
+        "notes": "Shows files being added and compression ratio. Archive created with specified files."
+      },
+      "use_case": "Create ZIP archives with multiple files"
+    },
+    {
+      "title": "Create archive with directory",
+      "command": "zip -r archive.zip directory/",
+      "description": "Include directory and all contents",
+      "output": "(shows all files in directory being added)",
+      "output_explanation": {
+        "format": "Recursive archive creation",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive - includes directory and all contents",
+            "breakdown": {
+              "essential": "Required for directories",
+              "behavior": "Includes all files and subdirectories",
+              "common": "Very common for projects, backups"
+            }
+          }
+        ],
+        "notes": "Creates archive with entire directory. -r is essential for directories. Shows all files being added."
+      },
+      "use_case": "Archive entire directories (projects, backups)"
+    },
+    {
+      "title": "Maximum compression",
+      "command": "zip -9 archive.zip files/",
+      "description": "Create archive with best compression",
+      "output": "(archive created with maximum compression)",
+      "output_explanation": {
+        "format": "Maximum compression",
+        "elements": [
+          {
+            "element": "-9",
+            "meaning": "Maximum compression level",
+            "breakdown": {
+              "levels": "0 = no compression (fast), 9 = best compression (slow)",
+              "tradeoff": "Better compression = smaller file but slower",
+              "useful": "Use for final archives, sharing files"
+            }
+          }
+        ],
+        "notes": "Creates archive with maximum compression. Slower but creates smaller files. Use for final archives."
+      },
+      "use_case": "Create smallest possible archives"
+    },
+    {
+      "title": "Exclude files",
+      "command": "zip -r archive.zip . -x '*.log' -x '*.tmp'",
+      "description": "Create archive excluding certain files",
+      "output": "(archive created without excluded files)",
+      "output_explanation": {
+        "format": "Archive with exclusions",
+        "elements": [
+          {
+            "element": "-x '*.log'",
+            "meaning": "Exclude files matching pattern",
+            "breakdown": {
+              "patterns": "Can use wildcards: *.log, node_modules/, etc.",
+              "useful": "Exclude temporary files, logs, build artifacts",
+              "common": "Very common: zip -r project.zip . -x 'node_modules/*'"
+            }
+          }
+        ],
+        "notes": "Creates archive excluding specified patterns. Very useful for excluding logs, temp files, node_modules, etc."
+      },
+      "use_case": "Create archives excluding specific files (logs, temp files)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "zip and tar are the same",
+      "misconception": "zip and tar work identically",
+      "reality": "zip compresses and archives in one step. tar only archives (use with gzip for compression). zip is more common on Windows, tar on Linux.",
+      "tip": "zip = compress + archive. tar = archive only (use tar.gz for compression). zip is cross-platform, tar is Linux standard."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -r for directories",
+      "description": "zip doesn't include directory contents without -r",
+      "solution": "Always use zip -r for directories. Without -r, only directory name is added, not contents."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "unzip",
+      "relationship": "Extract; zip creates, unzip extracts",
+      "description": "Extract ZIP archives"
+    },
+    {
+      "command": "tar",
+      "relationship": "Archive; tar for Linux standard, zip for cross-platform",
+      "description": "Create archives (Linux standard, use tar.gz for compression)"
+    }
+  ],
+  "best_practices": [
+    "Use zip -r for directories",
+    "Use zip -9 for maximum compression when size matters",
+    "Use zip -x to exclude files (logs, temp files, node_modules)",
+    "Use zip for cross-platform compatibility",
+    "Use tar.gz for Linux-specific archives"
+  ],
+  "performance_tips": [
+    "zip compression speed depends on level (-0 fast, -9 slow)",
+    "Use -0 for fast archiving without compression",
+    "Use -9 for smallest files (slower)"
+  ],
+  "additional_notes": {
+    "compression_levels": "0 = no compression (fast), 9 = best compression (slow). Default is 6.",
+    "vs_tar": "zip = compress + archive, cross-platform. tar = archive only (use tar.gz), Linux standard.",
+    "common_patterns": "Very common: zip archive.zip files (create), zip -r archive.zip dir/ (directory), zip -r project.zip . -x 'node_modules/*' (exclude)"
+  }
+}
+

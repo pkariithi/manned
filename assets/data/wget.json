@@ -1,0 +1,267 @@
+{
+  "metadata": {
+    "name": "wget",
+    "displayName": "wget - Download files from web",
+    "category": "Network & Internet",
+    "tags": ["download", "web", "http", "files"],
+    "description": "Download files from HTTP, HTTPS, and FTP servers",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU Wget 1.21+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "wget is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "wget (web get) downloads files from the internet using HTTP, HTTPS, and FTP protocols. It's a non-interactive downloader - perfect for scripts and automated downloads. wget can resume interrupted downloads, download entire websites, and handle authentication.",
+    "when_to_use": [
+      "Download files from web",
+      "Download software packages",
+      "Mirror websites",
+      "Resume interrupted downloads",
+      "Download files in scripts",
+      "Download from FTP servers"
+    ]
+  },
+  "syntax": {
+    "basic": "wget [OPTIONS] URL",
+    "description": "Download file from URL. wget saves file with original name or specified name.",
+    "examples": [
+      "wget https://example.com/file.zip",
+      "wget -O output.zip https://example.com/file.zip",
+      "wget -c https://example.com/largefile.iso",
+      "wget -r https://example.com"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-O, --output-document",
+      "short": "-O",
+      "long": "--output-document",
+      "description": "Write output to file with specified name",
+      "category": "output",
+      "example": "wget -O myfile.zip https://example.com/file.zip",
+      "use_case": "Save file with custom name instead of original"
+    },
+    {
+      "flag": "-c, --continue",
+      "short": "-c",
+      "long": "--continue",
+      "description": "Resume partial download",
+      "category": "download",
+      "example": "wget -c https://example.com/largefile.iso",
+      "use_case": "Resume interrupted download (very useful for large files)"
+    },
+    {
+      "flag": "-r, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Download recursively (mirror website)",
+      "category": "download",
+      "example": "wget -r https://example.com",
+      "use_case": "Download entire website (use with caution)"
+    },
+    {
+      "flag": "-P, --directory-prefix",
+      "short": "-P",
+      "long": "--directory-prefix",
+      "description": "Save files to specified directory",
+      "category": "output",
+      "example": "wget -P downloads/ https://example.com/file.zip",
+      "use_case": "Download to specific directory"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Quiet mode (minimal output)",
+      "category": "display",
+      "example": "wget -q https://example.com/file.zip",
+      "use_case": "Suppress output (useful in scripts)"
+    },
+    {
+      "flag": "--progress=bar",
+      "short": null,
+      "long": "--progress=bar",
+      "description": "Show progress bar",
+      "category": "display",
+      "example": "wget --progress=bar https://example.com/file.zip",
+      "use_case": "Show download progress bar"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Download file",
+      "command": "wget https://example.com/file.zip",
+      "description": "Download file from URL",
+      "output": "--2024-01-15 10:30:45--  https://example.com/file.zip\nResolving example.com... 93.184.216.34\nConnecting to example.com|93.184.216.34|:443... connected.\nHTTP request sent, awaiting response... 200 OK\nLength: 1048576 (1.0M) [application/zip]\nSaving to: 'file.zip'\n\nfile.zip           100%[===================>]   1.00M  2.50MB/s    in 0.4s\n\n2024-01-15 10:30:45 (2.50 MB/s) - 'file.zip' saved [1048576/1048576]",
+      "output_explanation": {
+        "format": "Download progress and completion",
+        "elements": [
+          {
+            "element": "--2024-01-15 10:30:45--",
+            "meaning": "Timestamp when download started",
+            "breakdown": {
+              "format": "Date and time of download"
+            }
+          },
+          {
+            "element": "Resolving example.com...",
+            "meaning": "DNS lookup to find IP address",
+            "breakdown": {
+              "step": "First step - converts domain name to IP"
+            }
+          },
+          {
+            "element": "Length: 1048576 (1.0M)",
+            "meaning": "File size in bytes and human-readable format",
+            "breakdown": {
+              "useful": "Shows how much data will be downloaded"
+            }
+          },
+          {
+            "element": "100%[===================>]",
+            "meaning": "Progress bar showing download completion",
+            "breakdown": {
+              "visual": "Visual progress indicator"
+            }
+          },
+          {
+            "element": "2.50 MB/s",
+            "meaning": "Download speed",
+            "breakdown": {
+              "useful": "Shows transfer rate"
+            }
+          },
+          {
+            "element": "'file.zip' saved",
+            "meaning": "File successfully downloaded",
+            "breakdown": {
+              "location": "File saved in current directory with original name"
+            }
+          }
+        ],
+        "notes": "Shows download progress with connection info, file size, progress bar, speed, and completion. File saved in current directory."
+      },
+      "use_case": "Download files from web URLs"
+    },
+    {
+      "title": "Download with custom name",
+      "command": "wget -O myfile.zip https://example.com/file.zip",
+      "description": "Download and save with different filename",
+      "output": "(download progress, file saved as myfile.zip)",
+      "output_explanation": {
+        "format": "Download with custom filename",
+        "elements": [
+          {
+            "element": "-O myfile.zip",
+            "meaning": "Save file as myfile.zip instead of original name",
+            "breakdown": {
+              "useful": "Rename file during download",
+              "common": "Useful when original filename is unclear or you want specific name"
+            }
+          }
+        ],
+        "notes": "Downloads file and saves with custom name. Useful for renaming during download."
+      },
+      "use_case": "Download file with custom filename"
+    },
+    {
+      "title": "Resume interrupted download",
+      "command": "wget -c https://example.com/largefile.iso",
+      "description": "Continue downloading from where it stopped",
+      "output": "(resumes download, shows progress from previous point)",
+      "output_explanation": {
+        "format": "Resume download",
+        "elements": [
+          {
+            "element": "-c",
+            "meaning": "Continue/resume partial download",
+            "breakdown": {
+              "behavior": "Checks if file exists, resumes from end if partial",
+              "useful": "Essential for large files that may get interrupted",
+              "time_saver": "Saves time - doesn't restart from beginning"
+            }
+          }
+        ],
+        "notes": "Resumes interrupted download. Very useful for large files. wget checks existing file and continues from where it stopped."
+      },
+      "use_case": "Resume large file downloads that were interrupted"
+    },
+    {
+      "title": "Download to specific directory",
+      "command": "wget -P downloads/ https://example.com/file.zip",
+      "description": "Download file to downloads directory",
+      "output": "(downloads file to downloads/ directory)",
+      "output_explanation": {
+        "format": "Download to specified directory",
+        "elements": [
+          {
+            "element": "-P downloads/",
+            "meaning": "Save file to downloads/ directory",
+            "breakdown": {
+              "useful": "Organize downloads into specific directories",
+              "creates": "Creates directory if it doesn't exist"
+            }
+          }
+        ],
+        "notes": "Downloads file to specified directory. Creates directory if it doesn't exist. Useful for organizing downloads."
+      },
+      "use_case": "Organize downloads into specific directories"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "wget requires interactive input",
+      "misconception": "wget prompts for user input",
+      "reality": "wget is non-interactive - it runs automatically without prompts. Perfect for scripts and automated downloads.",
+      "tip": "wget is non-interactive - great for scripts. Use curl if you need more interactive features."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not using -c for large files",
+      "description": "Restarting download from beginning if interrupted",
+      "solution": "Always use wget -c for large files. It resumes from where it stopped, saving time and bandwidth."
+    },
+    {
+      "issue": "Downloading to wrong location",
+      "description": "File saved in current directory instead of intended location",
+      "solution": "Use -P directory/ to specify download location, or cd to desired directory first."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "curl",
+      "relationship": "Download tool; wget for simple downloads, curl for advanced HTTP",
+      "description": "Transfer data with URLs (more features than wget)"
+    },
+    {
+      "command": "apt",
+      "relationship": "Package download; apt downloads packages, wget downloads files",
+      "description": "Download and install packages (apt uses wget/curl internally)"
+    }
+  ],
+  "best_practices": [
+    "Use wget -c for large files (resume capability)",
+    "Use -O to specify output filename",
+    "Use -P to download to specific directory",
+    "Use -q for quiet mode in scripts",
+    "Use --progress=bar to see download progress",
+    "Verify downloads with checksums when available"
+  ],
+  "performance_tips": [
+    "wget is efficient and fast",
+    "Use -c to resume instead of restarting large downloads",
+    "wget handles redirects and authentication automatically"
+  ],
+  "additional_notes": {
+    "non_interactive": "wget is non-interactive - perfect for scripts and automated downloads",
+    "resume": "Use -c flag to resume interrupted downloads - very useful for large files",
+    "common_patterns": "Common: wget URL (simple), wget -O name URL (rename), wget -c URL (resume), wget -P dir/ URL (directory)",
+    "vs_curl": "wget = simple downloads, curl = advanced HTTP client. wget is better for simple file downloads."
+  }
+}
+

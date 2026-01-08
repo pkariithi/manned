@@ -1,0 +1,239 @@
+{
+  "metadata": {
+    "name": "history",
+    "displayName": "history - Display command history",
+    "category": "Shell & Commands",
+    "tags": ["shell", "history", "commands", "basic"],
+    "description": "Display command line history",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "bash 5.0+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "history is a built-in shell command available in bash and most shells"
+  },
+  "overview": {
+    "summary": "history displays the command history - a list of previously executed commands. This is a built-in shell command (not a separate program) that helps you recall and reuse previous commands. You can search, repeat, or edit previous commands using history.",
+    "when_to_use": [
+      "View previously executed commands",
+      "Find a command you used before",
+      "Repeat a previous command",
+      "See command execution history",
+      "Search for specific commands in history",
+      "Understand what commands were run"
+    ]
+  },
+  "syntax": {
+    "basic": "history [OPTIONS] [N]",
+    "description": "Display command history. If N is specified, show last N commands. Without arguments, shows all history.",
+    "examples": [
+      "history",
+      "history 20",
+      "history | grep pattern",
+      "!123"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c, --clear",
+      "short": "-c",
+      "long": "--clear",
+      "description": "Clear command history",
+      "category": "operation",
+      "example": "history -c",
+      "use_case": "Erase all command history (use with caution)"
+    },
+    {
+      "flag": "-d, --delete",
+      "short": "-d",
+      "long": "--delete",
+      "description": "Delete specific history entry",
+      "category": "operation",
+      "example": "history -d 123",
+      "use_case": "Remove a specific command from history"
+    },
+    {
+      "flag": "-w, --write",
+      "short": "-w",
+      "long": "--write",
+      "description": "Write current history to history file",
+      "category": "operation",
+      "example": "history -w",
+      "use_case": "Save current session history to file immediately"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View all history",
+      "command": "history",
+      "description": "Display entire command history",
+      "output": "  1  cd /home/user\n  2  ls -la\n  3  cat file.txt\n  4  grep pattern file.txt\n  5  history",
+      "output_explanation": {
+        "format": "Numbered list of commands",
+        "elements": [
+          {
+            "element": "  1  cd /home/user",
+            "meaning": "History entry number and command",
+            "breakdown": {
+              "format": "number command",
+              "number": "History entry number (used for !number)",
+              "command": "The actual command that was executed"
+            }
+          }
+        ],
+        "notes": "History shows numbered list of commands. Use !number to repeat a command. Pipe to less if output is long."
+      },
+      "use_case": "View all previously executed commands"
+    },
+    {
+      "title": "View last N commands",
+      "command": "history 20",
+      "description": "Show only last 20 commands",
+      "output": "  485  cd Documents\n  486  ls\n  487  cat file.txt\n  488  grep pattern file.txt\n  489  history 20",
+      "output_explanation": {
+        "format": "Last N commands from history",
+        "elements": [
+          {
+            "element": "20",
+            "meaning": "Number of recent commands to display",
+            "breakdown": {
+              "behavior": "Shows only the last N commands",
+              "useful": "Faster than viewing entire history",
+              "common": "Often used with small numbers (10-50)"
+            }
+          }
+        ],
+        "notes": "Shows recent commands only - useful when you only need to see recent history"
+      },
+      "use_case": "View recent commands without scrolling through entire history"
+    },
+    {
+      "title": "Search history",
+      "command": "history | grep firefox",
+      "description": "Find commands containing 'firefox'",
+      "output": "  123  ps aux | grep firefox\n  456  kill 1234\n  789  firefox &",
+      "output_explanation": {
+        "format": "History entries matching the pattern",
+        "elements": [
+          {
+            "element": "history | grep",
+            "meaning": "Pipe history through grep to filter",
+            "breakdown": {
+              "pattern": "Shows only lines containing the search term",
+              "useful": "Find previous commands by keyword",
+              "then": "Use !number to repeat the found command"
+            }
+          }
+        ],
+        "notes": "Common pattern: history | grep keyword to find previous commands. Then use !number to repeat."
+      },
+      "use_case": "Find previous commands by searching for keywords"
+    },
+    {
+      "title": "Repeat command by number",
+      "command": "!123",
+      "description": "Execute command number 123 from history",
+      "output": "(executes the command from history entry 123)",
+      "output_explanation": {
+        "format": "Executes the specified history entry",
+        "elements": [
+          {
+            "element": "!123",
+            "meaning": "Execute command from history entry 123",
+            "breakdown": {
+              "syntax": "!number executes that history entry",
+              "useful": "Repeat previous commands quickly",
+              "show": "Shows the command before executing it"
+            }
+          }
+        ],
+        "notes": "Use !number to repeat commands. Shows the command first, then executes it. Use !! for last command."
+      },
+      "use_case": "Quickly repeat a previous command by its history number"
+    },
+    {
+      "title": "Repeat last command",
+      "command": "!!",
+      "description": "Execute the last command again",
+      "output": "(repeats the previous command)",
+      "output_explanation": {
+        "format": "Executes the most recent command",
+        "elements": [
+          {
+            "element": "!!",
+            "meaning": "Shorthand for last command",
+            "breakdown": {
+              "common": "Very common pattern - repeats last command",
+              "useful": "Quickly rerun the previous command",
+              "example": "sudo !! - runs last command with sudo"
+            }
+          }
+        ],
+        "notes": "!! repeats last command. Common: sudo !! to rerun last command with sudo privileges."
+      },
+      "use_case": "Repeat the most recent command (very common pattern)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "history shows all commands ever",
+      "misconception": "history displays all commands from all sessions",
+      "reality": "history shows commands from current session and saved history. History is limited by HISTSIZE setting (usually 1000-5000 commands). Old commands are truncated.",
+      "tip": "History is limited - check HISTSIZE. Old commands are removed when limit is reached."
+    },
+    {
+      "title": "history is a separate program",
+      "misconception": "history is an external command like ls or cat",
+      "reality": "history is a built-in shell command (part of bash). This is why 'which history' may show nothing or an alias.",
+      "tip": "history is built into the shell - it's not a separate program you can call directly."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Accidentally clearing history",
+      "description": "Using history -c clears all history permanently",
+      "solution": "Be careful with history -c - it clears history immediately. History is usually saved automatically on logout."
+    },
+    {
+      "issue": "History not saving between sessions",
+      "description": "Commands from one terminal session don't appear in another",
+      "solution": "History saves on logout. Use history -w to save immediately. Check HISTFILE and HISTSIZE settings."
+    },
+    {
+      "issue": "Repeating wrong command with !number",
+      "description": "Mistyping history number and executing wrong command",
+      "solution": "Verify history number with history first. Or use Ctrl+R for interactive history search (safer)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "fc",
+      "relationship": "Edit and repeat history; more advanced than history",
+      "description": "Edit and re-execute previous commands (more advanced than !number)"
+    }
+  ],
+  "best_practices": [
+    "Use Ctrl+R for interactive history search (safer than !number)",
+    "Pipe history to less for long output: history | less",
+    "Search history: history | grep keyword to find commands",
+    "Use history 20 to see recent commands only",
+    "Use !! to repeat last command (very common pattern)",
+    "Use !number carefully - verify the command before executing",
+    "Use history -d to remove specific commands from history if needed"
+  ],
+  "performance_tips": [
+    "history is fast even with large history lists",
+    "Use history 20 or similar to limit output if history is long",
+    "Searching with grep is efficient: history | grep keyword"
+  ],
+  "additional_notes": {
+    "builtin": "history is a built-in shell command, not a separate program",
+    "history_file": "History is saved to ~/.bash_history (bash) or similar for other shells",
+    "size_limit": "History size is limited by HISTSIZE environment variable (usually 1000-5000)",
+    "interactive_search": "Use Ctrl+R for interactive reverse search through history (easier than !number)",
+    "repeat_patterns": "Common: !! (last command), !-1 (same as !!), !-2 (second to last), !string (last command starting with string)"
+  }
+}
+

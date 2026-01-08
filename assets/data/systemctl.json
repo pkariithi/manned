@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "name": "systemctl",
+    "displayName": "systemctl - Systemd service management",
+    "category": "System Management",
+    "tags": ["services", "systemd", "system", "daemon", "ubuntu"],
+    "description": "Control systemd services and system",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "systemd 245+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "systemctl is built-in on modern Linux distributions using systemd (Ubuntu 15.04+, Debian 8+, etc.)"
+  },
+  "overview": {
+    "summary": "systemctl controls systemd, the system and service manager on modern Linux systems. It manages system services (start, stop, restart, enable, disable), checks service status, and controls system state. Essential for managing services, daemons, and system operations on systemd-based systems.",
+    "when_to_use": [
+      "Start and stop services",
+      "Enable services to start on boot",
+      "Check service status",
+      "Restart services",
+      "View system logs",
+      "Manage system services"
+    ]
+  },
+  "syntax": {
+    "basic": "systemctl [COMMAND] [SERVICE]",
+    "description": "Control systemd services and system. Common commands: start, stop, restart, status, enable, disable.",
+    "examples": [
+      "sudo systemctl start nginx",
+      "sudo systemctl stop apache2",
+      "sudo systemctl status ssh",
+      "sudo systemctl enable nginx"
+    ]
+  },
+  "options": [
+    {
+      "flag": "start",
+      "short": null,
+      "long": null,
+      "description": "Start a service",
+      "category": "operation",
+      "example": "sudo systemctl start nginx",
+      "use_case": "Start a stopped service"
+    },
+    {
+      "flag": "stop",
+      "short": null,
+      "long": null,
+      "description": "Stop a running service",
+      "category": "operation",
+      "example": "sudo systemctl stop apache2",
+      "use_case": "Stop a running service"
+    },
+    {
+      "flag": "restart",
+      "short": null,
+      "long": null,
+      "description": "Restart a service",
+      "category": "operation",
+      "example": "sudo systemctl restart nginx",
+      "use_case": "Restart service (stop then start)"
+    },
+    {
+      "flag": "status",
+      "short": null,
+      "long": null,
+      "description": "Show service status",
+      "category": "information",
+      "example": "systemctl status nginx",
+      "use_case": "Check if service is running and see details"
+    },
+    {
+      "flag": "enable",
+      "short": null,
+      "long": null,
+      "description": "Enable service to start on boot",
+      "category": "operation",
+      "example": "sudo systemctl enable nginx",
+      "use_case": "Make service start automatically at boot"
+    },
+    {
+      "flag": "disable",
+      "short": null,
+      "long": null,
+      "description": "Disable service from starting on boot",
+      "category": "operation",
+      "example": "sudo systemctl disable apache2",
+      "use_case": "Prevent service from starting at boot"
+    },
+    {
+      "flag": "is-active",
+      "short": null,
+      "long": null,
+      "description": "Check if service is active",
+      "category": "information",
+      "example": "systemctl is-active nginx",
+      "use_case": "Check service state (returns active/inactive)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Check service status",
+      "command": "systemctl status nginx",
+      "description": "View detailed service status",
+      "output": "● nginx.service - A high performance web server\n     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)\n     Active: active (running) since Mon 2024-01-15 10:30:45 UTC; 2h ago\n   Main PID: 1234 (nginx)\n      Tasks: 2 (limit: 4915)\n     Memory: 5.2M\n        CPU: 45ms\n     CGroup: /system.slice/nginx.service",
+      "output_explanation": {
+        "format": "Detailed service status information",
+        "elements": [
+          {
+            "element": "● nginx.service",
+            "meaning": "Service name and status indicator",
+            "breakdown": {
+              "indicator": "● = active, ○ = inactive",
+              "name": "Service name with .service extension"
+            }
+          },
+          {
+            "element": "Loaded: loaded",
+            "meaning": "Service unit file loaded",
+            "breakdown": {
+              "enabled": "enabled = starts on boot, disabled = doesn't start on boot",
+              "path": "Shows path to service file"
+            }
+          },
+          {
+            "element": "Active: active (running)",
+            "meaning": "Service is currently running",
+            "breakdown": {
+              "states": "active (running), inactive (dead), failed, etc.",
+              "since": "Shows when service started"
+            }
+          },
+          {
+            "element": "Main PID",
+            "meaning": "Process ID of main service process",
+            "breakdown": {
+              "useful": "Can use with ps or kill if needed"
+            }
+          }
+        ],
+        "notes": "Shows comprehensive service status. No sudo needed for status. Very useful for checking service health."
+      },
+      "use_case": "Check if service is running and view details"
+    },
+    {
+      "title": "Start service",
+      "command": "sudo systemctl start nginx",
+      "description": "Start nginx web server",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means service started successfully",
+        "elements": [
+          {
+            "element": "start",
+            "meaning": "Start the service",
+            "breakdown": {
+              "behavior": "Starts service if not running",
+              "sudo": "Requires sudo for system services",
+              "verify": "Use systemctl status to verify it started"
+            }
+          }
+        ],
+        "notes": "Starts service. Requires sudo. No output on success. Use systemctl status to verify."
+      },
+      "use_case": "Start system services"
+    },
+    {
+      "title": "Enable service on boot",
+      "command": "sudo systemctl enable nginx",
+      "description": "Make service start automatically at boot",
+      "output": "Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /lib/systemd/system/nginx.service.",
+      "output_explanation": {
+        "format": "Symlink created for boot startup",
+        "elements": [
+          {
+            "element": "enable",
+            "meaning": "Enable service to start on boot",
+            "breakdown": {
+              "behavior": "Creates symlink so service starts at boot",
+              "persistent": "Service will start automatically after reboot",
+              "useful": "Essential for services that should always run"
+            }
+          }
+        ],
+        "notes": "Enables service to start on boot. Creates symlink. Service will start automatically after system reboot."
+      },
+      "use_case": "Make services start automatically at boot"
+    },
+    {
+      "title": "Restart service",
+      "command": "sudo systemctl restart nginx",
+      "description": "Restart service (stop then start)",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means service restarted successfully",
+        "elements": [
+          {
+            "element": "restart",
+            "meaning": "Restart service",
+            "breakdown": {
+              "behavior": "Stops service then starts it again",
+              "useful": "Reloads service, applies configuration changes",
+              "common": "Very common after configuration changes"
+            }
+          }
+        ],
+        "notes": "Restarts service. Common after configuration changes. Stops then starts service."
+      },
+      "use_case": "Restart services after configuration changes"
+    },
+    {
+      "title": "List all services",
+      "command": "systemctl list-units --type=service",
+      "description": "Show all system services",
+      "output": "(list of all services with status)",
+      "output_explanation": {
+        "format": "List of services",
+        "elements": [
+          {
+            "element": "list-units --type=service",
+            "meaning": "List all service units",
+            "breakdown": {
+              "useful": "See all services and their status",
+              "common": "Useful for system administration"
+            }
+          }
+        ],
+        "notes": "Lists all services. Can filter: systemctl list-units --type=service --state=running (only running)."
+      },
+      "use_case": "View all system services and their status"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "systemctl works on all Linux systems",
+      "misconception": "systemctl is available everywhere",
+      "reality": "systemctl is for systemd-based systems (Ubuntu 15.04+, Debian 8+, RHEL 7+). Older systems use init.d or Upstart. Check if systemd is used first.",
+      "tip": "systemctl is for systemd. Older systems use service command or /etc/init.d scripts. Check: systemctl --version to see if available."
+    },
+    {
+      "title": "systemctl status requires sudo",
+      "misconception": "All systemctl commands need sudo",
+      "reality": "systemctl status doesn't need sudo - you can check status without privileges. Only start/stop/enable/disable need sudo.",
+      "tip": "systemctl status works without sudo. Only control commands (start, stop, enable) need sudo."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting sudo",
+      "description": "systemctl start fails without sudo",
+      "solution": "Use sudo for control commands (start, stop, restart, enable, disable). Status doesn't need sudo."
+    },
+    {
+      "issue": "Service not found",
+      "description": "Service name doesn't exist",
+      "solution": "Check service name: systemctl list-units --type=service. Service names usually don't include .service extension in commands."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "service",
+      "relationship": "Service management; service is older command, systemctl is modern",
+      "description": "Manage services (older systems, or wrapper for systemctl)"
+    },
+    {
+      "command": "journalctl",
+      "relationship": "Service logs; systemctl manages services, journalctl shows logs",
+      "description": "View systemd journal logs (service logs)"
+    }
+  ],
+  "best_practices": [
+    "Use systemctl status to check service state",
+    "Use sudo for control commands (start, stop, enable, disable)",
+    "Use systemctl enable to make services start on boot",
+    "Use systemctl restart after configuration changes",
+    "Check service logs with journalctl -u service-name",
+    "Verify service started: systemctl is-active service-name"
+  ],
+  "performance_tips": [
+    "systemctl is fast",
+    "Status checks are instant",
+    "No performance impact"
+  ],
+  "additional_notes": {
+    "systemd_only": "systemctl is for systemd-based systems (Ubuntu 15.04+, modern Linux). Older systems use different init systems.",
+    "common_commands": "Most common: systemctl status (check), systemctl start/stop/restart (control), systemctl enable/disable (boot)",
+    "service_names": "Service names usually don't include .service extension: systemctl start nginx (not nginx.service)",
+    "sudo_required": "Control commands need sudo: start, stop, restart, enable, disable. Status doesn't need sudo."
+  }
+}
+

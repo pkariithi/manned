@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "name": "uname",
+    "displayName": "uname - System information",
+    "category": "System Information",
+    "tags": ["system", "info", "kernel", "os"],
+    "description": "Display system information",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "uname is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "uname (Unix name) displays system information including kernel name, hostname, kernel release, kernel version, machine hardware, and operating system. Essential for identifying system details, checking kernel version, and system diagnostics.",
+    "when_to_use": [
+      "Check kernel version",
+      "Identify system architecture",
+      "Get system information",
+      "Check OS details",
+      "System diagnostics",
+      "Verify system type"
+    ]
+  },
+  "syntax": {
+    "basic": "uname [OPTIONS]",
+    "description": "Display system information. Without options, shows kernel name. Use -a for all information.",
+    "examples": [
+      "uname",
+      "uname -a",
+      "uname -r",
+      "uname -m"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Display all information",
+      "category": "display",
+      "example": "uname -a",
+      "use_case": "Show all system information (most common)"
+    },
+    {
+      "flag": "-r, --kernel-release",
+      "short": "-r",
+      "long": "--kernel-release",
+      "description": "Display kernel release",
+      "category": "display",
+      "example": "uname -r",
+      "use_case": "Show kernel version only"
+    },
+    {
+      "flag": "-m, --machine",
+      "short": "-m",
+      "long": "--machine",
+      "description": "Display machine hardware",
+      "category": "display",
+      "example": "uname -m",
+      "use_case": "Show system architecture (x86_64, arm64, etc.)"
+    },
+    {
+      "flag": "-s, --kernel-name",
+      "short": "-s",
+      "long": "--kernel-name",
+      "description": "Display kernel name",
+      "category": "display",
+      "example": "uname -s",
+      "use_case": "Show kernel name (usually Linux)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Show all system info",
+      "command": "uname -a",
+      "description": "Display all system information",
+      "output": "Linux hostname 5.15.0-91-generic #102-Ubuntu SMP x86_64 x86_64 x86_64 GNU/Linux",
+      "output_explanation": {
+        "format": "Complete system information",
+        "elements": [
+          {
+            "element": "Linux",
+            "meaning": "Kernel name",
+            "breakdown": {
+              "os": "Operating system kernel"
+            }
+          },
+          {
+            "element": "hostname",
+            "meaning": "Network node hostname",
+            "breakdown": {
+              "hostname": "System hostname"
+            }
+          },
+          {
+            "element": "5.15.0-91-generic",
+            "meaning": "Kernel release version",
+            "breakdown": {
+              "version": "Kernel version number",
+              "useful": "Important for compatibility, driver support"
+            }
+          },
+          {
+            "element": "x86_64",
+            "meaning": "Machine hardware architecture",
+            "breakdown": {
+              "architecture": "System architecture (x86_64, arm64, i686, etc.)",
+              "useful": "Important for software compatibility"
+            }
+          },
+          {
+            "element": "GNU/Linux",
+            "meaning": "Operating system",
+            "breakdown": {
+              "os": "Operating system name"
+            }
+          }
+        ],
+        "notes": "Shows comprehensive system information. Most common usage. Useful for system identification and diagnostics."
+      },
+      "use_case": "Get complete system information"
+    },
+    {
+      "title": "Check kernel version",
+      "command": "uname -r",
+      "description": "Show only kernel release version",
+      "output": "5.15.0-91-generic",
+      "output_explanation": {
+        "format": "Kernel version number",
+        "elements": [
+          {
+            "element": "5.15.0-91-generic",
+            "meaning": "Kernel release version",
+            "breakdown": {
+              "format": "Major.minor.patch-build",
+              "useful": "Check kernel version for driver compatibility, security updates",
+              "common": "Very common for troubleshooting"
+            }
+          }
+        ],
+        "notes": "Shows kernel version. Useful for checking if system needs updates, driver compatibility, etc."
+      },
+      "use_case": "Check kernel version (troubleshooting, compatibility)"
+    },
+    {
+      "title": "Check system architecture",
+      "command": "uname -m",
+      "description": "Show machine hardware architecture",
+      "output": "x86_64",
+      "output_explanation": {
+        "format": "Architecture identifier",
+        "elements": [
+          {
+            "element": "x86_64",
+            "meaning": "64-bit x86 architecture",
+            "breakdown": {
+              "common": "x86_64 = 64-bit Intel/AMD, arm64 = ARM 64-bit, i686 = 32-bit x86",
+              "useful": "Important for software compatibility and package selection"
+            }
+          }
+        ],
+        "notes": "Shows system architecture. Important for downloading correct software packages and compatibility."
+      },
+      "use_case": "Check system architecture (software compatibility)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "uname shows distribution name",
+      "misconception": "uname displays Ubuntu, Debian, etc.",
+      "reality": "uname shows kernel information, not distribution. Use lsb_release -a or /etc/os-release for distribution info.",
+      "tip": "uname = kernel info. Use lsb_release -a or cat /etc/os-release for distribution name (Ubuntu, Debian, etc.)."
+    }
+  ],
+  "common_pitfalls": [],
+  "related_commands": [
+    {
+      "command": "hostname",
+      "relationship": "Hostname; uname shows hostname, hostname command shows/sets it",
+      "description": "Show or set system hostname"
+    },
+    {
+      "command": "lsb_release",
+      "relationship": "OS info; uname shows kernel, lsb_release shows distribution",
+      "description": "Show Linux distribution information"
+    }
+  ],
+  "best_practices": [
+    "Use uname -a for complete system information",
+    "Use uname -r to check kernel version",
+    "Use uname -m to check architecture",
+    "Combine with other commands for system identification"
+  ],
+  "performance_tips": [
+    "uname is instant - very fast",
+    "No performance impact"
+  ],
+  "additional_notes": {
+    "kernel_info": "uname shows kernel information, not distribution. Use lsb_release for distribution name.",
+    "common_usage": "Most common: uname -a (all info), uname -r (kernel version), uname -m (architecture)",
+    "architecture": "Common architectures: x86_64 (64-bit), arm64 (ARM 64-bit), i686 (32-bit)"
+  }
+}
+

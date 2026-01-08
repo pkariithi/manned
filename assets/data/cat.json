@@ -1,0 +1,261 @@
+{
+  "metadata": {
+    "name": "cat",
+    "displayName": "cat - Concatenate and display files",
+    "category": "File & Directory Operations",
+    "tags": ["files", "read", "display", "text", "basic"],
+    "description": "Display file contents or concatenate multiple files",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "cat is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "cat (concatenate) displays the contents of files on the standard output. It can read single or multiple files and concatenate them together. Despite its name, it's most commonly used to quickly view file contents rather than concatenate.",
+    "when_to_use": [
+      "Quickly view file contents",
+      "Display small text files",
+      "Concatenate multiple files into one",
+      "Pipe file contents to other commands",
+      "Check file content without opening an editor",
+      "Create files with heredoc syntax"
+    ]
+  },
+  "syntax": {
+    "basic": "cat [OPTIONS] FILE...",
+    "description": "Display contents of FILE(s). Multiple files are concatenated in order. If no file is specified or FILE is -, cat reads from standard input.",
+    "examples": [
+      "cat file.txt",
+      "cat file1.txt file2.txt",
+      "cat > newfile.txt",
+      "cat -n file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --number",
+      "short": "-n",
+      "long": "--number",
+      "description": "Number all output lines",
+      "category": "display",
+      "example": "cat -n file.txt",
+      "use_case": "Display file with line numbers for reference"
+    },
+    {
+      "flag": "-b, --number-nonblank",
+      "short": "-b",
+      "long": "--number-nonblank",
+      "description": "Number only non-blank lines",
+      "category": "display",
+      "example": "cat -b file.txt",
+      "use_case": "Show line numbers excluding blank lines"
+    },
+    {
+      "flag": "-E, --show-ends",
+      "short": "-E",
+      "long": "--show-ends",
+      "description": "Display $ at end of each line",
+      "category": "display",
+      "example": "cat -E file.txt",
+      "use_case": "See line endings and trailing spaces"
+    },
+    {
+      "flag": "-T, --show-tabs",
+      "short": "-T",
+      "long": "--show-tabs",
+      "description": "Display TAB characters as ^I",
+      "category": "display",
+      "example": "cat -T file.txt",
+      "use_case": "Visualize tab characters in files"
+    },
+    {
+      "flag": "-A, --show-all",
+      "short": "-A",
+      "long": "--show-all",
+      "description": "Equivalent to -vET (show all non-printable characters)",
+      "category": "display",
+      "example": "cat -A file.txt",
+      "use_case": "See all special characters and line endings"
+    },
+    {
+      "flag": "-s, --squeeze-blank",
+      "short": "-s",
+      "long": "--squeeze-blank",
+      "description": "Suppress repeated empty lines",
+      "category": "display",
+      "example": "cat -s file.txt",
+      "use_case": "Remove multiple consecutive blank lines"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Display file contents",
+      "command": "cat file.txt",
+      "description": "Show contents of a single file",
+      "output": "Line 1 of the file\nLine 2 of the file\nLine 3 of the file",
+      "output_explanation": {
+        "format": "Raw file contents displayed on standard output",
+        "elements": [
+          {
+            "element": "Output",
+            "meaning": "Exact contents of the file as stored on disk"
+          }
+        ],
+        "notes": "cat outputs the file exactly as it is, including all whitespace and special characters"
+      },
+      "use_case": "Quickly view contents of a text file"
+    },
+    {
+      "title": "Display with line numbers",
+      "command": "cat -n file.txt",
+      "description": "Show file contents with numbered lines",
+      "output": "     1  Line 1 of the file\n     2  Line 2 of the file\n     3  Line 3 of the file",
+      "output_explanation": {
+        "format": "Lines prefixed with line numbers",
+        "elements": [
+          {
+            "element": "     1  ",
+            "meaning": "Line number (right-aligned, 6 spaces) followed by line content"
+          }
+        ],
+        "notes": "Useful for referencing specific lines when discussing code or text files"
+      },
+      "use_case": "View file with line numbers for reference or debugging"
+    },
+    {
+      "title": "Concatenate multiple files",
+      "command": "cat file1.txt file2.txt file3.txt",
+      "description": "Display contents of multiple files in sequence",
+      "output": "Content from file1\nContent from file2\nContent from file3",
+      "output_explanation": {
+        "format": "Contents of all files displayed sequentially",
+        "elements": [
+          {
+            "element": "Sequential output",
+            "meaning": "Files are read and displayed in the order specified"
+          }
+        ],
+        "notes": "No separator between files - they're concatenated directly. Use redirection to save: cat file1 file2 > combined.txt"
+      },
+      "use_case": "View or combine multiple files into one output"
+    },
+    {
+      "title": "Show line endings",
+      "command": "cat -E file.txt",
+      "description": "Display file with $ markers at end of each line",
+      "output": "Line 1 of the file$\nLine 2 of the file$\nLine 3 of the file$",
+      "output_explanation": {
+        "format": "Each line ends with $ marker",
+        "elements": [
+          {
+            "element": "$",
+            "meaning": "Indicates end of line (shows if line has trailing spaces before newline)"
+          }
+        ],
+        "notes": "Useful for detecting trailing spaces or checking line endings (Windows vs Unix)"
+      },
+      "use_case": "Identify trailing spaces or check line ending format"
+    },
+    {
+      "title": "Create file from input",
+      "command": "cat > newfile.txt",
+      "description": "Create a new file by typing input (press Ctrl+D to finish)",
+      "output": "(no output - waits for input)",
+      "output_explanation": {
+        "format": "Interactive mode waiting for input",
+        "elements": [
+          {
+            "element": "Cursor",
+            "meaning": "Waiting for keyboard input. Type content, press Enter for new lines, Ctrl+D to finish and save"
+          }
+        ],
+        "notes": "This redirects standard input to a file. Type content, then press Ctrl+D to save and exit"
+      },
+      "use_case": "Quickly create a small file without opening an editor"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "cat is only for concatenation",
+      "misconception": "cat is primarily used to concatenate files",
+      "reality": "While cat can concatenate files, it's most commonly used to display file contents. The name comes from 'concatenate' but viewing is the primary use case.",
+      "tip": "cat is mainly for viewing files quickly. Use it for small files, not large ones (use less or more instead)."
+    },
+    {
+      "title": "cat is good for large files",
+      "misconception": "cat works well for any file size",
+      "reality": "cat outputs the entire file at once, which can flood your terminal. Use less or more for large files to view them page by page.",
+      "tip": "For large files, use less (allows scrolling) or more (page-by-page). cat is best for small files only."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using cat with large files",
+      "description": "cat displays entire file content at once, flooding terminal",
+      "solution": "Use less file.txt for large files (allows scrolling with arrow keys, press 'q' to quit). Or use more for page-by-page viewing."
+    },
+    {
+      "issue": "cat binary files",
+      "description": "Displaying binary files can corrupt terminal display",
+      "solution": "Never use cat on binary files. Use file command to check file type first, or use hexdump/xxd to view binary content safely."
+    },
+    {
+      "issue": "Forgetting Ctrl+D to finish",
+      "description": "When creating files with cat > file, forgetting to press Ctrl+D",
+      "solution": "Press Ctrl+D (not Ctrl+C which cancels) to finish input and save the file. Ctrl+C discards the file."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "less",
+      "relationship": "View large files; cat for small, less for large",
+      "description": "View files page by page with scrolling (better for large files)"
+    },
+    {
+      "command": "more",
+      "relationship": "View files page by page; simpler than less",
+      "description": "Display file contents page by page (simpler than less)"
+    },
+    {
+      "command": "head",
+      "relationship": "Show beginning of files; cat shows all",
+      "description": "Display first few lines of a file"
+    },
+    {
+      "command": "tail",
+      "relationship": "Show end of files; cat shows all",
+      "description": "Display last few lines of a file"
+    },
+    {
+      "command": "tac",
+      "relationship": "Reverse cat; displays files in reverse order",
+      "description": "Display file contents in reverse order (cat backwards)"
+    }
+  ],
+  "best_practices": [
+    "Use cat for small text files only",
+    "Use -n for line numbers when referencing specific lines",
+    "Use -A to see all special characters and formatting",
+    "Combine with grep: cat file.txt | grep pattern",
+    "Use cat with redirection to create files: cat > file.txt",
+    "Avoid cat with binary files - can corrupt terminal display",
+    "For large files, use less or more instead"
+  ],
+  "performance_tips": [
+    "cat is very fast for small files",
+    "For large files, less is more efficient (loads as needed)",
+    "Avoid piping large cat output unnecessarily - use direct file access when possible"
+  ],
+  "additional_notes": {
+    "primary_use": "Despite the name 'concatenate', cat is most commonly used to view file contents",
+    "small_files": "Best for files that fit on one screen - use less/more for larger files",
+    "redirection": "Common pattern: cat file1 file2 > combined.txt to concatenate and save",
+    "heredoc": "cat can be used with heredoc syntax: cat << EOF > file.txt",
+    "binary_warning": "Never use cat on binary files - can corrupt terminal display with control characters"
+  }
+}
+

@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "name": "chmod",
+    "displayName": "chmod - Change file permissions",
+    "category": "File & Directory Operations",
+    "tags": ["permissions", "files", "security", "access"],
+    "description": "Change file and directory permissions",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "chmod is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "chmod (change mode) modifies file and directory permissions. Linux uses a permission system with three types of access (read, write, execute) for three categories of users (owner, group, others). chmod is essential for file security and access control.",
+    "when_to_use": [
+      "Make scripts executable",
+      "Restrict file access",
+      "Allow group access to files",
+      "Set directory permissions",
+      "Fix permission issues",
+      "Secure sensitive files"
+    ]
+  },
+  "syntax": {
+    "basic": "chmod [OPTIONS] MODE FILE...",
+    "description": "Change permissions of FILE(s) to MODE. MODE can be numeric (755) or symbolic (u+x).",
+    "examples": [
+      "chmod +x script.sh",
+      "chmod 755 file.txt",
+      "chmod u+w file.txt",
+      "chmod -R 755 directory/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-R, --recursive",
+      "short": "-R",
+      "long": "--recursive",
+      "description": "Change permissions recursively",
+      "category": "operation",
+      "example": "chmod -R 755 directory/",
+      "use_case": "Apply permissions to directory and all contents"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show what is being changed",
+      "category": "display",
+      "example": "chmod -v +x file.sh",
+      "use_case": "See which files are being modified"
+    },
+    {
+      "flag": "-c, --changes",
+      "short": "-c",
+      "long": "--changes",
+      "description": "Only show changed files",
+      "category": "display",
+      "example": "chmod -c +x *.sh",
+      "use_case": "Show only files that actually changed"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Make script executable",
+      "command": "chmod +x script.sh",
+      "description": "Add execute permission for all users",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means permissions changed successfully",
+        "elements": [
+          {
+            "element": "+x",
+            "meaning": "Add execute permission",
+            "breakdown": {
+              "symbolic": "Symbolic notation: + adds, - removes, = sets",
+              "permission": "x = execute, r = read, w = write",
+              "users": "No prefix = all users (owner, group, others)"
+            }
+          }
+        ],
+        "notes": "Makes file executable. After this, you can run ./script.sh. Use ls -l to verify permissions changed."
+      },
+      "use_case": "Make shell scripts executable so they can be run"
+    },
+    {
+      "title": "Set permissions with numeric mode",
+      "command": "chmod 755 file.txt",
+      "description": "Set permissions using octal notation",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means permissions changed successfully",
+        "elements": [
+          {
+            "element": "755",
+            "meaning": "Numeric permission mode",
+            "breakdown": {
+              "first_digit": "7 = owner (read+write+execute = 4+2+1)",
+              "second_digit": "5 = group (read+execute = 4+1)",
+              "third_digit": "5 = others (read+execute = 4+1)",
+              "common": "755 is common for executables, 644 for regular files"
+            }
+          }
+        ],
+        "notes": "755 = rwxr-xr-x (owner: read/write/execute, group/others: read/execute). Use ls -l to see permissions."
+      },
+      "use_case": "Set specific permissions using numeric mode (common pattern)"
+    },
+    {
+      "title": "Add write permission for owner",
+      "command": "chmod u+w file.txt",
+      "description": "Add write permission for user (owner) only",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means permissions changed successfully",
+        "elements": [
+          {
+            "element": "u+w",
+            "meaning": "User (owner) + write permission",
+            "breakdown": {
+              "u": "User (owner)",
+              "g": "Group",
+              "o": "Others",
+              "a": "All (default if omitted)",
+              "+": "Add permission",
+              "-": "Remove permission",
+              "=": "Set exactly"
+            }
+          }
+        ],
+        "notes": "Symbolic notation is more readable. u=user, g=group, o=others, a=all."
+      },
+      "use_case": "Grant write access to owner only (more secure than +w for all)"
+    },
+    {
+      "title": "Recursive permission change",
+      "command": "chmod -R 755 directory/",
+      "description": "Apply permissions to directory and all contents",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means permissions changed successfully",
+        "elements": [
+          {
+            "element": "-R",
+            "meaning": "Recursive - applies to all files and subdirectories",
+            "breakdown": {
+              "behavior": "Changes permissions for directory and everything inside",
+              "useful": "Common for setting up project directories",
+              "warning": "Be careful - affects all files recursively"
+            }
+          }
+        ],
+        "notes": "Useful for setting permissions on entire directory trees. Be careful with -R as it affects all files."
+      },
+      "use_case": "Set permissions for entire directory structure"
+    },
+    {
+      "title": "Remove all permissions",
+      "command": "chmod 000 file.txt",
+      "description": "Remove all permissions (lock file)",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means permissions changed successfully",
+        "elements": [
+          {
+            "element": "000",
+            "meaning": "No permissions for anyone",
+            "breakdown": {
+              "security": "Makes file inaccessible to all users (including owner)",
+              "use_case": "Temporarily lock file, or test permission issues",
+              "warning": "Even owner can't access - use chmod 600 to restore"
+            }
+          }
+        ],
+        "notes": "Removes all permissions. Even owner can't access. Use chmod 600 to restore owner access."
+      },
+      "use_case": "Temporarily lock a file (testing or security)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "chmod 777 is safe",
+      "misconception": "Giving everyone all permissions (777) is fine",
+      "reality": "chmod 777 gives read, write, and execute to everyone - this is a security risk. Only use when absolutely necessary (like /tmp).",
+      "tip": "Avoid 777. Use 755 for executables, 644 for files, 750 for private directories."
+    },
+    {
+      "title": "chmod only works on files",
+      "misconception": "chmod only changes file permissions",
+      "reality": "chmod works on both files and directories. Directory permissions control access to list contents (read) and create files (write).",
+      "tip": "Directories need execute permission to be entered. Use chmod +x directory to allow access."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using chmod 777 unnecessarily",
+      "description": "Giving everyone all permissions when not needed",
+      "solution": "Use appropriate permissions: 755 for executables, 644 for files, 750 for private. Only use 777 for temporary directories like /tmp."
+    },
+    {
+      "issue": "Forgetting -R on directories",
+      "description": "Only changing directory permissions, not contents",
+      "solution": "Use chmod -R to apply permissions recursively to directory contents. Be careful - affects all files."
+    },
+    {
+      "issue": "Locking yourself out",
+      "description": "Removing own permissions (chmod 000) and losing access",
+      "solution": "If you lock yourself out, use sudo chmod to restore permissions, or ask administrator for help."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "chown",
+      "relationship": "Change ownership; chmod changes permissions, chown changes owner",
+      "description": "Change file ownership (complements chmod)"
+    },
+    {
+      "command": "ls",
+      "relationship": "View permissions; ls -l shows current permissions",
+      "description": "List files with permissions (ls -l shows permission details)"
+    },
+    {
+      "command": "umask",
+      "relationship": "Default permissions; umask sets default permissions for new files",
+      "description": "Set default permissions for newly created files"
+    }
+  ],
+  "best_practices": [
+    "Use 755 for executables (owner: rwx, others: rx)",
+    "Use 644 for regular files (owner: rw, others: r)",
+    "Use 750 for private directories (owner: rwx, group: rx)",
+    "Use symbolic notation (u+x) for readability when adding/removing",
+    "Use numeric notation (755) for setting exact permissions",
+    "Use chmod -R carefully - affects all files recursively",
+    "Check permissions with ls -l before and after chmod",
+    "Avoid 777 unless absolutely necessary (security risk)"
+  ],
+  "performance_tips": [
+    "chmod is very fast",
+    "chmod -R can be slow on large directory trees",
+    "Use -v flag to see progress on recursive operations"
+  ],
+  "additional_notes": {
+    "permission_bits": "Permissions: r=4 (read), w=2 (write), x=1 (execute). Add numbers: 7=r+w+x, 5=r+x, 4=r only",
+    "symbolic_notation": "Symbolic: u=user, g=group, o=others, a=all. Operators: +=add, -=remove, ==set",
+    "directory_permissions": "Directories need execute (x) permission to be entered. Read (r) allows listing contents.",
+    "common_modes": "Common: 755 (executables), 644 (files), 600 (private files), 750 (private directories), 777 (temporary - avoid)",
+    "security": "Principle of least privilege - give minimum permissions needed. Avoid 777 unless necessary."
+  }
+}
+

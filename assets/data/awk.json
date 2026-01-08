@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "name": "awk",
+    "displayName": "awk - Text processing and data extraction",
+    "category": "Text Processing",
+    "tags": ["text", "processing", "data", "advanced", "scripting"],
+    "description": "Pattern scanning and data processing language",
+    "popularity": 9,
+    "difficulty": "advanced",
+    "version": "GNU awk 5.1+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "awk is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "awk is a powerful text processing and data extraction tool. It reads input line by line, splits into fields, and processes with patterns and actions. Excellent for extracting columns, processing structured data (CSV, logs), calculations, and report generation. More powerful than sed for complex text processing.",
+    "when_to_use": [
+      "Extract columns from files",
+      "Process structured data (CSV, logs)",
+      "Perform calculations on data",
+      "Generate reports",
+      "Filter and transform data",
+      "Process log files"
+    ]
+  },
+  "syntax": {
+    "basic": "awk 'PATTERN { ACTION }' [FILE...]",
+    "description": "Process FILE(s) with PATTERN and ACTION. If no pattern, action applies to all lines. Fields are automatically split by whitespace.",
+    "examples": [
+      "awk '{print $1}' file.txt",
+      "awk -F',' '{print $2}' data.csv",
+      "awk '/error/ {print}' log.txt",
+      "awk '{sum+=$3} END {print sum}' data.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-F, --field-separator",
+      "short": "-F",
+      "long": "--field-separator",
+      "description": "Specify field separator (default is whitespace)",
+      "category": "parsing",
+      "example": "awk -F',' '{print $2}' data.csv",
+      "use_case": "Process CSV files or other delimited data"
+    },
+    {
+      "flag": "-v, --assign",
+      "short": "-v",
+      "long": "--assign",
+      "description": "Assign variable before processing",
+      "category": "variable",
+      "example": "awk -v var=value '{print var}' file.txt",
+      "use_case": "Set variables for use in awk script"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Print first column",
+      "command": "awk '{print $1}' file.txt",
+      "description": "Extract first field from each line",
+      "output": "field1\nfield1\nfield1",
+      "output_explanation": {
+        "format": "First column from each line",
+        "elements": [
+          {
+            "element": "$1",
+            "meaning": "First field (column)",
+            "breakdown": {
+              "fields": "awk automatically splits lines into fields by whitespace",
+              "numbering": "$1 = first field, $2 = second field, $0 = entire line",
+              "useful": "Extract specific columns from structured data"
+            }
+          }
+        ],
+        "notes": "Prints first field from each line. awk splits by whitespace automatically. $1 = first field, $2 = second, etc."
+      },
+      "use_case": "Extract specific columns from files"
+    },
+    {
+      "title": "Process CSV file",
+      "command": "awk -F',' '{print $2}' data.csv",
+      "description": "Extract second column from CSV",
+      "output": "(second column values)",
+      "output_explanation": {
+        "format": "Second column from CSV file",
+        "elements": [
+          {
+            "element": "-F','",
+            "meaning": "Use comma as field separator",
+            "breakdown": {
+              "csv": "Processes CSV files correctly",
+              "delimiter": "Can use any delimiter: -F':', -F'|', etc.",
+              "useful": "Essential for processing CSV, TSV, and other delimited files"
+            }
+          }
+        ],
+        "notes": "Processes CSV file using comma as separator. Prints second column. Essential for CSV processing."
+      },
+      "use_case": "Process CSV and other delimited files"
+    },
+    {
+      "title": "Filter lines matching pattern",
+      "command": "awk '/error/ {print}' log.txt",
+      "description": "Print lines containing 'error'",
+      "output": "(lines containing 'error')",
+      "output_explanation": {
+        "format": "Filtered lines",
+        "elements": [
+          {
+            "element": "/error/",
+            "meaning": "Pattern to match",
+            "breakdown": {
+              "pattern": "Regular expression pattern",
+              "action": "Action in braces executes for matching lines",
+              "useful": "Filter log files, find specific content"
+            }
+          }
+        ],
+        "notes": "Prints lines matching pattern. Similar to grep but with more processing capabilities."
+      },
+      "use_case": "Filter and process lines matching patterns"
+    },
+    {
+      "title": "Calculate sum of column",
+      "command": "awk '{sum+=$3} END {print sum}' data.txt",
+      "description": "Sum values in third column",
+      "output": "150",
+      "output_explanation": {
+        "format": "Calculated result",
+        "elements": [
+          {
+            "element": "{sum+=$3}",
+            "meaning": "Add third field to sum for each line",
+            "breakdown": {
+              "accumulation": "Accumulates sum as it processes each line",
+              "calculation": "Can do math: +, -, *, /, etc."
+            }
+          },
+          {
+            "element": "END {print sum}",
+            "meaning": "Execute after processing all lines",
+            "breakdown": {
+              "end_block": "END block runs after all input processed",
+              "useful": "Print totals, averages, final calculations"
+            }
+          }
+        ],
+        "notes": "Sums values in third column. {sum+=$3} accumulates, END block prints final result. Very useful for data analysis."
+      },
+      "use_case": "Perform calculations on data columns"
+    },
+    {
+      "title": "Print with formatting",
+      "command": "awk '{print $1, $3, $2}' file.txt",
+      "description": "Print columns in different order",
+      "output": "(columns reordered: 1, 3, 2)",
+      "output_explanation": {
+        "format": "Reordered columns",
+        "elements": [
+          {
+            "element": "print $1, $3, $2",
+            "meaning": "Print fields in specified order",
+            "breakdown": {
+              "reorder": "Can print fields in any order",
+              "formatting": "Comma adds space between fields",
+              "useful": "Reorganize data, create custom reports"
+            }
+          }
+        ],
+        "notes": "Prints columns in custom order. Comma adds space. Very useful for reorganizing data and creating reports."
+      },
+      "use_case": "Reorganize and format data output"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "awk is only for printing columns",
+      "misconception": "awk only extracts columns",
+      "reality": "awk is a full programming language - can do calculations, conditionals, loops, functions, and much more. It's very powerful.",
+      "tip": "awk is a programming language, not just a column extractor. Can do calculations, conditionals, loops, and complex processing."
+    },
+    {
+      "title": "awk only works with whitespace",
+      "misconception": "awk only processes space-separated data",
+      "reality": "awk defaults to whitespace but can use any delimiter with -F flag. Essential for CSV, TSV, and other formats.",
+      "tip": "Use awk -F',' for CSV, awk -F':' for colon-separated, etc. awk is very flexible with delimiters."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -F for CSV files",
+      "description": "CSV processing fails because default separator is whitespace",
+      "solution": "Always use awk -F',' for CSV files. Default separator is whitespace, not comma."
+    },
+    {
+      "issue": "Field numbering confusion",
+      "description": "Confusing which field is $1, $2, etc.",
+      "solution": "Remember: $1 = first field, $2 = second, $0 = entire line. Use awk '{print NF}' to see number of fields."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sed",
+      "relationship": "Text processing; sed for simple edits, awk for complex processing",
+      "description": "Stream editor (simpler than awk for basic text editing)"
+    },
+    {
+      "command": "cut",
+      "relationship": "Column extraction; cut for simple columns, awk for complex",
+      "description": "Extract columns (simpler than awk but less powerful)"
+    },
+    {
+      "command": "grep",
+      "relationship": "Text search; grep finds, awk processes",
+      "description": "Search for patterns (awk can also search and process)"
+    }
+  ],
+  "best_practices": [
+    "Use awk -F',' for CSV files",
+    "Use $1, $2, etc. for fields, $0 for entire line",
+    "Use END block for final calculations and totals",
+    "Combine with other commands: ps aux | awk '{print $2}'",
+    "Use awk for complex processing, cut for simple column extraction",
+    "Test awk commands on sample data first"
+  ],
+  "performance_tips": [
+    "awk is fast and efficient",
+    "Good for processing large files",
+    "More efficient than multiple grep/sed commands for complex operations"
+  ],
+  "additional_notes": {
+    "field_separator": "Default separator is whitespace. Use -F to specify delimiter (comma, colon, pipe, etc.)",
+    "field_numbering": "$1 = first field, $2 = second, $NF = last field, $0 = entire line",
+    "programming": "awk is a programming language - supports variables, conditionals, loops, functions, arrays",
+    "common_patterns": "Very common: awk '{print $1}' (first column), awk -F',' '{print $2}' (CSV), awk '/pattern/ {print}' (filter), awk '{sum+=$3} END {print sum}' (calculate)"
+  }
+}
+

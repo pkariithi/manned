@@ -1,0 +1,227 @@
+{
+  "metadata": {
+    "name": "df",
+    "displayName": "df - Report disk space usage",
+    "category": "System Information",
+    "tags": ["disk", "space", "storage", "system"],
+    "description": "Display disk space usage of file systems",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "df is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "df (disk free) displays information about disk space usage of mounted file systems. It shows total space, used space, available space, and usage percentage for each file system. Essential for monitoring disk usage and preventing disk full errors.",
+    "when_to_use": [
+      "Check available disk space",
+      "Monitor disk usage",
+      "Find which partitions are full",
+      "Check file system capacity",
+      "Troubleshoot 'disk full' errors",
+      "Plan disk space management"
+    ]
+  },
+  "syntax": {
+    "basic": "df [OPTIONS] [FILE/DIRECTORY]",
+    "description": "Display disk space for all mounted file systems. If FILE or DIRECTORY is specified, shows space for the file system containing that path.",
+    "examples": [
+      "df",
+      "df -h",
+      "df /home",
+      "df -h /"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-h, --human-readable",
+      "short": "-h",
+      "long": "--human-readable",
+      "description": "Display sizes in human-readable format (KB, MB, GB)",
+      "category": "display",
+      "example": "df -h",
+      "use_case": "Show disk space in readable format (most common usage)"
+    },
+    {
+      "flag": "-T, --print-type",
+      "short": "-T",
+      "long": "--print-type",
+      "description": "Display file system type",
+      "category": "display",
+      "example": "df -T",
+      "use_case": "See file system types (ext4, xfs, tmpfs, etc.)"
+    },
+    {
+      "flag": "-i, --inodes",
+      "short": "-i",
+      "long": "--inodes",
+      "description": "Display inode usage instead of block usage",
+      "category": "display",
+      "example": "df -i",
+      "use_case": "Check inode usage (useful when disk shows space but can't create files)"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Include pseudo, duplicate, and inaccessible file systems",
+      "category": "display",
+      "example": "df -a",
+      "use_case": "Show all file systems including system ones"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Check disk space (human-readable)",
+      "command": "df -h",
+      "description": "Display disk space in readable format",
+      "output": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G  8.5G   10G  46% /\n/dev/sda2       100G   45G   50G  45% /home\ntmpfs           2.0G     0  2.0G   0% /dev/shm",
+      "output_explanation": {
+        "format": "Table showing file system disk usage",
+        "elements": [
+          {
+            "element": "Filesystem",
+            "meaning": "Device or file system name",
+            "breakdown": {
+              "format": "Device name (e.g., /dev/sda1) or special file system (tmpfs)"
+            }
+          },
+          {
+            "element": "Size",
+            "meaning": "Total size of file system",
+            "breakdown": {
+              "format": "Shown in GB with -h flag (human-readable)"
+            }
+          },
+          {
+            "element": "Used",
+            "meaning": "Space currently used",
+            "breakdown": {
+              "format": "Shown in GB with -h flag"
+            }
+          },
+          {
+            "element": "Avail",
+            "meaning": "Available space",
+            "breakdown": {
+              "format": "Space you can still use"
+            }
+          },
+          {
+            "element": "Use%",
+            "meaning": "Percentage of space used",
+            "breakdown": {
+              "format": "Warning if above 80-90%"
+            }
+          },
+          {
+            "element": "Mounted on",
+            "meaning": "Mount point (directory where file system is mounted)",
+            "breakdown": {
+              "format": "Root (/), /home, /var, etc."
+            }
+          }
+        ],
+        "notes": "Most common usage: df -h. Shows disk space in readable format. Watch Use% - above 80% is getting full."
+      },
+      "use_case": "Quickly check available disk space on all file systems"
+    },
+    {
+      "title": "Check specific directory",
+      "command": "df -h /home",
+      "description": "Check disk space for file system containing /home",
+      "output": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda2       100G   45G   50G  45% /home",
+      "output_explanation": {
+        "format": "Single file system information",
+        "elements": [
+          {
+            "element": "/home",
+            "meaning": "Shows disk space for file system containing this path",
+            "breakdown": {
+              "useful": "Check space for specific directory or mount point",
+              "common": "Often used: df -h / to check root partition"
+            }
+          }
+        ],
+        "notes": "Shows disk space for the file system containing the specified path. Useful for checking specific partitions."
+      },
+      "use_case": "Check disk space for a specific directory or partition"
+    },
+    {
+      "title": "Check inode usage",
+      "command": "df -i",
+      "description": "Display inode usage instead of disk space",
+      "output": "Filesystem      Inodes  IUsed   IFree IUse% Mounted on\n/dev/sda1      5.2M    1.2M    4.0M   23% /",
+      "output_explanation": {
+        "format": "Inode usage table",
+        "elements": [
+          {
+            "element": "Inodes",
+            "meaning": "Total number of inodes (file/directory entries)",
+            "breakdown": {
+              "useful": "Check if you've run out of inodes (can't create files even with space)",
+              "problem": "If IUse% is 100%, you can't create files even if disk has space"
+            }
+          }
+        ],
+        "notes": "Shows inode usage. If IUse% is 100%, you can't create files even if disk has space. Rare but important to check."
+      },
+      "use_case": "Troubleshoot 'no space' errors when disk shows available space"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "df shows file sizes",
+      "misconception": "df displays sizes of individual files",
+      "reality": "df shows file SYSTEM disk usage, not individual file sizes. Use du for directory/file sizes, ls -lh for file sizes.",
+      "tip": "df = file system space. du = directory/file sizes. ls -lh = individual file sizes."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not using -h flag",
+      "description": "df output in blocks is hard to read",
+      "solution": "Always use df -h for human-readable format (KB, MB, GB). Much easier to understand."
+    },
+    {
+      "issue": "Ignoring high usage percentage",
+      "description": "Not monitoring disk usage until it's too late",
+      "solution": "Monitor Use% regularly. Above 80% is getting full, above 90% is critical. Clean up files or expand disk."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "du",
+      "relationship": "Directory sizes; df shows file system space, du shows directory sizes",
+      "description": "Show disk usage of directories and files (complements df)"
+    },
+    {
+      "command": "ls",
+      "relationship": "File sizes; df shows system space, ls shows file sizes",
+      "description": "List files with sizes (ls -lh shows individual file sizes)"
+    }
+  ],
+  "best_practices": [
+    "Always use df -h for human-readable output",
+    "Monitor disk usage regularly (check Use% column)",
+    "Watch for partitions above 80% usage",
+    "Use df -h / to check root partition",
+    "Use df -i if you can't create files despite having space",
+    "Check specific directories: df -h /home, df -h /var"
+  ],
+  "performance_tips": [
+    "df is very fast",
+    "df -h is the most common usage",
+    "No performance impact"
+  ],
+  "additional_notes": {
+    "human_readable": "Always use -h flag for readable output (KB, MB, GB instead of blocks)",
+    "usage_percentage": "Watch Use% column - above 80% is getting full, above 90% is critical",
+    "inodes": "Use df -i if you can't create files despite having disk space (inode exhaustion)",
+    "common_usage": "Most common: df -h (check all), df -h / (check root), df -h /home (check home partition)"
+  }
+}
+

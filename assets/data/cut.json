@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "name": "cut",
+    "displayName": "cut - Extract columns from files",
+    "category": "Text Processing",
+    "tags": ["text", "columns", "extract", "fields"],
+    "description": "Extract columns or fields from files",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "cut is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "cut extracts columns or fields from files. It can extract by character position or by delimited fields (like CSV). Simpler than awk for basic column extraction, but less powerful. Essential for processing structured data and extracting specific columns.",
+    "when_to_use": [
+      "Extract columns from files",
+      "Process CSV files",
+      "Extract specific fields",
+      "Get columns from structured data",
+      "Process delimited files",
+      "Extract by character position"
+    ]
+  },
+  "syntax": {
+    "basic": "cut [OPTIONS] [FILE]",
+    "description": "Extract columns from FILE (or stdin). Use -d for delimiter, -f for fields, or -c for characters.",
+    "examples": [
+      "cut -d',' -f2 data.csv",
+      "cut -f1 file.txt",
+      "cut -c1-10 file.txt",
+      "ps aux | cut -d' ' -f1"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --delimiter",
+      "short": "-d",
+      "long": "--delimiter",
+      "description": "Specify field delimiter",
+      "category": "parsing",
+      "example": "cut -d',' -f2 file.csv",
+      "use_case": "Process CSV or other delimited files"
+    },
+    {
+      "flag": "-f, --fields",
+      "short": "-f",
+      "long": "--fields",
+      "description": "Select fields (columns)",
+      "category": "selection",
+      "example": "cut -f1,3 file.txt",
+      "use_case": "Extract specific columns (1, 3, etc.)"
+    },
+    {
+      "flag": "-c, --characters",
+      "short": "-c",
+      "long": "--characters",
+      "description": "Select characters by position",
+      "category": "selection",
+      "example": "cut -c1-10 file.txt",
+      "use_case": "Extract characters 1-10 from each line"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Extract column from CSV",
+      "command": "cut -d',' -f2 data.csv",
+      "description": "Get second column from CSV file",
+      "output": "(second column values)",
+      "output_explanation": {
+        "format": "Extracted column values",
+        "elements": [
+          {
+            "element": "-d','",
+            "meaning": "Use comma as delimiter",
+            "breakdown": {
+              "delimiter": "Specifies field separator",
+              "csv": "Essential for CSV files",
+              "flexible": "Can use any delimiter: -d':', -d'|', etc."
+            }
+          },
+          {
+            "element": "-f2",
+            "meaning": "Extract second field (column)",
+            "breakdown": {
+              "fields": "Field numbers: 1, 2, 3, etc.",
+              "multiple": "Can specify multiple: -f1,3,5",
+              "ranges": "Can use ranges: -f1-5"
+            }
+          }
+        ],
+        "notes": "Extracts second column from CSV. -d specifies delimiter, -f specifies field number. Essential for CSV processing."
+      },
+      "use_case": "Extract columns from CSV and delimited files"
+    },
+    {
+      "title": "Extract first column",
+      "command": "cut -f1 file.txt",
+      "description": "Get first field (whitespace-delimited)",
+      "output": "(first column values)",
+      "output_explanation": {
+        "format": "First column extracted",
+        "elements": [
+          {
+            "element": "-f1",
+            "meaning": "First field",
+            "breakdown": {
+              "default": "Default delimiter is tab (or whitespace)",
+              "useful": "Extract first column from space/tab-separated files"
+            }
+          }
+        ],
+        "notes": "Extracts first field. Default delimiter is tab. Useful for space/tab-separated files."
+      },
+      "use_case": "Extract first column from space/tab-separated files"
+    },
+    {
+      "title": "Extract by character position",
+      "command": "cut -c1-10 file.txt",
+      "description": "Get first 10 characters of each line",
+      "output": "(first 10 characters from each line)",
+      "output_explanation": {
+        "format": "Characters extracted",
+        "elements": [
+          {
+            "element": "-c1-10",
+            "meaning": "Characters 1 through 10",
+            "breakdown": {
+              "position": "Extracts by character position, not fields",
+              "useful": "Fixed-width files, extract prefixes",
+              "ranges": "Can use: -c1-10, -c5, -c1,5,10"
+            }
+          }
+        ],
+        "notes": "Extracts by character position. Useful for fixed-width files or extracting prefixes."
+      },
+      "use_case": "Extract characters by position (fixed-width files)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "cut works like awk",
+      "misconception": "cut and awk work the same way",
+      "reality": "cut is simpler - just extracts columns. awk is more powerful - can process, calculate, filter. Use cut for simple extraction, awk for complex processing.",
+      "tip": "cut = simple column extraction. awk = powerful processing. Use cut for simple cases, awk for complex."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not specifying delimiter for CSV",
+      "description": "cut fails on CSV without -d flag",
+      "solution": "Always use cut -d',' for CSV files. Default delimiter is tab, not comma."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "awk",
+      "relationship": "Column extraction; cut for simple, awk for complex",
+      "description": "Text processing (more powerful than cut for complex operations)"
+    }
+  ],
+  "best_practices": [
+    "Use cut -d',' for CSV files",
+    "Use cut -f for field extraction",
+    "Use cut -c for character position extraction",
+    "Use cut for simple column extraction, awk for complex processing"
+  ],
+  "performance_tips": [
+    "cut is very fast",
+    "Efficient for column extraction",
+    "Simpler and faster than awk for basic extraction"
+  ],
+  "additional_notes": {
+    "delimiter": "Default delimiter is tab. Use -d to specify (comma, colon, pipe, etc.)",
+    "vs_awk": "cut = simple column extraction. awk = powerful processing. Use cut for simple cases.",
+    "common_patterns": "Very common: cut -d',' -f2 file.csv (CSV column), cut -f1 file (first field), ps aux | cut -d' ' -f1 (extract from command output)"
+  }
+}
+

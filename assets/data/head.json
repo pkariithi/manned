@@ -1,0 +1,210 @@
+{
+  "metadata": {
+    "name": "head",
+    "displayName": "head - Display beginning of files",
+    "category": "File & Directory Operations",
+    "tags": ["files", "view", "beginning", "basic"],
+    "description": "Display first lines of files",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "head is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "head displays the first lines of files. It's the opposite of tail - while tail shows the end, head shows the beginning. Useful for checking file headers, seeing file structure, or previewing file contents.",
+    "when_to_use": [
+      "View beginning of files",
+      "Check file headers",
+      "Preview file contents",
+      "See first few lines quickly",
+      "Check file structure",
+      "View CSV/data file headers"
+    ]
+  },
+  "syntax": {
+    "basic": "head [OPTIONS] FILE...",
+    "description": "Display first lines of FILE(s). Default shows first 10 lines. Multiple files can be specified.",
+    "examples": [
+      "head file.txt",
+      "head -n 20 file.txt",
+      "head -c 100 file.txt",
+      "head file1.txt file2.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --lines",
+      "short": "-n",
+      "long": "--lines",
+      "description": "Number of lines to display",
+      "category": "display",
+      "example": "head -n 50 file.txt",
+      "use_case": "Show first 50 lines instead of default 10"
+    },
+    {
+      "flag": "-c, --bytes",
+      "short": "-c",
+      "long": "--bytes",
+      "description": "Display first N bytes instead of lines",
+      "category": "display",
+      "example": "head -c 100 file.txt",
+      "use_case": "Show first 100 bytes of file"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Never print file headers",
+      "category": "display",
+      "example": "head -q file1.txt file2.txt",
+      "use_case": "Suppress file name headers when viewing multiple files"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View first 10 lines",
+      "command": "head file.txt",
+      "description": "Display first 10 lines of file (default)",
+      "output": "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\nLine 7\nLine 8\nLine 9\nLine 10",
+      "output_explanation": {
+        "format": "First 10 lines of file displayed",
+        "elements": [
+          {
+            "element": "First 10 lines",
+            "meaning": "Default behavior - shows first 10 lines",
+            "breakdown": {
+              "default": "Shows first 10 lines if no -n specified",
+              "useful": "Perfect for quick file preview",
+              "common": "Most common use case"
+            }
+          }
+        ],
+        "notes": "Default shows first 10 lines. Use -n to change number of lines."
+      },
+      "use_case": "Quickly preview the beginning of a file"
+    },
+    {
+      "title": "View first N lines",
+      "command": "head -n 20 data.csv",
+      "description": "Display first 20 lines of CSV file",
+      "output": "(first 20 lines including header)",
+      "output_explanation": {
+        "format": "First N lines displayed",
+        "elements": [
+          {
+            "element": "-n 20",
+            "meaning": "Show first 20 lines",
+            "breakdown": {
+              "flexible": "Can specify any number of lines",
+              "useful": "See file structure, headers, initial data",
+              "common": "Common for data files, config files"
+            }
+          }
+        ],
+        "notes": "Useful for viewing file headers and structure. Common for CSV files, config files, data files."
+      },
+      "use_case": "View file headers and initial data (CSV, config files)"
+    },
+    {
+      "title": "View first bytes",
+      "command": "head -c 100 file.bin",
+      "description": "Display first 100 bytes of binary file",
+      "output": "(first 100 bytes, may show as binary/hex)",
+      "output_explanation": {
+        "format": "First N bytes displayed",
+        "elements": [
+          {
+            "element": "-c 100",
+            "meaning": "Show first 100 bytes",
+            "breakdown": {
+              "bytes": "Shows bytes instead of lines",
+              "useful": "Check file headers, magic numbers",
+              "binary": "May show binary data or hex depending on terminal"
+            }
+          }
+        ],
+        "notes": "Useful for checking file headers or magic numbers. For binary files, output may be garbled."
+      },
+      "use_case": "Check file headers or magic numbers"
+    },
+    {
+      "title": "View multiple files",
+      "command": "head file1.txt file2.txt file3.txt",
+      "description": "Display first lines from multiple files",
+      "output": "==> file1.txt <==\n(first 10 lines)\n\n==> file2.txt <==\n(first 10 lines)\n\n==> file3.txt <==\n(first 10 lines)",
+      "output_explanation": {
+        "format": "Each file shown with header",
+        "elements": [
+          {
+            "element": "==> filename <==",
+            "meaning": "Header showing which file's content follows",
+            "breakdown": {
+              "format": "File header, then content, then next file",
+              "useful": "Compare beginning of multiple files",
+              "common": "Useful for comparing file structures"
+            }
+          }
+        ],
+        "notes": "Shows first lines from each file with clear headers. Useful for comparing file structures."
+      },
+      "use_case": "Compare beginning of multiple files"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "head shows end of file",
+      "misconception": "head displays the end of files",
+      "reality": "head shows the BEGINNING of files. Use tail to see the end. head is perfect for checking file headers and structure.",
+      "tip": "head = beginning of file, tail = end of file. head is most useful for file headers."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using head on binary files",
+      "description": "head on binary files shows garbled output",
+      "solution": "head works best on text files. For binary files, use appropriate tools or hexdump."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "tail",
+      "relationship": "View end; head shows beginning, tail shows end",
+      "description": "Display last lines of files (opposite of head)"
+    },
+    {
+      "command": "less",
+      "relationship": "View files; head for beginning, less for full file",
+      "description": "View entire files with scrolling (more powerful than head)"
+    },
+    {
+      "command": "cat",
+      "relationship": "View files; head for beginning, cat for all",
+      "description": "Display entire file contents (use head for large files)"
+    }
+  ],
+  "best_practices": [
+    "Use head to preview file structure and headers",
+    "Use -n to specify number of lines (default is 10)",
+    "Use head for CSV/data files to see column headers",
+    "Use head for config files to see structure",
+    "Combine with tail: head -n 1 file.txt (first line only)",
+    "Use head instead of cat for large files when you only need beginning"
+  ],
+  "performance_tips": [
+    "head is very fast - only reads beginning of file",
+    "Much faster than cat for large files (only reads first N lines)",
+    "Use head instead of cat when you only need file beginning"
+  ],
+  "additional_notes": {
+    "default_lines": "Default shows first 10 lines. Use -n to change.",
+    "vs_tail": "head shows beginning, tail shows end. Both are fast alternatives to cat for large files.",
+    "file_headers": "Perfect for viewing file headers, CSV column names, config file structure",
+    "multiple_files": "Can specify multiple files - each shown with header",
+    "common_pattern": "Common pattern: head -n 1 file.csv (see header), head config.conf (see config structure)"
+  }
+}
+

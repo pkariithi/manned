@@ -1,0 +1,245 @@
+{
+  "metadata": {
+    "name": "ln",
+    "displayName": "ln - Create links between files",
+    "category": "File & Directory Operations",
+    "tags": ["links", "files", "symbolic", "hard", "reference"],
+    "description": "Create hard and symbolic links",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ln is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "ln (link) creates links between files. There are two types: hard links (direct reference to file data) and symbolic links (pointers to file paths). Symbolic links are more common and flexible - they can point to directories and work across file systems. Hard links are limited to files on the same file system.",
+    "when_to_use": [
+      "Create shortcuts to files",
+      "Create symbolic links",
+      "Link files in different locations",
+      "Create convenient access paths",
+      "Link configuration files",
+      "Create hard links for file references"
+    ]
+  },
+  "syntax": {
+    "basic": "ln [OPTIONS] TARGET LINK_NAME",
+    "description": "Create link named LINK_NAME pointing to TARGET. Default creates hard link. Use -s for symbolic link.",
+    "examples": [
+      "ln -s /path/to/file link",
+      "ln -s /usr/bin/python3 python",
+      "ln file.txt hardlink.txt",
+      "ln -s ../config.conf .config"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s, --symbolic",
+      "short": "-s",
+      "long": "--symbolic",
+      "description": "Create symbolic link (most common)",
+      "category": "type",
+      "example": "ln -s target link",
+      "use_case": "Create symbolic link (works across file systems, can point to directories)"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Remove existing destination files",
+      "category": "operation",
+      "example": "ln -sf target link",
+      "use_case": "Overwrite existing link if it exists"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show files being linked",
+      "category": "display",
+      "example": "ln -sv target link",
+      "use_case": "See which links are being created"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create symbolic link",
+      "command": "ln -s /usr/bin/python3 python",
+      "description": "Create symlink 'python' pointing to python3",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means link created successfully",
+        "elements": [
+          {
+            "element": "-s",
+            "meaning": "Create symbolic (soft) link",
+            "breakdown": {
+              "symbolic": "Points to file path, not file data",
+              "flexible": "Can point to directories, works across file systems",
+              "common": "Most common type of link",
+              "broken": "If target is deleted, link becomes broken (dangling)"
+            }
+          },
+          {
+            "element": "/usr/bin/python3",
+            "meaning": "Target file (what link points to)",
+            "breakdown": {
+              "target": "Can be absolute or relative path",
+              "important": "Target must exist (or link will be broken)"
+            }
+          },
+          {
+            "element": "python",
+            "meaning": "Link name (the shortcut)",
+            "breakdown": {
+              "name": "Name of the link file",
+              "location": "Created in current directory unless path specified"
+            }
+          }
+        ],
+        "notes": "Creates symbolic link. Use ls -l to see link (shows -> pointing to target). Most common usage."
+      },
+      "use_case": "Create shortcuts to files or programs"
+    },
+    {
+      "title": "Create hard link",
+      "command": "ln file.txt hardlink.txt",
+      "description": "Create hard link to file",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means link created successfully",
+        "elements": [
+          {
+            "element": "No -s flag",
+            "meaning": "Creates hard link (default)",
+            "breakdown": {
+              "hard_link": "Direct reference to file data",
+              "limitations": "Only works for files (not directories), same file system only",
+              "behavior": "Both files share same data - deleting one doesn't delete data until all links removed",
+              "less_common": "Less commonly used than symbolic links"
+            }
+          }
+        ],
+        "notes": "Creates hard link. Both files point to same data. Less common than symbolic links. Only works for files on same file system."
+      },
+      "use_case": "Create multiple names for same file data"
+    },
+    {
+      "title": "Create link to directory",
+      "command": "ln -s /var/www/html web",
+      "description": "Create symlink to directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means link created successfully",
+        "elements": [
+          {
+            "element": "Directory link",
+            "meaning": "Symbolic links can point to directories",
+            "breakdown": {
+              "symbolic_only": "Only symbolic links can point to directories",
+              "useful": "Create convenient access to directories",
+              "common": "Common for web server directories, project links"
+            }
+          }
+        ],
+        "notes": "Creates symbolic link to directory. Only symbolic links can point to directories. Hard links cannot."
+      },
+      "use_case": "Create convenient access to directories"
+    },
+    {
+      "title": "Verify link",
+      "command": "ls -l link",
+      "description": "Check if file is a link and what it points to",
+      "output": "lrwxrwxrwx 1 user user 11 Jan 15 10:30 link -> target",
+      "output_explanation": {
+        "format": "Link information in ls output",
+        "elements": [
+          {
+            "element": "l",
+            "meaning": "File type 'l' indicates link (symbolic)",
+            "breakdown": {
+              "first_char": "First character 'l' = link",
+              "permissions": "Link permissions are usually lrwxrwxrwx"
+            }
+          },
+          {
+            "element": "-> target",
+            "meaning": "Shows what the link points to",
+            "breakdown": {
+              "arrow": "-> indicates link target",
+              "useful": "Shows if link is broken (target doesn't exist)"
+            }
+          }
+        ],
+        "notes": "ls -l shows link type (l) and target (->). Useful for verifying links and checking if they're broken."
+      },
+      "use_case": "Verify links and check if they're working"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Links are copies",
+      "misconception": "Links create copies of files",
+      "reality": "Links are references, not copies. Symbolic links point to file paths, hard links point to file data. No data is duplicated.",
+      "tip": "Links are references, not copies. Changes to original affect link, and vice versa. No extra disk space used."
+    },
+    {
+      "title": "Hard links and symbolic links are the same",
+      "misconception": "Hard and symbolic links work identically",
+      "reality": "Hard links point to file data (same file system only, files only). Symbolic links point to paths (work across file systems, can point to directories).",
+      "tip": "Use symbolic links (-s) for most cases - more flexible. Hard links are less common and have limitations."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Creating broken links",
+      "description": "Link points to non-existent file",
+      "solution": "Ensure target exists before creating link. Use ls -l to check if link is broken (target missing)."
+    },
+    {
+      "issue": "Using hard links for directories",
+      "description": "Trying to create hard link to directory",
+      "solution": "Hard links only work for files. Use symbolic links (-s) for directories."
+    },
+    {
+      "issue": "Relative vs absolute paths",
+      "description": "Link breaks when moving directories",
+      "solution": "Use absolute paths for links that need to work from anywhere. Relative paths work but break if directory structure changes."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ls",
+      "relationship": "View links; ls -l shows link information",
+      "description": "List files with link information (ls -l shows -> target)"
+    },
+    {
+      "command": "readlink",
+      "relationship": "Link info; readlink shows link target",
+      "description": "Show target of symbolic link"
+    }
+  ],
+  "best_practices": [
+    "Use symbolic links (-s) for most cases - more flexible",
+    "Use absolute paths for links that need to work from anywhere",
+    "Verify links with ls -l to see targets",
+    "Use symbolic links for directories (hard links don't work)",
+    "Check for broken links: ls -l shows broken links clearly",
+    "Use -f to overwrite existing links if needed"
+  ],
+  "performance_tips": [
+    "Links are very fast - just file system metadata",
+    "No performance impact - links are just references",
+    "Symbolic links have minimal overhead"
+  ],
+  "additional_notes": {
+    "symbolic_vs_hard": "Symbolic links (-s) = point to path, flexible, can point to directories. Hard links = point to data, same file system only, files only.",
+    "most_common": "Symbolic links are most common - use ln -s for most cases",
+    "verification": "Use ls -l to see links - shows 'l' type and -> target. Broken links show red or different color.",
+    "common_use": "Very common: ln -s target link (create), ln -s /usr/bin/program shortcut (program shortcut), ln -s ../config .config (config link)"
+  }
+}
+

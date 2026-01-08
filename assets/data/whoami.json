@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "name": "whoami",
+    "displayName": "whoami - Print current username",
+    "category": "System Information",
+    "tags": ["user", "identity", "system", "basic"],
+    "description": "Display the current username",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "whoami is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "whoami (who am I) displays the username of the current user. It's a simple utility for confirming your current user identity. Useful in scripts or when switching users to verify which user you're operating as.",
+    "when_to_use": [
+      "Check current username",
+      "Verify user identity after switching",
+      "Use in scripts to get current user",
+      "Confirm which user you're logged in as",
+      "Debug permission issues",
+      "Verify sudo user context"
+    ]
+  },
+  "syntax": {
+    "basic": "whoami [OPTIONS]",
+    "description": "Display the current username. No arguments required.",
+    "examples": [
+      "whoami",
+      "whoami --version"
+    ]
+  },
+  "options": [
+    {
+      "flag": "--version",
+      "short": null,
+      "long": "--version",
+      "description": "Display version information",
+      "category": "display",
+      "example": "whoami --version",
+      "use_case": "Show whoami version"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic usage",
+      "command": "whoami",
+      "description": "Display current username",
+      "output": "alice",
+      "output_explanation": {
+        "format": "Single line with username",
+        "elements": [
+          {
+            "element": "alice",
+            "meaning": "Current username",
+            "breakdown": {
+              "output": "Just the username - no extra information",
+              "simple": "Clean, single-line output",
+              "useful": "Perfect for scripts and automation"
+            }
+          }
+        ],
+        "notes": "whoami returns only the username - clean output perfect for use in scripts or variables"
+      },
+      "use_case": "Quickly check which user you're logged in as"
+    },
+    {
+      "title": "Use in scripts",
+      "command": "echo \"Current user: $(whoami)\"",
+      "description": "Use whoami in command substitution",
+      "output": "Current user: alice",
+      "output_explanation": {
+        "format": "whoami output embedded in text",
+        "elements": [
+          {
+            "element": "$(whoami)",
+            "meaning": "Command substitution - executes whoami and inserts result",
+            "breakdown": {
+              "usage": "Common pattern in scripts: USER=$(whoami)",
+              "variable": "Can assign to variable: CURRENT_USER=$(whoami)",
+              "useful": "Perfect for scripts that need to know current user"
+            }
+          }
+        ],
+        "notes": "Common in shell scripts to get current user for file paths or permissions checks"
+      },
+      "use_case": "Get username in scripts or for variable assignment"
+    },
+    {
+      "title": "Verify sudo context",
+      "command": "sudo whoami",
+      "description": "Check username when running with sudo",
+      "output": "root",
+      "output_explanation": {
+        "format": "Username shown is root (when using sudo)",
+        "elements": [
+          {
+            "element": "root",
+            "meaning": "When using sudo, whoami shows root",
+            "breakdown": {
+              "behavior": "sudo changes effective user to root",
+              "useful": "Verifies you're running with elevated privileges",
+              "note": "Shows effective user, not original user"
+            }
+          }
+        ],
+        "notes": "Useful for verifying sudo is active - returns 'root' when using sudo"
+      },
+      "use_case": "Verify you're running with sudo/root privileges"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "whoami shows full user info",
+      "misconception": "whoami displays full user information like id command",
+      "reality": "whoami only returns the username. Use id command to see user ID, group ID, and groups.",
+      "tip": "whoami = just username. Use id for full user identity information (UID, GID, groups)."
+    },
+    {
+      "title": "whoami shows original user with sudo",
+      "misconception": "whoami shows original user when using sudo",
+      "reality": "whoami shows effective user (root with sudo). Use $USER or $LOGNAME for original username when using sudo.",
+      "tip": "whoami shows effective user (root with sudo). Use $USER environment variable for original user."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Confusing whoami with id",
+      "description": "Expecting whoami to show UID, GID, or groups",
+      "solution": "Use id command for full user information (UID, GID, groups). whoami only returns username."
+    },
+    {
+      "issue": "Sudo context confusion",
+      "description": "whoami returns root when using sudo, not original user",
+      "solution": "Use $USER or $LOGNAME environment variable for original username when using sudo. whoami shows effective user."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "id",
+      "relationship": "Full user info; whoami shows name, id shows UID/GID/groups",
+      "description": "Display full user identity (UID, GID, groups)"
+    },
+    {
+      "command": "who",
+      "relationship": "Logged in users; whoami shows current, who shows all",
+      "description": "Show all currently logged in users"
+    },
+    {
+      "command": "w",
+      "relationship": "User info and activity; more detailed than whoami",
+      "description": "Show who is logged in and what they're doing"
+    },
+    {
+      "command": "groups",
+      "relationship": "User groups; whoami shows user, groups shows group memberships",
+      "description": "Display groups the current user belongs to"
+    }
+  ],
+  "best_practices": [
+    "Use whoami in scripts to get current username: USER=$(whoami)",
+    "Use id command for full user information (UID, GID, groups)",
+    "Remember: whoami shows effective user (root with sudo), use $USER for original user",
+    "Perfect for conditional checks in scripts based on username",
+    "Use for debugging permission issues - verify which user you're running as"
+  ],
+  "performance_tips": [
+    "whoami is instant - very fast command",
+    "Lightweight compared to id command - use when you only need username"
+  ],
+  "additional_notes": {
+    "simple_output": "whoami returns only username - clean output perfect for scripts",
+    "sudo_context": "Returns root when using sudo (effective user), not original user",
+    "script_usage": "Common in scripts: USER=$(whoami) or if [ \"$(whoami)\" = \"root\" ]",
+    "alternative": "Use $USER environment variable for similar functionality (but may not exist in all shells)",
+    "full_info": "For full user information (UID, GID, groups), use id command instead"
+  }
+}
+

@@ -1,0 +1,223 @@
+{
+  "metadata": {
+    "name": "du",
+    "displayName": "du - Estimate file space usage",
+    "category": "System Information",
+    "tags": ["disk", "size", "directory", "storage"],
+    "description": "Display disk usage of directories and files",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "du is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "du (disk usage) estimates and displays the disk space used by files and directories. Unlike df which shows file system space, du shows how much space specific directories and files are using. Essential for finding what's taking up disk space.",
+    "when_to_use": [
+      "Find large directories",
+      "Check directory sizes",
+      "Identify what's using disk space",
+      "Find space-consuming files",
+      "Clean up disk space",
+      "Analyze storage usage"
+    ]
+  },
+  "syntax": {
+    "basic": "du [OPTIONS] [DIRECTORY/FILE]",
+    "description": "Display disk usage for DIRECTORY/FILE. If no argument, shows usage for current directory and subdirectories.",
+    "examples": [
+      "du -h",
+      "du -sh *",
+      "du -h --max-depth=1",
+      "du -h /home/user"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-h, --human-readable",
+      "short": "-h",
+      "long": "--human-readable",
+      "description": "Display sizes in human-readable format",
+      "category": "display",
+      "example": "du -h",
+      "use_case": "Show sizes in KB, MB, GB (always use this)"
+    },
+    {
+      "flag": "-s, --summarize",
+      "short": "-s",
+      "long": "--summarize",
+      "description": "Show only total for each argument",
+      "category": "display",
+      "example": "du -sh directory/",
+      "use_case": "Show only total size, not subdirectories"
+    },
+    {
+      "flag": "--max-depth",
+      "short": null,
+      "long": "--max-depth",
+      "description": "Limit depth of directory traversal",
+      "category": "filter",
+      "example": "du -h --max-depth=1",
+      "use_case": "Show sizes for current directory and immediate subdirectories only"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show sizes for all files, not just directories",
+      "category": "display",
+      "example": "du -ah",
+      "use_case": "Show sizes for individual files too"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Check directory size",
+      "command": "du -sh /home/user",
+      "description": "Show total size of directory",
+      "output": "15G    /home/user",
+      "output_explanation": {
+        "format": "Size and path",
+        "elements": [
+          {
+            "element": "15G",
+            "meaning": "Total size in human-readable format",
+            "breakdown": {
+              "format": "size path",
+              "useful": "Quick check of directory size",
+              "common": "Most common usage pattern"
+            }
+          }
+        ],
+        "notes": "Shows total size of directory. -s = summarize (total only), -h = human-readable. Very common pattern."
+      },
+      "use_case": "Quickly check total size of a directory"
+    },
+    {
+      "title": "Find large directories",
+      "command": "du -h --max-depth=1 | sort -h",
+      "description": "Show sizes of immediate subdirectories, sorted by size",
+      "output": "512K    ./small\n2.5M    ./medium\n15G     ./large\n20G     .",
+      "output_explanation": {
+        "format": "Sizes of directories sorted smallest to largest",
+        "elements": [
+          {
+            "element": "--max-depth=1",
+            "meaning": "Show only current directory and immediate subdirectories",
+            "breakdown": {
+              "useful": "Find which subdirectory is using most space",
+              "sort": "sort -h sorts by human-readable sizes",
+              "common": "Very useful pattern for finding large directories"
+            }
+          }
+        ],
+        "notes": "Shows sizes of subdirectories. sort -h sorts by size. Very useful for finding what's taking up space."
+      },
+      "use_case": "Identify which subdirectories are using the most space"
+    },
+    {
+      "title": "Find largest files and directories",
+      "command": "du -ah | sort -h | tail -10",
+      "description": "Show 10 largest files/directories",
+      "output": "(10 largest items with sizes)",
+      "output_explanation": {
+        "format": "Largest files/directories listed",
+        "elements": [
+          {
+            "element": "-a",
+            "meaning": "Show all files, not just directories",
+            "breakdown": {
+              "pattern": "du -ah shows all, sort -h sorts by size, tail -10 shows largest",
+              "useful": "Find largest files consuming disk space",
+              "common": "Very useful for disk cleanup"
+            }
+          }
+        ],
+        "notes": "Shows largest files and directories. Useful for finding what to delete when disk is full."
+      },
+      "use_case": "Find largest files consuming disk space"
+    },
+    {
+      "title": "Check current directory",
+      "command": "du -sh .",
+      "description": "Show total size of current directory",
+      "output": "2.5G    .",
+      "output_explanation": {
+        "format": "Total size of current directory",
+        "elements": [
+          {
+            "element": ".",
+            "meaning": "Current directory",
+            "breakdown": {
+              "simple": "Quick check of current directory size",
+              "useful": "Common pattern for checking project size"
+            }
+          }
+        ],
+        "notes": "Shows total size of current directory. Useful for checking project or directory size."
+      },
+      "use_case": "Check size of current directory"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "du shows file system space",
+      "misconception": "du displays available file system space",
+      "reality": "du shows disk USAGE (how much space files/directories use), not available space. Use df to see available file system space.",
+      "tip": "du = disk usage (how much space is used). df = disk free (how much space is available)."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not using -h flag",
+      "description": "du output in blocks is hard to read",
+      "solution": "Always use du -h for human-readable format. Much easier to understand sizes."
+    },
+    {
+      "issue": "du on large directory trees",
+      "description": "du can be slow on very large directory trees",
+      "solution": "Use --max-depth to limit depth, or du specific subdirectories. Be patient on large trees."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "df",
+      "relationship": "File system space; du shows usage, df shows available space",
+      "description": "Show disk space of file systems (complements du)"
+    },
+    {
+      "command": "find",
+      "relationship": "Find files; du shows sizes, find locates files",
+      "description": "Find files by criteria (can combine with du for large files)"
+    },
+    {
+      "command": "sort",
+      "relationship": "Sort output; often used with du to sort by size",
+      "description": "Sort du output by size (du -h | sort -h)"
+    }
+  ],
+  "best_practices": [
+    "Always use du -h for human-readable output",
+    "Use du -sh for total directory size",
+    "Use du -h --max-depth=1 to see subdirectory sizes",
+    "Combine with sort: du -h | sort -h (sorts by size)",
+    "Use du -ah | sort -h | tail to find largest files",
+    "Use du to find what's consuming disk space before cleanup"
+  ],
+  "performance_tips": [
+    "du can be slow on large directory trees",
+    "Use --max-depth to limit depth and speed up",
+    "du -sh is faster than du -h (summarize only)",
+    "Be patient when running on very large directories"
+  ],
+  "additional_notes": {
+    "human_readable": "Always use -h flag for readable output (KB, MB, GB)",
+    "vs_df": "du = disk usage (how much space files use), df = disk free (available space)",
+    "common_patterns": "Common: du -sh directory (total), du -h --max-depth=1 (subdirs), du -ah | sort -h | tail (largest)",
+    "finding_large_files": "Use du -ah | sort -h | tail -10 to find largest files consuming space"
+  }
+}
+

@@ -1,0 +1,240 @@
+{
+  "metadata": {
+    "name": "touch",
+    "displayName": "touch - Create files or update timestamps",
+    "category": "File & Directory Operations",
+    "tags": ["files", "create", "timestamp", "basic"],
+    "description": "Create empty files or update file timestamps",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "touch is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "touch creates empty files or updates the access and modification timestamps of existing files. It's commonly used to create placeholder files, update file timestamps for build systems, or create multiple files at once.",
+    "when_to_use": [
+      "Create empty files",
+      "Update file timestamps",
+      "Create placeholder files",
+      "Trigger file-based build systems",
+      "Create multiple files quickly",
+      "Update file access time"
+    ]
+  },
+  "syntax": {
+    "basic": "touch [OPTIONS] FILE...",
+    "description": "Create FILE(s) if they don't exist, or update their timestamps if they do. Multiple files can be created at once.",
+    "examples": [
+      "touch file.txt",
+      "touch file1.txt file2.txt file3.txt",
+      "touch -t 202401011200 file.txt",
+      "touch -a file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a",
+      "short": "-a",
+      "long": null,
+      "description": "Change only access time",
+      "category": "timestamp",
+      "example": "touch -a file.txt",
+      "use_case": "Update only access time, not modification time"
+    },
+    {
+      "flag": "-m",
+      "short": "-m",
+      "long": null,
+      "description": "Change only modification time",
+      "category": "timestamp",
+      "example": "touch -m file.txt",
+      "use_case": "Update only modification time, not access time"
+    },
+    {
+      "flag": "-t",
+      "short": "-t",
+      "long": null,
+      "description": "Set specific timestamp (format: [[CC]YY]MMDDhhmm[.ss])",
+      "category": "timestamp",
+      "example": "touch -t 202401011200 file.txt",
+      "use_case": "Set file timestamp to specific date/time"
+    },
+    {
+      "flag": "-r, --reference",
+      "short": "-r",
+      "long": "--reference",
+      "description": "Use timestamp from reference file",
+      "category": "timestamp",
+      "example": "touch -r source.txt target.txt",
+      "use_case": "Copy timestamp from one file to another"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create empty file",
+      "command": "touch file.txt",
+      "description": "Create a new empty file",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means file was created successfully",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "File created (or timestamp updated if exists)",
+            "breakdown": {
+              "behavior": "Creates file if it doesn't exist, updates timestamp if it does",
+              "empty": "File is created empty (0 bytes)",
+              "useful": "Common for creating placeholder files, lock files, etc."
+            }
+          }
+        ],
+        "notes": "Creates empty file. If file already exists, updates its timestamp instead. Use ls -l to verify."
+      },
+      "use_case": "Create empty placeholder files quickly"
+    },
+    {
+      "title": "Create multiple files",
+      "command": "touch file1.txt file2.txt file3.txt",
+      "description": "Create multiple files at once",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all files were created successfully",
+        "elements": [
+          {
+            "element": "Multiple files",
+            "meaning": "All specified files created",
+            "breakdown": {
+              "efficient": "Creates all files in one command",
+              "useful": "Common for setting up project structure",
+              "pattern": "Can use wildcards: touch file{1..10}.txt"
+            }
+          }
+        ],
+        "notes": "Creates all specified files. Useful for creating multiple files at once. Can use brace expansion: touch file{1..5}.txt"
+      },
+      "use_case": "Create multiple files quickly (project setup)"
+    },
+    {
+      "title": "Update file timestamp",
+      "command": "touch existing.txt",
+      "description": "Update timestamp of existing file",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means timestamp was updated",
+        "elements": [
+          {
+            "element": "Timestamp update",
+            "meaning": "File's access and modification times updated to current time",
+            "breakdown": {
+              "behavior": "If file exists, touch updates its timestamps",
+              "useful": "Trigger build systems, update file metadata",
+              "verify": "Use ls -l to see updated timestamp"
+            }
+          }
+        ],
+        "notes": "Updates file timestamps to current time. Useful for triggering build systems that check file modification times."
+      },
+      "use_case": "Update file timestamps (trigger builds, update metadata)"
+    },
+    {
+      "title": "Set specific timestamp",
+      "command": "touch -t 202401011200 file.txt",
+      "description": "Set file timestamp to specific date/time",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means timestamp was set successfully",
+        "elements": [
+          {
+            "element": "-t 202401011200",
+            "meaning": "Set timestamp to January 1, 2024, 12:00 PM",
+            "breakdown": {
+              "format": "[[CC]YY]MMDDhhmm[.ss] - year, month, day, hour, minute, optional seconds",
+              "example": "202401011200 = 2024-01-01 12:00",
+              "useful": "Set specific timestamps for testing, archiving"
+            }
+          }
+        ],
+        "notes": "Sets file timestamp to specific date/time. Format: YYYYMMDDhhmm (year, month, day, hour, minute)."
+      },
+      "use_case": "Set specific file timestamps (testing, archiving)"
+    },
+    {
+      "title": "Copy timestamp from another file",
+      "command": "touch -r source.txt target.txt",
+      "description": "Copy timestamp from source file to target file",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means timestamp was copied successfully",
+        "elements": [
+          {
+            "element": "-r source.txt",
+            "meaning": "Use timestamp from source.txt as reference",
+            "breakdown": {
+              "behavior": "Copies access and modification times from source to target",
+              "useful": "Synchronize timestamps between files",
+              "common": "Useful for backups, file synchronization"
+            }
+          }
+        ],
+        "notes": "Copies timestamp from source file to target file. Useful for maintaining file relationships or synchronizing timestamps."
+      },
+      "use_case": "Synchronize file timestamps (backups, file relationships)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "touch only creates files",
+      "misconception": "touch only creates new files",
+      "reality": "touch creates files if they don't exist, but also updates timestamps if files already exist. This dual behavior is useful for both creating files and updating metadata.",
+      "tip": "touch creates files OR updates timestamps. If file exists, it updates the timestamp instead of creating a new file."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Creating files in wrong directory",
+      "description": "Accidentally creating files in current directory instead of intended location",
+      "solution": "Always specify full path or verify current directory with pwd before using touch."
+    },
+    {
+      "issue": "Overwriting existing files",
+      "description": "Worrying that touch will overwrite file contents",
+      "solution": "touch never overwrites file contents - it only creates empty files or updates timestamps. Your data is safe."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "mkdir",
+      "relationship": "Create directories; touch creates files, mkdir creates directories",
+      "description": "Create directories (complement to touch for files)"
+    },
+    {
+      "command": "ls",
+      "relationship": "View files; touch creates, ls shows files with timestamps",
+      "description": "List files with timestamps (ls -l shows touch-created files)"
+    }
+  ],
+  "best_practices": [
+    "Use touch to create empty placeholder files",
+    "Use touch to update file timestamps for build systems",
+    "Use touch with brace expansion: touch file{1..10}.txt",
+    "Use -r to copy timestamps between files",
+    "Use -t to set specific timestamps when needed",
+    "Verify file creation with ls -l"
+  ],
+  "performance_tips": [
+    "touch is very fast",
+    "Creating multiple files at once is efficient",
+    "No performance impact - just file system metadata operations"
+  ],
+  "additional_notes": {
+    "dual_behavior": "touch creates files if they don't exist, or updates timestamps if they do",
+    "empty_files": "touch creates empty files (0 bytes) - use editors to add content",
+    "timestamp_format": "Use -t with format: [[CC]YY]MMDDhhmm[.ss] for specific timestamps",
+    "common_use": "Common patterns: touch file.txt (create), touch -r source.txt target.txt (copy timestamp), touch file{1..5}.txt (multiple files)"
+  }
+}
+

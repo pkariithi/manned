@@ -1,0 +1,304 @@
+{
+  "metadata": {
+    "name": "cd",
+    "displayName": "cd - Change directory",
+    "category": "File & Directory Operations",
+    "tags": ["directory", "navigation", "filesystem", "basic"],
+    "description": "Change the current working directory",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU bash 5.0+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "cd is a built-in shell command available in all Linux shells by default"
+  },
+  "overview": {
+    "summary": "cd (change directory) is used to navigate between directories in the Linux filesystem. It's one of the most fundamental commands for moving around your system. Unlike most commands, cd is built into the shell itself, not a separate program.",
+    "when_to_use": [
+      "Navigate to a different directory",
+      "Move into a subdirectory",
+      "Return to the home directory",
+      "Go to a parent directory",
+      "Change to a specific path",
+      "Navigate using absolute or relative paths"
+    ]
+  },
+  "syntax": {
+    "basic": "cd [DIRECTORY]",
+    "description": "Change to the specified directory. Without arguments, cd returns to the home directory.",
+    "examples": [
+      "cd",
+      "cd Documents",
+      "cd /home/user/Documents",
+      "cd ..",
+      "cd ~",
+      "cd -"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-",
+      "short": "-",
+      "long": null,
+      "description": "Change to previous directory",
+      "category": "navigation",
+      "example": "cd -",
+      "use_case": "Quickly switch between two directories you're working with"
+    },
+    {
+      "flag": "~",
+      "short": "~",
+      "long": null,
+      "description": "Home directory shortcut",
+      "category": "navigation",
+      "example": "cd ~",
+      "use_case": "Go to your home directory from anywhere"
+    },
+    {
+      "flag": "..",
+      "short": "..",
+      "long": null,
+      "description": "Parent directory",
+      "category": "navigation",
+      "example": "cd ..",
+      "use_case": "Move up one directory level"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Change to home directory",
+      "command": "cd",
+      "description": "Without arguments, cd returns to your home directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means success - directory changed",
+        "elements": [
+          {
+            "element": "(no output)",
+            "meaning": "Command succeeded; you're now in your home directory"
+          }
+        ],
+        "notes": "cd typically produces no output when successful. Use pwd to verify your current location."
+      },
+      "use_case": "Quickly return to your home directory from anywhere"
+    },
+    {
+      "title": "Change to specific directory",
+      "command": "cd Documents",
+      "description": "Navigate to a subdirectory in the current location",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the directory change was successful",
+        "elements": [
+          {
+            "element": "Documents",
+            "meaning": "Relative path - looks for Documents in current directory"
+          }
+        ],
+        "notes": "This is a relative path. Make sure Documents exists in your current directory."
+      },
+      "use_case": "Move into a subdirectory from your current location"
+    },
+    {
+      "title": "Change using absolute path",
+      "command": "cd /home/user/Documents",
+      "description": "Navigate using a full absolute path",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means successful navigation",
+        "elements": [
+          {
+            "element": "/home/user/Documents",
+            "meaning": "Absolute path starting from root (/)",
+            "breakdown": {
+              "/": "Root directory",
+              "home": "Home directory for all users",
+              "user": "Specific user's home folder",
+              "Documents": "Documents subdirectory"
+            }
+          }
+        ],
+        "notes": "Absolute paths work from anywhere in the filesystem"
+      },
+      "use_case": "Navigate to a specific location regardless of where you currently are"
+    },
+    {
+      "title": "Go to parent directory",
+      "command": "cd ..",
+      "description": "Move up one directory level",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means you've moved up one level",
+        "elements": [
+          {
+            "element": "..",
+            "meaning": "Special directory name referring to parent directory"
+          }
+        ],
+        "notes": "You can use cd ../.. to go up two levels, etc."
+      },
+      "use_case": "Navigate back to the parent directory"
+    },
+    {
+      "title": "Return to previous directory",
+      "command": "cd -",
+      "description": "Switch back to the directory you were in before the last cd command",
+      "output": "/home/user/Documents",
+      "output_explanation": {
+        "format": "Shows the directory you're now in",
+        "elements": [
+          {
+            "element": "/home/user/Documents",
+            "meaning": "The previous directory path is displayed",
+            "breakdown": {
+              "output": "cd - shows the directory path when switching",
+              "usage": "Useful for toggling between two directories"
+            }
+          }
+        ],
+        "notes": "cd - keeps track of the previous directory and switches between current and previous"
+      },
+      "use_case": "Quickly toggle between two directories you're working with"
+    },
+    {
+      "title": "Navigate with tilde",
+      "command": "cd ~/Documents",
+      "description": "Use ~ as a shortcut for home directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means successful navigation",
+        "elements": [
+          {
+            "element": "~",
+            "meaning": "Shortcut for your home directory (usually /home/username)"
+          },
+          {
+            "element": "~/Documents",
+            "meaning": "Documents folder in your home directory"
+          }
+        ],
+        "notes": "~ expands to your home directory path automatically"
+      },
+      "use_case": "Quickly navigate to directories in your home folder"
+    },
+    {
+      "title": "Error: No such file or directory",
+      "command": "cd nonexistent",
+      "description": "Attempting to change to a directory that doesn't exist",
+      "output": "bash: cd: nonexistent: No such file or directory",
+      "output_explanation": {
+        "format": "Error message when directory doesn't exist",
+        "elements": [
+          {
+            "element": "bash: cd: nonexistent: No such file or directory",
+            "meaning": "The directory 'nonexistent' doesn't exist in the current location",
+            "breakdown": {
+              "bash": "Shell name",
+              "cd": "Command that failed",
+              "nonexistent": "Directory that was attempted",
+              "Error": "No such file or directory"
+            }
+          }
+        ],
+        "notes": "Check the directory name with ls or use absolute paths if unsure of location"
+      },
+      "use_case": "Understanding error messages when navigation fails"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "cd is a program like other commands",
+      "misconception": "cd is an external program stored in /bin or /usr/bin",
+      "reality": "cd is a built-in shell command, not a separate program. It's part of the shell itself (bash, zsh, etc.), which is why it can change the shell's current directory. External programs can't change the shell's directory.",
+      "tip": "cd is special - it's built into your shell, which is why 'which cd' shows nothing or an alias."
+    },
+    {
+      "title": "cd shows the new directory path",
+      "misconception": "cd displays the directory you changed to",
+      "reality": "cd produces no output on success (except when using cd -). Use 'pwd' to see your current directory, or configure your prompt to show it.",
+      "tip": "Use pwd to verify your location after cd. Or configure your shell prompt to always show the current directory."
+    },
+    {
+      "title": "cd creates directories",
+      "misconception": "cd will create a directory if it doesn't exist",
+      "reality": "cd only changes to existing directories. Use 'mkdir' first to create directories, then cd into them.",
+      "tip": "Create directories with mkdir before using cd. Or use mkdir -p path/to/new/dir && cd path/to/new/dir"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Spaces in directory names",
+      "description": "Directories with spaces cause cd to interpret them as separate arguments",
+      "solution": "Quote directory names with spaces: cd 'My Documents' or cd \"My Documents\". Or escape spaces with backslash: cd My\\ Documents."
+    },
+    {
+      "issue": "Relative vs absolute paths confusion",
+      "description": "Using relative paths when you think you're using absolute paths",
+      "solution": "Absolute paths start with /. Relative paths don't. Use pwd first to know where you are, then construct paths accordingly."
+    },
+    {
+      "issue": "Case sensitivity",
+      "description": "Linux is case-sensitive, so Documents and documents are different",
+      "solution": "Match the exact case of directory names. Use tab completion to avoid typos."
+    },
+    {
+      "issue": "Not knowing current location",
+      "description": "Losing track of where you are after multiple cd commands",
+      "solution": "Use pwd to check your current directory. Configure your prompt to show the current path. Use cd - to go back to previous directory."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "pwd",
+      "relationship": "Shows current directory; use after cd to verify location",
+      "description": "Print working directory to see where you are"
+    },
+    {
+      "command": "ls",
+      "relationship": "List directory contents; use before cd to see what's available",
+      "description": "List files and directories to see what you can navigate to"
+    },
+    {
+      "command": "mkdir",
+      "relationship": "Create directories before using cd",
+      "description": "Create new directories that you can then cd into"
+    },
+    {
+      "command": "pushd",
+      "relationship": "Directory stack; advanced navigation with stack management",
+      "description": "Change directory and add to directory stack (allows easy return)"
+    },
+    {
+      "command": "popd",
+      "relationship": "Return from directory stack; used with pushd",
+      "description": "Return to directory from the stack (used with pushd)"
+    }
+  ],
+  "best_practices": [
+    "Use tab completion to avoid typos and see available directories",
+    "Use pwd after cd if unsure of your location",
+    "Quote directory names with spaces: cd 'My Folder'",
+    "Use ~ for home directory shortcuts: cd ~/Documents",
+    "Use .. to navigate up the directory tree",
+    "Use cd - to toggle between two directories",
+    "Use absolute paths when scripting for reliability",
+    "Check directory exists with ls before using cd"
+  ],
+  "performance_tips": [
+    "cd is instant - it's a built-in command with no performance impact",
+    "Tab completion speeds up navigation and reduces errors",
+    "Using ~ and relative paths saves typing",
+    "cd - is faster than typing full paths when toggling directories"
+  ],
+  "additional_notes": {
+    "builtin": "cd is a shell builtin, not a separate program. This is why it can change the shell's working directory",
+    "special_directories": "Special directory names: . (current), .. (parent), ~ (home), - (previous)",
+    "error_handling": "cd without arguments always goes to home directory, even if you're already there",
+    "scripting": "In scripts, use absolute paths or verify directory exists first. cd can cause scripts to fail if directory doesn't exist.",
+    "prompt_integration": "Many shells configure prompts to show current directory (PS1 with \\w or \\W)",
+    "directory_stack": "Advanced users can use pushd/popd for directory stack management"
+  }
+}
+

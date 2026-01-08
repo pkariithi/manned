@@ -1,0 +1,235 @@
+{
+  "metadata": {
+    "name": "which",
+    "displayName": "which - Locate command executable",
+    "category": "System Information",
+    "tags": ["path", "executable", "command", "location", "basic"],
+    "description": "Find location of command executables",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "which is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "which shows the full path of commands (executables) in your PATH. It searches through directories in your PATH environment variable and shows the first executable it finds. Useful for finding where commands are installed or verifying if a command is available.",
+    "when_to_use": [
+      "Find where a command is installed",
+      "Check if a command is in PATH",
+      "Verify which executable will run",
+      "Debug command not found errors",
+      "Find executable path for scripts",
+      "Check for command availability"
+    ]
+  },
+  "syntax": {
+    "basic": "which [OPTIONS] COMMAND...",
+    "description": "Display the full path of COMMAND(s). Searches directories in PATH environment variable. Shows first match found.",
+    "examples": [
+      "which ls",
+      "which python",
+      "which firefox"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show all matching executables in PATH",
+      "category": "display",
+      "example": "which -a python",
+      "use_case": "Find all instances of a command in PATH (not just first one)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Find command location",
+      "command": "which ls",
+      "description": "Show where ls command is located",
+      "output": "/usr/bin/ls",
+      "output_explanation": {
+        "format": "Full path to executable",
+        "elements": [
+          {
+            "element": "/usr/bin/ls",
+            "meaning": "Absolute path to the ls executable",
+            "breakdown": {
+              "behavior": "Searches PATH directories and shows first match",
+              "path": "Full absolute path from root (/)",
+              "useful": "Shows exactly which executable will run when you type the command"
+            }
+          }
+        ],
+        "notes": "Shows the first executable found in PATH. If multiple versions exist, only first one is shown (use -a to see all)."
+      },
+      "use_case": "Find where a command is installed"
+    },
+    {
+      "title": "Check command availability",
+      "command": "which firefox",
+      "description": "Check if firefox is installed and in PATH",
+      "output": "/usr/bin/firefox",
+      "output_explanation": {
+        "format": "Path if found, nothing if not found",
+        "elements": [
+          {
+            "element": "/usr/bin/firefox",
+            "meaning": "Firefox is installed and available in PATH",
+            "breakdown": {
+              "found": "Shows path if command exists in PATH",
+              "not_found": "Shows nothing (no output) if command not found",
+              "useful": "Quick check if a program is installed and accessible"
+            }
+          }
+        ],
+        "notes": "If command is found, shows path. If not found, shows nothing. Useful in scripts to check if command exists."
+      },
+      "use_case": "Verify if a command is installed and accessible"
+    },
+    {
+      "title": "Find all instances",
+      "command": "which -a python",
+      "description": "Show all python executables in PATH",
+      "output": "/usr/bin/python3\n/home/user/.local/bin/python",
+      "output_explanation": {
+        "format": "All matching executables, one per line",
+        "elements": [
+          {
+            "element": "-a flag",
+            "meaning": "Show all matches, not just the first one",
+            "breakdown": {
+              "behavior": "Searches all PATH directories and shows every match",
+              "useful": "See if multiple versions of a command exist",
+              "order": "Shows them in PATH order (first one runs by default)"
+            }
+          }
+        ],
+        "notes": "Shows all instances in PATH. First one listed is the one that runs by default when you type the command."
+      },
+      "use_case": "See all versions of a command in PATH (e.g., python2, python3)"
+    },
+    {
+      "title": "Command not found",
+      "command": "which nonexistent",
+      "description": "Query for a command that doesn't exist",
+      "output": "(no output)",
+      "output_explanation": {
+        "format": "No output means command not found in PATH",
+        "elements": [
+          {
+            "element": "(no output)",
+            "meaning": "Command is not in PATH or doesn't exist",
+            "breakdown": {
+              "reason": "Either command is not installed, or not in PATH directories",
+              "check": "Use which to debug 'command not found' errors",
+              "solution": "Install the command, or check if it's in a non-PATH directory"
+            }
+          }
+        ],
+        "notes": "If which returns nothing, the command is not in your PATH. Check if it's installed or if PATH needs updating."
+      },
+      "use_case": "Debug why a command is not found"
+    },
+    {
+      "title": "Use in scripts",
+      "command": "if which python3 > /dev/null; then echo 'Python found'; fi",
+      "description": "Check if command exists in scripts",
+      "output": "Python found",
+      "output_explanation": {
+        "format": "Conditional execution based on command availability",
+        "elements": [
+          {
+            "element": "which python3 > /dev/null",
+            "meaning": "Check if python3 exists, discard output",
+            "breakdown": {
+              "pattern": "Common pattern in scripts to check command availability",
+              "redirect": "> /dev/null discards output (only check exit code)",
+              "if": "If which succeeds (finds command), command exists",
+              "then": "Execute commands if found"
+            }
+          }
+        ],
+        "notes": "Common pattern in shell scripts: if which command > /dev/null; then ... fi to check if command exists before using it"
+      },
+      "use_case": "Check if a command is available before using it in scripts"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "which works for shell built-ins",
+      "misconception": "which shows paths for all commands including built-ins",
+      "reality": "which only shows paths for external executables, not shell built-ins (cd, history, etc.). Built-ins don't have paths. Use type command to check if something is a built-in.",
+      "tip": "which only shows external commands. For built-ins (cd, history), use type command instead: type cd shows it's a built-in."
+    },
+    {
+      "title": "which shows aliases",
+      "misconception": "which shows where aliases point to",
+      "reality": "which doesn't expand aliases by default. Use type or alias command to see aliases. which shows the underlying executable, not alias definitions.",
+      "tip": "Use type or alias to see aliases. which shows actual executable paths."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "which not showing built-in commands",
+      "description": "Expecting which to show paths for cd, history, etc.",
+      "solution": "Built-ins don't have paths - they're part of the shell. Use type command to check if something is a built-in, external command, or alias."
+    },
+    {
+      "issue": "which not showing aliases",
+      "description": "Expecting which to show where aliases point",
+      "solution": "Use type or alias commands to see aliases. which only shows actual executable paths in PATH."
+    },
+    {
+      "issue": "Command exists but which doesn't find it",
+      "description": "Command works but which shows nothing",
+      "solution": "Command might be a built-in or alias, or not in PATH. Use type to check. If it's an external command, verify PATH includes its directory."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "type",
+      "relationship": "Check command type; which shows path, type shows if built-in/alias/function",
+      "description": "Show if command is built-in, alias, function, or external command (more comprehensive than which)"
+    },
+    {
+      "command": "whereis",
+      "relationship": "Find command files; whereis finds binary, source, man pages",
+      "description": "Find binary, source, and manual page for a command (more than just executable)"
+    },
+    {
+      "command": "locate",
+      "relationship": "Find files; locate searches entire filesystem",
+      "description": "Find files by name in entire filesystem (more general than which)"
+    },
+    {
+      "command": "find",
+      "relationship": "Find files; find can search PATH or entire filesystem",
+      "description": "Search for files in directory tree (can search PATH: find $(echo $PATH | tr ':' ' ') -name command)"
+    }
+  ],
+  "best_practices": [
+    "Use which to find executable paths quickly",
+    "Use which -a to see all versions in PATH",
+    "Use type for built-ins and aliases (more comprehensive)",
+    "Use which in scripts to check if command exists: if which command > /dev/null",
+    "Remember: which only shows external commands, not built-ins or aliases",
+    "Use which to debug 'command not found' errors"
+  ],
+  "performance_tips": [
+    "which is very fast - searches PATH directories only",
+    "PATH is usually short (5-10 directories) so search is instant",
+    "Use which -a only when needed (slightly slower than default)"
+  ],
+  "additional_notes": {
+    "path_search": "which searches directories in PATH environment variable ($PATH)",
+    "first_match": "Shows first executable found in PATH order (first one runs by default)",
+    "builtins": "Doesn't work for shell built-ins (cd, history, etc.) - use type command instead",
+    "aliases": "Doesn't expand aliases - use type or alias to see aliases",
+    "script_usage": "Common pattern: if which command > /dev/null; then ... fi to check command existence"
+  }
+}
+

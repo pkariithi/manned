@@ -1,0 +1,294 @@
+{
+  "metadata": {
+    "name": "tar",
+    "displayName": "tar - Archive files",
+    "category": "File & Directory Operations",
+    "tags": ["archive", "compress", "backup", "files"],
+    "description": "Create and extract archive files",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "GNU tar 1.34+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "tar is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "tar (tape archive) creates and extracts archive files. Despite its name, it's used for file archiving, not just tape backups. tar can create archives (.tar) and with compression tools (gzip, bzip2, xz) creates compressed archives (.tar.gz, .tar.bz2, .tar.xz). Essential for backups, distribution, and file management.",
+    "when_to_use": [
+      "Create file archives",
+      "Extract archive files",
+      "Backup directories",
+      "Compress files for distribution",
+      "Extract downloaded archives",
+      "Create tarballs"
+    ]
+  },
+  "syntax": {
+    "basic": "tar [OPTIONS] ARCHIVE [FILES...]",
+    "description": "Create or extract archives. Common operations: -c (create), -x (extract), -t (list), -f (file).",
+    "examples": [
+      "tar -czf archive.tar.gz directory/",
+      "tar -xzf archive.tar.gz",
+      "tar -tf archive.tar.gz",
+      "tar -xvf archive.tar.gz"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c, --create",
+      "short": "-c",
+      "long": "--create",
+      "description": "Create new archive",
+      "category": "operation",
+      "example": "tar -cf archive.tar files/",
+      "use_case": "Create archive from files/directories"
+    },
+    {
+      "flag": "-x, --extract",
+      "short": "-x",
+      "long": "--extract",
+      "description": "Extract files from archive",
+      "category": "operation",
+      "example": "tar -xf archive.tar",
+      "use_case": "Extract archive contents"
+    },
+    {
+      "flag": "-t, --list",
+      "short": "-t",
+      "long": "--list",
+      "description": "List archive contents",
+      "category": "operation",
+      "example": "tar -tf archive.tar",
+      "use_case": "View files in archive without extracting"
+    },
+    {
+      "flag": "-f, --file",
+      "short": "-f",
+      "long": "--file",
+      "description": "Specify archive file name",
+      "category": "file",
+      "example": "tar -cf archive.tar files/",
+      "use_case": "Specify archive filename (required for most operations)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show files being processed",
+      "category": "display",
+      "example": "tar -cvf archive.tar files/",
+      "use_case": "See which files are being archived/extracted"
+    },
+    {
+      "flag": "-z, --gzip",
+      "short": "-z",
+      "long": "--gzip",
+      "description": "Use gzip compression",
+      "category": "compression",
+      "example": "tar -czf archive.tar.gz files/",
+      "use_case": "Create/extract .tar.gz archives (most common)"
+    },
+    {
+      "flag": "-j, --bzip2",
+      "short": "-j",
+      "long": "--bzip2",
+      "description": "Use bzip2 compression",
+      "category": "compression",
+      "example": "tar -cjf archive.tar.bz2 files/",
+      "use_case": "Create/extract .tar.bz2 archives"
+    },
+    {
+      "flag": "-J, --xz",
+      "short": "-J",
+      "long": "--xz",
+      "description": "Use xz compression",
+      "category": "compression",
+      "example": "tar -cJf archive.tar.xz files/",
+      "use_case": "Create/extract .tar.xz archives (best compression)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create compressed archive",
+      "command": "tar -czf archive.tar.gz directory/",
+      "description": "Create gzip-compressed archive",
+      "output": "(no output on success, archive created)",
+      "output_explanation": {
+        "format": "Archive created silently",
+        "elements": [
+          {
+            "element": "-czf",
+            "meaning": "c=create, z=gzip, f=file",
+            "breakdown": {
+              "c": "Create new archive",
+              "z": "Compress with gzip",
+              "f": "Specify filename (archive.tar.gz)",
+              "common": "Most common pattern for creating archives"
+            }
+          }
+        ],
+        "notes": "Creates compressed archive. -czf is the most common pattern. Use -v to see files being archived."
+      },
+      "use_case": "Create compressed backup or distribution archive"
+    },
+    {
+      "title": "Extract archive",
+      "command": "tar -xzf archive.tar.gz",
+      "description": "Extract gzip-compressed archive",
+      "output": "(no output on success, files extracted)",
+      "output_explanation": {
+        "format": "Files extracted silently",
+        "elements": [
+          {
+            "element": "-xzf",
+            "meaning": "x=extract, z=gzip, f=file",
+            "breakdown": {
+              "x": "Extract files from archive",
+              "z": "Decompress with gzip",
+              "f": "Specify filename",
+              "common": "Most common pattern for extracting"
+            }
+          }
+        ],
+        "notes": "Extracts archive. -xzf is the most common pattern. Use -v to see files being extracted."
+      },
+      "use_case": "Extract downloaded or backup archives"
+    },
+    {
+      "title": "List archive contents",
+      "command": "tar -tzf archive.tar.gz",
+      "description": "View files in archive without extracting",
+      "output": "directory/\ndirectory/file1.txt\ndirectory/file2.txt\ndirectory/subdir/\ndirectory/subdir/file3.txt",
+      "output_explanation": {
+        "format": "List of files in archive",
+        "elements": [
+          {
+            "element": "-tzf",
+            "meaning": "t=list, z=gzip, f=file",
+            "breakdown": {
+              "t": "List archive contents",
+              "z": "Decompress with gzip to read",
+              "f": "Specify filename",
+              "useful": "See what's in archive before extracting"
+            }
+          }
+        ],
+        "notes": "Lists files in archive without extracting. Useful to see contents before extracting."
+      },
+      "use_case": "Preview archive contents before extracting"
+    },
+    {
+      "title": "Extract with verbose output",
+      "command": "tar -xzvf archive.tar.gz",
+      "description": "Extract archive showing files being extracted",
+      "output": "directory/\ndirectory/file1.txt\ndirectory/file2.txt\ndirectory/subdir/\ndirectory/subdir/file3.txt",
+      "output_explanation": {
+        "format": "List of files as they're extracted",
+        "elements": [
+          {
+            "element": "-xzvf",
+            "meaning": "x=extract, z=gzip, v=verbose, f=file",
+            "breakdown": {
+              "v": "Verbose - shows files being processed",
+              "useful": "See progress of extraction",
+              "common": "Common pattern when you want to see what's happening"
+            }
+          }
+        ],
+        "notes": "Extracts with verbose output showing each file. Useful for seeing extraction progress."
+      },
+      "use_case": "Extract archive and see which files are being extracted"
+    },
+    {
+      "title": "Create archive of current directory",
+      "command": "tar -czf backup.tar.gz .",
+      "description": "Archive current directory and all contents",
+      "output": "(archive created)",
+      "output_explanation": {
+        "format": "Archive created",
+        "elements": [
+          {
+            "element": ".",
+            "meaning": "Current directory",
+            "breakdown": {
+              "recursive": "Archives current directory and all subdirectories",
+              "useful": "Create backup of entire project/directory",
+              "common": "Common for backups"
+            }
+          }
+        ],
+        "notes": "Creates archive of current directory. Useful for backups. Use -v to see files being archived."
+      },
+      "use_case": "Create backup of current directory"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "tar compresses files",
+      "misconception": "tar itself compresses files",
+      "reality": "tar only archives files (bundles them together). Compression is done by gzip (-z), bzip2 (-j), or xz (-J). .tar files are not compressed, .tar.gz files are compressed.",
+      "tip": "tar = archive (bundle). -z = compress with gzip. tar -czf creates compressed archive."
+    },
+    {
+      "title": "tar requires .tar extension",
+      "misconception": "tar files must have .tar extension",
+      "reality": "tar doesn't require specific extensions, but conventions help: .tar (uncompressed), .tar.gz or .tgz (gzip), .tar.bz2 (bzip2), .tar.xz (xz).",
+      "tip": "Extensions are conventions, not requirements. But use them for clarity: .tar.gz for gzip-compressed archives."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -f flag",
+      "description": "tar -cz archive.tar.gz fails without -f",
+      "solution": "Always use -f to specify archive filename. tar -czf (not tar -cz)."
+    },
+    {
+      "issue": "Wrong order of flags",
+      "description": "tar -fcz instead of tar -czf",
+      "solution": "Order matters: operation (c/x/t), compression (z/j/J), verbose (v), file (f). Common: tar -czf or tar -xzf."
+    },
+    {
+      "issue": "Extracting to wrong location",
+      "description": "Archive extracts to current directory, overwriting files",
+      "solution": "Create directory first: mkdir extract && cd extract && tar -xzf ../archive.tar.gz. Or use -C to specify directory."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "gzip",
+      "relationship": "Compression; tar archives, gzip compresses",
+      "description": "Compress files (tar uses gzip with -z flag)"
+    },
+    {
+      "command": "zip",
+      "relationship": "Archive format; tar for .tar, zip for .zip",
+      "description": "Create ZIP archives (alternative to tar)"
+    }
+  ],
+  "best_practices": [
+    "Use tar -czf to create compressed archives (most common)",
+    "Use tar -xzf to extract compressed archives",
+    "Use tar -tzf to list archive contents before extracting",
+    "Use -v flag to see progress (tar -xzvf)",
+    "Use descriptive archive names: project-backup-2024.tar.gz",
+    "Test extraction in temporary directory first",
+    "Remember: -f must come last or specify filename immediately after"
+  ],
+  "performance_tips": [
+    "tar is fast for archiving",
+    "gzip (-z) is fast compression, good balance",
+    "bzip2 (-j) is slower but better compression",
+    "xz (-J) is slowest but best compression",
+    "Use gzip (-z) for most cases - good balance of speed and compression"
+  ],
+  "additional_notes": {
+    "common_patterns": "Most common: tar -czf (create), tar -xzf (extract), tar -tzf (list). Remember: -f must specify filename.",
+    "compression": "tar only archives. Use -z (gzip), -j (bzip2), or -J (xz) for compression. .tar = archive only, .tar.gz = archive + gzip.",
+    "extensions": "Conventions: .tar (uncompressed), .tar.gz/.tgz (gzip), .tar.bz2 (bzip2), .tar.xz (xz)",
+    "flag_order": "Order: operation (c/x/t), compression (z/j/J), verbose (v), file (f). Common: -czf, -xzf, -tzf",
+    "extraction_location": "Extracts to current directory. Use -C directory to extract to specific location, or cd to desired directory first"
+  }
+}
+

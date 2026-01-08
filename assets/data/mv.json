@@ -1,0 +1,374 @@
+{
+  "metadata": {
+    "name": "mv",
+    "displayName": "mv - Move or rename files and directories",
+    "category": "File & Directory Operations",
+    "tags": ["files", "move", "rename", "directory", "basic"],
+    "description": "Move or rename files and directories",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "mv is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "mv (move) moves or renames files and directories. When moving to a different directory, mv removes the original file. When moving within the same directory with a different name, mv renames the file. Unlike cp, mv doesn't create duplicates - it moves or renames.",
+    "when_to_use": [
+      "Move files to a different directory",
+      "Rename files or directories",
+      "Reorganize files in your filesystem",
+      "Move multiple files at once",
+      "Relocate directories",
+      "Move files while removing originals"
+    ]
+  },
+  "syntax": {
+    "basic": "mv [OPTIONS] SOURCE... DESTINATION",
+    "description": "Move SOURCE file(s) or directory(ies) to DESTINATION. If source and destination are in the same directory, it renames the file.",
+    "examples": [
+      "mv oldname.txt newname.txt",
+      "mv file.txt Documents/",
+      "mv source/ dest/",
+      "mv *.txt Documents/",
+      "mv -i file.txt existing.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-i, --interactive",
+      "short": "-i",
+      "long": "--interactive",
+      "description": "Prompt before overwriting existing files",
+      "category": "safety",
+      "example": "mv -i file.txt existing.txt",
+      "use_case": "Prevent accidental overwriting by asking for confirmation"
+    },
+    {
+      "flag": "-u, --update",
+      "short": "-u",
+      "long": "--update",
+      "description": "Move only when source is newer than destination or destination doesn't exist",
+      "category": "operation",
+      "example": "mv -u source.txt dest.txt",
+      "use_case": "Only move if source file is newer than destination"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show what is being moved",
+      "category": "display",
+      "example": "mv -v file.txt Documents/",
+      "use_case": "See which files are being moved - useful for confirmation"
+    },
+    {
+      "flag": "-n, --no-clobber",
+      "short": "-n",
+      "long": "--no-clobber",
+      "description": "Do not overwrite existing files",
+      "category": "safety",
+      "example": "mv -n file.txt existing.txt",
+      "use_case": "Skip moving if destination file already exists"
+    },
+    {
+      "flag": "-b, --backup",
+      "short": "-b",
+      "long": "--backup",
+      "description": "Make a backup of each existing destination file",
+      "category": "safety",
+      "example": "mv -b file.txt existing.txt",
+      "use_case": "Create backup of existing file before overwriting (adds ~ suffix)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Rename a file",
+      "command": "mv oldname.txt newname.txt",
+      "description": "Rename oldname.txt to newname.txt in the same directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the rename was successful",
+        "elements": [
+          {
+            "element": "oldname.txt",
+            "meaning": "Source file to rename"
+          },
+          {
+            "element": "newname.txt",
+            "meaning": "New name for the file",
+            "breakdown": {
+              "behavior": "File is renamed from oldname.txt to newname.txt",
+              "location": "File stays in same directory, only name changes"
+            }
+          }
+        ],
+        "notes": "When source and destination are in the same directory with different names, mv renames the file"
+      },
+      "use_case": "Rename a file without moving it to another location"
+    },
+    {
+      "title": "Move file to directory",
+      "command": "mv file.txt Documents/",
+      "description": "Move file.txt into the Documents directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the move was successful",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Source file to move"
+          },
+          {
+            "element": "Documents/",
+            "meaning": "Destination directory (trailing slash indicates directory)",
+            "breakdown": {
+              "result": "File is moved to Documents/file.txt",
+              "original": "Original file.txt is removed from current directory",
+              "preserved": "Filename is preserved in destination"
+            }
+          }
+        ],
+        "notes": "When destination is a directory, the file is moved there and original is removed. Use ls to verify."
+      },
+      "use_case": "Move a file to another directory while keeping the same filename"
+    },
+    {
+      "title": "Move and rename",
+      "command": "mv file.txt Documents/renamed.txt",
+      "description": "Move file.txt to Documents directory and rename it to renamed.txt",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means file was moved and renamed successfully",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Source file"
+          },
+          {
+            "element": "Documents/renamed.txt",
+            "meaning": "Destination with new name",
+            "breakdown": {
+              "destination": "Documents/ is the directory",
+              "new_name": "renamed.txt is the new filename",
+              "result": "File is moved to Documents and renamed to renamed.txt"
+            }
+          }
+        ],
+        "notes": "You can move and rename in one operation by specifying full destination path with new name"
+      },
+      "use_case": "Move a file to a different directory and give it a new name at the same time"
+    },
+    {
+      "title": "Move directory",
+      "command": "mv olddir/ newdir/",
+      "description": "Rename or move a directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means directory was moved successfully",
+        "elements": [
+          {
+            "element": "olddir/",
+            "meaning": "Source directory"
+          },
+          {
+            "element": "newdir/",
+            "meaning": "Destination directory",
+            "breakdown": {
+              "rename": "If both are in same parent directory, it renames",
+              "move": "If different paths, it moves the directory",
+              "recursive": "mv works on directories automatically (no -r flag needed like cp)"
+            }
+          }
+        ],
+        "notes": "mv works on directories without needing special flags (unlike cp which needs -r)"
+      },
+      "use_case": "Move or rename a directory and all its contents"
+    },
+    {
+      "title": "Move multiple files",
+      "command": "mv *.txt Documents/",
+      "description": "Move all .txt files to Documents directory",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all matching files were moved",
+        "elements": [
+          {
+            "element": "*.txt",
+            "meaning": "Wildcard matching all .txt files",
+            "breakdown": {
+              "*": "Matches any characters",
+              "*.txt": "Matches all files ending with .txt in current directory"
+            }
+          },
+          {
+            "element": "Documents/",
+            "meaning": "Destination directory for all files"
+          }
+        ],
+        "notes": "When moving multiple files, destination must be a directory"
+      },
+      "use_case": "Move multiple files matching a pattern to a directory"
+    },
+    {
+      "title": "Interactive move (with confirmation)",
+      "command": "mv -i file.txt existing.txt",
+      "description": "Move with prompt before overwriting",
+      "output": "mv: overwrite 'existing.txt'? (y/n) y",
+      "output_explanation": {
+        "format": "Interactive prompt asking for confirmation",
+        "elements": [
+          {
+            "element": "mv: overwrite 'existing.txt'? (y/n) y",
+            "meaning": "Prompt asking if you want to overwrite existing file",
+            "breakdown": {
+              "-i": "Interactive mode prompts before overwriting",
+              "y": "Type 'y' to confirm, 'n' to skip"
+            }
+          }
+        ],
+        "notes": "Use -i to prevent accidental overwriting of existing files"
+      },
+      "use_case": "Safely move files when destination might already exist"
+    },
+    {
+      "title": "Verbose move (show progress)",
+      "command": "mv -v file1.txt file2.txt Documents/",
+      "description": "Move files with verbose output",
+      "output": "'file1.txt' -> 'Documents/file1.txt'\n'file2.txt' -> 'Documents/file2.txt'",
+      "output_explanation": {
+        "format": "Shows each file being moved with source and destination",
+        "elements": [
+          {
+            "element": "'file1.txt' -> 'Documents/file1.txt'",
+            "meaning": "Shows source file being moved to destination",
+            "breakdown": {
+              "format": "source -> destination",
+              "verbose": "Each file moved is listed with full paths"
+            }
+          }
+        ],
+        "notes": "Use -v to see which files are being moved, especially with multiple files"
+      },
+      "use_case": "See which files are being moved for confirmation"
+    },
+    {
+      "title": "Move with backup",
+      "command": "mv -b file.txt existing.txt",
+      "description": "Move file but create backup of existing destination first",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means move was successful and backup was created",
+        "elements": [
+          {
+            "element": "-b",
+            "meaning": "Backup flag - creates backup of existing file",
+            "breakdown": {
+              "backup": "Creates existing.txt~ (original file with ~ suffix)",
+              "move": "Then moves file.txt to existing.txt"
+            }
+          }
+        ],
+        "notes": "The -b flag creates a backup (adds ~) before overwriting. Useful for safety."
+      },
+      "use_case": "Move a file but keep a backup of the destination file if it exists"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "mv copies files",
+      "misconception": "mv creates a copy like cp does",
+      "reality": "mv moves files (removes original), unlike cp which copies (keeps original). Use cp if you want to keep the original file.",
+      "tip": "mv = move (removes original). cp = copy (keeps original). Choose based on whether you need the original to remain."
+    },
+    {
+      "title": "mv needs -r for directories",
+      "misconception": "mv requires -r flag to move directories",
+      "reality": "mv works on directories without any special flags. Unlike cp, mv handles directories automatically.",
+      "tip": "mv works on directories by default - no special flags needed"
+    },
+    {
+      "title": "mv only moves, doesn't rename",
+      "misconception": "mv only moves files between directories, can't rename",
+      "reality": "mv can both move and rename. If source and destination are in the same directory, it renames. If different directories, it moves (and optionally renames).",
+      "tip": "mv oldname.txt newname.txt in the same directory = rename. mv file.txt dir/ = move."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Accidentally overwriting files",
+      "description": "mv overwrites existing files without warning by default",
+      "solution": "Use -i for interactive mode (prompts before overwriting) or -n to never overwrite. Or check destination first with ls."
+    },
+    {
+      "issue": "Losing files by moving to wrong location",
+      "description": "Moving files to incorrect directory",
+      "solution": "Use -v (verbose) to see what's being moved. Double-check destination paths. Verify with ls after moving."
+    },
+    {
+      "issue": "Confusing source and destination",
+      "description": "Putting files in wrong order",
+      "solution": "Format is always: mv SOURCE DESTINATION. Last argument is always destination. If moving multiple files, last must be a directory."
+    },
+    {
+      "issue": "Moving vs copying confusion",
+      "description": "Expecting file to remain after mv",
+      "solution": "Remember: mv removes the original. If you need the original, use cp instead, or cp first then rm."
+    },
+    {
+      "issue": "Moving across filesystems",
+      "description": "Moving between different filesystems is slower (copy + delete)",
+      "solution": "mv works across filesystems but is slower. It copies then deletes. For large files, consider rsync or cp then rm."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cp",
+      "relationship": "Copies files; mv moves, cp copies",
+      "description": "Copy files (keeps original) instead of moving"
+    },
+    {
+      "command": "rm",
+      "relationship": "Removes files; often combined with cp to simulate mv",
+      "description": "Remove files (cp + rm = mv behavior, but use mv instead)"
+    },
+    {
+      "command": "rename",
+      "relationship": "Rename files; mv can also rename",
+      "description": "Rename files using patterns (mv is simpler for single file renames)"
+    },
+    {
+      "command": "rsync",
+      "relationship": "Advanced move/sync; more efficient for large directories",
+      "description": "Synchronize files and directories (advanced alternative to mv for large moves)"
+    }
+  ],
+  "best_practices": [
+    "Use -i for interactive mode to prevent accidental overwrites",
+    "Use -v for verbose output to see what's being moved",
+    "Use -n to never overwrite existing files",
+    "Use -b to create backups before overwriting",
+    "Verify destination exists before moving: ls destination/",
+    "Use -u to only move if source is newer than destination",
+    "Double-check paths before moving important files",
+    "Use ls after mv to verify files were moved correctly"
+  ],
+  "performance_tips": [
+    "mv is fast on the same filesystem (just updates metadata)",
+    "mv across different filesystems is slower (copy + delete)",
+    "For large directories across filesystems, rsync may be more efficient",
+    "mv preserves hard links when moving within same filesystem",
+    "Moving many small files may be slower than moving one large file"
+  ],
+  "additional_notes": {
+    "move_vs_copy": "mv moves (removes original). cp copies (keeps original).",
+    "rename_capability": "mv can rename files when source and destination are in the same directory",
+    "directory_handling": "mv works on directories automatically - no special flags needed (unlike cp)",
+    "overwrite_behavior": "By default, mv overwrites without asking. Use -i for safety.",
+    "cross_filesystem": "Moving between filesystems requires copy + delete (slower than same-filesystem move)",
+    "preservation": "mv preserves hard links and permissions when moving within same filesystem"
+  }
+}
+

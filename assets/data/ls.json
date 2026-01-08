@@ -1,0 +1,502 @@
+{
+  "metadata": {
+    "name": "ls",
+    "displayName": "ls - List directory contents",
+    "category": "File & Directory Operations",
+    "tags": ["files", "directory", "listing", "navigation", "basic"],
+    "description": "List directory contents",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ls is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The ls command lists files and directories in the current directory or a specified path. It's one of the most fundamental Linux commands used for navigation and file management.",
+    "when_to_use": [
+      "View files and directories in a folder",
+      "Check if a file exists in a directory",
+      "See file permissions, sizes, and timestamps",
+      "List hidden files",
+      "Organize and browse your file system"
+    ]
+  },
+  "syntax": {
+    "basic": "ls [OPTIONS] [FILE/DIRECTORY]",
+    "description": "If no file or directory is specified, ls lists the contents of the current directory.",
+    "examples": [
+      "ls",
+      "ls /home/user",
+      "ls -l",
+      "ls -la ~/Documents"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show all files, including hidden files (those starting with a dot)",
+      "category": "display",
+      "example": "ls -a",
+      "use_case": "To see configuration files like .bashrc or .gitignore"
+    },
+    {
+      "flag": "-l",
+      "short": "-l",
+      "long": null,
+      "description": "Use long listing format (detailed view with permissions, size, date)",
+      "category": "display",
+      "example": "ls -l",
+      "use_case": "To see detailed file information including permissions and modification dates"
+    },
+    {
+      "flag": "-h, --human-readable",
+      "short": "-h",
+      "long": "--human-readable",
+      "description": "Print file sizes in human-readable format (KB, MB, GB)",
+      "category": "display",
+      "example": "ls -lh",
+      "use_case": "Often combined with -l to show sizes like '1.5M' instead of '1572864'"
+    },
+    {
+      "flag": "-t",
+      "short": "-t",
+      "long": null,
+      "description": "Sort by modification time, newest first",
+      "category": "sorting",
+      "example": "ls -lt",
+      "use_case": "To find recently modified files"
+    },
+    {
+      "flag": "-r, --reverse",
+      "short": "-r",
+      "long": "--reverse",
+      "description": "Reverse the order of the sort",
+      "category": "sorting",
+      "example": "ls -ltr",
+      "use_case": "Often combined with -t to see oldest files first"
+    },
+    {
+      "flag": "-S",
+      "short": "-S",
+      "long": null,
+      "description": "Sort by file size, largest first",
+      "category": "sorting",
+      "example": "ls -lS",
+      "use_case": "To identify the largest files in a directory"
+    },
+    {
+      "flag": "-R, --recursive",
+      "short": "-R",
+      "long": "--recursive",
+      "description": "List subdirectories recursively",
+      "category": "display",
+      "example": "ls -R",
+      "use_case": "To see all files in the current directory and all subdirectories"
+    },
+    {
+      "flag": "-d, --directory",
+      "short": "-d",
+      "long": "--directory",
+      "description": "List directories themselves, not their contents",
+      "category": "display",
+      "example": "ls -d */",
+      "use_case": "To see only directory names without listing their contents"
+    },
+    {
+      "flag": "-i, --inode",
+      "short": "-i",
+      "long": "--inode",
+      "description": "Print the index number (inode) of each file",
+      "category": "display",
+      "example": "ls -i",
+      "use_case": "For system administration and understanding file system internals"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic directory listing",
+      "command": "ls",
+      "description": "List all visible files and directories in the current folder",
+      "output": "Documents  Downloads  Music  Pictures  Videos",
+      "output_explanation": {
+        "format": "Space-separated list of file and directory names",
+        "elements": [
+          {
+            "element": "Documents",
+            "meaning": "Directory name (indicated by trailing slash in some cases, but not always visible in basic ls)"
+          },
+          {
+            "element": "Downloads",
+            "meaning": "Directory name"
+          },
+          {
+            "element": "Music",
+            "meaning": "Directory name"
+          },
+          {
+            "element": "Pictures",
+            "meaning": "Directory name"
+          },
+          {
+            "element": "Videos",
+            "meaning": "Directory name"
+          }
+        ],
+        "notes": "Regular files and directories appear the same in basic ls. Use ls -F to add trailing slashes (/) to directories, or ls -l to see detailed info that distinguishes them."
+      },
+      "use_case": "Quick overview of directory contents"
+    },
+    {
+      "title": "Detailed file listing",
+      "command": "ls -l",
+      "description": "Show detailed information including permissions, owner, size, and modification date",
+      "output": "-rw-r--r-- 1 user user 2048 Jan 15 10:30 document.txt",
+      "output_explanation": {
+        "format": "Columns separated by spaces: permissions, links, owner, group, size, date, time, filename",
+        "elements": [
+          {
+            "element": "-rw-r--r--",
+            "meaning": "File permissions and type",
+            "breakdown": {
+              "position_1": "- = regular file (d = directory, l = symlink)",
+              "positions_2-4": "rw- = owner permissions (read, write, no execute)",
+              "positions_5-7": "r-- = group permissions (read only)",
+              "positions_8-10": "r-- = others permissions (read only)"
+            }
+          },
+          {
+            "element": "1",
+            "meaning": "Number of hard links to this file"
+          },
+          {
+            "element": "user",
+            "meaning": "Owner of the file"
+          },
+          {
+            "element": "user",
+            "meaning": "Group that owns the file"
+          },
+          {
+            "element": "2048",
+            "meaning": "File size in bytes (use -h flag for human-readable: 2.0K)"
+          },
+          {
+            "element": "Jan 15 10:30",
+            "meaning": "Last modification date and time (or year if older than 6 months)"
+          },
+          {
+            "element": "document.txt",
+            "meaning": "Filename"
+          }
+        ],
+        "notes": "The first character shows file type: - (file), d (directory), l (symbolic link), c (character device), b (block device)"
+      },
+      "use_case": "Check file permissions, ownership, and when files were last modified"
+    },
+    {
+      "title": "Show hidden files",
+      "command": "ls -la",
+      "description": "List all files including hidden ones (starting with .) with detailed information",
+      "output": "drwxr-xr-x 15 user user 4096 Jan 15 10:00 .\ndrwxr-xr-x  3 user user 4096 Jan 10 09:00 ..\n-rw-r--r--  1 user user  220 Jan 15 09:00 .bashrc",
+      "output_explanation": {
+        "format": "Same as ls -l, but includes hidden files (starting with .)",
+        "elements": [
+          {
+            "element": "drwxr-xr-x 15 user user 4096 Jan 15 10:00 .",
+            "meaning": "Current directory entry",
+            "breakdown": {
+              "d": "Directory (not a file)",
+              "rwxr-xr-x": "Owner: read/write/execute, Group: read/execute, Others: read/execute",
+              "15": "15 subdirectories",
+              ".": "Special entry for current directory"
+            }
+          },
+          {
+            "element": "drwxr-xr-x  3 user user 4096 Jan 10 09:00 ..",
+            "meaning": "Parent directory entry",
+            "breakdown": {
+              "d": "Directory",
+              "rwxr-xr-x": "Full permissions",
+              "3": "3 subdirectories in parent",
+              "..": "Special entry for parent directory"
+            }
+          },
+          {
+            "element": "-rw-r--r--  1 user user  220 Jan 15 09:00 .bashrc",
+            "meaning": "Hidden configuration file",
+            "breakdown": {
+              "-": "Regular file",
+              "rw-r--r--": "Owner can read/write, others can only read",
+              "1": "Single hard link",
+              "220": "220 bytes in size",
+              ".bashrc": "Bash configuration file (hidden because it starts with .)"
+            }
+          }
+        ],
+        "notes": "The . and .. entries appear in every directory. . refers to the current directory, .. refers to the parent directory."
+      },
+      "use_case": "View configuration files and system files that are normally hidden"
+    },
+    {
+      "title": "Human-readable sizes",
+      "command": "ls -lh",
+      "description": "Show file sizes in KB, MB, GB format instead of bytes",
+      "output": "-rw-r--r-- 1 user user 2.5M Jan 15 10:30 large_file.pdf",
+      "output_explanation": {
+        "format": "Same as ls -l but with human-readable file sizes",
+        "elements": [
+          {
+            "element": "-rw-r--r--",
+            "meaning": "File permissions (same as ls -l)"
+          },
+          {
+            "element": "1",
+            "meaning": "Number of hard links"
+          },
+          {
+            "element": "user",
+            "meaning": "Owner"
+          },
+          {
+            "element": "user",
+            "meaning": "Group"
+          },
+          {
+            "element": "2.5M",
+            "meaning": "File size in human-readable format",
+            "breakdown": {
+              "size": "2.5",
+              "unit": "M = Megabytes",
+              "conversion": "2.5M = 2,621,440 bytes (2.5 × 1024 × 1024)",
+              "other_units": "K = Kilobytes, G = Gigabytes, T = Terabytes"
+            }
+          },
+          {
+            "element": "Jan 15 10:30",
+            "meaning": "Modification date and time"
+          },
+          {
+            "element": "large_file.pdf",
+            "meaning": "Filename"
+          }
+        ],
+        "notes": "Much easier to understand than raw bytes. 2.5M is clearer than 2621440 bytes."
+      },
+      "use_case": "Easily understand file sizes without mental math"
+    },
+    {
+      "title": "Sort by modification time",
+      "command": "ls -lt",
+      "description": "Show newest files first, sorted by modification time",
+      "output": "newest_file.txt\nolder_file.txt\noldest_file.txt",
+      "output_explanation": {
+        "format": "Files listed with most recently modified first",
+        "elements": [
+          {
+            "element": "newest_file.txt",
+            "meaning": "Most recently modified file (appears first)"
+          },
+          {
+            "element": "older_file.txt",
+            "meaning": "File modified earlier (middle position)"
+          },
+          {
+            "element": "oldest_file.txt",
+            "meaning": "Least recently modified file (appears last)"
+          }
+        ],
+        "notes": "When combined with -l, you'll see the modification timestamps in descending order. Use -ltr (with -r) to reverse and see oldest first."
+      },
+      "use_case": "Find recently modified files or check what you worked on last"
+    },
+    {
+      "title": "Find largest files",
+      "command": "ls -lhS",
+      "description": "Sort files by size, largest first, with human-readable sizes",
+      "output": "large_video.mp4  (500M)\nmovie.mp4  (200M)\nsmall_doc.pdf  (2.5M)",
+      "output_explanation": {
+        "format": "Files sorted by size (descending), with sizes displayed in human-readable format",
+        "elements": [
+          {
+            "element": "large_video.mp4  (500M)",
+            "meaning": "Largest file, 500 megabytes",
+            "breakdown": {
+              "filename": "large_video.mp4",
+              "size": "500M = 524,288,000 bytes",
+              "position": "First (largest)"
+            }
+          },
+          {
+            "element": "movie.mp4  (200M)",
+            "meaning": "Second largest file, 200 megabytes",
+            "breakdown": {
+              "filename": "movie.mp4",
+              "size": "200M = 209,715,200 bytes",
+              "position": "Second"
+            }
+          },
+          {
+            "element": "small_doc.pdf  (2.5M)",
+            "meaning": "Smallest file in this example, 2.5 megabytes",
+            "breakdown": {
+              "filename": "small_doc.pdf",
+              "size": "2.5M = 2,621,440 bytes",
+              "position": "Last (smallest shown)"
+            }
+          }
+        ],
+        "notes": "Note: The size format shown here is simplified. With ls -lhS -l, you'd see the full detailed output. The -S flag sorts by file size, largest first."
+      },
+      "use_case": "Identify files taking up the most disk space"
+    },
+    {
+      "title": "List specific directory",
+      "command": "ls ~/Documents",
+      "description": "List contents of a specific directory (Documents folder in home directory)",
+      "output": "report.pdf  notes.txt  projects/",
+      "output_explanation": {
+        "format": "Files and directories from the specified path",
+        "elements": [
+          {
+            "element": "report.pdf",
+            "meaning": "Regular file in the Documents directory"
+          },
+          {
+            "element": "notes.txt",
+            "meaning": "Regular text file in the Documents directory"
+          },
+          {
+            "element": "projects/",
+            "meaning": "Subdirectory (the trailing slash indicates it's a directory)",
+            "note": "Note: The trailing slash may not always appear depending on ls configuration. Use ls -F to always show directory indicators."
+          }
+        ],
+        "notes": "You can list any directory without changing to it. ~/Documents expands to /home/username/Documents"
+      },
+      "use_case": "Check contents of a directory without changing to it"
+    },
+    {
+      "title": "Only directories",
+      "command": "ls -d */",
+      "description": "Show only directories, not files, in the current location",
+      "output": "Documents/  Downloads/  Music/",
+      "output_explanation": {
+        "format": "Only directory names with trailing slashes",
+        "elements": [
+          {
+            "element": "Documents/",
+            "meaning": "Directory name with trailing slash indicator",
+            "breakdown": {
+              "-d": "List directories themselves, not their contents",
+              "*/": "Wildcard that matches only directories (those ending with / in the current directory)"
+            }
+          },
+          {
+            "element": "Downloads/",
+            "meaning": "Another directory"
+          },
+          {
+            "element": "Music/",
+            "meaning": "Another directory"
+          }
+        ],
+        "notes": "The -d flag prevents ls from listing directory contents. The */ wildcard matches only items that are directories. Regular files are excluded."
+      },
+      "use_case": "Quickly see what folders exist without file clutter"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "ls shows files in the current directory by default",
+      "misconception": "Many beginners think ls shows files from the entire system or home directory",
+      "reality": "ls without arguments only shows contents of the current working directory (where you are). Use pwd to see your current location.",
+      "tip": "Always know your current directory with pwd before using ls"
+    },
+    {
+      "title": "Hidden files are deleted or system files",
+      "misconception": "Hidden files (starting with .) are special system files that shouldn't be touched",
+      "reality": "Hidden files are just a convention - any file starting with a dot is hidden. They're often configuration files, but regular files can be hidden too. It's safe to view them with ls -a.",
+      "tip": "Use ls -a to see configuration files like .bashrc, .gitconfig, etc."
+    },
+    {
+      "title": "ls -l shows file sizes in bytes",
+      "misconception": "The size column in ls -l output is always in bytes",
+      "reality": "By default, yes, but use -h (human-readable) to see sizes in KB, MB, GB. Always combine -l and -h for readable output: ls -lh",
+      "tip": "Get in the habit of using ls -lh instead of just ls -l for better readability"
+    },
+    {
+      "title": "ls can be used to find files",
+      "misconception": "ls can search for specific files by name",
+      "reality": "ls only lists what's in a directory. Use find, locate, or grep with ls to search. You can use wildcards with ls: ls *.txt",
+      "tip": "For searching: find for files, grep for text content, ls for listing"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Permission denied errors",
+      "description": "You may not have permission to list contents of certain directories",
+      "solution": "Use sudo ls [directory] if you have admin rights, or check permissions with ls -ld [directory]"
+    },
+    {
+      "issue": "Confusing output with many files",
+      "description": "ls output can be overwhelming in directories with many files",
+      "solution": "Use ls -lt | head to see only the 10 newest files, or ls -lhS | head for the 10 largest files"
+    },
+    {
+      "issue": "Case sensitivity",
+      "description": "Linux is case-sensitive, so 'Document.txt' and 'document.txt' are different files",
+      "solution": "Be aware that ls shows exact file names as they exist, respecting case"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cd",
+      "relationship": "Changes directory; often used before ls to navigate",
+      "description": "Change to the directory you want to list"
+    },
+    {
+      "command": "pwd",
+      "relationship": "Shows current directory; useful to know where ls will list",
+      "description": "Print working directory to see where you are"
+    },
+    {
+      "command": "find",
+      "relationship": "Search for files; more powerful than ls for finding specific files",
+      "description": "Search for files recursively"
+    },
+    {
+      "command": "tree",
+      "relationship": "Visual directory listing; alternative to ls -R",
+      "description": "Display directory structure in a tree format (requires installation)"
+    },
+    {
+      "command": "stat",
+      "relationship": "Detailed file information; more details than ls -l",
+      "description": "Display detailed file or file system status"
+    }
+  ],
+  "best_practices": [
+    "Use ls -lh for the most common use case - detailed, human-readable listings",
+    "Combine multiple options: ls -lhtr shows newest first, then oldest (useful for logs)",
+    "Use wildcards for filtering: ls *.txt lists only text files",
+    "Pipe to less for long outputs: ls -l | less to scroll through results",
+    "Use ls -la in new directories to see hidden configuration files"
+  ],
+  "performance_tips": [
+    "ls is very fast for local directories but may be slow on network filesystems",
+    "Avoid ls -R on directories with deep nested structures - use find instead",
+    "For very large directories, use ls -1 (one column) for faster output"
+  ],
+  "additional_notes": {
+    "color_support": "Modern ls versions support color output (ls --color=auto) to distinguish file types",
+    "aliases": "Many Linux distributions alias ls to ls --color=auto by default",
+    "sorting": "By default, ls sorts alphabetically. Use -t, -S, or -r to change sorting",
+    "permissions": "The first character in ls -l output indicates file type: - for regular file, d for directory, l for symlink"
+  }
+}
+

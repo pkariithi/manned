@@ -1,0 +1,352 @@
+{
+  "metadata": {
+    "name": "rm",
+    "displayName": "rm - Remove files and directories",
+    "category": "File & Directory Operations",
+    "tags": ["files", "delete", "remove", "directory", "basic", "dangerous"],
+    "description": "Remove files and directories",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "rm is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "rm (remove) deletes files and directories permanently. Unlike moving files to trash, rm removes files immediately and they cannot be easily recovered. Use with extreme caution, especially with wildcards or the -r flag. Always verify files before deleting.",
+    "when_to_use": [
+      "Delete files you no longer need",
+      "Remove directories and their contents",
+      "Clean up temporary files",
+      "Remove multiple files at once",
+      "Free up disk space",
+      "Remove files permanently (not to trash)"
+    ]
+  },
+  "syntax": {
+    "basic": "rm [OPTIONS] FILE...",
+    "description": "Remove the specified file(s) or directory(ies). Multiple files can be specified. Use -r to remove directories.",
+    "examples": [
+      "rm file.txt",
+      "rm -r directory/",
+      "rm -i *.txt",
+      "rm -f file.txt",
+      "rm -rf directory/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-r, -R, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Remove directories and their contents recursively",
+      "category": "operation",
+      "example": "rm -r directory/",
+      "use_case": "Required to delete directories - removes directory and all contents"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force removal without prompting (overrides -i)",
+      "category": "operation",
+      "example": "rm -f file.txt",
+      "use_case": "Delete files without confirmation, even if write-protected (use with extreme caution)"
+    },
+    {
+      "flag": "-i, --interactive",
+      "short": "-i",
+      "long": "--interactive",
+      "description": "Prompt before each removal",
+      "category": "safety",
+      "example": "rm -i *.txt",
+      "use_case": "Ask for confirmation before deleting each file (highly recommended)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show what is being removed",
+      "category": "display",
+      "example": "rm -v file.txt",
+      "use_case": "See which files are being deleted - useful for verification"
+    },
+    {
+      "flag": "-d, --dir",
+      "short": "-d",
+      "long": "--dir",
+      "description": "Remove empty directories (same as rmdir)",
+      "category": "operation",
+      "example": "rm -d emptydir/",
+      "use_case": "Remove only empty directories without -r flag"
+    },
+    {
+      "flag": "--one-file-system",
+      "short": null,
+      "long": "--one-file-system",
+      "description": "Don't remove files on other filesystems",
+      "category": "safety",
+      "example": "rm -r --one-file-system mountpoint/",
+      "use_case": "Prevent removal of files on mounted filesystems (safety feature)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Delete a single file",
+      "command": "rm file.txt",
+      "description": "Remove a single file",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the file was successfully deleted",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "File to be deleted",
+            "breakdown": {
+              "permanent": "File is permanently removed - not moved to trash",
+              "no_undo": "Cannot easily recover deleted file",
+              "immediate": "Deletion happens immediately"
+            }
+          }
+        ],
+        "notes": "rm permanently deletes files. They don't go to trash - they're gone. Use ls to verify deletion."
+      },
+      "use_case": "Remove a file you no longer need"
+    },
+    {
+      "title": "Delete directory and contents",
+      "command": "rm -r directory/",
+      "description": "Remove a directory and all its contents recursively",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means directory and all contents were deleted",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive flag - required for deleting directories",
+            "breakdown": {
+              "required": "Must use -r or -R to delete directories",
+              "behavior": "Deletes directory and everything inside (files, subdirectories, etc.)"
+            }
+          },
+          {
+            "element": "directory/",
+            "meaning": "Directory to be deleted"
+          }
+        ],
+        "notes": "Warning: rm -r removes everything inside the directory. Use with extreme caution. Consider -i for safety."
+      },
+      "use_case": "Remove an entire directory structure (use with caution)"
+    },
+    {
+      "title": "Interactive deletion (with confirmation)",
+      "command": "rm -i *.txt",
+      "description": "Delete all .txt files with confirmation prompt for each",
+      "output": "rm: remove regular file 'file1.txt'? (y/n) y\nrm: remove regular file 'file2.txt'? (y/n) n",
+      "output_explanation": {
+        "format": "Interactive prompts asking for confirmation",
+        "elements": [
+          {
+            "element": "rm: remove regular file 'file1.txt'? (y/n) y",
+            "meaning": "Prompt asking if you want to delete file1.txt",
+            "breakdown": {
+              "-i": "Interactive mode prompts before each deletion",
+              "y": "Type 'y' to confirm deletion",
+              "n": "Type 'n' to skip this file"
+            }
+          }
+        ],
+        "notes": "Use -i for safety when deleting multiple files. You can confirm or skip each file individually."
+      },
+      "use_case": "Safely delete multiple files with individual confirmation"
+    },
+    {
+      "title": "Force deletion (no prompts)",
+      "command": "rm -f file.txt",
+      "description": "Force deletion without confirmation, even if file is write-protected",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means file was deleted, even if write-protected",
+        "elements": [
+          {
+            "element": "-f",
+            "meaning": "Force flag - overrides write protection and prompts",
+            "breakdown": {
+              "behavior": "Deletes file without asking, even if read-only",
+              "dangerous": "Use with extreme caution - no confirmation"
+            }
+          }
+        ],
+        "notes": "Warning: -f removes files without confirmation. Be very careful, especially with wildcards."
+      },
+      "use_case": "Delete write-protected files or in scripts where you're sure about deletion (use carefully)"
+    },
+    {
+      "title": "Dangerous: Delete everything recursively",
+      "command": "rm -rf directory/",
+      "description": "Force recursive deletion without prompts (very dangerous)",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means everything was deleted without confirmation",
+        "elements": [
+          {
+            "element": "-rf",
+            "meaning": "Force recursive deletion - removes everything without asking",
+            "breakdown": {
+              "-r": "Recursive (removes directory and all contents)",
+              "-f": "Force (no prompts, no errors for missing files)",
+              "dangerous": "Combination is very dangerous - use with extreme caution"
+            }
+          },
+          {
+            "element": "Warning",
+            "meaning": "rm -rf can cause data loss if used incorrectly",
+            "notes": "NEVER use rm -rf / or rm -rf * without careful consideration. Always verify the path."
+          }
+        ],
+        "notes": "CRITICAL WARNING: rm -rf is very dangerous. Double-check the path before executing. Consider using -i for safety."
+      },
+      "use_case": "Remove directory structure when absolutely certain (use with extreme caution)"
+    },
+    {
+      "title": "Verbose deletion (show progress)",
+      "command": "rm -v file1.txt file2.txt",
+      "description": "Delete files with verbose output showing what's being removed",
+      "output": "removed 'file1.txt'\nremoved 'file2.txt'",
+      "output_explanation": {
+        "format": "Shows each file being deleted",
+        "elements": [
+          {
+            "element": "removed 'file1.txt'",
+            "meaning": "Confirmation that file1.txt was deleted",
+            "breakdown": {
+              "-v": "Verbose mode shows each deletion",
+              "confirmation": "Each deleted file is listed"
+            }
+          }
+        ],
+        "notes": "Use -v to see which files are being deleted, especially with multiple files or wildcards"
+      },
+      "use_case": "See which files are being deleted for verification"
+    },
+    {
+      "title": "Error: Permission denied",
+      "command": "rm protected.txt",
+      "description": "Attempting to delete a write-protected file without force",
+      "output": "rm: cannot remove 'protected.txt': Permission denied",
+      "output_explanation": {
+        "format": "Error message when file cannot be deleted",
+        "elements": [
+          {
+            "element": "rm: cannot remove 'protected.txt': Permission denied",
+            "meaning": "File is write-protected or you don't have permission",
+            "breakdown": {
+              "reason": "File permissions prevent deletion",
+              "solution": "Use rm -f to force, or change permissions with chmod, or use sudo"
+            }
+          }
+        ],
+        "notes": "If you have permission, use rm -f to force deletion. Otherwise, you may need sudo or to change permissions."
+      },
+      "use_case": "Understanding error messages when deletion fails"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "rm moves files to trash",
+      "misconception": "rm sends files to a trash/recycle bin like graphical file managers",
+      "reality": "rm permanently deletes files immediately. They don't go to trash - they're gone. Recovery is difficult and requires special tools.",
+      "tip": "rm permanently deletes. If you want trash functionality, use a file manager or trash-cli tool."
+    },
+    {
+      "title": "rm can be undone",
+      "misconception": "Deleted files can be easily recovered",
+      "reality": "rm deletes files permanently. While recovery is sometimes possible with special tools before filesystem overwrites, it's not guaranteed or easy.",
+      "tip": "Always be certain before using rm. Consider backups or trash utilities if you want recovery options."
+    },
+    {
+      "title": "rm needs -r for all directories",
+      "misconception": "rm always requires -r to delete directories",
+      "reality": "rm -r is required for non-empty directories. Empty directories can be deleted with rm -d or rmdir. Non-empty directories need -r.",
+      "tip": "Use rm -r for directories with contents, rm -d or rmdir for empty directories"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "rm -rf * or rm -rf /",
+      "description": "Accidentally deleting everything including system files",
+      "solution": "NEVER use rm -rf / (will delete entire system). Always double-check paths. Use absolute paths carefully. Consider using -i for safety."
+    },
+    {
+      "issue": "Deleting wrong files with wildcards",
+      "description": "Using wildcards without testing first",
+      "solution": "Test wildcards with ls first: ls *.txt to see what matches, then use rm if correct. Use -i for interactive confirmation."
+    },
+    {
+      "issue": "Forgetting -r for directories",
+      "description": "Trying to delete directory without -r flag",
+      "solution": "Use rm -r for directories. Error will say 'Is a directory' if you forget. Use rmdir for empty directories."
+    },
+    {
+      "issue": "No confirmation by default",
+      "description": "rm doesn't ask for confirmation by default",
+      "solution": "Use -i for interactive mode to get confirmation prompts. Always verify with ls before deleting."
+    },
+    {
+      "issue": "Permanent deletion without recovery",
+      "description": "Expecting files to be recoverable after rm",
+      "solution": "Assume files are gone forever after rm. Use backups or trash utilities if you need recovery options."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "rmdir",
+      "relationship": "Removes empty directories; rm -r removes all directories",
+      "description": "Remove only empty directories (safer than rm -r)"
+    },
+    {
+      "command": "unlink",
+      "relationship": "Removes single files; same as rm for files",
+      "description": "Remove a single file (same as rm file.txt but less commonly used)"
+    },
+    {
+      "command": "shred",
+      "relationship": "Secure deletion; rm only removes file entries",
+      "description": "Securely delete files by overwriting them before removal"
+    },
+    {
+      "command": "trash-cli",
+      "relationship": "Trash utility; safer alternative to rm",
+      "description": "Move files to trash instead of permanent deletion (requires installation: sudo apt install trash-cli)"
+    }
+  ],
+  "best_practices": [
+    "ALWAYS use -i (interactive) when deleting important files or using wildcards",
+    "Test wildcards with ls first before using with rm",
+    "Double-check paths before executing rm, especially with -r or -f",
+    "Use -v (verbose) to see what's being deleted",
+    "Consider using trash-cli instead of rm for recoverable deletion",
+    "NEVER use rm -rf / (will delete entire system)",
+    "Use rmdir for empty directories (safer than rm -r)",
+    "Verify files exist with ls before deleting",
+    "Keep backups of important files before deletion"
+  ],
+  "performance_tips": [
+    "rm is fast for local file deletions",
+    "Deleting many small files may be slower than deleting one large file",
+    "rm -rf on large directories may take time",
+    "Use rm -f in scripts when you're certain, but test first"
+  ],
+  "additional_notes": {
+    "permanent_deletion": "rm permanently deletes files - they don't go to trash. Recovery is difficult.",
+    "recursive_deletion": "Use -r or -R for directories. Be very careful with rm -rf - it's powerful but dangerous.",
+    "interactive_mode": "Always use -i when unsure. Better safe than sorry.",
+    "wildcard_danger": "Test wildcards with ls first before using with rm",
+    "critical_warning": "NEVER use rm -rf / or rm -rf * without careful consideration - can cause system-wide data loss",
+    "permissions": "You need write permission on parent directory to delete files. Use sudo if needed, but be very careful.",
+    "alternatives": "Consider trash-cli or file manager for safer deletion with recovery options"
+  }
+}
+

@@ -1,0 +1,250 @@
+{
+  "metadata": {
+    "name": "man",
+    "displayName": "man - Display manual pages",
+    "category": "Documentation",
+    "tags": ["manual", "help", "documentation", "reference"],
+    "description": "Display system manual pages",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "man-db 2.11+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "man is built-in on most Linux distributions by default"
+  },
+  "overview": {
+    "summary": "man (manual) displays system manual pages - the traditional Unix documentation system. Manual pages provide comprehensive documentation for commands, system calls, library functions, and configuration files. They're organized into sections (man pages).",
+    "when_to_use": [
+      "Read command documentation",
+      "Learn how to use a command",
+      "See all command options",
+      "Understand system functions",
+      "Reference command syntax",
+      "Get detailed command help"
+    ]
+  },
+  "syntax": {
+    "basic": "man [SECTION] PAGE",
+    "description": "Display manual page for PAGE. Optionally specify SECTION number. Without section, shows first match found.",
+    "examples": [
+      "man ls",
+      "man 1 passwd",
+      "man -k keyword",
+      "man man"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-k, --apropos",
+      "short": "-k",
+      "long": "--apropos",
+      "description": "Search manual pages by keyword",
+      "category": "search",
+      "example": "man -k password",
+      "use_case": "Find man pages related to a keyword"
+    },
+    {
+      "flag": "-f, --whatis",
+      "short": "-f",
+      "long": "--whatis",
+      "description": "Show one-line description of page",
+      "category": "display",
+      "example": "man -f ls",
+      "use_case": "Get brief description of a command"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Display all matching manual pages",
+      "category": "display",
+      "example": "man -a passwd",
+      "use_case": "Show all sections of a man page (if multiple exist)"
+    },
+    {
+      "flag": "-w, --path",
+      "short": "-w",
+      "long": "--path",
+      "description": "Show path to manual page file",
+      "category": "display",
+      "example": "man -w ls",
+      "use_case": "Find where the man page file is located"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View man page",
+      "command": "man ls",
+      "description": "Display manual page for ls command",
+      "output": "LS(1)                    User Commands                   LS(1)\n\nNAME\n       ls - list directory contents\n\nSYNOPSIS\n       ls [OPTION]... [FILE]...\n\nDESCRIPTION\n       List  information  about  the FILEs (the current directory by default).",
+      "output_explanation": {
+        "format": "Formatted manual page displayed in pager",
+        "elements": [
+          {
+            "element": "LS(1)",
+            "meaning": "Command name and section number",
+            "breakdown": {
+              "format": "COMMAND(SECTION)",
+              "sections": "1=user commands, 2=system calls, 3=library functions, 5=file formats, 8=admin commands"
+            }
+          },
+          {
+            "element": "NAME",
+            "meaning": "Command name and brief description",
+            "breakdown": {
+              "sections": "Standard man page sections: NAME, SYNOPSIS, DESCRIPTION, OPTIONS, EXAMPLES, SEE ALSO"
+            }
+          },
+          {
+            "element": "SYNOPSIS",
+            "meaning": "Command syntax and usage",
+            "breakdown": {
+              "format": "Shows command syntax with options and arguments",
+              "brackets": "[OPTION] means optional, FILE means required argument"
+            }
+          }
+        ],
+        "notes": "Man pages are displayed in a pager (usually less). Use arrow keys to navigate, 'q' to quit, '/' to search."
+      },
+      "use_case": "Read comprehensive documentation for a command"
+    },
+    {
+      "title": "Search man pages",
+      "command": "man -k password",
+      "description": "Find man pages related to 'password'",
+      "output": "passwd (1)            - change user password\npasswd (5)            - password file\nchpasswd (8)         - update passwords in batch mode",
+      "output_explanation": {
+        "format": "List of matching man pages with brief descriptions",
+        "elements": [
+          {
+            "element": "passwd (1)",
+            "meaning": "Command name and section number with description",
+            "breakdown": {
+              "format": "command (section) - description",
+              "useful": "Shows all man pages matching the keyword",
+              "then": "Use man passwd or man 1 passwd to view specific page"
+            }
+          }
+        ],
+        "notes": "Search all man pages for a keyword. Useful when you don't know the exact command name."
+      },
+      "use_case": "Find documentation by searching keywords"
+    },
+    {
+      "title": "Specify section",
+      "command": "man 1 passwd",
+      "description": "View passwd command from section 1 (user commands)",
+      "output": "(shows passwd command manual from section 1)",
+      "output_explanation": {
+        "format": "Man page from specified section",
+        "elements": [
+          {
+            "element": "1",
+            "meaning": "Section number",
+            "breakdown": {
+              "sections": "1=user commands, 2=system calls, 3=library functions, 5=file formats, 8=administrative",
+              "useful": "Some names exist in multiple sections (e.g., passwd is both command and file format)",
+              "specific": "Specifying section shows exact page you want"
+            }
+          }
+        ],
+        "notes": "Useful when same name exists in multiple sections. man passwd might show wrong one, man 1 passwd is specific."
+      },
+      "use_case": "View specific section when command name exists in multiple sections"
+    },
+    {
+      "title": "Brief description",
+      "command": "man -f ls",
+      "description": "Show one-line description of ls",
+      "output": "ls (1)               - list directory contents",
+      "output_explanation": {
+        "format": "One-line summary",
+        "elements": [
+          {
+            "element": "ls (1) - list directory contents",
+            "meaning": "Command, section, and brief description",
+            "breakdown": {
+              "quick": "Fast way to get brief info without opening full man page",
+              "useful": "Good for quick reference or checking if command exists"
+            }
+          }
+        ],
+        "notes": "Quick way to see what a command does without opening full manual. Similar to whatis command."
+      },
+      "use_case": "Get quick one-line description of a command"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "man pages are hard to read",
+      "misconception": "man pages are too technical and difficult for beginners",
+      "reality": "Man pages are comprehensive but can be intimidating. They use standard navigation (arrow keys, / to search, q to quit). Start with SYNOPSIS and DESCRIPTION sections.",
+      "tip": "Use arrow keys, / to search, q to quit. Start with SYNOPSIS and DESCRIPTION - skip to EXAMPLES if available."
+    },
+    {
+      "title": "man only shows command help",
+      "misconception": "man only displays help for commands",
+      "reality": "man pages document commands, system calls, library functions, file formats, and more. Organized into sections: 1=commands, 2=system calls, 3=functions, 5=files, 8=admin.",
+      "tip": "man pages cover many things: commands (section 1), system calls (2), file formats (5), etc."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not knowing how to navigate man pages",
+      "description": "Getting stuck in man page viewer",
+      "solution": "Use arrow keys to scroll, /pattern to search, n for next match, N for previous, q to quit, h for help. Man pages use less pager."
+    },
+    {
+      "issue": "Wrong section",
+      "description": "Getting wrong man page when name exists in multiple sections",
+      "solution": "Specify section: man 1 passwd (command) vs man 5 passwd (file format). Use man -k to search first."
+    },
+    {
+      "issue": "Man page not found",
+      "description": "Command not found in man pages",
+      "solution": "Some commands are shell builtins (cd, history) - use help cd instead. Or install man pages: sudo apt install manpages"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "info",
+      "relationship": "Alternative documentation; info pages vs man pages",
+      "description": "Display info documentation (alternative to man pages, more detailed)"
+    },
+    {
+      "command": "help",
+      "relationship": "Built-in help; help for shell builtins, man for external commands",
+      "description": "Help for shell built-in commands (cd, history, etc. - use help not man)"
+    },
+    {
+      "command": "--help",
+      "relationship": "Quick help; --help for quick reference, man for full docs",
+      "description": "Quick help flag available on most commands (ls --help)"
+    }
+  ],
+  "best_practices": [
+    "Use man command for detailed documentation",
+    "Use man -k keyword to search for commands by topic",
+    "Use arrow keys, / to search, q to quit in man pages",
+    "Start with SYNOPSIS and DESCRIPTION sections",
+    "Check EXAMPLES section if available",
+    "Use man -f for quick one-line description",
+    "Specify section when needed: man 1 command vs man 5 command"
+  ],
+  "performance_tips": [
+    "man pages load quickly",
+    "Use man -f for fast one-line descriptions",
+    "Search with man -k is fast",
+    "Navigation in man pages (less) is efficient"
+  ],
+  "additional_notes": {
+    "navigation": "Man pages use less pager - arrow keys, /search, n/N for next/prev, q to quit, h for help",
+    "sections": "Man pages organized into sections: 1=commands, 2=system calls, 3=functions, 5=file formats, 8=admin",
+    "builtins": "Shell built-ins (cd, history) don't have man pages - use help command instead",
+    "vs_info": "info pages are alternative documentation format (more detailed but less common than man)",
+    "installation": "Some man pages need to be installed: sudo apt install manpages manpages-dev"
+  }
+}
+

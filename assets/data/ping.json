@@ -1,0 +1,253 @@
+{
+  "metadata": {
+    "name": "ping",
+    "displayName": "ping - Test network connectivity",
+    "category": "Network & Internet",
+    "tags": ["network", "connectivity", "test", "diagnostics"],
+    "description": "Test network connectivity to hosts",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "iputils-ping 20210202+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ping is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "ping sends ICMP echo requests to network hosts and measures response time. It's the primary tool for testing network connectivity, checking if a host is reachable, and diagnosing network issues. ping continues sending packets until stopped (Ctrl+C).",
+    "when_to_use": [
+      "Test network connectivity",
+      "Check if host is reachable",
+      "Diagnose network problems",
+      "Measure network latency",
+      "Verify internet connection",
+      "Test DNS resolution"
+    ]
+  },
+  "syntax": {
+    "basic": "ping [OPTIONS] HOST",
+    "description": "Send ICMP packets to HOST (IP address or hostname). Continues until stopped with Ctrl+C. Shows round-trip time and packet loss.",
+    "examples": [
+      "ping google.com",
+      "ping -c 4 8.8.8.8",
+      "ping -i 2 google.com",
+      "ping -W 5 example.com"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c, --count",
+      "short": "-c",
+      "long": "--count",
+      "description": "Stop after sending N packets",
+      "category": "control",
+      "example": "ping -c 4 google.com",
+      "use_case": "Send only 4 packets then stop (instead of continuous)"
+    },
+    {
+      "flag": "-i, --interval",
+      "short": "-i",
+      "long": "--interval",
+      "description": "Wait N seconds between packets",
+      "category": "timing",
+      "example": "ping -i 2 google.com",
+      "use_case": "Send packets every 2 seconds (default is 1 second)"
+    },
+    {
+      "flag": "-W, --timeout",
+      "short": "-W",
+      "long": "--timeout",
+      "description": "Wait N seconds for response",
+      "category": "timing",
+      "example": "ping -W 5 google.com",
+      "use_case": "Wait 5 seconds for response before timing out"
+    },
+    {
+      "flag": "-s, --size",
+      "short": "-s",
+      "long": "--size",
+      "description": "Send packets of specified size",
+      "category": "packet",
+      "example": "ping -s 1000 google.com",
+      "use_case": "Send larger packets (useful for testing MTU)"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Quiet output (only summary)",
+      "category": "display",
+      "example": "ping -q -c 10 google.com",
+      "use_case": "Show only summary statistics, not each packet"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Test connectivity",
+      "command": "ping google.com",
+      "description": "Ping Google to test internet connectivity",
+      "output": "PING google.com (142.250.191.14) 56(84) bytes of data.\n64 bytes from 142.250.191.14: icmp_seq=1 ttl=118 time=12.5 ms\n64 bytes from 142.250.191.14: icmp_seq=2 ttl=118 time=11.8 ms\n64 bytes from 142.250.191.14: icmp_seq=3 ttl=118 time=12.1 ms\n^C\n--- google.com ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss, time 2002ms\nrtt min/avg/max/mdev = 11.800/12.133/12.500/0.293 ms",
+      "output_explanation": {
+        "format": "Ping output with responses and statistics",
+        "elements": [
+          {
+            "element": "PING google.com (142.250.191.14)",
+            "meaning": "Target hostname and resolved IP address",
+            "breakdown": {
+              "hostname": "Domain name being pinged",
+              "ip": "Resolved IP address (DNS lookup)",
+              "useful": "Shows if DNS resolution works"
+            }
+          },
+          {
+            "element": "64 bytes from ... icmp_seq=1 ttl=118 time=12.5 ms",
+            "meaning": "Successful ping response",
+            "breakdown": {
+              "bytes": "Packet size received",
+              "icmp_seq": "Sequence number (packet number)",
+              "ttl": "Time to live (network hops)",
+              "time": "Round-trip time in milliseconds (latency)"
+            }
+          },
+          {
+            "element": "packet statistics",
+            "meaning": "Summary after stopping (Ctrl+C)",
+            "breakdown": {
+              "transmitted": "Packets sent",
+              "received": "Packets received back",
+              "packet_loss": "Percentage of lost packets (0% is good)",
+              "rtt": "Round-trip time statistics (min/avg/max)"
+            }
+          }
+        ],
+        "notes": "Shows ping responses with latency times. Press Ctrl+C to stop. Statistics show packet loss and round-trip times. Lower time = better connection."
+      },
+      "use_case": "Test if host is reachable and measure network latency"
+    },
+    {
+      "title": "Ping specific number of packets",
+      "command": "ping -c 4 8.8.8.8",
+      "description": "Send 4 packets then stop",
+      "output": "PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.\n64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=10.2 ms\n64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=9.8 ms\n64 bytes from 8.8.8.8: icmp_seq=3 ttl=118 time=10.1 ms\n64 bytes from 8.8.8.8: icmp_seq=4 ttl=118 time=10.0 ms\n\n--- 8.8.8.8 ping statistics ---\n4 packets transmitted, 4 received, 0% packet loss, time 3003ms\nrtt min/avg/max/mdev = 9.800/10.025/10.200/0.163 ms",
+      "output_explanation": {
+        "format": "Ping output that stops automatically",
+        "elements": [
+          {
+            "element": "-c 4",
+            "meaning": "Send 4 packets then stop automatically",
+            "breakdown": {
+              "useful": "No need to press Ctrl+C - stops automatically",
+              "common": "Very common for quick connectivity tests",
+              "scripts": "Perfect for scripts and automation"
+            }
+          }
+        ],
+        "notes": "Sends specified number of packets then stops. No need to press Ctrl+C. Perfect for quick tests and scripts."
+      },
+      "use_case": "Quick connectivity test without manual stopping"
+    },
+    {
+      "title": "Ping with longer interval",
+      "command": "ping -i 2 google.com",
+      "description": "Send packets every 2 seconds",
+      "output": "(ping responses every 2 seconds instead of 1)",
+      "output_explanation": {
+        "format": "Ping with slower packet rate",
+        "elements": [
+          {
+            "element": "-i 2",
+            "meaning": "Wait 2 seconds between packets",
+            "breakdown": {
+              "default": "Default is 1 second",
+              "useful": "Reduce network load, slower testing",
+              "common": "Useful for long-running tests"
+            }
+          }
+        ],
+        "notes": "Sends packets at slower rate. Useful for reducing network load or longer monitoring."
+      },
+      "use_case": "Test connectivity with slower packet rate"
+    },
+    {
+      "title": "Quiet ping (summary only)",
+      "command": "ping -q -c 10 google.com",
+      "description": "Show only summary, not each packet",
+      "output": "PING google.com (142.250.191.14) 56(84) bytes of data.\n\n--- google.com ping statistics ---\n10 packets transmitted, 10 received, 0% packet loss, time 9008ms\nrtt min/avg/max/mdev = 11.200/12.150/13.500/0.650 ms",
+      "output_explanation": {
+        "format": "Only summary statistics shown",
+        "elements": [
+          {
+            "element": "-q",
+            "meaning": "Quiet mode - suppress per-packet output",
+            "breakdown": {
+              "useful": "Cleaner output, only see final statistics",
+              "common": "Useful for scripts and when you only want summary"
+            }
+          }
+        ],
+        "notes": "Shows only summary statistics, not each packet response. Cleaner output for scripts and quick checks."
+      },
+      "use_case": "Get ping statistics without per-packet output"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "ping shows download speed",
+      "misconception": "ping time indicates internet speed",
+      "reality": "ping shows latency (round-trip time), not bandwidth/speed. Low ping = low latency (good for gaming, real-time). High ping = high latency (slower response).",
+      "tip": "ping = latency (response time), not speed. Use speedtest-cli or similar for bandwidth testing."
+    },
+    {
+      "title": "ping works without internet",
+      "misconception": "ping works on local network without internet",
+      "reality": "ping works on local network too - you can ping local IPs (192.168.x.x) without internet. ping tests network connectivity, not just internet.",
+      "tip": "ping works on local network. ping 192.168.1.1 tests router connectivity without internet."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not stopping ping",
+      "description": "ping runs continuously until stopped",
+      "solution": "Press Ctrl+C to stop ping. Or use -c flag to send specific number of packets."
+    },
+    {
+      "issue": "High ping times",
+      "description": "Worrying about high ping times",
+      "solution": "Ping times vary. <50ms is excellent, <100ms is good, <200ms is acceptable. Very high (>500ms) may indicate network issues."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "traceroute",
+      "relationship": "Network diagnostics; ping tests connectivity, traceroute shows path",
+      "description": "Trace network path to host (shows route packets take)"
+    },
+    {
+      "command": "netstat",
+      "relationship": "Network info; ping tests connectivity, netstat shows connections",
+      "description": "Show network connections and routing tables"
+    }
+  ],
+  "best_practices": [
+    "Use ping -c 4 for quick connectivity tests",
+    "Use ping to test both hostnames and IP addresses",
+    "Use ping to verify DNS resolution (hostname resolves to IP)",
+    "Check packet loss - 0% is ideal, >5% may indicate problems",
+    "Use ping -q for cleaner output in scripts",
+    "Press Ctrl+C to stop continuous ping",
+    "Use ping to test local network (192.168.x.x) and internet (8.8.8.8, google.com)"
+  ],
+  "performance_tips": [
+    "ping is fast and lightweight",
+    "Use -c to limit packets for faster tests",
+    "ping has minimal network impact"
+  ],
+  "additional_notes": {
+    "latency_vs_speed": "ping shows latency (response time), not bandwidth. Low ping = fast response, not fast download speed.",
+    "stopping": "ping runs until Ctrl+C. Use -c flag to send specific number of packets and stop automatically.",
+    "common_use": "Very common: ping google.com (test internet), ping -c 4 host (quick test), ping 192.168.1.1 (test router)",
+    "packet_loss": "0% packet loss is ideal. >5% may indicate network problems. Check statistics after stopping ping."
+  }
+}
+

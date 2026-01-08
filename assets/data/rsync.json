@@ -1,0 +1,244 @@
+{
+  "metadata": {
+    "name": "rsync",
+    "displayName": "rsync - File synchronization",
+    "category": "Network & Internet",
+    "tags": ["sync", "transfer", "backup", "remote", "efficient"],
+    "description": "Efficient file synchronization and transfer",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "rsync 3.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "rsync is installed by default on most Linux distributions"
+  },
+  "overview": {
+    "summary": "rsync synchronizes files and directories efficiently. It only transfers differences, making it much faster than scp for large transfers or when files already exist. Supports compression, resume, and preserves permissions. Essential for backups, deployments, and large file transfers.",
+    "when_to_use": [
+      "Synchronize directories",
+      "Backup files efficiently",
+      "Transfer large files",
+      "Deploy applications",
+      "Sync files between servers",
+      "Resume interrupted transfers"
+    ]
+  },
+  "syntax": {
+    "basic": "rsync [OPTIONS] SOURCE DESTINATION",
+    "description": "Synchronize SOURCE to DESTINATION. Only transfers differences, making it efficient. Can work locally or over SSH.",
+    "examples": [
+      "rsync -av source/ dest/",
+      "rsync -avz user@server:/path/ local/",
+      "rsync -av --delete source/ dest/",
+      "rsync -avzP user@server:/path/ local/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --archive",
+      "short": "-a",
+      "long": "--archive",
+      "description": "Archive mode (preserves permissions, timestamps, etc.)",
+      "category": "preservation",
+      "example": "rsync -a source/ dest/",
+      "use_case": "Preserve all file attributes (most common flag)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose output",
+      "category": "display",
+      "example": "rsync -av source/ dest/",
+      "use_case": "Show files being transferred"
+    },
+    {
+      "flag": "-z, --compress",
+      "short": "-z",
+      "long": "--compress",
+      "description": "Compress during transfer",
+      "category": "transfer",
+      "example": "rsync -avz source/ dest/",
+      "use_case": "Compress data during transfer (faster over slow networks)"
+    },
+    {
+      "flag": "-P, --progress",
+      "short": "-P",
+      "long": "--progress",
+      "description": "Show progress and keep partial files",
+      "category": "display",
+      "example": "rsync -avzP source/ dest/",
+      "use_case": "Show transfer progress and allow resume"
+    },
+    {
+      "flag": "--delete",
+      "short": null,
+      "long": "--delete",
+      "description": "Delete files in destination not in source",
+      "category": "operation",
+      "example": "rsync -av --delete source/ dest/",
+      "use_case": "Make destination identical to source (mirror)"
+    },
+    {
+      "flag": "-n, --dry-run",
+      "short": "-n",
+      "long": "--dry-run",
+      "description": "Show what would be done without doing it",
+      "category": "safety",
+      "example": "rsync -avn source/ dest/",
+      "use_case": "Preview changes before syncing"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Sync directories",
+      "command": "rsync -av source/ dest/",
+      "description": "Synchronize source to destination",
+      "output": "sending incremental file list\nsource/\nsource/file1.txt\nsource/file2.txt\n\nsent 2048 bytes  received 38 bytes  4172.00 bytes/sec\ntotal size is 1024  speedup is 0.25",
+      "output_explanation": {
+        "format": "Sync summary with statistics",
+        "elements": [
+          {
+            "element": "sending incremental file list",
+            "meaning": "rsync checks what needs to be transferred",
+            "breakdown": {
+              "efficient": "Only transfers differences, not entire files",
+              "fast": "Much faster than copying everything"
+            }
+          },
+          {
+            "element": "sent/received bytes",
+            "meaning": "Data transferred",
+            "breakdown": {
+              "efficient": "Only sends differences",
+              "speedup": "Shows how much faster than full copy"
+            }
+          }
+        ],
+        "notes": "Synchronizes directories efficiently. Only transfers changes. -a preserves permissions, -v shows progress."
+      },
+      "use_case": "Synchronize directories efficiently (backups, deployments)"
+    },
+    {
+      "title": "Sync to remote server",
+      "command": "rsync -avz user@server:/path/ local/",
+      "description": "Download and sync from remote server",
+      "output": "(sync progress, files transferred)",
+      "output_explanation": {
+        "format": "Remote sync progress",
+        "elements": [
+          {
+            "element": "-avz",
+            "meaning": "Archive, verbose, compress",
+            "breakdown": {
+              "a": "Archive mode (preserves everything)",
+              "v": "Verbose (show progress)",
+              "z": "Compress (faster over network)"
+            }
+          }
+        ],
+        "notes": "Syncs from remote server. Uses SSH (like scp). -z compresses for faster transfer. Very efficient for large transfers."
+      },
+      "use_case": "Sync files from remote servers efficiently"
+    },
+    {
+      "title": "Mirror directories",
+      "command": "rsync -av --delete source/ dest/",
+      "description": "Make destination identical to source",
+      "output": "(sync with deletions)",
+      "output_explanation": {
+        "format": "Mirror sync with deletions",
+        "elements": [
+          {
+            "element": "--delete",
+            "meaning": "Delete files in destination not in source",
+            "breakdown": {
+              "mirror": "Makes destination identical to source",
+              "warning": "Deletes files - use with caution",
+              "useful": "Perfect for backups and deployments"
+            }
+          }
+        ],
+        "notes": "Makes destination identical to source. Deletes files in destination that don't exist in source. Use with caution!"
+      },
+      "use_case": "Create exact mirror of source directory"
+    },
+    {
+      "title": "Dry run (preview)",
+      "command": "rsync -avn source/ dest/",
+      "description": "Show what would be synced without doing it",
+      "output": "(list of files that would be transferred)",
+      "output_explanation": {
+        "format": "Preview of changes",
+        "elements": [
+          {
+            "element": "-n",
+            "meaning": "Dry run - don't actually transfer",
+            "breakdown": {
+              "safe": "Shows what would happen without making changes",
+              "useful": "Always test with -n first, especially with --delete",
+              "common": "Best practice before syncing"
+            }
+          }
+        ],
+        "notes": "Shows what would be synced without actually doing it. Always use -n first to preview, especially with --delete."
+      },
+      "use_case": "Preview sync changes before executing"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "rsync always copies everything",
+      "misconception": "rsync transfers all files every time",
+      "reality": "rsync only transfers differences - if files are identical, nothing is transferred. This makes it very efficient for repeated syncs.",
+      "tip": "rsync is smart - only transfers what changed. Much faster than scp for repeated transfers or large directories."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Trailing slash confusion",
+      "description": "rsync -av source/ dest/ vs rsync -av source dest/ behave differently",
+      "solution": "source/ copies contents, source copies directory itself. Be consistent: use trailing slash for 'contents of'."
+    },
+    {
+      "issue": "Using --delete without testing",
+      "description": "--delete removes files - can be dangerous",
+      "solution": "Always use -n (dry run) first with --delete to see what would be deleted. Very important!"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "scp",
+      "relationship": "File transfer; scp for simple copy, rsync for efficient sync",
+      "description": "Secure copy (simpler but less efficient than rsync)"
+    },
+    {
+      "command": "cp",
+      "relationship": "Local copy; cp for local, rsync for sync/remote",
+      "description": "Copy files locally (rsync for efficient sync)"
+    }
+  ],
+  "best_practices": [
+    "Always use rsync -av (archive + verbose)",
+    "Use -n (dry run) first to preview changes",
+    "Use -z for network transfers (compression)",
+    "Use -P to see progress on large transfers",
+    "Use --delete carefully - test with -n first",
+    "Use trailing slash consistently: source/ means contents"
+  ],
+  "performance_tips": [
+    "rsync is very efficient - only transfers differences",
+    "Much faster than scp for large transfers or repeated syncs",
+    "Use -z for compression over slow networks",
+    "rsync can resume interrupted transfers (with -P)"
+  ],
+  "additional_notes": {
+    "efficiency": "rsync only transfers differences - very efficient for repeated syncs or large directories",
+    "trailing_slash": "source/ copies contents, source copies directory. Be consistent with trailing slashes.",
+    "common_patterns": "Very common: rsync -av source/ dest/ (sync), rsync -avz user@server:/path/ local/ (remote), rsync -av --delete source/ dest/ (mirror)",
+    "vs_scp": "rsync = efficient sync (only differences), scp = simple copy (transfers everything). Use rsync for large/repeated transfers."
+  }
+}
+

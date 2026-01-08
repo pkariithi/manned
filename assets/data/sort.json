@@ -1,0 +1,242 @@
+{
+  "metadata": {
+    "name": "sort",
+    "displayName": "sort - Sort lines of text",
+    "category": "Text Processing",
+    "tags": ["text", "sort", "order", "data"],
+    "description": "Sort lines of text files",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "sort is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "sort sorts lines of text files. It can sort alphabetically, numerically, by specific fields, and in reverse order. Essential for organizing data, preparing data for processing, and creating ordered lists.",
+    "when_to_use": [
+      "Sort file contents",
+      "Organize data",
+      "Sort command output",
+      "Prepare data for processing",
+      "Create ordered lists",
+      "Sort by specific columns"
+    ]
+  },
+  "syntax": {
+    "basic": "sort [OPTIONS] [FILE]",
+    "description": "Sort lines of FILE (or standard input). Output is sorted lines. Default is alphabetical sort.",
+    "examples": [
+      "sort file.txt",
+      "sort -n numbers.txt",
+      "sort -r file.txt",
+      "sort -k2 file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --numeric-sort",
+      "short": "-n",
+      "long": "--numeric-sort",
+      "description": "Sort numerically instead of alphabetically",
+      "category": "sorting",
+      "example": "sort -n numbers.txt",
+      "use_case": "Sort numbers correctly (10 comes after 9, not before 2)"
+    },
+    {
+      "flag": "-r, --reverse",
+      "short": "-r",
+      "long": "--reverse",
+      "description": "Reverse sort order",
+      "category": "sorting",
+      "example": "sort -r file.txt",
+      "use_case": "Sort in descending order (Z to A, or high to low)"
+    },
+    {
+      "flag": "-u, --unique",
+      "short": "-u",
+      "long": "--unique",
+      "description": "Remove duplicate lines",
+      "category": "filter",
+      "example": "sort -u file.txt",
+      "use_case": "Sort and remove duplicates in one command"
+    },
+    {
+      "flag": "-k, --key",
+      "short": "-k",
+      "long": "--key",
+      "description": "Sort by specific field (column)",
+      "category": "sorting",
+      "example": "sort -k2 file.txt",
+      "use_case": "Sort by second column instead of first"
+    },
+    {
+      "flag": "-h, --human-numeric-sort",
+      "short": "-h",
+      "long": "--human-numeric-sort",
+      "description": "Sort human-readable numbers (K, M, G)",
+      "category": "sorting",
+      "example": "sort -h sizes.txt",
+      "use_case": "Sort sizes like 1K, 2M, 1G correctly"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Sort alphabetically",
+      "command": "sort file.txt",
+      "description": "Sort lines alphabetically",
+      "output": "apple\nbanana\ncherry\ndate",
+      "output_explanation": {
+        "format": "Sorted lines",
+        "elements": [
+          {
+            "element": "Alphabetical order",
+            "meaning": "Lines sorted A to Z",
+            "breakdown": {
+              "default": "Default is alphabetical sort",
+              "case": "Uppercase comes before lowercase by default",
+              "useful": "Organize text files, lists"
+            }
+          }
+        ],
+        "notes": "Sorts lines alphabetically. Output goes to stdout - original file unchanged."
+      },
+      "use_case": "Organize text files alphabetically"
+    },
+    {
+      "title": "Sort numerically",
+      "command": "sort -n numbers.txt",
+      "description": "Sort numbers correctly",
+      "output": "1\n2\n9\n10\n20",
+      "output_explanation": {
+        "format": "Numerically sorted",
+        "elements": [
+          {
+            "element": "-n",
+            "meaning": "Numeric sort - treats values as numbers",
+            "breakdown": {
+              "vs_alpha": "Without -n: 10 comes before 2 (alphabetical)",
+              "with_n": "With -n: 2 comes before 10 (numerical)",
+              "essential": "Always use -n for numbers"
+            }
+          }
+        ],
+        "notes": "Sorts numbers correctly. Without -n, 10 comes before 2 (alphabetical). With -n, proper numerical order."
+      },
+      "use_case": "Sort numeric data correctly"
+    },
+    {
+      "title": "Sort in reverse",
+      "command": "sort -r file.txt",
+      "description": "Sort in descending order",
+      "output": "zebra\nyellow\nxray\napple",
+      "output_explanation": {
+        "format": "Reverse sorted",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Reverse order - Z to A or high to low",
+            "breakdown": {
+              "useful": "Get largest values first, newest first, etc.",
+              "common": "Common with -n: sort -rn (largest numbers first)"
+            }
+          }
+        ],
+        "notes": "Sorts in reverse order. Common pattern: sort -rn (reverse numeric - largest first)."
+      },
+      "use_case": "Sort in descending order (largest first, Z to A)"
+    },
+    {
+      "title": "Sort and remove duplicates",
+      "command": "sort -u file.txt",
+      "description": "Sort and show only unique lines",
+      "output": "(sorted lines with duplicates removed)",
+      "output_explanation": {
+        "format": "Sorted unique lines",
+        "elements": [
+          {
+            "element": "-u",
+            "meaning": "Unique - remove duplicate lines",
+            "breakdown": {
+              "behavior": "Sorts then removes duplicates",
+              "useful": "Common pattern: sort | uniq (same as sort -u)",
+              "efficient": "More efficient than sort | uniq"
+            }
+          }
+        ],
+        "notes": "Sorts and removes duplicates. Equivalent to sort | uniq but more efficient."
+      },
+      "use_case": "Sort and remove duplicate lines"
+    },
+    {
+      "title": "Sort by column",
+      "command": "sort -k2 file.txt",
+      "description": "Sort by second column",
+      "output": "(lines sorted by second field)",
+      "output_explanation": {
+        "format": "Sorted by specified column",
+        "elements": [
+          {
+            "element": "-k2",
+            "meaning": "Sort by second field (column)",
+            "breakdown": {
+              "fields": "Fields separated by whitespace by default",
+              "useful": "Sort data files by specific columns",
+              "common": "Very useful for CSV/data processing"
+            }
+          }
+        ],
+        "notes": "Sorts by specified column. -k2 = second column, -k3 = third, etc. Useful for data files."
+      },
+      "use_case": "Sort data files by specific columns"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "sort modifies files",
+      "misconception": "sort changes the original file",
+      "reality": "sort outputs to stdout by default - original file unchanged. Use sort file.txt > sorted.txt or sort -o file.txt file.txt to save.",
+      "tip": "sort outputs to stdout. Use redirection to save: sort file.txt > sorted.txt, or sort -o file.txt file.txt to overwrite."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not using -n for numbers",
+      "description": "Numbers sorted alphabetically (10 before 2)",
+      "solution": "Always use sort -n for numeric data. Without -n, numbers are sorted alphabetically (wrong order)."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "uniq",
+      "relationship": "Unique lines; sort often used with uniq",
+      "description": "Remove duplicate lines (often used with sort)"
+    },
+    {
+      "command": "awk",
+      "relationship": "Data processing; sort organizes, awk processes",
+      "description": "Process data (can sort with awk too)"
+    }
+  ],
+  "best_practices": [
+    "Use sort -n for numeric data",
+    "Use sort -r for reverse order",
+    "Use sort -u to remove duplicates while sorting",
+    "Use sort -k for column-based sorting",
+    "Combine with other commands: ls -l | sort -k5 -n (sort by size)",
+    "Use redirection to save: sort file.txt > sorted.txt"
+  ],
+  "performance_tips": [
+    "sort is fast for most files",
+    "Can be slow for very large files",
+    "Use sort -u instead of sort | uniq (more efficient)"
+  ],
+  "additional_notes": {
+    "default_behavior": "sort outputs to stdout - original file unchanged. Use redirection or -o to save.",
+    "numeric_sort": "Always use -n for numbers. Without -n, 10 comes before 2 (alphabetical order).",
+    "common_patterns": "Very common: sort file (alphabetical), sort -n file (numeric), sort -rn file (reverse numeric), sort -u file (unique)"
+  }
+}
+

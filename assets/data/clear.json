@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "name": "clear",
+    "displayName": "clear - Clear terminal screen",
+    "category": "Shell & Commands",
+    "tags": ["terminal", "display", "basic"],
+    "description": "Clear the terminal screen",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "clear is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "clear clears the terminal screen by scrolling content up. It doesn't actually delete content - you can still scroll up to see previous output. It's equivalent to pressing Ctrl+L in most terminals. Use it to clean up your terminal display when it gets cluttered.",
+    "when_to_use": [
+      "Clear cluttered terminal screen",
+      "Start fresh terminal view",
+      "Hide previous output",
+      "Clean up terminal display",
+      "Focus on current output",
+      "Quick terminal reset"
+    ]
+  },
+  "syntax": {
+    "basic": "clear",
+    "description": "Clear the terminal screen. No options or arguments required.",
+    "examples": [
+      "clear",
+      "clear && command"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Clear terminal",
+      "command": "clear",
+      "description": "Clear the terminal screen",
+      "output": "(screen is cleared, cursor moves to top)",
+      "output_explanation": {
+        "format": "Terminal screen is cleared",
+        "elements": [
+          {
+            "element": "Cleared screen",
+            "meaning": "Previous output is scrolled up and hidden",
+            "breakdown": {
+              "behavior": "Clears visible terminal content",
+              "scroll": "Previous content can still be scrolled up to view",
+              "cursor": "Cursor moves to top-left corner",
+              "note": "Content isn't deleted, just hidden - you can scroll up to see it"
+            }
+          }
+        ],
+        "notes": "clear doesn't actually delete content - it just scrolls it up. You can still scroll up to see previous output in most terminals."
+      },
+      "use_case": "Quickly clear terminal to start fresh"
+    },
+    {
+      "title": "Clear and run command",
+      "command": "clear && ls",
+      "description": "Clear screen then list files",
+      "output": "(screen cleared, then ls output displayed)",
+      "output_explanation": {
+        "format": "Screen cleared then command output shown",
+        "elements": [
+          {
+            "element": "clear && ls",
+            "meaning": "Clear screen, then if successful (&&), run ls",
+            "breakdown": {
+              "&&": "Logical AND - runs ls only if clear succeeds",
+              "pattern": "Common pattern: clear && command",
+              "useful": "Start fresh before running a command"
+            }
+          }
+        ],
+        "notes": "Common pattern to clear screen before running a command. The && ensures ls only runs if clear succeeds."
+      },
+      "use_case": "Clear terminal before running a command for clean output"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "clear deletes content",
+      "misconception": "clear permanently deletes terminal output",
+      "reality": "clear just scrolls content up - you can still scroll up to see previous output in most terminals. It doesn't actually delete anything.",
+      "tip": "clear = hide content, not delete it. You can usually scroll up to see previous output. Use reset for true reset (harder to recover)."
+    },
+    {
+      "title": "Ctrl+L is different from clear",
+      "misconception": "Ctrl+L does something different than clear command",
+      "reality": "Ctrl+L and clear do the same thing in most terminals. Ctrl+L is just a keyboard shortcut for clear.",
+      "tip": "Ctrl+L = clear command. Both do the same thing - clear the screen."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Expecting deleted content",
+      "description": "Thinking previous output is gone after clear",
+      "solution": "Remember that clear just hides content - you can usually scroll up in terminal to see previous output. Content isn't deleted."
+    },
+    {
+      "issue": "Confusing with reset",
+      "description": "Mixing up clear and reset commands",
+      "solution": "clear just clears screen. reset also resets terminal settings and colors - use only if terminal is corrupted."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "reset",
+      "relationship": "Terminal reset; clear hides, reset resets terminal",
+      "description": "Reset terminal (more drastic than clear - resets terminal settings)"
+    }
+  ],
+  "best_practices": [
+    "Use clear or Ctrl+L to clean up terminal display",
+    "Use clear && command to start fresh before running commands",
+    "Remember previous output can still be scrolled up to view",
+    "Use reset only if terminal is corrupted or has display issues"
+  ],
+  "performance_tips": [
+    "clear is instant - very fast command",
+    "No performance impact - just display manipulation"
+  ],
+  "additional_notes": {
+    "keyboard_shortcut": "Ctrl+L does the same as clear command in most terminals",
+    "content_preserved": "clear doesn't delete content - it just scrolls it up. Previous output can still be viewed by scrolling up.",
+    "vs_reset": "clear = just hide output. reset = reset terminal settings (more drastic, use if terminal corrupted)",
+    "common_pattern": "clear && command is common pattern to start fresh before running a command"
+  }
+}
+

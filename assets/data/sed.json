@@ -1,0 +1,251 @@
+{
+  "metadata": {
+    "name": "sed",
+    "displayName": "sed - Stream editor",
+    "category": "Text Processing",
+    "tags": ["text", "edit", "replace", "stream", "advanced"],
+    "description": "Stream editor for filtering and transforming text",
+    "popularity": 9,
+    "difficulty": "intermediate",
+    "version": "GNU sed 4.8+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "sed is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "sed (stream editor) performs text transformations on input streams. It reads input line by line, applies commands, and outputs results. Most commonly used for find-and-replace operations, but can do much more. Essential for text processing, script automation, and batch file editing.",
+    "when_to_use": [
+      "Find and replace text in files",
+      "Delete specific lines",
+      "Transform text in scripts",
+      "Batch edit multiple files",
+      "Process text streams",
+      "Edit files programmatically"
+    ]
+  },
+  "syntax": {
+    "basic": "sed [OPTIONS] 'COMMAND' [FILE...]",
+    "description": "Apply COMMAND to FILE(s) or standard input. Commands are specified in single quotes. Most common: s/pattern/replacement/ for substitution.",
+    "examples": [
+      "sed 's/old/new/g' file.txt",
+      "sed -i 's/old/new/g' file.txt",
+      "sed '/pattern/d' file.txt",
+      "sed -n '10p' file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-i, --in-place",
+      "short": "-i",
+      "long": "--in-place",
+      "description": "Edit files in-place (modify original file)",
+      "category": "operation",
+      "example": "sed -i 's/old/new/g' file.txt",
+      "use_case": "Modify file directly instead of outputting to stdout"
+    },
+    {
+      "flag": "-n, --quiet",
+      "short": "-n",
+      "long": "--quiet",
+      "description": "Suppress automatic printing (only print explicitly)",
+      "category": "display",
+      "example": "sed -n '10p' file.txt",
+      "use_case": "Only print lines matching pattern (with p command)"
+    },
+    {
+      "flag": "-e, --expression",
+      "short": "-e",
+      "long": "--expression",
+      "description": "Add command to execution",
+      "category": "operation",
+      "example": "sed -e 's/old/new/' -e 's/foo/bar/' file.txt",
+      "use_case": "Apply multiple commands"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Find and replace",
+      "command": "sed 's/old/new/g' file.txt",
+      "description": "Replace 'old' with 'new' globally in file",
+      "output": "(file contents with replacements, original file unchanged)",
+      "output_explanation": {
+        "format": "Modified text output to stdout",
+        "elements": [
+          {
+            "element": "s/old/new/g",
+            "meaning": "Substitute command",
+            "breakdown": {
+              "s": "Substitute command",
+              "old": "Pattern to find",
+              "new": "Replacement text",
+              "g": "Global flag (replace all occurrences, not just first)",
+              "delimiter": "Forward slashes are delimiters (can use other characters)"
+            }
+          }
+        ],
+        "notes": "Replaces 'old' with 'new' in all lines. Output goes to stdout - original file unchanged. Use -i to modify file."
+      },
+      "use_case": "Find and replace text in files (most common sed usage)"
+    },
+    {
+      "title": "Replace in file (in-place)",
+      "command": "sed -i 's/old/new/g' file.txt",
+      "description": "Modify file directly with replacements",
+      "output": "(no output, file modified)",
+      "output_explanation": {
+        "format": "No output means file was modified successfully",
+        "elements": [
+          {
+            "element": "-i",
+            "meaning": "In-place editing - modifies original file",
+            "breakdown": {
+              "behavior": "Changes are written back to original file",
+              "warning": "Original file is modified - no backup unless specified",
+              "backup": "Use sed -i.bak to create backup"
+            }
+          }
+        ],
+        "notes": "Modifies file directly. Original file is changed. Use sed -i.bak to create backup first."
+      },
+      "use_case": "Modify files directly with find-and-replace"
+    },
+    {
+      "title": "Delete lines matching pattern",
+      "command": "sed '/pattern/d' file.txt",
+      "description": "Remove lines containing pattern",
+      "output": "(file contents without matching lines)",
+      "output_explanation": {
+        "format": "File contents with specified lines removed",
+        "elements": [
+          {
+            "element": "/pattern/d",
+            "meaning": "Delete command - removes lines matching pattern",
+            "breakdown": {
+              "/pattern/": "Pattern to match",
+              "d": "Delete command",
+              "useful": "Remove blank lines, comments, specific content"
+            }
+          }
+        ],
+        "notes": "Deletes lines matching pattern. Common: sed '/^$/d' removes blank lines, sed '/^#/d' removes comment lines."
+      },
+      "use_case": "Remove specific lines from files (blank lines, comments, etc.)"
+    },
+    {
+      "title": "Print specific line",
+      "command": "sed -n '10p' file.txt",
+      "description": "Print only line 10",
+      "output": "Line 10 content",
+      "output_explanation": {
+        "format": "Single line output",
+        "elements": [
+          {
+            "element": "-n '10p'",
+            "meaning": "Suppress default output, print line 10",
+            "breakdown": {
+              "-n": "Suppress automatic printing",
+              "10": "Line number",
+              "p": "Print command",
+              "useful": "Extract specific lines from files"
+            }
+          }
+        ],
+        "notes": "Prints only line 10. -n suppresses default output, p prints specified line. Useful for extracting specific lines."
+      },
+      "use_case": "Extract specific lines from files"
+    },
+    {
+      "title": "Replace with backup",
+      "command": "sed -i.bak 's/old/new/g' file.txt",
+      "description": "Replace in file and create backup",
+      "output": "(no output, file modified, backup created as file.txt.bak)",
+      "output_explanation": {
+        "format": "File modified, backup created",
+        "elements": [
+          {
+            "element": "-i.bak",
+            "meaning": "In-place edit with backup extension",
+            "breakdown": {
+              "backup": "Creates file.txt.bak with original content",
+              "safe": "Safer than -i alone - you have backup",
+              "common": "Good practice for important files"
+            }
+          }
+        ],
+        "notes": "Modifies file and creates backup. Original saved as file.txt.bak. Safer than plain -i."
+      },
+      "use_case": "Modify files safely with automatic backup"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "sed modifies files by default",
+      "misconception": "sed changes files automatically",
+      "reality": "sed outputs to stdout by default - original file is unchanged. Use -i flag to modify files in-place.",
+      "tip": "sed outputs to stdout by default. Use sed -i to modify files. Always test without -i first."
+    },
+    {
+      "title": "sed only does find-and-replace",
+      "misconception": "sed is only for replacing text",
+      "reality": "sed can delete lines, print specific lines, insert text, transform text, and much more. It's a powerful stream editor.",
+      "tip": "sed does much more than replace - can delete, print, insert, transform. Learn basic commands: s (substitute), d (delete), p (print)."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -i and expecting file to change",
+      "description": "Running sed without -i and wondering why file didn't change",
+      "solution": "sed outputs to stdout by default. Use sed -i to modify files. Test without -i first to see output."
+    },
+    {
+      "issue": "Not escaping special characters",
+      "description": "Special regex characters in patterns need escaping",
+      "solution": "Escape special characters: sed 's/\\./dot/g' (escapes dot). Or use different delimiter: sed 's|old|new|g'."
+    },
+    {
+      "issue": "Using -i without backup on important files",
+      "description": "Losing original file content",
+      "solution": "Use sed -i.bak to create backup, or test without -i first. Be careful with -i on important files."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "awk",
+      "relationship": "Text processing; sed for simple edits, awk for complex processing",
+      "description": "Text processing tool (more powerful than sed for complex operations)"
+    },
+    {
+      "command": "grep",
+      "relationship": "Text search; grep finds, sed edits",
+      "description": "Search for patterns (sed can also search and edit)"
+    },
+    {
+      "command": "perl",
+      "relationship": "Text processing; perl can do what sed does and more",
+      "description": "Programming language with powerful text processing (alternative to sed)"
+    }
+  ],
+  "best_practices": [
+    "Test sed commands without -i first to verify output",
+    "Use sed -i.bak to create backups when modifying files",
+    "Escape special regex characters or use different delimiters",
+    "Use 'g' flag for global replacement (all occurrences)",
+    "Combine with other commands: cat file.txt | sed 's/old/new/g'",
+    "Use sed for simple text transformations, awk for complex processing"
+  ],
+  "performance_tips": [
+    "sed is very fast for text processing",
+    "Efficient for large files - processes line by line",
+    "Use sed for simple operations, awk for complex ones"
+  ],
+  "additional_notes": {
+    "default_behavior": "sed outputs to stdout by default - original file unchanged. Use -i to modify files.",
+    "common_commands": "Common: s (substitute), d (delete), p (print). Most common: s/old/new/g for find-and-replace.",
+    "delimiters": "Forward slash is default delimiter, but can use others: sed 's|old|new|g' or sed 's#old#new#g'",
+    "regex": "sed uses regular expressions - escape special characters or use different delimiters",
+    "common_patterns": "Very common: sed 's/old/new/g' (replace), sed -i 's/old/new/g' file (modify), sed '/pattern/d' (delete lines)"
+  }
+}
+

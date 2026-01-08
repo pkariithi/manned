@@ -1,0 +1,319 @@
+{
+  "metadata": {
+    "name": "mkdir",
+    "displayName": "mkdir - Make directories",
+    "category": "File & Directory Operations",
+    "tags": ["directory", "create", "filesystem", "basic"],
+    "description": "Create directories",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "mkdir is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "mkdir (make directory) creates new directories in the filesystem. It can create single directories or multiple directories, and with the -p flag, can create parent directories as needed.",
+    "when_to_use": [
+      "Create new directories",
+      "Set up directory structure",
+      "Create parent directories automatically",
+      "Create multiple directories at once",
+      "Organize files into folders",
+      "Prepare directories before copying files"
+    ]
+  },
+  "syntax": {
+    "basic": "mkdir [OPTIONS] DIRECTORY...",
+    "description": "Create the specified directory(ies). Multiple directories can be created at once. Parent directories can be created automatically with -p.",
+    "examples": [
+      "mkdir newdir",
+      "mkdir -p path/to/new/dir",
+      "mkdir dir1 dir2 dir3",
+      "mkdir -m 755 directory"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-p, --parents",
+      "short": "-p",
+      "long": "--parents",
+      "description": "Create parent directories as needed (no error if exists)",
+      "category": "operation",
+      "example": "mkdir -p path/to/new/dir",
+      "use_case": "Create directory structure even if parent directories don't exist yet - creates all needed parents automatically"
+    },
+    {
+      "flag": "-m, --mode",
+      "short": "-m",
+      "long": "--mode",
+      "description": "Set file mode (permissions) for created directories",
+      "category": "permissions",
+      "example": "mkdir -m 755 directory",
+      "use_case": "Set specific permissions when creating directory (e.g., 755 for rwxr-xr-x)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Print a message for each created directory",
+      "category": "display",
+      "example": "mkdir -v dir1 dir2",
+      "use_case": "See which directories are being created - useful for confirmation"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create a single directory",
+      "command": "mkdir newdir",
+      "description": "Create a new directory named newdir in the current location",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means the directory was successfully created",
+        "elements": [
+          {
+            "element": "newdir",
+            "meaning": "Name of directory to create",
+            "breakdown": {
+              "created": "Directory 'newdir' is now created",
+              "location": "In your current directory",
+              "verify": "Use ls or ls -ld newdir to verify"
+            }
+          }
+        ],
+        "notes": "Directory is created with default permissions (usually 755). Use ls to verify it was created."
+      },
+      "use_case": "Create a new directory in the current location"
+    },
+    {
+      "title": "Create directory structure",
+      "command": "mkdir -p project/src/main/java",
+      "description": "Create directory structure with all parent directories",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all directories in the path were created",
+        "elements": [
+          {
+            "element": "-p",
+            "meaning": "Parents flag - creates all parent directories as needed",
+            "breakdown": {
+              "behavior": "Creates project/, project/src/, project/src/main/, and project/src/main/java/",
+              "no_error": "Won't error if some directories already exist",
+              "all_or_nothing": "Creates entire path structure automatically"
+            }
+          },
+          {
+            "element": "project/src/main/java",
+            "meaning": "Full directory path to create"
+          }
+        ],
+        "notes": "The -p flag is essential when creating nested directory structures. Without it, mkdir will fail if parent directories don't exist."
+      },
+      "use_case": "Create a complete directory structure in one command"
+    },
+    {
+      "title": "Create multiple directories",
+      "command": "mkdir dir1 dir2 dir3",
+      "description": "Create multiple directories at once",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means all directories were created successfully",
+        "elements": [
+          {
+            "element": "dir1 dir2 dir3",
+            "meaning": "Multiple directory names separated by spaces",
+            "breakdown": {
+              "all_created": "All three directories are created in the current location",
+              "separate": "Each is created as a separate directory",
+              "location": "All in the same parent directory"
+            }
+          }
+        ],
+        "notes": "You can create multiple directories in one command. All will be created in the same parent directory."
+      },
+      "use_case": "Create several directories at once instead of one by one"
+    },
+    {
+      "title": "Create directory with specific permissions",
+      "command": "mkdir -m 755 mydir",
+      "description": "Create directory with specific permissions (755 = rwxr-xr-x)",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "No output means directory was created with specified permissions",
+        "elements": [
+          {
+            "element": "-m 755",
+            "meaning": "Mode/permissions flag with octal permissions",
+            "breakdown": {
+              "755": "Octal permissions: owner rwx (7), group r-x (5), others r-x (5)",
+              "meaning": "Owner can read/write/execute, others can read/execute",
+              "default": "Without -m, mkdir uses default permissions (usually 755)"
+            }
+          }
+        ],
+        "notes": "Use -m to set specific permissions. 755 is common for directories. Use chmod to change permissions later."
+      },
+      "use_case": "Create a directory with specific permissions instead of defaults"
+    },
+    {
+      "title": "Verbose creation (show progress)",
+      "command": "mkdir -v dir1 dir2 dir3",
+      "description": "Create directories with verbose output",
+      "output": "mkdir: created directory 'dir1'\nmkdir: created directory 'dir2'\nmkdir: created directory 'dir3'",
+      "output_explanation": {
+        "format": "Shows confirmation for each directory created",
+        "elements": [
+          {
+            "element": "mkdir: created directory 'dir1'",
+            "meaning": "Confirmation message for each created directory",
+            "breakdown": {
+              "-v": "Verbose mode shows each creation",
+              "confirmation": "Each directory is listed as it's created"
+            }
+          }
+        ],
+        "notes": "Use -v to see which directories are being created, especially when creating multiple directories"
+      },
+      "use_case": "See confirmation of each directory creation"
+    },
+    {
+      "title": "Error: File exists",
+      "command": "mkdir existingdir",
+      "description": "Attempting to create a directory that already exists",
+      "output": "mkdir: cannot create directory 'existingdir': File exists",
+      "output_explanation": {
+        "format": "Error message when directory already exists",
+        "elements": [
+          {
+            "element": "mkdir: cannot create directory 'existingdir': File exists",
+            "meaning": "Directory already exists, cannot create it again",
+            "breakdown": {
+              "error": "File exists error",
+              "solution": "Use mkdir -p to not error if exists, or remove existing directory first"
+            }
+          }
+        ],
+        "notes": "Use mkdir -p to avoid errors if directory already exists. It will create if missing, or do nothing if it exists."
+      },
+      "use_case": "Understanding error messages when directory creation fails"
+    },
+    {
+      "title": "Create with parents (no error if exists)",
+      "command": "mkdir -p existingdir/newdir",
+      "description": "Create directory structure even if some parts already exist",
+      "output": "(no output on success, even if existingdir already exists)",
+      "output_explanation": {
+        "format": "No output means operation succeeded or directories already existed",
+        "elements": [
+          {
+            "element": "-p",
+            "meaning": "Parents flag also prevents errors if directories exist",
+            "breakdown": {
+              "behavior": "Creates newdir if it doesn't exist, ignores if existingdir already exists",
+              "no_error": "Won't fail if some directories in the path already exist",
+              "idempotent": "Safe to run multiple times"
+            }
+          }
+        ],
+        "notes": "The -p flag makes mkdir idempotent - safe to run multiple times without errors"
+      },
+      "use_case": "Create directory structure without worrying if parts already exist (useful in scripts)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "mkdir -p creates a directory named -p",
+      "misconception": "-p is part of the directory name",
+      "reality": "-p is a flag that tells mkdir to create parent directories. The directory name comes after the flags.",
+      "tip": "mkdir -p dir creates 'dir', not '-p'. The -p is an option flag, not part of the name."
+    },
+    {
+      "title": "mkdir can create files",
+      "misconception": "mkdir creates files if given a filename",
+      "reality": "mkdir only creates directories. Use touch or a text editor to create files.",
+      "tip": "mkdir for directories, touch for files, or use text editors like nano/vim"
+    },
+    {
+      "title": "mkdir needs full path",
+      "misconception": "mkdir always requires absolute paths",
+      "reality": "mkdir works with both relative and absolute paths. Use relative paths from your current location, or absolute paths from root (/).",
+      "tip": "mkdir dir creates in current directory. mkdir /path/to/dir uses absolute path."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting -p for nested directories",
+      "description": "Trying to create nested directory structure without -p flag",
+      "solution": "Always use -p when creating directory paths with multiple levels: mkdir -p path/to/new/dir. Without -p, mkdir fails if parent directories don't exist."
+    },
+    {
+      "issue": "Directory already exists error",
+      "description": "mkdir fails if directory already exists",
+      "solution": "Use mkdir -p to avoid errors if directory exists. The -p flag makes it idempotent (safe to run multiple times)."
+    },
+    {
+      "issue": "Spaces in directory names",
+      "description": "Directory names with spaces cause mkdir to create multiple directories",
+      "solution": "Quote directory names with spaces: mkdir 'My Directory' or mkdir \"My Directory\". Or escape spaces: mkdir My\\ Directory."
+    },
+    {
+      "issue": "Permission denied",
+      "description": "Cannot create directory in protected location",
+      "solution": "Use sudo if you need to create directories in system locations. Or create in your home directory where you have permission."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cd",
+      "relationship": "Changes directory; use mkdir then cd to navigate to new directory",
+      "description": "Change into the directory you just created"
+    },
+    {
+      "command": "rmdir",
+      "relationship": "Removes directories; opposite of mkdir",
+      "description": "Remove empty directories (created with mkdir)"
+    },
+    {
+      "command": "rm",
+      "relationship": "Removes directories with contents; more powerful than rmdir",
+      "description": "Remove directories and their contents (use with -r flag)"
+    },
+    {
+      "command": "touch",
+      "relationship": "Creates files; mkdir creates directories",
+      "description": "Create empty files (mkdir creates directories)"
+    },
+    {
+      "command": "chmod",
+      "relationship": "Changes permissions; mkdir -m sets initial permissions",
+      "description": "Change directory permissions (mkdir -m sets permissions at creation)"
+    }
+  ],
+  "best_practices": [
+    "Always use -p when creating nested directory structures",
+    "Use -p for idempotent scripts (safe to run multiple times)",
+    "Use -m to set specific permissions when creating directories",
+    "Use -v for verbose output to see what's being created",
+    "Quote directory names with spaces: mkdir 'My Directory'",
+    "Use mkdir -p in scripts to avoid errors if directories already exist",
+    "Verify directory creation with ls after mkdir",
+    "Create directory structure before copying files into them"
+  ],
+  "performance_tips": [
+    "mkdir is very fast - creates directories instantly",
+    "Creating multiple directories at once is faster than one by one",
+    "Using -p is efficient for creating nested structures",
+    "mkdir -p is idempotent - safe and fast to run multiple times in scripts"
+  ],
+  "additional_notes": {
+    "directory_only": "mkdir only creates directories, not files. Use touch or text editors for files.",
+    "parent_creation": "The -p flag creates all parent directories automatically - very useful for nested structures",
+    "idempotent": "mkdir -p is idempotent - safe to run multiple times without errors if directories exist",
+    "permissions": "Default permissions are usually 755. Use -m to specify different permissions.",
+    "spaces": "Always quote directory names with spaces to avoid creating multiple directories",
+    "scripting": "mkdir -p is commonly used in scripts to ensure directory structure exists before operations"
+  }
+}
+

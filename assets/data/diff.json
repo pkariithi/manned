@@ -1,0 +1,243 @@
+{
+  "metadata": {
+    "name": "diff",
+    "displayName": "diff - Compare files",
+    "category": "File & Directory Operations",
+    "tags": ["compare", "files", "difference", "patch"],
+    "description": "Compare files and show differences",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "GNU diffutils 3.7+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "diff is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "diff compares files and directories, showing the differences between them. It's essential for version control, code reviews, configuration changes, and finding what changed between file versions. Output can be used to create patches.",
+    "when_to_use": [
+      "Compare two files",
+      "Find differences between files",
+      "Review code changes",
+      "Compare configuration files",
+      "Create patches",
+      "See what changed"
+    ]
+  },
+  "syntax": {
+    "basic": "diff [OPTIONS] FILE1 FILE2",
+    "description": "Compare FILE1 and FILE2, showing differences. Lines starting with < are from FILE1, > are from FILE2.",
+    "examples": [
+      "diff file1.txt file2.txt",
+      "diff -u file1.txt file2.txt",
+      "diff -r dir1/ dir2/",
+      "diff file1.txt file2.txt > changes.patch"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-u, --unified",
+      "short": "-u",
+      "long": "--unified",
+      "description": "Unified format (more readable)",
+      "category": "format",
+      "example": "diff -u file1.txt file2.txt",
+      "use_case": "Show differences in unified format (most common)"
+    },
+    {
+      "flag": "-r, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Compare directories recursively",
+      "category": "operation",
+      "example": "diff -r dir1/ dir2/",
+      "use_case": "Compare entire directory trees"
+    },
+    {
+      "flag": "-i, --ignore-case",
+      "short": "-i",
+      "long": "--ignore-case",
+      "description": "Ignore case differences",
+      "category": "matching",
+      "example": "diff -i file1.txt file2.txt",
+      "use_case": "Treat uppercase and lowercase as same"
+    },
+    {
+      "flag": "-w, --ignore-all-space",
+      "short": "-w",
+      "long": "--ignore-all-space",
+      "description": "Ignore all whitespace",
+      "category": "matching",
+      "example": "diff -w file1.txt file2.txt",
+      "use_case": "Ignore whitespace differences"
+    },
+    {
+      "flag": "-q, --brief",
+      "short": "-q",
+      "long": "--brief",
+      "description": "Only report if files differ",
+      "category": "display",
+      "example": "diff -q file1.txt file2.txt",
+      "use_case": "Quick check if files are different"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Compare two files",
+      "command": "diff file1.txt file2.txt",
+      "description": "Show differences between files",
+      "output": "1,3c1,3\n< line1\n< line2\n< line3\n---\n> newline1\n> newline2\n> newline3",
+      "output_explanation": {
+        "format": "Difference output",
+        "elements": [
+          {
+            "element": "1,3c1,3",
+            "meaning": "Change command (lines 1-3 changed to lines 1-3)",
+            "breakdown": {
+              "format": "Change: c, Delete: d, Add: a",
+              "numbers": "Line numbers in each file"
+            }
+          },
+          {
+            "element": "< line1",
+            "meaning": "Line from first file (removed/changed)",
+            "breakdown": {
+              "symbol": "< means from first file",
+              "removed": "Lines with < are in first file but not second"
+            }
+          },
+          {
+            "element": "> newline1",
+            "meaning": "Line from second file (added/changed)",
+            "breakdown": {
+              "symbol": "> means from second file",
+              "added": "Lines with > are in second file but not first"
+            }
+          }
+        ],
+        "notes": "Shows differences. < = from first file, > = from second file. Use diff -u for more readable format."
+      },
+      "use_case": "Compare files and see differences"
+    },
+    {
+      "title": "Unified format (readable)",
+      "command": "diff -u file1.txt file2.txt",
+      "description": "Show differences in unified format",
+      "output": "--- file1.txt\t2024-01-15 10:00:00\n+++ file2.txt\t2024-01-15 10:30:00\n@@ -1,3 +1,3 @@\n-line1\n-line2\n-line3\n+newline1\n+newline2\n+newline3",
+      "output_explanation": {
+        "format": "Unified diff format",
+        "elements": [
+          {
+            "element": "--- file1.txt",
+            "meaning": "First file",
+            "breakdown": {
+              "header": "Shows file names and timestamps"
+            }
+          },
+          {
+            "element": "@@ -1,3 +1,3 @@",
+            "meaning": "Hunk header (change location)",
+            "breakdown": {
+              "format": "-lines from file1, +lines from file2",
+              "context": "Shows line numbers and context"
+            }
+          },
+          {
+            "element": "-line1",
+            "meaning": "Line removed from first file",
+            "breakdown": {
+              "symbol": "- means removed",
+              "readable": "More readable than default format"
+            }
+          },
+          {
+            "element": "+newline1",
+            "meaning": "Line added in second file",
+            "breakdown": {
+              "symbol": "+ means added",
+              "readable": "Easier to read than < and >"
+            }
+          }
+        ],
+        "notes": "Unified format is more readable. - = removed, + = added. Most common format for code reviews and patches."
+      },
+      "use_case": "Compare files in readable format (code reviews, patches)"
+    },
+    {
+      "title": "Compare directories",
+      "command": "diff -r dir1/ dir2/",
+      "description": "Compare directory trees",
+      "output": "(differences between all files in directories)",
+      "output_explanation": {
+        "format": "Directory comparison",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive - compares all files in directories",
+            "breakdown": {
+              "useful": "Compare entire directory trees",
+              "common": "Very useful for comparing project versions, backups"
+            }
+          }
+        ],
+        "notes": "Compares all files in directories recursively. Shows which files differ and how. Very useful for comparing project versions."
+      },
+      "use_case": "Compare entire directory trees"
+    },
+    {
+      "title": "Quick check if files differ",
+      "command": "diff -q file1.txt file2.txt",
+      "description": "Only report if files are different",
+      "output": "Files file1.txt and file2.txt differ",
+      "output_explanation": {
+        "format": "Brief difference report",
+        "elements": [
+          {
+            "element": "-q",
+            "meaning": "Brief - only says if files differ",
+            "breakdown": {
+              "useful": "Quick check without seeing all differences",
+              "scripts": "Perfect for scripts - exit code 0 if same, 1 if different"
+            }
+          }
+        ],
+        "notes": "Only reports if files differ, not how. Perfect for quick checks and scripts. Exit code: 0 = same, 1 = different."
+      },
+      "use_case": "Quick check if files are different (scripts, automation)"
+    }
+  ],
+  "misconceptions": [],
+  "common_pitfalls": [],
+  "related_commands": [
+    {
+      "command": "patch",
+      "relationship": "Apply diff; diff creates patches, patch applies them",
+      "description": "Apply patch files created by diff"
+    },
+    {
+      "command": "git",
+      "relationship": "Version control; git uses diff internally",
+      "description": "Version control (uses diff for showing changes)"
+    }
+  ],
+  "best_practices": [
+    "Use diff -u for readable output (most common)",
+    "Use diff -r for comparing directories",
+    "Use diff -q for quick checks in scripts",
+    "Redirect output to create patches: diff -u file1 file2 > patch.diff",
+    "Use diff to review configuration changes"
+  ],
+  "performance_tips": [
+    "diff is fast for most files",
+    "Can be slow for very large files or directory trees",
+    "Use diff -q for quick checks (faster)"
+  ],
+  "additional_notes": {
+    "unified_format": "Use diff -u for readable format. Most common for code reviews and patches.",
+    "exit_code": "Exit code 0 = files same, 1 = files differ. Useful for scripts.",
+    "patches": "diff output can be saved and applied with patch command",
+    "common_patterns": "Very common: diff -u file1 file2 (compare), diff -r dir1 dir2 (directories), diff -q file1 file2 (quick check)"
+  }
+}
+

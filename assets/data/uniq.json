@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "name": "uniq",
+    "displayName": "uniq - Remove duplicate lines",
+    "category": "Text Processing",
+    "tags": ["text", "unique", "duplicates", "filter"],
+    "description": "Remove or report duplicate lines",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "uniq is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "uniq removes or reports duplicate consecutive lines. Important: uniq only removes adjacent duplicates - it doesn't remove all duplicates in a file. Usually used with sort first to group duplicates together. Essential for cleaning data and finding unique values.",
+    "when_to_use": [
+      "Remove duplicate lines",
+      "Find unique values",
+      "Count duplicate occurrences",
+      "Clean data files",
+      "Filter duplicate entries",
+      "Process sorted data"
+    ]
+  },
+  "syntax": {
+    "basic": "uniq [OPTIONS] [INPUT [OUTPUT]]",
+    "description": "Remove duplicate consecutive lines from INPUT. If INPUT not specified, reads from stdin. OUTPUT can be specified or goes to stdout.",
+    "examples": [
+      "uniq file.txt",
+      "sort file.txt | uniq",
+      "uniq -c file.txt",
+      "uniq -d file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c, --count",
+      "short": "-c",
+      "long": "--count",
+      "description": "Count occurrences of each line",
+      "category": "display",
+      "example": "uniq -c file.txt",
+      "use_case": "Show how many times each line appears"
+    },
+    {
+      "flag": "-d, --repeated",
+      "short": "-d",
+      "long": "--repeated",
+      "description": "Show only duplicate lines",
+      "category": "filter",
+      "example": "uniq -d file.txt",
+      "use_case": "Find which lines are duplicated"
+    },
+    {
+      "flag": "-u, --unique",
+      "short": "-u",
+      "long": "--unique",
+      "description": "Show only unique lines (no duplicates)",
+      "category": "filter",
+      "example": "uniq -u file.txt",
+      "use_case": "Show lines that appear only once"
+    },
+    {
+      "flag": "-i, --ignore-case",
+      "short": "-i",
+      "long": "--ignore-case",
+      "description": "Ignore case when comparing",
+      "category": "matching",
+      "example": "uniq -i file.txt",
+      "use_case": "Treat 'Hello' and 'hello' as same"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Remove duplicate lines",
+      "command": "sort file.txt | uniq",
+      "description": "Sort then remove duplicates",
+      "output": "(unique lines only)",
+      "output_explanation": {
+        "format": "Unique lines",
+        "elements": [
+          {
+            "element": "sort | uniq",
+            "meaning": "Sort first, then remove duplicates",
+            "breakdown": {
+              "important": "uniq only removes adjacent duplicates",
+              "sort_first": "Sort groups duplicates together so uniq can remove them",
+              "common": "Very common pattern: sort | uniq"
+            }
+          }
+        ],
+        "notes": "Sort first to group duplicates, then uniq removes them. Common pattern: sort file.txt | uniq. Or use sort -u (same result)."
+      },
+      "use_case": "Remove all duplicate lines from file"
+    },
+    {
+      "title": "Count occurrences",
+      "command": "sort file.txt | uniq -c",
+      "description": "Count how many times each line appears",
+      "output": "   3 apple\n   2 banana\n   1 cherry",
+      "output_explanation": {
+        "format": "Count and line",
+        "elements": [
+          {
+            "element": "   3 apple",
+            "meaning": "Line 'apple' appears 3 times",
+            "breakdown": {
+              "format": "count line",
+              "count": "Number of occurrences (right-aligned)",
+              "useful": "Find most common lines, analyze data"
+            }
+          }
+        ],
+        "notes": "Shows count of each line. Very useful for data analysis. Sort first to group duplicates."
+      },
+      "use_case": "Count occurrences of each line (data analysis)"
+    },
+    {
+      "title": "Find duplicate lines",
+      "command": "sort file.txt | uniq -d",
+      "description": "Show only lines that are duplicated",
+      "output": "(only duplicate lines shown)",
+      "output_explanation": {
+        "format": "Duplicate lines only",
+        "elements": [
+          {
+            "element": "-d",
+            "meaning": "Show only repeated (duplicate) lines",
+            "breakdown": {
+              "useful": "Find which lines appear multiple times",
+              "common": "Useful for finding duplicates in data"
+            }
+          }
+        ],
+        "notes": "Shows only lines that appear more than once. Useful for finding duplicates in data files."
+      },
+      "use_case": "Identify which lines are duplicated"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "uniq removes all duplicates",
+      "misconception": "uniq removes all duplicate lines in a file",
+      "reality": "uniq only removes adjacent (consecutive) duplicates. If duplicates are separated, they won't be removed. Always use sort first: sort | uniq.",
+      "tip": "uniq only removes consecutive duplicates. Always use sort first: sort file.txt | uniq. Or use sort -u (same result)."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not sorting first",
+      "description": "uniq doesn't remove all duplicates because they're not adjacent",
+      "solution": "Always sort first: sort file.txt | uniq. Or use sort -u which does both."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sort",
+      "relationship": "Sort lines; sort groups duplicates, uniq removes them",
+      "description": "Sort lines (usually used before uniq)"
+    }
+  ],
+  "best_practices": [
+    "Always use sort first: sort file.txt | uniq",
+    "Or use sort -u (same as sort | uniq, more efficient)",
+    "Use uniq -c to count occurrences",
+    "Use uniq -d to find duplicates",
+    "Use uniq -u to find unique-only lines"
+  ],
+  "performance_tips": [
+    "uniq is fast",
+    "sort -u is more efficient than sort | uniq",
+    "Use sort -u when you only need unique lines"
+  ],
+  "additional_notes": {
+    "adjacent_only": "uniq only removes consecutive duplicates. Always sort first: sort | uniq, or use sort -u.",
+    "common_patterns": "Very common: sort file.txt | uniq (remove duplicates), sort file.txt | uniq -c (count), sort file.txt | uniq -d (find duplicates)"
+  }
+}
+
