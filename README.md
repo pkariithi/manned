@@ -70,14 +70,7 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
 
 2. **Install using dpkg:**
    ```bash
-   sudo dpkg -i manned-pages_*.deb
-   sudo apt-get install -f  # Install dependencies if needed
-   ```
-
-3. **Or use gdebi (recommended):**
-   ```bash
-   sudo apt-get install gdebi
-   sudo gdebi manned-pages_*.deb
+   sudo apt install -f manned-pages_*.deb # Install dependencies if needed
    ```
 
 4. **Launch the application:**

@@ -59,7 +59,7 @@ The package installs:
    ```bash
    ./packaging/build_deb.sh
    ```
-   
+
    This creates: `manned-pages_<version>-<build>_amd64.deb`
 
 2. **Create a git tag (if not already created):**
@@ -75,23 +75,23 @@ The package installs:
    - **Description**: Copy from `RELEASE_NOTES_v1.0.0.md` or use the template:
      ```markdown
      ## Installation
-     
+
      Download the `.deb` file and install using:
-     
+
      ```bash
      sudo dpkg -i manned-pages_*.deb
      sudo apt-get install -f  # Install dependencies if needed
      ```
-     
+
      Or use `gdebi` for a better experience:
-     
+
      ```bash
      sudo apt-get install gdebi
      sudo gdebi manned-pages_*.deb
      ```
-     
+
      ## What's New
-     
+
      [Add release notes here]
      ```
    - **Attach files**: Drag and drop the `.deb` file
