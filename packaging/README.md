@@ -53,49 +53,59 @@ The package installs:
 
 ## GitHub Releases
 
-The `.github/workflows/build-and-release.yml` workflow automatically:
-- Builds the package when a tag is pushed (e.g., `v1.0.0`)
-- Creates a GitHub release with the `.deb` file as a downloadable asset
+### Creating a Manual Release
 
-### Creating a Release
-
-#### Option 1: Using the release script (recommended)
-
-1. **Build and create release:**
+1. **Build the .deb package:**
    ```bash
-   ./packaging/create_release.sh
+   ./packaging/build_deb.sh
    ```
+   
+   This creates: `manned-pages_<version>-<build>_amd64.deb`
 
-   This will:
-   - Build the .deb package if needed
-   - Create a GitHub release with the .deb file attached
-   - Requires GitHub CLI (`gh`) to be installed and authenticated
-
-#### Option 2: Using GitHub Actions
-
-1. **Tag the release:**
+2. **Create a git tag (if not already created):**
    ```bash
    git tag -a v1.0.0 -m "Release version 1.0.0"
    git push origin v1.0.0
    ```
 
-   The GitHub Actions workflow will automatically:
-   - Build the .deb package
-   - Create a GitHub release with the .deb file attached
-
-#### Option 3: Manual release
-
-1. **Build the package:**
-   ```bash
-   ./packaging/build_deb.sh
-   ```
-
-2. **Create release on GitHub:**
+3. **Create the release on GitHub:**
    - Go to: https://github.com/pkariithi/manned/releases/new
-   - Tag: `v1.0.0` (match your version)
-   - Title: `Manned Pages 1.0.0`
-   - Upload the `.deb` file
-   - Add installation instructions in the description
+   - **Tag**: Select `v1.0.0` from the dropdown (or type it)
+   - **Release title**: `Manned Pages 1.0.0`
+   - **Description**: Copy from `RELEASE_NOTES_v1.0.0.md` or use the template:
+     ```markdown
+     ## Installation
+     
+     Download the `.deb` file and install using:
+     
+     ```bash
+     sudo dpkg -i manned-pages_*.deb
+     sudo apt-get install -f  # Install dependencies if needed
+     ```
+     
+     Or use `gdebi` for a better experience:
+     
+     ```bash
+     sudo apt-get install gdebi
+     sudo gdebi manned-pages_*.deb
+     ```
+     
+     ## What's New
+     
+     [Add release notes here]
+     ```
+   - **Attach files**: Drag and drop the `.deb` file
+   - Click **"Publish release"**
+
+### Release Checklist
+
+- [ ] Build the .deb package: `./packaging/build_deb.sh`
+- [ ] Create/verify git tag: `git tag -l`
+- [ ] Push tag if new: `git push origin v1.0.0`
+- [ ] Create release on GitHub
+- [ ] Upload the .deb file
+- [ ] Add release notes
+- [ ] Verify download link works
 
 ## Package Information
 
