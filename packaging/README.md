@@ -59,16 +59,43 @@ The `.github/workflows/build-and-release.yml` workflow automatically:
 
 ### Creating a Release
 
+#### Option 1: Using the release script (recommended)
+
+1. **Build and create release:**
+   ```bash
+   ./packaging/create_release.sh
+   ```
+   
+   This will:
+   - Build the .deb package if needed
+   - Create a GitHub release with the .deb file attached
+   - Requires GitHub CLI (`gh`) to be installed and authenticated
+
+#### Option 2: Using GitHub Actions
+
 1. **Tag the release:**
    ```bash
    git tag -a v1.0.0 -m "Release version 1.0.0"
    git push origin v1.0.0
    ```
+   
+   The GitHub Actions workflow will automatically:
+   - Build the .deb package
+   - Create a GitHub release with the .deb file attached
 
-2. **Or use GitHub Actions manually:**
-   - Go to Actions → Build and Release → Run workflow
-   - Enter the version number
-   - The workflow will build and create a draft release
+#### Option 3: Manual release
+
+1. **Build the package:**
+   ```bash
+   ./packaging/build_deb.sh
+   ```
+
+2. **Create release on GitHub:**
+   - Go to: https://github.com/pkariithi/manned/releases/new
+   - Tag: `v1.0.0` (match your version)
+   - Title: `Manned Pages 1.0.0`
+   - Upload the `.deb` file
+   - Add installation instructions in the description
 
 ## Package Information
 
