@@ -14,31 +14,31 @@ on:
 jobs:
   build-deb:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.38.5'
         channel: 'stable'
-        
+
     - name: Install dependencies
       run: flutter pub get
-      
+
     - name: Install build dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y dpkg-dev debhelper
-        
+
     - name: Build Flutter release
       run: flutter build linux --release
-      
+
     - name: Build .deb package
       run: ./packaging/build_deb.sh
-      
+
     - name: Get version
       id: version
       run: |
@@ -49,14 +49,14 @@ jobs:
         fi
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
-        
+
     - name: Upload .deb artifact
       uses: actions/upload-artifact@v4
       with:
         name: manned-pages-deb
         path: manned-pages_*.deb
         retention-days: 30
-        
+
     - name: Create Release
       if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
@@ -64,27 +64,27 @@ jobs:
         files: manned-pages_*.deb
         body: |
           ## Manned Pages ${{ steps.version.outputs.version }}
-          
+
           ### Installation
-          
+
           Download the `.deb` file and install using:
-          
+
           ```bash
           sudo dpkg -i manned-pages_*.deb
           sudo apt-get install -f  # Install dependencies if needed
           ```
-          
+
           Or use `gdebi` for a better experience:
-          
+
           ```bash
           sudo apt-get install gdebi
           sudo gdebi manned-pages_*.deb
           ```
-          
+
           ### What's New
-          
+
           See [CHANGELOG.md](CHANGELOG.md) for details.
-          
+
         draft: false
         prerelease: false
       env:

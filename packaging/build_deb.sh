@@ -89,7 +89,7 @@ dpkg-deb --build --root-owner-group "${BUILD_DIR}" "${PACKAGE_NAME}_${DEB_VERSIO
 if [ -f "${PACKAGE_NAME}_${DEB_VERSION}_${ARCH}.deb" ]; then
     PACKAGE_SIZE=$(du -h "${PACKAGE_NAME}_${DEB_VERSION}_${ARCH}.deb" | cut -f1)
     echo -e "${GREEN}✓ Package built successfully: ${PACKAGE_NAME}_${DEB_VERSION}_${ARCH}.deb (${PACKAGE_SIZE})${NC}"
-    
+
     # Show package info
     echo -e "${YELLOW}Package info:${NC}"
     dpkg-deb -I "${PACKAGE_NAME}_${DEB_VERSION}_${ARCH}.deb"

@@ -65,7 +65,7 @@ The `.github/workflows/build-and-release.yml` workflow automatically:
    ```bash
    ./packaging/create_release.sh
    ```
-   
+
    This will:
    - Build the .deb package if needed
    - Create a GitHub release with the .deb file attached
@@ -78,7 +78,7 @@ The `.github/workflows/build-and-release.yml` workflow automatically:
    git tag -a v1.0.0 -m "Release version 1.0.0"
    git push origin v1.0.0
    ```
-   
+
    The GitHub Actions workflow will automatically:
    - Build the .deb package
    - Create a GitHub release with the .deb file attached
