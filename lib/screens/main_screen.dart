@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         title: const Row(
           children: [
-            Icon(Icons.menu_book, size: 24),
+            Image(image: AssetImage('assets/icon.png'), width: 24, height: 24),
             SizedBox(width: 12),
             Text('Manned Pages'),
           ],
@@ -116,111 +116,124 @@ class _MainScreenState extends State<MainScreen> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _error != null
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.error_outline,
-                        size: 64,
-                        color: Theme.of(context).colorScheme.error,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        _error!,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadCommands,
-                        child: const Text('Retry'),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: Theme.of(context).colorScheme.error,
                   ),
-                )
-              : Row(
-                  children: [
-                    // Left pane - Command list
-                    Container(
-                      width: 320,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surfaceContainerLowest,
-                        border: Border(
-                          right: BorderSide(
-                            color: Theme.of(context).dividerColor,
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: CommandList(
-                        commands: _filteredCommands,
-                        selectedCommand: _selectedCommand,
-                        onCommandSelected: _onCommandSelected,
-                        searchController: _searchController,
-                        onSearchChanged: _onSearchChanged,
+                  const SizedBox(height: 16),
+                  Text(
+                    _error!,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _loadCommands,
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            )
+          : Row(
+              children: [
+                // Left pane - Command list
+                Container(
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainerLowest,
+                    border: Border(
+                      right: BorderSide(
+                        color: Theme.of(context).dividerColor,
+                        width: 1,
                       ),
                     ),
-                    // Right pane - Command details
-                    Expanded(
-                      child: Container(
-                        color: Theme.of(context).colorScheme.surface,
-                        child: _filteredCommands.isEmpty
-                            ? Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.search_off,
-                                      size: 64,
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Text(
-                                      'No commands found',
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                          ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Try adjusting your search query',
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : _selectedCommand != null
-                                ? CommandDetails(
-                                    command: _selectedCommand!,
-                                    showJsonView: _showJsonView,
-                                  )
-                                : Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.info_outline,
-                                          size: 64,
-                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                        ),
-                                        const SizedBox(height: 16),
-                                        Text(
-                                          'Select a command to view details',
-                                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                      ),
-                    ),
-                  ],
+                  ),
+                  child: CommandList(
+                    commands: _filteredCommands,
+                    selectedCommand: _selectedCommand,
+                    onCommandSelected: _onCommandSelected,
+                    searchController: _searchController,
+                    onSearchChanged: _onSearchChanged,
+                  ),
                 ),
+                // Right pane - Command details
+                Expanded(
+                  child: Container(
+                    color: Theme.of(context).colorScheme.surface,
+                    child: _filteredCommands.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.search_off,
+                                  size: 64,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'No commands found',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Try adjusting your search query',
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : _selectedCommand != null
+                        ? CommandDetails(
+                            command: _selectedCommand!,
+                            showJsonView: _showJsonView,
+                          )
+                        : Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  size: 64,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  'Select a command to view details',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                      ),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

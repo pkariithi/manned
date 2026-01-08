@@ -4,6 +4,7 @@
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
 #endif
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -57,6 +58,19 @@ static void my_application_activate(GApplication* application) {
   g_autoptr(FlDartProject) project = fl_dart_project_new();
   fl_dart_project_set_dart_entrypoint_arguments(
       project, self->dart_entrypoint_arguments);
+
+  // Set application icon
+  g_autofree gchar* assets_path = g_build_filename(
+      fl_dart_project_get_assets_path(project), "icon.png", nullptr);
+  GError* icon_error = nullptr;
+  GdkPixbuf* icon = gdk_pixbuf_new_from_file(assets_path, &icon_error);
+  if (icon != nullptr) {
+    gtk_window_set_icon(window, icon);
+    g_object_unref(icon);
+  } else if (icon_error != nullptr) {
+    g_warning("Failed to load icon: %s", icon_error->message);
+    g_error_free(icon_error);
+  }
 
   FlView* view = fl_view_new(project);
   GdkRGBA background_color;
