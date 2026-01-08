@@ -57,15 +57,39 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
 
 ### Prerequisites
 - Ubuntu Linux (latest LTS or recent release)
-- Flutter SDK (latest stable version)
+- For development: Flutter SDK (latest stable version)
 - Linux desktop environment
 
 ### Installation
 
+#### Option 1: Install from .deb Package (Recommended)
+
+1. **Download the latest release**
+   - Go to [Releases](https://github.com/pkariithi/manned/releases)
+   - Download the `.deb` file (e.g., `manned-pages_1.0.0-1_amd64.deb`)
+
+2. **Install using dpkg:**
+   ```bash
+   sudo dpkg -i manned-pages_*.deb
+   sudo apt-get install -f  # Install dependencies if needed
+   ```
+
+3. **Or use gdebi (recommended):**
+   ```bash
+   sudo apt-get install gdebi
+   sudo gdebi manned-pages_*.deb
+   ```
+
+4. **Launch the application:**
+   - Search for "Manned Pages" in your application menu
+   - Or run from terminal: `manned-pages`
+
+#### Option 2: Build from Source
+
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd manned_pages
+   git clone https://github.com/pkariithi/manned.git
+   cd manned
    ```
 
 2. **Install dependencies**
@@ -81,6 +105,11 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
    Or build a release version:
    ```bash
    flutter build linux
+   ```
+
+4. **Build a .deb package:**
+   ```bash
+   ./packaging/build_deb.sh
    ```
 
 ## 📱 Usage

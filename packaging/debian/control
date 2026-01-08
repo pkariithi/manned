@@ -1,0 +1,22 @@
+Package: manned-pages
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libgtk-3-0, libglib2.0-0, libc6
+Maintainer: Patrick Karuri <pkariithi@users.noreply.github.com>
+Description: A modern, user-friendly Linux command reference application
+ Manned Pages is an intuitive desktop application that provides comprehensive
+ documentation for the most commonly used Linux commands. Designed specifically
+ for Ubuntu with the native Yaru theme, it presents command information in a
+ clean, accessible interface that's easier to navigate than traditional man pages.
+ .
+ Features:
+  - Comprehensive command database with 50+ Linux commands
+  - Two-pane interface for easy navigation
+  - Smart search across command fields
+  - Light and dark theme support
+  - JSON view with syntax highlighting
+  - Installation instructions for installable commands
+  - Real-world examples with output explanations
+
