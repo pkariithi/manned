@@ -1,0 +1,245 @@
+{
+  "metadata": {
+    "name": "stat",
+    "displayName": "stat - Display file or file system status",
+    "category": "File & Directory Operations",
+    "tags": ["files", "metadata", "permissions", "status", "information"],
+    "description": "Display detailed file or file system status information",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "stat is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The stat command displays detailed information about files and file systems, including permissions, size, timestamps, inode number, and more. It's useful for debugging, scripting, and understanding file metadata.",
+    "when_to_use": [
+      "Check file permissions and ownership",
+      "View detailed file timestamps (access, modify, change)",
+      "Get file size and inode information",
+      "Debug file-related issues",
+      "Script file metadata operations",
+      "Compare file modification times"
+    ]
+  },
+  "syntax": {
+    "basic": "stat [OPTIONS] FILE...",
+    "description": "Display file status for one or more files. Can also display file system status with -f option.",
+    "examples": [
+      "stat file.txt",
+      "stat -f /",
+      "stat -L symlink",
+      "stat -t file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-L, --dereference",
+      "short": "-L",
+      "long": "--dereference",
+      "description": "Follow symbolic links and show information about the file they point to",
+      "category": "links",
+      "example": "stat -L symlink",
+      "use_case": "When you want information about the target file, not the symlink itself"
+    },
+    {
+      "flag": "-f, --file-system",
+      "short": "-f",
+      "long": "--file-system",
+      "description": "Display file system status instead of file status",
+      "category": "filesystem",
+      "example": "stat -f /",
+      "use_case": "To check file system information like type, block size, and available space"
+    },
+    {
+      "flag": "-t, --terse",
+      "short": "-t",
+      "long": "--terse",
+      "description": "Print information in terse form, suitable for parsing",
+      "category": "output",
+      "example": "stat -t file.txt",
+      "use_case": "For scripting when you need machine-readable output"
+    },
+    {
+      "flag": "-c, --format=FORMAT",
+      "short": "-c",
+      "long": "--format",
+      "description": "Use the specified format instead of the default",
+      "category": "output",
+      "example": "stat -c '%A %n' file.txt",
+      "use_case": "Customize output format for specific information you need"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic file status",
+      "command": "stat file.txt",
+      "description": "Display complete status information for a file",
+      "output": "  File: file.txt\n  Size: 1024       \tBlocks: 8          IO Block: 4096   regular file\nDevice: 801h/2049d\tInode: 123456      Links: 1\nAccess: (0644/-rw-r--r--)  Uid: ( 1000/   user)   Gid: ( 1000/   user)\nAccess: 2024-01-15 10:30:45.123456789 +0300\nModify: 2024-01-15 10:25:30.987654321 +0300\nChange: 2024-01-15 10:25:30.987654321 +0300\n Birth: 2024-01-15 10:20:15.111111111 +0300",
+      "output_explanation": {
+        "format": "structured text",
+        "elements": [
+          {
+            "element": "File",
+            "meaning": "The file name"
+          },
+          {
+            "element": "Size",
+            "meaning": "File size in bytes"
+          },
+          {
+            "element": "Blocks",
+            "meaning": "Number of 512-byte blocks allocated"
+          },
+          {
+            "element": "IO Block",
+            "meaning": "File system block size"
+          },
+          {
+            "element": "Device",
+            "meaning": "Device number in hex and decimal"
+          },
+          {
+            "element": "Inode",
+            "meaning": "Inode number (unique file identifier)"
+          },
+          {
+            "element": "Links",
+            "meaning": "Number of hard links"
+          },
+          {
+            "element": "Access",
+            "meaning": "File permissions in octal and symbolic notation, plus ownership"
+          },
+          {
+            "element": "Access/Modify/Change/Birth",
+            "meaning": "Timestamps: last access, modification, metadata change, and file creation"
+          }
+        ],
+        "notes": "The output format may vary slightly between systems. Birth time is not available on all file systems."
+      },
+      "use_case": "Quick overview of all file metadata"
+    },
+    {
+      "title": "File system status",
+      "command": "stat -f /",
+      "description": "Display file system information for the root directory",
+      "output": "  File: \"/\"\n    ID: 0        Namelen: 255     Type: ext4\nBlock size: 4096       Fundamental block size: 4096\nBlocks: Total: 244190208   Free: 123456789   Available: 98765432\nInodes: Total: 61046784    Free: 54321098",
+      "output_explanation": {
+        "format": "structured text",
+        "elements": [
+          {
+            "element": "ID",
+            "meaning": "File system ID"
+          },
+          {
+            "element": "Namelen",
+            "meaning": "Maximum file name length"
+          },
+          {
+            "element": "Type",
+            "meaning": "File system type (ext4, xfs, btrfs, etc.)"
+          },
+          {
+            "element": "Block size",
+            "meaning": "Block size used by the file system"
+          },
+          {
+            "element": "Blocks: Total/Free/Available",
+            "meaning": "Total blocks, free blocks, and blocks available to non-root users"
+          },
+          {
+            "element": "Inodes: Total/Free",
+            "meaning": "Total and free inodes (file system entries)"
+          }
+        ],
+        "notes": "Useful for checking disk space and file system health"
+      },
+      "use_case": "Check file system type and available space"
+    },
+    {
+      "title": "Custom format for permissions",
+      "command": "stat -c '%A %n' *.txt",
+      "description": "Show only permissions and filename for all .txt files",
+      "output": "drwxr-xr-x dir.txt\n-rw-r--r-- file1.txt\n-rwxr-xr-x script.txt",
+      "output_explanation": {
+        "format": "text",
+        "elements": [
+          {
+            "element": "%A",
+            "meaning": "File permissions in symbolic notation"
+          },
+          {
+            "element": "%n",
+            "meaning": "File name"
+          }
+        ],
+        "notes": "Useful in scripts to check permissions programmatically"
+      },
+      "use_case": "Quick permission check for multiple files"
+    }
+  ],
+  "common_misconceptions": [
+    {
+      "title": "stat shows file contents",
+      "misconception": "stat displays the actual content of files",
+      "reality": "stat only shows metadata (permissions, size, timestamps), not file contents. Use cat, less, or other commands to view file contents.",
+      "tip": "Think of stat as 'file information' not 'file content'"
+    },
+    {
+      "title": "Change time vs Modify time",
+      "misconception": "Change time and modify time are the same",
+      "reality": "Modify time changes when file content changes. Change time (ctime) changes when file metadata (permissions, ownership) changes. They can be different.",
+      "tip": "Modify = content changed, Change = metadata changed"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Following symlinks by default",
+      "description": "By default, stat shows information about the symlink itself, not the target",
+      "solution": "Use -L flag to follow symlinks: stat -L symlink"
+    },
+    {
+      "issue": "Parsing output in scripts",
+      "description": "Default output format is human-readable, not ideal for parsing",
+      "solution": "Use -t for terse format or -c with format specifiers for machine-readable output"
+    }
+  ],
+  "best_practices": [
+    "Use -L when you need information about the target of a symlink",
+    "Use -c with format specifiers for scripting instead of parsing default output",
+    "Use -f to check file system information when debugging disk issues",
+    "Combine with find to check metadata of multiple files: find . -exec stat {} \\;"
+  ],
+  "performance_tips": [
+    "For multiple files, stat is fast as it only reads metadata, not file contents",
+    "Use -t for faster output when you don't need human-readable format",
+    "Avoid stat on network file systems when possible as it requires network I/O"
+  ],
+  "related_commands": [
+    {
+      "command": "ls",
+      "relationship": "Shows basic file information in directory listings",
+      "description": "ls -l provides similar but less detailed information than stat"
+    },
+    {
+      "command": "file",
+      "relationship": "Determines file type",
+      "description": "file shows what type of file it is, while stat shows metadata"
+    },
+    {
+      "command": "find",
+      "relationship": "Can use stat to filter files by metadata",
+      "description": "find -newer and similar options use stat information"
+    }
+  ],
+  "additional_notes": {
+    "note1": "The 'Birth' time (file creation) is only available on certain file systems like ext4 with specific mount options",
+    "note2": "On some systems, 'Change' time is called 'ctime' and refers to inode change time",
+    "note3": "stat format specifiers (used with -c) include: %A (permissions), %n (name), %s (size), %U (user), %G (group), %y (modify time), and many more"
+  }
+}
+

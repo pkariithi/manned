@@ -67,13 +67,31 @@ Comment=A modern, user-friendly Linux command reference application
 Exec=/usr/bin/manned-pages
 Icon=manned-pages
 Terminal=false
-Categories=Utility;Documentation;Education;
+Categories=Utility;
 Keywords=linux;commands;documentation;man;reference;
+StartupWMClass=manned_pages
+StartupNotify=true
+MimeType=
 EOF
 
-# Copy icon
+# Copy icon to multiple sizes for better taskbar support
 if [ -f "assets/icon.png" ]; then
-    cp assets/icon.png "${BUILD_DIR}/usr/share/icons/hicolor/256x256/apps/manned-pages.png"
+    # Create icon directories for standard sizes
+    ICON_SIZES="16 24 32 48 64 128 256 512"
+    for size in $ICON_SIZES; do
+        mkdir -p "${BUILD_DIR}/usr/share/icons/hicolor/${size}x${size}/apps"
+        # Use convert if available (ImageMagick), otherwise copy and let system scale
+        if command -v convert >/dev/null 2>&1; then
+            convert assets/icon.png -resize ${size}x${size} "${BUILD_DIR}/usr/share/icons/hicolor/${size}x${size}/apps/manned-pages.png"
+        else
+            # Fallback: copy the original and let the system scale it
+            cp assets/icon.png "${BUILD_DIR}/usr/share/icons/hicolor/${size}x${size}/apps/manned-pages.png"
+        fi
+    done
+
+    # Also create scalable icon (SVG would be better, but PNG works)
+    mkdir -p "${BUILD_DIR}/usr/share/icons/hicolor/scalable/apps"
+    cp assets/icon.png "${BUILD_DIR}/usr/share/icons/hicolor/scalable/apps/manned-pages.png"
 fi
 
 # Calculate installed size

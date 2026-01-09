@@ -11,28 +11,13 @@
   },
   "installation": {
     "required": true,
-    "status": "not_installed_by_default",
+    "status": "installable",
     "package": {
       "name": "htop",
       "manager": "apt",
-      "command": "sudo apt install htop",
-      "alternative_managers": [
-        {
-          "manager": "snap",
-          "command": "sudo snap install htop"
-        }
-      ]
+      "command": "sudo apt install htop"
     },
-    "verification": {
-      "command": "htop --version",
-      "expected_output": "htop [version number]"
-    },
-    "notes": [
-      "htop is not included in standard Ubuntu installations",
-      "Installation requires sudo/administrator privileges",
-      "The package is available in Ubuntu's default repositories, so no additional repositories need to be added"
-    ],
-    "post_installation": "After installation, simply run 'htop' to start the interactive monitor"
+    "note": "htop is not included in standard Ubuntu installations. Installation requires sudo/administrator privileges. The package is available in Ubuntu's default repositories."
   },
   "overview": {
     "summary": "htop is an interactive process viewer and system monitor that provides a real-time, colorful, and user-friendly interface for monitoring system resources (CPU, memory, swap) and managing processes. It's an enhanced alternative to the traditional 'top' command.",

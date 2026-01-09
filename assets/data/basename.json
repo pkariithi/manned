@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "name": "basename",
+    "displayName": "basename - Strip directory and suffix from filenames",
+    "category": "File & Directory Operations",
+    "tags": ["files", "path", "filename", "extraction", "utility"],
+    "description": "Strip directory and suffix from filenames",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "basename is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The basename command removes the directory path and optional suffix from a file path, returning just the filename. It's commonly used in scripts to extract filenames from full paths or to remove file extensions.",
+    "when_to_use": [
+      "Extract filename from a full path",
+      "Remove file extension from a filename",
+      "Get just the filename without directory path",
+      "Process filenames in scripts",
+      "Remove common suffixes from multiple files"
+    ]
+  },
+  "syntax": {
+    "basic": "basename NAME [SUFFIX]",
+    "description": "Remove leading directory components and optional trailing suffix from NAME. If SUFFIX is specified, it's removed from the end of the filename.",
+    "examples": [
+      "basename /path/to/file.txt",
+      "basename /path/to/file.txt .txt",
+      "basename /usr/bin/python3",
+      "basename /home/user/document.pdf .pdf"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --multiple",
+      "short": "-a",
+      "long": "--multiple",
+      "description": "Support multiple arguments and treat each as a NAME",
+      "category": "operation",
+      "example": "basename -a /path/file1.txt /path/file2.txt",
+      "use_case": "Process multiple file paths at once"
+    },
+    {
+      "flag": "-s, --suffix=SUFFIX",
+      "short": "-s",
+      "long": "--suffix",
+      "description": "Remove a trailing SUFFIX (implies -a)",
+      "category": "operation",
+      "example": "basename -s .txt /path/file.txt",
+      "use_case": "Remove a specific suffix from multiple files"
+    },
+    {
+      "flag": "-z, --zero",
+      "short": "-z",
+      "long": "--zero",
+      "description": "End each output line with NUL, not newline",
+      "category": "output",
+      "example": "basename -z /path/file.txt",
+      "use_case": "Use with xargs -0 for handling filenames with spaces"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Extract filename from path",
+      "command": "basename /home/user/documents/report.pdf",
+      "description": "Get just the filename without the directory path",
+      "output": "report.pdf",
+      "output_explanation": {
+        "format": "Just the filename portion of the path",
+        "elements": [
+          {
+            "element": "/home/user/documents/report.pdf",
+            "meaning": "Full path to the file"
+          },
+          {
+            "element": "report.pdf",
+            "meaning": "Result: only the filename, directory path removed"
+          }
+        ],
+        "notes": "basename removes all directory components, leaving only the final filename."
+      },
+      "use_case": "Get filename for processing or display in scripts"
+    },
+    {
+      "title": "Remove file extension",
+      "command": "basename /path/to/file.txt .txt",
+      "description": "Remove both directory path and the .txt extension",
+      "output": "file",
+      "output_explanation": {
+        "format": "Filename without path and without specified suffix",
+        "elements": [
+          {
+            "element": "/path/to/file.txt",
+            "meaning": "Full path with extension"
+          },
+          {
+            "element": ".txt",
+            "meaning": "Suffix to remove"
+          },
+          {
+            "element": "file",
+            "meaning": "Result: filename without extension"
+          }
+        ],
+        "notes": "The suffix must match exactly. If the file doesn't end with the suffix, it's not removed."
+      },
+      "use_case": "Get base filename without extension for renaming or processing"
+    },
+    {
+      "title": "Process multiple files",
+      "command": "basename -a /path/file1.txt /path/file2.txt /path/file3.txt",
+      "description": "Extract filenames from multiple paths",
+      "output": "file1.txt\nfile2.txt\nfile3.txt",
+      "output_explanation": {
+        "format": "Each filename on a separate line",
+        "elements": [
+          {
+            "element": "-a",
+            "meaning": "Process multiple arguments"
+          },
+          {
+            "element": "file1.txt, file2.txt, file3.txt",
+            "meaning": "Each path processed separately, returning just the filename"
+          }
+        ],
+        "notes": "Useful in scripts when processing multiple files. Each argument is processed independently."
+      },
+      "use_case": "Batch process multiple file paths in scripts"
+    },
+    {
+      "title": "Remove extension from multiple files",
+      "command": "basename -s .txt /path/file1.txt /path/file2.txt",
+      "description": "Remove .txt extension from multiple files",
+      "output": "file1\nfile2",
+      "output_explanation": {
+        "format": "Filenames without the specified suffix",
+        "elements": [
+          {
+            "element": "-s .txt",
+            "meaning": "Remove .txt suffix from all files"
+          },
+          {
+            "element": "file1, file2",
+            "meaning": "Result: filenames without extensions"
+          }
+        ],
+        "notes": "The -s flag automatically enables -a, so multiple files can be processed with a single suffix."
+      },
+      "use_case": "Batch remove extensions from multiple files"
+    },
+    {
+      "title": "Use in script for processing",
+      "command": "for file in /path/*.txt; do name=$(basename \"$file\" .txt); echo \"Processing $name\"; done",
+      "description": "Extract base names in a loop for processing",
+      "output": "Processing file1\nProcessing file2\nProcessing file3",
+      "output_explanation": {
+        "format": "Script output showing processed filenames",
+        "elements": [
+          {
+            "element": "basename \"$file\" .txt",
+            "meaning": "Extract filename without extension in script"
+          },
+          {
+            "element": "Processing file1",
+            "meaning": "Script output using the extracted name"
+          }
+        ],
+        "notes": "Common pattern in shell scripts for processing files. The basename command is often used in loops and pipelines."
+      },
+      "use_case": "Script automation for file processing and renaming"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "basename modifies files",
+      "misconception": "basename changes the actual file or removes the extension from the file",
+      "reality": "basename only processes the string you provide - it doesn't modify files. It's purely a text manipulation command that works on path strings.",
+      "tip": "basename is for string manipulation, not file operations. Use mv or rename to actually change filenames."
+    },
+    {
+      "title": "basename works on directories",
+      "misconception": "basename only works on files, not directories",
+      "reality": "basename works on any path string - files, directories, or even non-existent paths. It just processes the string.",
+      "tip": "basename /path/to/directory returns 'directory' - it works on any path component."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Suffix must match exactly",
+      "description": "The suffix must match the end of the filename exactly, including the dot",
+      "solution": "Use '.txt' not 'txt'. The suffix is removed as-is, so 'file.txt' with suffix 'txt' won't work - use '.txt'"
+    },
+    {
+      "issue": "Spaces in paths need quoting",
+      "description": "Paths with spaces will be split by the shell",
+      "solution": "Always quote paths: basename \"/path/with spaces/file.txt\""
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "dirname",
+      "relationship": "Complementary; dirname gets directory path, basename gets filename",
+      "description": "Strip last component from file name (gets directory)"
+    },
+    {
+      "command": "cut",
+      "relationship": "Text extraction; cut can extract path components, basename is specialized for filenames",
+      "description": "Remove sections from lines of files"
+    }
+  ],
+  "best_practices": [
+    "Always quote paths in scripts to handle spaces: basename \"$filepath\"",
+    "Use -s for consistent suffix removal across multiple files",
+    "Combine with dirname to split paths: dirname gets directory, basename gets filename",
+    "Use in scripts for clean filename extraction before processing",
+    "Remember basename doesn't modify files - it only processes strings"
+  ],
+  "performance_tips": [
+    "basename is very fast - negligible performance impact",
+    "Use -a for multiple files instead of calling basename multiple times",
+    "For very large batches, consider using find with -exec basename"
+  ],
+  "additional_notes": {
+    "path_manipulation": "basename is part of a suite of path manipulation tools including dirname and realpath",
+    "scripting": "Extremely common in shell scripts for filename processing",
+    "suffix_matching": "Suffix matching is literal - must match exactly including the dot",
+    "complement": "Often used with dirname: dirname gets the path, basename gets the filename"
+  }
+}
+

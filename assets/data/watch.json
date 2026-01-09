@@ -1,0 +1,285 @@
+{
+  "metadata": {
+    "name": "watch",
+    "displayName": "watch - Execute a program periodically, showing output fullscreen",
+    "category": "Monitoring",
+    "tags": ["monitoring", "periodic", "refresh", "real-time", "display"],
+    "description": "Execute a program repeatedly and display its output",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "procps-ng 3.3.16+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "watch is typically included in procps package, available on most Linux systems by default"
+  },
+  "overview": {
+    "summary": "The watch command executes a program repeatedly, displaying its output fullscreen and updating it at regular intervals. It's perfect for monitoring system resources, watching file changes, or observing the progress of long-running operations. The screen is cleared and updated each time, making it easy to spot changes.",
+    "when_to_use": [
+      "Monitor system resources (CPU, memory, disk) in real-time",
+      "Watch file sizes or directory contents change",
+      "Monitor network connections or processes",
+      "Observe log file growth",
+      "Track command output that changes over time",
+      "Monitor system load or uptime"
+    ]
+  },
+  "syntax": {
+    "basic": "watch [OPTIONS] COMMAND",
+    "description": "Execute COMMAND repeatedly and display its output. Default interval is 2 seconds. Press Ctrl+C to exit.",
+    "examples": [
+      "watch -n 1 'ls -lh'",
+      "watch -d 'df -h'",
+      "watch 'ps aux | grep process'",
+      "watch -n 5 'free -h'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --interval=SECONDS",
+      "short": "-n",
+      "long": "--interval",
+      "description": "Specify update interval in seconds (default: 2)",
+      "category": "timing",
+      "example": "watch -n 1 'date'",
+      "use_case": "Change how often the command runs. Lower values update more frequently but use more CPU"
+    },
+    {
+      "flag": "-d, --differences",
+      "short": "-d",
+      "long": "--differences",
+      "description": "Highlight differences between successive updates",
+      "category": "display",
+      "example": "watch -d 'df -h'",
+      "use_case": "Make it easier to spot what changed between updates - changed values are highlighted"
+    },
+    {
+      "flag": "-t, --no-title",
+      "short": "-t",
+      "long": "--no-title",
+      "description": "Turn off the header showing the interval and command",
+      "category": "display",
+      "example": "watch -t 'date'",
+      "use_case": "Cleaner output without the header bar at the top"
+    },
+    {
+      "flag": "-b, --beep",
+      "short": "-b",
+      "long": "--beep",
+      "description": "Beep if command has a non-zero exit code",
+      "category": "notification",
+      "example": "watch -b 'test -f /tmp/file'",
+      "use_case": "Get audio alert when a condition changes (file appears, process exits, etc.)"
+    },
+    {
+      "flag": "-c, --color",
+      "short": "-c",
+      "long": "--color",
+      "description": "Interpret ANSI color and style sequences",
+      "category": "display",
+      "example": "watch -c 'ls --color=always'",
+      "use_case": "Preserve color output from commands that support colored output"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Monitor disk usage",
+      "command": "watch -n 1 'df -h'",
+      "description": "Watch disk space usage update every second",
+      "output": "Every 1.0s: df -h\n\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        20G   15G  4.0G  79% /\n(Updates every second showing current disk usage)",
+      "output_explanation": {
+        "format": "Header shows interval and command, followed by command output that updates",
+        "elements": [
+          {
+            "element": "Every 1.0s: df -h",
+            "meaning": "Header showing update interval (1 second) and command being executed"
+          },
+          {
+            "element": "df -h output",
+            "meaning": "The actual command output that refreshes every second"
+          },
+          {
+            "element": "Updates every second",
+            "meaning": "The screen clears and refreshes with new data at the specified interval"
+          }
+        ],
+        "notes": "The screen updates in place - you see the same location but with fresh data. Press Ctrl+C to exit."
+      },
+      "use_case": "Monitor disk space changes in real-time, useful during large file operations"
+    },
+    {
+      "title": "Watch process list",
+      "command": "watch 'ps aux | grep python'",
+      "description": "Monitor Python processes, updating every 2 seconds (default)",
+      "output": "Every 2.0s: ps aux | grep python\n\nuser  1234  0.5  1.2  python script.py\n(Updates showing current Python processes)",
+      "output_explanation": {
+        "format": "Command output refreshes periodically, showing current state",
+        "elements": [
+          {
+            "element": "Every 2.0s",
+            "meaning": "Default update interval (2 seconds) if not specified"
+          },
+          {
+            "element": "ps aux | grep python",
+            "meaning": "The command being executed repeatedly"
+          },
+          {
+            "element": "Process list",
+            "meaning": "Current output that changes as processes start/stop"
+          }
+        ],
+        "notes": "Useful for monitoring if a process is running, watching CPU/memory usage of processes, or seeing when processes appear/disappear."
+      },
+      "use_case": "Monitor specific processes, watch for process starts/stops, track resource usage"
+    },
+    {
+      "title": "Highlight changes",
+      "command": "watch -d 'free -h'",
+      "description": "Monitor memory usage with differences highlighted",
+      "output": "Every 2.0s: free -h\n\n              total        used        free\nMem:           8.0G        4.2G        3.8G\n(Changed values highlighted between updates)",
+      "output_explanation": {
+        "format": "Values that changed since last update are highlighted",
+        "elements": [
+          {
+            "element": "-d flag",
+            "meaning": "Differences mode - highlights what changed"
+          },
+          {
+            "element": "Highlighted values",
+            "meaning": "Numbers or text that changed since the previous update are visually highlighted"
+          },
+          {
+            "element": "free -h output",
+            "meaning": "Memory statistics that update and show changes"
+          }
+        ],
+        "notes": "The -d flag makes it much easier to spot changes. Changed values stand out, making it obvious what's changing over time."
+      },
+      "use_case": "Easily spot what's changing in command output, identify trends or anomalies"
+    },
+    {
+      "title": "Watch file listing",
+      "command": "watch -n 0.5 'ls -lht | head -10'",
+      "description": "Monitor the 10 newest files, updating every 0.5 seconds",
+      "output": "Every 0.5s: ls -lht | head -10\n\n-rw-r--r-- 1 user user 1.5M Jan 15 10:30 newfile.txt\n(Shows newest files, updates very frequently)",
+      "output_explanation": {
+        "format": "Fast updates show directory changes in near real-time",
+        "elements": [
+          {
+            "element": "-n 0.5",
+            "meaning": "Update every 0.5 seconds (half a second) - very frequent updates"
+          },
+          {
+            "element": "ls -lht | head -10",
+            "meaning": "List files sorted by time, show only top 10"
+          },
+          {
+            "element": "File list",
+            "meaning": "Directory contents that refresh showing newest files first"
+          }
+        ],
+        "notes": "Very useful for monitoring directory changes, watching log files appear, or tracking file creation during operations."
+      },
+      "use_case": "Monitor directory changes, watch for new files, track file creation during operations"
+    },
+    {
+      "title": "Monitor network connections",
+      "command": "watch -n 1 -d 'netstat -tuln | grep :80'",
+      "description": "Watch port 80 connections, highlighting changes",
+      "output": "Every 1.0s: netstat -tuln | grep :80\n\ntcp  0.0.0.0:80  LISTEN\n(Shows network connections on port 80, highlights when connections change)",
+      "output_explanation": {
+        "format": "Network connection information that updates and highlights changes",
+        "elements": [
+          {
+            "element": "-n 1",
+            "meaning": "Update every 1 second"
+          },
+          {
+            "element": "-d",
+            "meaning": "Highlight differences when connections appear/disappear"
+          },
+          {
+            "element": "netstat output",
+            "meaning": "Current network connections that change over time"
+          }
+        ],
+        "notes": "Perfect for monitoring server connections, watching for new clients, or tracking network activity."
+      },
+      "use_case": "Monitor server connections, watch for incoming connections, track network activity"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "watch runs commands in background",
+      "misconception": "watch runs commands as background processes that continue after watch exits",
+      "reality": "watch executes commands in the foreground and stops when you press Ctrl+C. The commands themselves run normally but are executed repeatedly by watch.",
+      "tip": "Press Ctrl+C to stop watch. The commands being watched are not background processes."
+    },
+    {
+      "title": "watch can watch files directly",
+      "misconception": "watch can monitor file changes directly like 'watch file.txt'",
+      "reality": "watch executes commands, not files. To watch a file, use a command: 'watch cat file.txt' or 'watch tail file.txt'",
+      "tip": "Always provide a command to execute. For files, use commands like cat, tail, head, or ls"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Commands with quotes need proper escaping",
+      "description": "Complex commands with quotes, pipes, or special characters can be tricky to pass to watch",
+      "solution": "Use single quotes around the entire command: watch 'ps aux | grep python'. For nested quotes, escape properly or use different quote types."
+    },
+    {
+      "issue": "Too frequent updates cause high CPU usage",
+      "description": "Setting interval too low (like 0.1 seconds) can consume significant CPU resources",
+      "solution": "Use reasonable intervals (1-5 seconds for most cases). Only use very short intervals when necessary."
+    },
+    {
+      "issue": "Color output not showing",
+      "description": "Some commands' color output doesn't appear in watch",
+      "solution": "Use -c flag to preserve ANSI colors, or force color in the command: watch -c 'ls --color=always'"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "top",
+      "relationship": "Interactive process monitor; watch can run top commands periodically",
+      "description": "Display Linux processes"
+    },
+    {
+      "command": "htop",
+      "relationship": "Interactive system monitor; watch is simpler for basic periodic monitoring",
+      "description": "Interactive process viewer"
+    },
+    {
+      "command": "tail",
+      "relationship": "Shows end of files; often used with watch to monitor log files",
+      "description": "Display the end of files"
+    },
+    {
+      "command": "while",
+      "relationship": "Loop construct; can create custom watch-like behavior in scripts",
+      "description": "Shell loop for repeated execution"
+    }
+  ],
+  "best_practices": [
+    "Use -d flag to easily spot changes in output",
+    "Set appropriate intervals - 1-5 seconds for most cases, avoid very short intervals",
+    "Quote complex commands properly: watch 'command with | pipes and \"quotes\"'",
+    "Use -c to preserve color output from commands that support it",
+    "Combine with head/tail to limit output size for cleaner display",
+    "Press Ctrl+C to exit cleanly"
+  ],
+  "performance_tips": [
+    "Lower intervals use more CPU - balance update frequency with resource usage",
+    "Simple commands run faster - complex pipelines add overhead on each update",
+    "For very frequent monitoring, consider specialized tools like htop or custom scripts"
+  ],
+  "additional_notes": {
+    "default_interval": "Default update interval is 2 seconds if not specified",
+    "exit": "Press Ctrl+C to exit watch and return to command prompt",
+    "fullscreen": "watch uses full terminal screen, clearing it on each update",
+    "command_execution": "Commands run in a shell, so shell features (pipes, redirection) work normally"
+  }
+}
+

@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "name": "dirname",
+    "displayName": "dirname - Strip last component from file name",
+    "category": "File & Directory Operations",
+    "tags": ["files", "path", "directory", "extraction", "utility"],
+    "description": "Strip last component from file name (get directory path)",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "dirname is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The dirname command removes the last component from a file path, returning the directory portion. It's the complement to basename - while basename gets the filename, dirname gets the directory path. Commonly used in scripts to determine where a file is located.",
+    "when_to_use": [
+      "Extract directory path from a full file path",
+      "Get the parent directory of a file",
+      "Determine where a script or file is located",
+      "Process directory paths in scripts",
+      "Navigate to a file's directory"
+    ]
+  },
+  "syntax": {
+    "basic": "dirname NAME",
+    "description": "Remove the last component from NAME (the filename), returning the directory path. If NAME contains no slashes, output '.' (current directory).",
+    "examples": [
+      "dirname /path/to/file.txt",
+      "dirname /usr/bin/python3",
+      "dirname file.txt",
+      "dirname /home/user/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-z, --zero",
+      "short": "-z",
+      "long": "--zero",
+      "description": "End each output line with NUL, not newline",
+      "category": "output",
+      "example": "dirname -z /path/file.txt",
+      "use_case": "Use with xargs -0 for handling paths with spaces"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Extract directory from file path",
+      "command": "dirname /home/user/documents/report.pdf",
+      "description": "Get the directory path without the filename",
+      "output": "/home/user/documents",
+      "output_explanation": {
+        "format": "Directory path without the final filename component",
+        "elements": [
+          {
+            "element": "/home/user/documents/report.pdf",
+            "meaning": "Full path to the file"
+          },
+          {
+            "element": "/home/user/documents",
+            "meaning": "Result: directory path, filename removed"
+          }
+        ],
+        "notes": "dirname removes the last component (the filename), leaving the directory path."
+      },
+      "use_case": "Get directory path for navigation or processing in scripts"
+    },
+    {
+      "title": "Get current directory for relative path",
+      "command": "dirname file.txt",
+      "description": "When path has no slashes, returns current directory",
+      "output": ".",
+      "output_explanation": {
+        "format": "Current directory indicator",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Filename without path (relative to current directory)"
+          },
+          {
+            "element": ".",
+            "meaning": "Result: current directory (no slashes in input means current dir)"
+          }
+        ],
+        "notes": "If the path contains no slashes, dirname assumes it's in the current directory and returns '.'"
+      },
+      "use_case": "Handle both absolute and relative paths in scripts"
+    },
+    {
+      "title": "Get script's directory",
+      "command": "SCRIPT_DIR=$(dirname \"$0\"); cd \"$SCRIPT_DIR\"",
+      "description": "Common pattern to get the directory where a script is located",
+      "output": "(Changes to script's directory)",
+      "output_explanation": {
+        "format": "Script changes to its own directory",
+        "elements": [
+          {
+            "element": "$0",
+            "meaning": "Script's own path (first argument in shell scripts)"
+          },
+          {
+            "element": "dirname \"$0\"",
+            "meaning": "Extract directory from script path"
+          },
+          {
+            "element": "cd \"$SCRIPT_DIR\"",
+            "meaning": "Change to script's directory"
+          }
+        ],
+        "notes": "Very common pattern in shell scripts to ensure the script runs from its own directory, regardless of where it's called from."
+      },
+      "use_case": "Make scripts location-independent, ensure they work from their own directory"
+    },
+    {
+      "title": "Combine with basename",
+      "command": "FILE=\"/path/to/file.txt\"; DIR=$(dirname \"$FILE\"); NAME=$(basename \"$FILE\"); echo \"Directory: $DIR, File: $NAME\"",
+      "description": "Split a path into directory and filename components",
+      "output": "Directory: /path/to, File: file.txt",
+      "output_explanation": {
+        "format": "Path split into directory and filename",
+        "elements": [
+          {
+            "element": "dirname \"$FILE\"",
+            "meaning": "Gets directory portion: /path/to"
+          },
+          {
+            "element": "basename \"$FILE\"",
+            "meaning": "Gets filename portion: file.txt"
+          },
+          {
+            "element": "Directory: /path/to, File: file.txt",
+            "meaning": "Result showing both components"
+          }
+        ],
+        "notes": "dirname and basename are complementary - together they can split any path into its components."
+      },
+      "use_case": "Process file paths by separating directory and filename"
+    },
+    {
+      "title": "Handle trailing slashes",
+      "command": "dirname /home/user/documents/",
+      "description": "dirname handles trailing slashes correctly",
+      "output": "/home/user",
+      "output_explanation": {
+        "format": "Directory path with trailing slash handled",
+        "elements": [
+          {
+            "element": "/home/user/documents/",
+            "meaning": "Path with trailing slash (directory path)"
+          },
+          {
+            "element": "/home/user",
+            "meaning": "Result: parent directory (trailing slash is ignored, 'documents' is treated as the last component)"
+          }
+        ],
+        "notes": "dirname treats trailing slashes as part of the last component, so '/path/dir/' returns '/path'"
+      },
+      "use_case": "Handle directory paths that may or may not have trailing slashes"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "dirname only works on files",
+      "misconception": "dirname only works on file paths, not directory paths",
+      "reality": "dirname works on any path string - it just removes the last component. For '/path/to/dir/', it returns '/path/to'.",
+      "tip": "dirname processes any path string, whether it points to a file or directory"
+    },
+    {
+      "title": "dirname changes directories",
+      "misconception": "dirname changes the current working directory",
+      "reality": "dirname only outputs a string - it doesn't change directories. Use cd with dirname's output to actually change directories.",
+      "tip": "dirname is for string manipulation. Use 'cd $(dirname path)' to actually change directories."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Spaces in paths need quoting",
+      "description": "Paths with spaces will be split by the shell",
+      "solution": "Always quote paths: dirname \"/path/with spaces/file.txt\""
+    },
+    {
+      "issue": "Trailing slashes affect output",
+      "description": "dirname /path/dir returns /path, but /path/dir/ also returns /path (trailing slash is part of last component)",
+      "solution": "Be aware that trailing slashes are treated as part of the last component"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "basename",
+      "relationship": "Complementary; basename gets filename, dirname gets directory",
+      "description": "Strip directory and suffix from filenames"
+    },
+    {
+      "command": "cd",
+      "relationship": "Navigation; often used with dirname to change to a file's directory",
+      "description": "Change directory"
+    },
+    {
+      "command": "pwd",
+      "relationship": "Path information; pwd shows current directory, dirname extracts from paths",
+      "description": "Print working directory"
+    }
+  ],
+  "best_practices": [
+    "Always quote paths in scripts: dirname \"$filepath\"",
+    "Use with basename to split paths into components",
+    "Common pattern: SCRIPT_DIR=$(dirname \"$0\") to get script's directory",
+    "Combine with cd to navigate to a file's directory: cd $(dirname file)",
+    "Remember dirname doesn't change directories - it only outputs strings"
+  ],
+  "performance_tips": [
+    "dirname is very fast - negligible performance impact",
+    "For multiple paths, process in a loop rather than calling dirname multiple times separately",
+    "Use in scripts for path manipulation without external dependencies"
+  ],
+  "additional_notes": {
+    "path_manipulation": "dirname is part of path manipulation tools including basename and realpath",
+    "scripting": "Extremely common in shell scripts, especially for getting script locations",
+    "complement": "Always used together with basename - one gets directory, other gets filename",
+    "trailing_slashes": "Trailing slashes are treated as part of the last component"
+  }
+}
+

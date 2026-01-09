@@ -1,0 +1,283 @@
+{
+  "metadata": {
+    "name": "id",
+    "displayName": "id - Print user and group IDs",
+    "category": "System Information",
+    "tags": ["user", "group", "permissions", "identity", "system"],
+    "description": "Print user and group IDs",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "id is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The id command displays user and group identity information. It shows the current user's user ID (UID), group ID (GID), and all groups the user belongs to. It's essential for understanding permissions, debugging access issues, and checking user identity in scripts.",
+    "when_to_use": [
+      "Check current user ID and group ID",
+      "See all groups a user belongs to",
+      "Verify user identity in scripts",
+      "Debug permission issues",
+      "Check another user's group membership",
+      "Understand file ownership context"
+    ]
+  },
+  "syntax": {
+    "basic": "id [OPTIONS] [USER]",
+    "description": "Display user and group IDs. If USER is specified, show that user's information. If omitted, show current user's information.",
+    "examples": [
+      "id",
+      "id username",
+      "id -u",
+      "id -G"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "Print only the user ID",
+      "category": "output",
+      "example": "id -u",
+      "use_case": "Get just the numeric user ID for scripts"
+    },
+    {
+      "flag": "-g, --group",
+      "short": "-g",
+      "long": "--group",
+      "description": "Print only the primary group ID",
+      "category": "output",
+      "example": "id -g",
+      "use_case": "Get just the primary group ID"
+    },
+    {
+      "flag": "-G, --groups",
+      "short": "-G",
+      "long": "--groups",
+      "description": "Print all group IDs",
+      "category": "output",
+      "example": "id -G",
+      "use_case": "Get all groups the user belongs to"
+    },
+    {
+      "flag": "-n, --name",
+      "short": "-n",
+      "long": "--name",
+      "description": "Print names instead of numeric IDs",
+      "category": "output",
+      "example": "id -un",
+      "use_case": "Get username instead of user ID"
+    },
+    {
+      "flag": "-r, --real",
+      "short": "-r",
+      "long": "--real",
+      "description": "Print real ID instead of effective ID",
+      "category": "operation",
+      "example": "id -ur",
+      "use_case": "Get real user ID (useful when running with sudo)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Current user information",
+      "command": "id",
+      "description": "Display current user's ID and group information",
+      "output": "uid=1000(user) gid=1000(user) groups=1000(user),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev)",
+      "output_explanation": {
+        "format": "User ID, group ID, and all group memberships",
+        "elements": [
+          {
+            "element": "uid=1000(user)",
+            "meaning": "User ID: 1000, username: user"
+          },
+          {
+            "element": "gid=1000(user)",
+            "meaning": "Primary group ID: 1000, group name: user"
+          },
+          {
+            "element": "groups=1000(user),4(adm),24(cdrom),27(sudo)...",
+            "meaning": "All groups user belongs to: user, adm, cdrom, sudo, dip, plugdev"
+          }
+        ],
+        "notes": "Shows both numeric IDs and names. The primary group is listed first, followed by supplementary groups."
+      },
+      "use_case": "Check current user identity and group memberships"
+    },
+    {
+      "title": "Get user ID only",
+      "command": "id -u",
+      "description": "Get just the numeric user ID",
+      "output": "1000",
+      "output_explanation": {
+        "format": "Just the numeric user ID",
+        "elements": [
+          {
+            "element": "1000",
+            "meaning": "Numeric user ID (useful for scripts)"
+          }
+        ],
+        "notes": "The -u flag returns only the user ID number, which is useful in scripts for comparisons or conditions."
+      },
+      "use_case": "Get user ID for scripts or comparisons"
+    },
+    {
+      "title": "Get username",
+      "command": "id -un",
+      "description": "Get just the username (not numeric ID)",
+      "output": "user",
+      "output_explanation": {
+        "format": "Just the username string",
+        "elements": [
+          {
+            "element": "-u",
+            "meaning": "User ID flag"
+          },
+          {
+            "element": "-n",
+            "meaning": "Name flag (show name instead of number)"
+          },
+          {
+            "element": "user",
+            "meaning": "Result: username string"
+          }
+        ],
+        "notes": "Combining -u and -n gives just the username, which is often more useful than the numeric ID."
+      },
+      "use_case": "Get username for display or scripts"
+    },
+    {
+      "title": "Check another user",
+      "command": "id root",
+      "description": "Display another user's ID and group information",
+      "output": "uid=0(root) gid=0(root) groups=0(root)",
+      "output_explanation": {
+        "format": "Specified user's identity information",
+        "elements": [
+          {
+            "element": "root",
+            "meaning": "User to check (specified as argument)"
+          },
+          {
+            "element": "uid=0(root)",
+            "meaning": "Root user has UID 0 (superuser)"
+          },
+          {
+            "element": "groups=0(root)",
+            "meaning": "Root's group memberships"
+          }
+        ],
+        "notes": "You can check any user's identity information, useful for understanding permissions or group memberships."
+      },
+      "use_case": "Check another user's groups and permissions"
+    },
+    {
+      "title": "Get all group IDs",
+      "command": "id -G",
+      "description": "Get all numeric group IDs user belongs to",
+      "output": "1000 4 24 27 30 46",
+      "output_explanation": {
+        "format": "Space-separated list of group IDs",
+        "elements": [
+          {
+            "element": "-G",
+            "meaning": "All groups flag"
+          },
+          {
+            "element": "1000 4 24 27 30 46",
+            "meaning": "All group IDs: user(1000), adm(4), cdrom(24), sudo(27), dip(30), plugdev(46)"
+          }
+        ],
+        "notes": "Useful for checking if a user belongs to a specific group by comparing group IDs."
+      },
+      "use_case": "Check group memberships for permission verification"
+    },
+    {
+      "title": "Real vs effective ID",
+      "command": "sudo id -ur",
+      "description": "Get real user ID when running with sudo",
+      "output": "1000",
+      "output_explanation": {
+        "format": "Real user ID (who you really are, not who you're acting as)",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Real ID flag (not effective ID)"
+          },
+          {
+            "element": "1000",
+            "meaning": "Real user ID (your actual user, not root)"
+          }
+        ],
+        "notes": "When using sudo, your effective ID is root (0), but your real ID is your actual user. Use -r to see your real identity."
+      },
+      "use_case": "Check actual user identity when running with elevated privileges"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "id shows file permissions",
+      "misconception": "id shows what permissions you have on files",
+      "reality": "id shows your user and group identity. Use ls -l to see file permissions, or test access with commands like test -r file.",
+      "tip": "id shows who you are, not what you can access. Check file permissions separately."
+    },
+    {
+      "title": "Group membership grants immediate access",
+      "misconception": "Adding a user to a group immediately grants access",
+      "reality": "Users must log out and back in (or start new sessions) for new group memberships to take effect. Existing sessions don't see new groups.",
+      "tip": "After adding a user to a group, they need to log out/in or start a new session for it to take effect"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Not seeing new group memberships",
+      "description": "After being added to a group, id doesn't show the new group",
+      "solution": "Log out and back in, or start a new shell session. Group changes require new session to take effect."
+    },
+    {
+      "issue": "Confusing real and effective IDs",
+      "description": "When using sudo, effective ID is root but real ID is your user",
+      "solution": "Use -r flag to see real ID, or understand that sudo changes effective ID but not real ID"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "whoami",
+      "relationship": "User identity; whoami shows username, id shows detailed ID information",
+      "description": "Print effective user ID"
+    },
+    {
+      "command": "groups",
+      "relationship": "Group information; groups shows group names, id shows both IDs and names",
+      "description": "Print group names a user belongs to"
+    },
+    {
+      "command": "sudo",
+      "relationship": "Privilege elevation; sudo changes effective ID, id shows both real and effective",
+      "description": "Execute a command as another user"
+    }
+  ],
+  "best_practices": [
+    "Use id -un to get username in scripts (more portable than $USER)",
+    "Use id -u to get numeric user ID for comparisons",
+    "Use id -G to check group memberships programmatically",
+    "Remember to log out/in after group membership changes",
+    "Use -r flag when checking identity with sudo to see real user"
+  ],
+  "performance_tips": [
+    "id is very fast - negligible performance impact",
+    "Use specific flags (-u, -g, -G) instead of parsing full output when you only need one value",
+    "id is more reliable than environment variables like $USER in scripts"
+  ],
+  "additional_notes": {
+    "user_id_zero": "UID 0 is always the root/superuser account",
+    "group_membership": "Users can belong to multiple groups - primary group and supplementary groups",
+    "real_vs_effective": "Real ID is who you are, effective ID is who you're acting as (important with sudo/su)",
+    "scripting": "id is more reliable than $USER or $UID environment variables, which can be changed"
+  }
+}
+

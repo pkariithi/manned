@@ -1,0 +1,299 @@
+{
+  "metadata": {
+    "name": "gunzip",
+    "displayName": "gunzip - Decompress files",
+    "category": "Archive & Compression",
+    "tags": ["decompression", "extract", "files", "gzip", "unzip"],
+    "description": "Decompress files compressed with gzip",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "gzip 1.10+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "gunzip is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The gunzip command decompresses files that were compressed with gzip. It's essentially the same as 'gzip -d' but with a more intuitive name for decompression. It removes the .gz extension and restores the original file.",
+    "when_to_use": [
+      "Extract .gz compressed files",
+      "Decompress files downloaded from the internet",
+      "Restore compressed backups",
+      "Extract compressed log files",
+      "Decompress files for editing or processing"
+    ]
+  },
+  "syntax": {
+    "basic": "gunzip [OPTIONS] [FILE]...",
+    "description": "Decompress one or more .gz files. By default, gunzip replaces the compressed file with the decompressed version. If no files are specified, gunzip reads from stdin.",
+    "examples": [
+      "gunzip file.txt.gz",
+      "gunzip -k archive.gz",
+      "gunzip -c file.gz > output.txt",
+      "gunzip -r directory/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-k, --keep",
+      "short": "-k",
+      "long": "--keep",
+      "description": "Keep original compressed files after decompression",
+      "category": "operation",
+      "example": "gunzip -k file.gz",
+      "use_case": "Extract files while keeping the .gz archive"
+    },
+    {
+      "flag": "-c, --stdout",
+      "short": "-c",
+      "long": "--stdout",
+      "description": "Write output to stdout instead of replacing files",
+      "category": "output",
+      "example": "gunzip -c file.gz > output.txt",
+      "use_case": "Decompress to a different filename or pipe to another command"
+    },
+    {
+      "flag": "-r, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Decompress directories recursively",
+      "category": "operation",
+      "example": "gunzip -r directory/",
+      "use_case": "Extract all .gz files in a directory and subdirectories"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Display decompression progress",
+      "category": "display",
+      "example": "gunzip -v file.gz",
+      "use_case": "See which files are being decompressed"
+    },
+    {
+      "flag": "-t, --test",
+      "short": "-t",
+      "long": "--test",
+      "description": "Test integrity of compressed files without decompressing",
+      "category": "verification",
+      "example": "gunzip -t file.gz",
+      "use_case": "Verify compressed files are not corrupted before decompressing"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic file decompression",
+      "command": "gunzip file.txt.gz",
+      "description": "Extract a compressed file, replacing it with the decompressed version",
+      "output": "(file.txt.gz is replaced with file.txt)",
+      "output_explanation": {
+        "format": "Compressed file is replaced with decompressed version",
+        "elements": [
+          {
+            "element": "file.txt.gz",
+            "meaning": "Compressed file (will be deleted)"
+          },
+          {
+            "element": "file.txt",
+            "meaning": "Decompressed file (created, .gz extension removed)"
+          }
+        ],
+        "notes": "By default, gunzip removes the .gz file after decompression. Use -k to keep it."
+      },
+      "use_case": "Extract compressed files, original .gz file is removed"
+    },
+    {
+      "title": "Keep compressed file",
+      "command": "gunzip -k archive.gz",
+      "description": "Extract file while keeping the original .gz archive",
+      "output": "(archive created, archive.gz remains)",
+      "output_explanation": {
+        "format": "Both compressed and decompressed files exist",
+        "elements": [
+          {
+            "element": "-k",
+            "meaning": "Keep original compressed file flag"
+          },
+          {
+            "element": "archive.gz",
+            "meaning": "Compressed file (preserved)"
+          },
+          {
+            "element": "archive",
+            "meaning": "Decompressed file (created)"
+          }
+        ],
+        "notes": "The -k flag is useful when you want to keep the compressed archive for backup or sharing."
+      },
+      "use_case": "Extract files while preserving the compressed archive"
+    },
+    {
+      "title": "Decompress to different filename",
+      "command": "gunzip -c file.gz > output.txt",
+      "description": "Extract to stdout and redirect to a different filename",
+      "output": "(output.txt created, file.gz remains)",
+      "output_explanation": {
+        "format": "Decompressed content written to different file",
+        "elements": [
+          {
+            "element": "-c",
+            "meaning": "Write to stdout instead of replacing file"
+          },
+          {
+            "element": "> output.txt",
+            "meaning": "Redirect stdout to new filename"
+          },
+          {
+            "element": "file.gz",
+            "meaning": "Original compressed file (preserved)"
+          },
+          {
+            "element": "output.txt",
+            "meaning": "Decompressed content in new file"
+          }
+        ],
+        "notes": "The -c flag outputs to stdout, allowing you to redirect to any filename or pipe to other commands."
+      },
+      "use_case": "Extract with a different name or pipe to other commands"
+    },
+    {
+      "title": "Decompress multiple files",
+      "command": "gunzip *.gz",
+      "description": "Extract all .gz files in current directory",
+      "output": "(All .gz files decompressed, .gz files removed)",
+      "output_explanation": {
+        "format": "Each .gz file is decompressed separately",
+        "elements": [
+          {
+            "element": "*.gz",
+            "meaning": "Wildcard matching all .gz files"
+          },
+          {
+            "element": "Multiple decompressed files",
+            "meaning": "Each .gz file becomes its decompressed version"
+          }
+        ],
+        "notes": "gunzip processes each file individually. All .gz files are replaced with their decompressed versions."
+      },
+      "use_case": "Batch extract multiple compressed files"
+    },
+    {
+      "title": "Test file integrity",
+      "command": "gunzip -t archive.gz",
+      "description": "Verify compressed file is not corrupted without decompressing",
+      "output": "(No output if file is valid, error if corrupted)",
+      "output_explanation": {
+        "format": "Silent success or error message",
+        "elements": [
+          {
+            "element": "-t",
+            "meaning": "Test mode - verify without extracting"
+          },
+          {
+            "element": "No output",
+            "meaning": "File is valid (exit code 0)"
+          },
+          {
+            "element": "Error message",
+            "meaning": "File is corrupted (exit code 1)"
+          }
+        ],
+        "notes": "Useful for checking files before decompression, especially for large files or network downloads."
+      },
+      "use_case": "Verify compressed files before extracting"
+    },
+    {
+      "title": "Decompress recursively",
+      "command": "gunzip -r logs/",
+      "description": "Extract all .gz files in directory and subdirectories",
+      "output": "(All .gz files in logs/ and subdirectories decompressed)",
+      "output_explanation": {
+        "format": "Recursive decompression of all .gz files",
+        "elements": [
+          {
+            "element": "-r",
+            "meaning": "Recursive flag - process subdirectories"
+          },
+          {
+            "element": "logs/",
+            "meaning": "Directory containing .gz files"
+          },
+          {
+            "element": "All .gz files decompressed",
+            "meaning": "Every .gz file in directory tree is extracted"
+          }
+        ],
+        "notes": "Very useful for extracting compressed log files or backups stored in directory structures."
+      },
+      "use_case": "Extract compressed files from entire directory trees"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "gunzip is different from gzip -d",
+      "misconception": "gunzip and gzip -d are different commands with different features",
+      "reality": "gunzip is exactly the same as 'gzip -d'. They are aliases - use whichever name you prefer.",
+      "tip": "gunzip and gzip -d are identical - choose based on which name is clearer for your use case"
+    },
+    {
+      "title": "gunzip extracts archives",
+      "misconception": "gunzip can extract tar.gz archives",
+      "reality": "gunzip only decompresses .gz files. For .tar.gz archives, use 'tar -xzf archive.tar.gz' to extract the archive.",
+      "tip": "Use tar -xzf for .tar.gz files, gunzip only handles .gz compression"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Losing compressed files",
+      "description": "Forgetting -k flag causes .gz files to be deleted after extraction",
+      "solution": "Use -k flag when you need to keep the compressed archive: gunzip -k file.gz"
+    },
+    {
+      "issue": "Trying to extract .tar.gz with gunzip",
+      "description": "gunzip file.tar.gz creates file.tar, but doesn't extract the tar archive",
+      "solution": "Use tar -xzf archive.tar.gz to extract both compression and archive, or gunzip then tar -xf"
+    },
+    {
+      "issue": "Decompressing non-gzip files",
+      "description": "gunzip only works on .gz files, not .zip, .bz2, or other formats",
+      "solution": "Use appropriate tools: unzip for .zip, bunzip2 for .bz2, gunzip for .gz"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "gzip",
+      "relationship": "Compression; gzip compresses, gunzip decompresses (gunzip = gzip -d)",
+      "description": "Compress files"
+    },
+    {
+      "command": "tar",
+      "relationship": "Archiving; often used with gunzip to extract compressed archives",
+      "description": "Archive files"
+    },
+    {
+      "command": "unzip",
+      "relationship": "Alternative extraction; unzip handles .zip files, gunzip handles .gz files",
+      "description": "Extract files from ZIP archives"
+    }
+  ],
+  "best_practices": [
+    "Use -k to keep compressed files when needed: gunzip -k file.gz",
+    "Use -t to test files before decompressing large archives",
+    "Use -c to extract to different filenames or pipe to other commands",
+    "Use -r for batch extraction of compressed files in directories",
+    "For .tar.gz files, use tar -xzf instead of gunzip + tar"
+  ],
+  "performance_tips": [
+    "gunzip is very fast for decompression",
+    "Test files with -t before decompressing to avoid wasting time on corrupted files",
+    "Use -c for streaming decompression when piping to other commands"
+  ],
+  "additional_notes": {
+    "equivalence": "gunzip is identical to 'gzip -d' - they are the same command",
+    "file_replacement": "By default, .gz files are removed after decompression. Use -k to keep them.",
+    "archive_format": "gunzip only handles .gz compression. For .tar.gz, use tar -xzf.",
+    "stdin_support": "gunzip can read from stdin: cat file.gz | gunzip > output.txt"
+  }
+}
+

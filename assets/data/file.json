@@ -1,0 +1,266 @@
+{
+  "metadata": {
+    "name": "file",
+    "displayName": "file - Determine file type",
+    "category": "File & Directory Operations",
+    "tags": ["files", "type", "identification", "mime", "inspection"],
+    "description": "Determine file type by examining file contents",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "file 5.39+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "file is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The file command determines the type of a file by examining its contents rather than relying on the filename extension. It uses magic numbers and file signatures to identify file types, making it more reliable than checking extensions.",
+    "when_to_use": [
+      "Identify file types when extensions are missing or incorrect",
+      "Check if a file is binary or text",
+      "Determine MIME types of files",
+      "Verify file formats before processing",
+      "Debug file-related issues",
+      "Inspect unknown files safely"
+    ]
+  },
+  "syntax": {
+    "basic": "file [OPTIONS] FILE...",
+    "description": "Examine one or more files and display their types. Can also examine directories.",
+    "examples": [
+      "file document.txt",
+      "file *.jpg",
+      "file -b image.png",
+      "file -i file.zip"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-b, --brief",
+      "short": "-b",
+      "long": "--brief",
+      "description": "Do not prepend filenames to output lines (brief mode)",
+      "category": "display",
+      "example": "file -b document.txt",
+      "use_case": "When you only want the file type without the filename, useful in scripts"
+    },
+    {
+      "flag": "-i, --mime",
+      "short": "-i",
+      "long": "--mime",
+      "description": "Output MIME type strings instead of human-readable descriptions",
+      "category": "display",
+      "example": "file -i image.jpg",
+      "use_case": "To get MIME types for web applications or content-type headers"
+    },
+    {
+      "flag": "-L, --dereference",
+      "short": "-L",
+      "long": "--dereference",
+      "description": "Follow symbolic links and examine the files they point to",
+      "category": "links",
+      "example": "file -L symlink",
+      "use_case": "To check the type of the target file, not the symlink itself"
+    },
+    {
+      "flag": "-s, --special-files",
+      "short": "-s",
+      "long": "--special-files",
+      "description": "Read block or character special files",
+      "category": "system",
+      "example": "file -s /dev/sda1",
+      "use_case": "To examine device files and special filesystems"
+    },
+    {
+      "flag": "-z, --uncompress",
+      "short": "-z",
+      "long": "--uncompress",
+      "description": "Try to look inside compressed files",
+      "category": "compression",
+      "example": "file -z archive.gz",
+      "use_case": "To identify the contents of compressed files without extracting them"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic file type check",
+      "command": "file document.txt",
+      "description": "Determine the type of a single file",
+      "output": "document.txt: ASCII text",
+      "output_explanation": {
+        "format": "filename: file type description",
+        "elements": [
+          {
+            "element": "document.txt",
+            "meaning": "The filename being examined"
+          },
+          {
+            "element": "ASCII text",
+            "meaning": "The detected file type - in this case, plain text file"
+          }
+        ],
+        "notes": "The output format is 'filename: description'. For text files, it may also show encoding information."
+      },
+      "use_case": "Quick check of what type a file is"
+    },
+    {
+      "title": "Brief mode (no filename)",
+      "command": "file -b image.jpg",
+      "description": "Get only the file type without the filename prefix",
+      "output": "JPEG image data, EXIF standard",
+      "output_explanation": {
+        "format": "File type description only (no filename)",
+        "elements": [
+          {
+            "element": "JPEG image data",
+            "meaning": "The file is a JPEG image"
+          },
+          {
+            "element": "EXIF standard",
+            "meaning": "Additional metadata format information"
+          }
+        ],
+        "notes": "Useful in scripts where you only need the type, not the filename. Output is cleaner for parsing."
+      },
+      "use_case": "Scripting and automation where filename is not needed"
+    },
+    {
+      "title": "MIME type output",
+      "command": "file -i document.pdf",
+      "description": "Get MIME type string instead of human-readable description",
+      "output": "document.pdf: application/pdf; charset=binary",
+      "output_explanation": {
+        "format": "filename: MIME type; charset",
+        "elements": [
+          {
+            "element": "document.pdf",
+            "meaning": "The filename"
+          },
+          {
+            "element": "application/pdf",
+            "meaning": "MIME type - standard format for content types"
+          },
+          {
+            "element": "charset=binary",
+            "meaning": "Character encoding (binary for non-text files)"
+          }
+        ],
+        "notes": "MIME types are standard for web applications, email attachments, and content-type headers. Format: type/subtype; charset"
+      },
+      "use_case": "Web development, email attachments, content-type headers"
+    },
+    {
+      "title": "Check multiple files",
+      "command": "file *.txt",
+      "description": "Check the type of all text files in current directory",
+      "output": "file1.txt: ASCII text\nfile2.txt: UTF-8 Unicode text\nfile3.txt: ASCII text, with CRLF line terminators",
+      "output_explanation": {
+        "format": "Each file on a separate line with its type",
+        "elements": [
+          {
+            "element": "file1.txt: ASCII text",
+            "meaning": "Standard ASCII text file"
+          },
+          {
+            "element": "file2.txt: UTF-8 Unicode text",
+            "meaning": "Text file with UTF-8 encoding (supports international characters)"
+          },
+          {
+            "element": "file3.txt: ASCII text, with CRLF line terminators",
+            "meaning": "Text file with Windows-style line endings (CRLF instead of LF)"
+          }
+        ],
+        "notes": "file can detect encoding differences and line ending types. Useful for identifying files created on different systems."
+      },
+      "use_case": "Batch checking multiple files, identifying encoding issues"
+    },
+    {
+      "title": "Examine compressed file contents",
+      "command": "file -z archive.tar.gz",
+      "description": "Look inside a compressed file to identify its contents",
+      "output": "archive.tar.gz: gzip compressed data, from Unix, original size modulo 2^32 102400",
+      "output_explanation": {
+        "format": "Compression type and metadata about the compressed file",
+        "elements": [
+          {
+            "element": "gzip compressed data",
+            "meaning": "The file is compressed with gzip"
+          },
+          {
+            "element": "from Unix",
+            "meaning": "Origin system (Unix/Linux)"
+          },
+          {
+            "element": "original size modulo 2^32 102400",
+            "meaning": "Information about the original file size (approximate)"
+          }
+        ],
+        "notes": "The -z flag allows file to peek inside compressed archives without extracting them. Useful for identifying archive contents."
+      },
+      "use_case": "Identify compressed file types and their contents without extraction"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "file uses filename extensions",
+      "misconception": "file determines file type by looking at the filename extension (.txt, .jpg, etc.)",
+      "reality": "file examines the actual file contents using magic numbers and file signatures. It ignores filename extensions completely.",
+      "tip": "You can rename a .txt file to .jpg and file will still correctly identify it as text, not an image"
+    },
+    {
+      "title": "file only works on regular files",
+      "misconception": "file can only examine regular files, not directories or special files",
+      "reality": "file can examine directories (shows 'directory'), symbolic links, device files (with -s), and other special files.",
+      "tip": "Use file on directories to confirm they're directories, or use -s for device files"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Binary files show as 'data'",
+      "description": "Some binary files may be identified as generic 'data' if file doesn't recognize the format",
+      "solution": "This is normal for some proprietary formats. Use -i to get MIME type, or check file headers manually with hexdump"
+    },
+    {
+      "issue": "Symbolic links show as 'symbolic link'",
+      "description": "By default, file shows the type of the symlink itself, not the target file",
+      "solution": "Use -L flag to follow symbolic links and examine the target file type"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ls",
+      "relationship": "Lists files; often used before file to see what files exist",
+      "description": "List directory contents before checking file types"
+    },
+    {
+      "command": "stat",
+      "relationship": "Shows file metadata; complementary to file which shows file type",
+      "description": "Display detailed file information including type"
+    },
+    {
+      "command": "hexdump",
+      "relationship": "Shows file contents in hex; useful when file can't identify a format",
+      "description": "Examine file headers manually when file doesn't recognize the format"
+    }
+  ],
+  "best_practices": [
+    "Use -b for scripting to get clean output without filenames",
+    "Use -i for web applications that need MIME types",
+    "Combine with find to check types of multiple files: find . -type f -exec file {} \\;",
+    "Use -L when working with symbolic links to check target file types",
+    "Remember that file examines contents, not extensions - it's more reliable than checking .txt, .jpg, etc."
+  ],
+  "performance_tips": [
+    "file is fast for single files but can be slow when checking many files",
+    "For batch operations, consider using find with -exec file for better performance",
+    "The -z flag adds overhead when examining compressed files"
+  ],
+  "additional_notes": {
+    "magic_numbers": "file uses 'magic numbers' - specific byte sequences at the start of files that identify their type",
+    "mime_database": "file uses a magic database (usually /usr/share/misc/magic) to identify file types",
+    "reliability": "More reliable than filename extensions because it examines actual file contents",
+    "scripting": "The -b flag is essential for parsing file output in scripts"
+  }
+}
+

@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "name": "tee",
+    "displayName": "tee - Redirect output to file and stdout simultaneously",
+    "category": "File & Directory Operations",
+    "tags": ["output", "redirect", "logging", "pipeline", "duplicate"],
+    "description": "Read from standard input and write to both standard output and files",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "tee is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The tee command reads from standard input and writes to both standard output and one or more files simultaneously. It's named after a T-pipe fitting in plumbing, which splits one stream into two. This makes it perfect for logging output while still displaying it, or for splitting command output to multiple destinations.",
+    "when_to_use": [
+      "Log command output while still displaying it on screen",
+      "Save output to a file and see it in terminal simultaneously",
+      "Split output to multiple files at once",
+      "Append to log files while monitoring output",
+      "Create backups of command output",
+      "Debug long-running processes by logging their output"
+    ]
+  },
+  "syntax": {
+    "basic": "tee [OPTIONS] [FILE]...",
+    "description": "Read from stdin and write to stdout and files. If no files are specified, tee just passes input to output (like cat).",
+    "examples": [
+      "command | tee output.txt",
+      "command | tee -a log.txt",
+      "command | tee file1.txt file2.txt",
+      "sudo command | tee output.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --append",
+      "short": "-a",
+      "long": "--append",
+      "description": "Append to the given files instead of overwriting them",
+      "category": "file_operation",
+      "example": "command | tee -a log.txt",
+      "use_case": "To add output to existing log files without losing previous content"
+    },
+    {
+      "flag": "-i, --ignore-interrupts",
+      "short": "-i",
+      "long": "--ignore-interrupts",
+      "description": "Ignore interrupt signals (SIGINT)",
+      "category": "signal",
+      "example": "command | tee -i output.txt",
+      "use_case": "Continue writing to files even if interrupted, useful for long-running processes"
+    },
+    {
+      "flag": "-p",
+      "short": "-p",
+      "long": null,
+      "description": "Diagnose errors writing to non pipes",
+      "category": "debug",
+      "example": "command | tee -p file.txt",
+      "use_case": "Debug issues when tee cannot write to files"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Save output to file while displaying",
+      "command": "ls -la | tee listing.txt",
+      "description": "List files with details, save to file and display on screen",
+      "output": "total 24\ndrwxr-xr-x 3 user user 4096 Jan 15 10:00 .\n-rw-r--r-- 1 user user 2048 Jan 15 09:00 file.txt\n(Output also saved to listing.txt)",
+      "output_explanation": {
+        "format": "Output appears on screen and is simultaneously written to the specified file",
+        "elements": [
+          {
+            "element": "ls -la output",
+            "meaning": "The normal ls -la output displayed on screen"
+          },
+          {
+            "element": "listing.txt",
+            "meaning": "The same output is written to this file"
+          }
+        ],
+        "notes": "You see the output on screen AND it's saved to listing.txt. The file contains exactly what you see."
+      },
+      "use_case": "Keep a record of command output while still seeing it"
+    },
+    {
+      "title": "Append to log file",
+      "command": "echo 'New entry' | tee -a log.txt",
+      "description": "Add new content to existing log file without overwriting",
+      "output": "New entry\n(Also appended to log.txt)",
+      "output_explanation": {
+        "format": "Output displayed and appended to file",
+        "elements": [
+          {
+            "element": "New entry",
+            "meaning": "The text displayed on screen"
+          },
+          {
+            "element": "log.txt",
+            "meaning": "The text is appended to this file (previous content preserved)"
+          }
+        ],
+        "notes": "Without -a, tee would overwrite the file. With -a, it adds to the end, preserving existing content."
+      },
+      "use_case": "Add entries to log files over time"
+    },
+    {
+      "title": "Save to multiple files",
+      "command": "date | tee file1.txt file2.txt file3.txt",
+      "description": "Write the same output to multiple files simultaneously",
+      "output": "Mon Jan 15 10:30:00 UTC 2024\n(Also written to file1.txt, file2.txt, file3.txt)",
+      "output_explanation": {
+        "format": "Output displayed once but written to all specified files",
+        "elements": [
+          {
+            "element": "date output",
+            "meaning": "The date command output shown on screen"
+          },
+          {
+            "element": "file1.txt, file2.txt, file3.txt",
+            "meaning": "The same output is written to all three files"
+          }
+        ],
+        "notes": "All three files will contain identical content. Useful for creating multiple copies or backups."
+      },
+      "use_case": "Create multiple copies of output or distribute to different locations"
+    },
+    {
+      "title": "Log installation output",
+      "command": "sudo apt install package | tee install.log",
+      "description": "Save installation output to a log file while watching progress",
+      "output": "Reading package lists...\nBuilding dependency tree...\n(Installation progress shown on screen and saved to install.log)",
+      "output_explanation": {
+        "format": "Installation messages appear on screen and are logged to file",
+        "elements": [
+          {
+            "element": "Installation messages",
+            "meaning": "Progress and status messages from apt"
+          },
+          {
+            "element": "install.log",
+            "meaning": "Complete installation log saved for later review"
+          }
+        ],
+        "notes": "You can watch the installation progress AND have a complete log file for troubleshooting if something goes wrong."
+      },
+      "use_case": "Keep installation logs for troubleshooting and documentation"
+    },
+    {
+      "title": "Pipeline with tee",
+      "command": "find /home -name '*.txt' | tee found_files.txt | wc -l",
+      "description": "Save search results to file and count them simultaneously",
+      "output": "42\n(42 files found, list saved to found_files.txt)",
+      "output_explanation": {
+        "format": "Output splits: one stream goes to file, another continues in pipeline",
+        "elements": [
+          {
+            "element": "found_files.txt",
+            "meaning": "Contains the full list of found files"
+          },
+          {
+            "element": "wc -l output (42)",
+            "meaning": "The count of files, displayed on screen"
+          }
+        ],
+        "notes": "tee splits the stream: one copy goes to the file, another continues to wc -l. You get both the list and the count."
+      },
+      "use_case": "Save intermediate results in a pipeline while continuing processing"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "tee overwrites files by default",
+      "misconception": "tee always appends to files, preserving existing content",
+      "reality": "tee overwrites files by default. Use -a flag to append. Without -a, existing file content is lost.",
+      "tip": "Always use -a if you want to add to existing files, not replace them"
+    },
+    {
+      "title": "tee only works with pipes",
+      "misconception": "tee can only be used in pipelines with the | operator",
+      "reality": "While commonly used in pipelines, tee reads from stdin, which can come from pipes, redirected input, or even keyboard input (though less common).",
+      "tip": "tee works anywhere stdin is available: pipes, redirection, or interactive input"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Accidentally overwriting log files",
+      "description": "Forgetting -a flag when appending to existing logs causes data loss",
+      "solution": "Always use -a when you want to append. Double-check before running commands that write to important log files"
+    },
+    {
+      "issue": "Permission errors with sudo",
+      "description": "Using tee with sudo may create files with wrong permissions or ownership",
+      "solution": "Use 'sudo tee' instead of 'sudo command | tee' to ensure proper file permissions. Example: command | sudo tee file.txt"
+    },
+    {
+      "issue": "Buffering delays",
+      "description": "Output may not appear immediately due to buffering, especially with long-running processes",
+      "solution": "Use 'stdbuf' or ensure programs flush output. For scripts, consider using 'unbuffer' or setting PYTHONUNBUFFERED=1 for Python"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cat",
+      "relationship": "Displays file contents; tee can write what cat would display",
+      "description": "Read and display file contents"
+    },
+    {
+      "command": ">",
+      "relationship": "Redirects output to file; tee does this while also showing output",
+      "description": "Output redirection operator"
+    },
+    {
+      "command": ">>",
+      "relationship": "Appends to file; tee -a does this while also showing output",
+      "description": "Append redirection operator"
+    },
+    {
+      "command": "tail",
+      "relationship": "Shows end of files; often used to monitor files created by tee",
+      "description": "Display the end of files, useful for monitoring tee logs"
+    }
+  ],
+  "best_practices": [
+    "Always use -a when appending to existing log files to avoid data loss",
+    "Use tee for long-running commands to keep logs while monitoring progress",
+    "Combine with sudo properly: 'command | sudo tee file' not 'sudo command | tee file'",
+    "Use tee in pipelines to save intermediate results without breaking the pipeline",
+    "Consider using absolute paths for log files to avoid confusion about file locations"
+  ],
+  "performance_tips": [
+    "tee has minimal performance impact as it just duplicates the stream",
+    "Writing to multiple files simultaneously is efficient - no significant slowdown",
+    "For very high-speed output, consider buffering or using specialized logging tools"
+  ],
+  "additional_notes": {
+    "name_origin": "Named after T-pipe fitting in plumbing, which splits one stream into two",
+    "stdout_preservation": "Unlike > redirection, tee preserves stdout so you can still see output",
+    "pipeline_friendly": "Designed to work seamlessly in command pipelines without breaking the flow",
+    "logging": "Extremely useful for logging command output while still monitoring it in real-time"
+  }
+}
+

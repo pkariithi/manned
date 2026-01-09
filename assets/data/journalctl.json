@@ -1,0 +1,270 @@
+{
+  "metadata": {
+    "name": "journalctl",
+    "displayName": "journalctl - Query the systemd journal",
+    "category": "Systemd & Logs",
+    "tags": ["logs", "systemd", "journal", "debugging", "system"],
+    "description": "Query and display messages from the systemd journal",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "systemd 245+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "journalctl is part of systemd, built-in on modern Linux distributions (Ubuntu 15.04+, Debian 8+)"
+  },
+  "overview": {
+    "summary": "journalctl queries and displays messages from the systemd journal, which is the centralized logging system on modern Linux systems. It provides powerful filtering and searching capabilities for system logs, service logs, and kernel messages.",
+    "when_to_use": [
+      "View system logs",
+      "Check service-specific logs",
+      "Debug system issues",
+      "Monitor log entries in real-time",
+      "Search for specific error messages",
+      "View logs from a specific time period",
+      "Check boot messages"
+    ]
+  },
+  "syntax": {
+    "basic": "journalctl [OPTIONS]",
+    "description": "Query the systemd journal. Can filter by unit, priority, time, and more.",
+    "examples": [
+      "journalctl",
+      "journalctl -u nginx",
+      "journalctl -f",
+      "journalctl --since today",
+      "journalctl -p err"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-u, --unit",
+      "short": "-u",
+      "long": "--unit",
+      "description": "Show logs for a specific systemd unit (service)",
+      "category": "filtering",
+      "example": "journalctl -u nginx",
+      "use_case": "View logs for a specific service only"
+    },
+    {
+      "flag": "-f, --follow",
+      "short": "-f",
+      "long": "--follow",
+      "description": "Follow log output (like tail -f)",
+      "category": "monitoring",
+      "example": "journalctl -f",
+      "use_case": "Watch logs in real-time as new entries appear"
+    },
+    {
+      "flag": "-n, --lines",
+      "short": "-n",
+      "long": "--lines",
+      "description": "Show the last N log entries",
+      "category": "display",
+      "example": "journalctl -n 50",
+      "use_case": "See only the most recent log entries"
+    },
+    {
+      "flag": "-p, --priority",
+      "short": "-p",
+      "long": "--priority",
+      "description": "Filter by priority level (emerg, alert, crit, err, warning, notice, info, debug)",
+      "category": "filtering",
+      "example": "journalctl -p err",
+      "use_case": "Show only error-level messages and above"
+    },
+    {
+      "flag": "--since, --until",
+      "short": null,
+      "long": "--since",
+      "description": "Show entries since/until specified time",
+      "category": "filtering",
+      "example": "journalctl --since today",
+      "use_case": "View logs from a specific time period"
+    },
+    {
+      "flag": "-b, --boot",
+      "short": "-b",
+      "long": "--boot",
+      "description": "Show logs from current or specified boot",
+      "category": "filtering",
+      "example": "journalctl -b",
+      "use_case": "See only logs from the current boot session"
+    },
+    {
+      "flag": "-k, --dmesg",
+      "short": "-k",
+      "long": "--dmesg",
+      "description": "Show kernel messages only",
+      "category": "filtering",
+      "example": "journalctl -k",
+      "use_case": "View kernel log messages"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View all recent logs",
+      "command": "journalctl",
+      "description": "Display all journal entries (may be very long)",
+      "output": "Jan 15 10:30:45 hostname systemd[1]: Started Network Manager.\nJan 15 10:30:46 hostname NetworkManager[1234]: <info>  [1234567890.1234] NetworkManager (version 1.20.4) is starting...\nJan 15 10:30:47 hostname kernel: [    0.123456] Linux version 5.4.0-74-generic",
+      "output_explanation": {
+        "format": "log entries",
+        "elements": [
+          {
+            "element": "Timestamp",
+            "meaning": "Date and time of the log entry"
+          },
+          {
+            "element": "Hostname",
+            "meaning": "System hostname"
+          },
+          {
+            "element": "Service/Process",
+            "meaning": "Name of the service or process that generated the log"
+          },
+          {
+            "element": "PID",
+            "meaning": "Process ID in square brackets"
+          },
+          {
+            "element": "Message",
+            "meaning": "The actual log message"
+          }
+        ],
+        "notes": "Output can be very long. Use filters to narrow down results."
+      },
+      "use_case": "General log browsing (usually combined with filters)"
+    },
+    {
+      "title": "Follow logs in real-time",
+      "command": "journalctl -f",
+      "description": "Continuously display new log entries as they appear",
+      "output": "Jan 15 10:35:12 hostname nginx[5678]: 192.168.1.100 - - [15/Jan/2024:10:35:12 +0300] \"GET / HTTP/1.1\" 200 612\nJan 15 10:35:13 hostname systemd[1]: Reloading nginx.\nJan 15 10:35:13 hostname nginx[5678]: Reloading nginx configuration...",
+      "output_explanation": {
+        "format": "streaming log entries",
+        "elements": [
+          {
+            "element": "Real-time updates",
+            "meaning": "New log entries appear as they are written to the journal"
+          }
+        ],
+        "notes": "Press Ctrl+C to stop. Similar to 'tail -f' for traditional log files."
+      },
+      "use_case": "Monitor system activity in real-time"
+    },
+    {
+      "title": "View service-specific logs",
+      "command": "journalctl -u nginx",
+      "description": "Show logs only for the nginx service",
+      "output": "Jan 15 10:30:45 hostname systemd[1]: Starting nginx - high performance web server...\nJan 15 10:30:45 hostname nginx[1234]: nginx version: nginx/1.18.0\nJan 15 10:30:45 hostname nginx[1234]: Using /etc/nginx/nginx.conf\nJan 15 10:30:45 hostname systemd[1]: Started nginx - high performance web server.",
+      "output_explanation": {
+        "format": "filtered log entries",
+        "elements": [
+          {
+            "element": "Service filtering",
+            "meaning": "Only shows log entries from the specified systemd unit"
+          }
+        ],
+        "notes": "Much more focused than viewing all logs. Use -f to follow: journalctl -u nginx -f"
+      },
+      "use_case": "Debug issues with a specific service"
+    },
+    {
+      "title": "Show errors only",
+      "command": "journalctl -p err",
+      "description": "Display only error-level messages and above (err, crit, alert, emerg)",
+      "output": "Jan 15 10:25:30 hostname kernel: [12345.678] EXT4-fs error (device sda1): ext4_find_entry:1436: inode #123456: comm: process_name: reading directory lblock 0\nJan 15 10:28:15 hostname systemd[1]: Failed to start nginx.service: Unit nginx.service failed to load: No such file or directory.",
+      "output_explanation": {
+        "format": "filtered error logs",
+        "elements": [
+          {
+            "element": "Priority levels",
+            "meaning": "Shows err (error), crit (critical), alert, and emerg (emergency) messages"
+          }
+        ],
+        "notes": "Useful for quickly identifying system problems. Combine with -u for service-specific errors."
+      },
+      "use_case": "Quickly identify system errors"
+    },
+    {
+      "title": "View logs since today",
+      "command": "journalctl --since today",
+      "description": "Show all log entries from today",
+      "output": "(Shows all log entries from midnight today to now)",
+      "output_explanation": {
+        "format": "time-filtered logs",
+        "elements": [
+          {
+            "element": "Time formats",
+            "meaning": "Accepts: 'today', 'yesterday', '1 hour ago', '2024-01-15 10:00:00', etc."
+          }
+        ],
+        "notes": "Very useful for reviewing recent activity. Can combine with other filters."
+      },
+      "use_case": "Review today's system activity"
+    }
+  ],
+  "common_misconceptions": [
+    {
+      "title": "journalctl replaces all log files",
+      "misconception": "Traditional log files in /var/log are gone",
+      "reality": "Many services still write to /var/log, but systemd services use the journal. journalctl provides unified access to systemd logs.",
+      "tip": "Use journalctl for systemd services, check /var/log for traditional applications"
+    },
+    {
+      "title": "All logs are permanent",
+      "misconception": "All journal entries are kept forever",
+      "reality": "Journal has size limits and rotates. Old entries are automatically deleted based on configuration.",
+      "tip": "Check journal size with 'journalctl --disk-usage' and configure retention in /etc/systemd/journald.conf"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Too much output",
+      "description": "Running journalctl without filters shows all logs, which can be overwhelming",
+      "solution": "Always use filters: -u for service, -n for last N lines, --since for time range, -p for priority"
+    },
+    {
+      "issue": "Missing old logs",
+      "description": "Old journal entries may have been rotated out",
+      "solution": "Check journal retention settings. Use --since with specific dates to see what's available"
+    }
+  ],
+  "best_practices": [
+    "Always use filters to narrow down results (-u, -n, --since, -p)",
+    "Use -f to follow logs when debugging active issues",
+    "Combine filters: journalctl -u nginx -p err --since today",
+    "Use -n to limit output: journalctl -n 100",
+    "Check journal size periodically: journalctl --disk-usage"
+  ],
+  "performance_tips": [
+    "Use specific filters to reduce output and improve performance",
+    "Limit output with -n when you only need recent entries",
+    "Use --since to avoid processing old log entries",
+    "For production, configure journal retention in /etc/systemd/journald.conf"
+  ],
+  "related_commands": [
+    {
+      "command": "systemctl",
+      "relationship": "Manages services that generate logs",
+      "description": "Use systemctl to control services, journalctl to view their logs"
+    },
+    {
+      "command": "dmesg",
+      "relationship": "Shows kernel messages",
+      "description": "journalctl -k provides similar functionality to dmesg but with better filtering"
+    },
+    {
+      "command": "tail",
+      "relationship": "Traditional log viewing",
+      "description": "journalctl -f is the systemd equivalent of tail -f for traditional log files"
+    }
+  ],
+  "additional_notes": {
+    "note1": "Journal logs are stored in binary format for efficiency. journalctl converts them to readable text.",
+    "note2": "Use 'journalctl --list-boots' to see available boot sessions",
+    "note3": "Journal can be configured to forward to syslog or store logs persistently in /var/log/journal"
+  }
+}
+

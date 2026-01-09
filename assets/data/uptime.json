@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "name": "uptime",
+    "displayName": "uptime - Show how long system has been running",
+    "category": "Process Management",
+    "tags": ["system", "uptime", "load", "monitoring", "information"],
+    "description": "Show how long system has been running and system load",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "procps-ng 3.3.16+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "uptime is typically included in procps package, available on most Linux systems by default"
+  },
+  "overview": {
+    "summary": "The uptime command displays how long the system has been running, the current time, number of logged-in users, and system load averages. It's a quick way to check system status and see if the system is under heavy load.",
+    "when_to_use": [
+      "Check how long system has been running",
+      "View system load averages",
+      "Quick system status check",
+      "Monitor system performance",
+      "Check if system needs reboot",
+      "See number of logged-in users"
+    ]
+  },
+  "syntax": {
+    "basic": "uptime [OPTIONS]",
+    "description": "Display system uptime and load information. No arguments needed - just run 'uptime'.",
+    "examples": [
+      "uptime",
+      "uptime -p",
+      "uptime -s"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-p, --pretty",
+      "short": "-p",
+      "long": "--pretty",
+      "description": "Show uptime in pretty format (human-readable)",
+      "category": "display",
+      "example": "uptime -p",
+      "use_case": "Get uptime in easy-to-read format like '2 days, 3 hours'"
+    },
+    {
+      "flag": "-s, --since",
+      "short": "-s",
+      "long": "--since",
+      "description": "Show system boot time",
+      "category": "display",
+      "example": "uptime -s",
+      "use_case": "See when the system was last booted"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic uptime information",
+      "command": "uptime",
+      "description": "Display system uptime and load averages",
+      "output": " 10:30:45 up 5 days,  3:15,  2 users,  load average: 0.52, 0.48, 0.45",
+      "output_explanation": {
+        "format": "Time, uptime, users, and load averages",
+        "elements": [
+          {
+            "element": "10:30:45",
+            "meaning": "Current system time"
+          },
+          {
+            "element": "up 5 days, 3:15",
+            "meaning": "System has been running for 5 days, 3 hours, 15 minutes"
+          },
+          {
+            "element": "2 users",
+            "meaning": "Number of users currently logged in"
+          },
+          {
+            "element": "load average: 0.52, 0.48, 0.45",
+            "meaning": "System load averages for 1, 5, and 15 minutes (lower is better, 1.0 = fully loaded on single-core)"
+          }
+        ],
+        "notes": "Load average shows system activity. On a single-core system, 1.0 means fully utilized. On multi-core, divide by number of cores."
+      },
+      "use_case": "Quick system status check"
+    },
+    {
+      "title": "Pretty format",
+      "command": "uptime -p",
+      "description": "Display uptime in human-readable format",
+      "output": "up 5 days, 3 hours, 15 minutes",
+      "output_explanation": {
+        "format": "Uptime in natural language",
+        "elements": [
+          {
+            "element": "up 5 days, 3 hours, 15 minutes",
+            "meaning": "System uptime in easy-to-read format"
+          }
+        ],
+        "notes": "The -p flag provides a cleaner, more readable format without the time and load information."
+      },
+      "use_case": "Get uptime in readable format for scripts or display"
+    },
+    {
+      "title": "System boot time",
+      "command": "uptime -s",
+      "description": "Show when the system was last booted",
+      "output": "2024-01-10 07:15:30",
+      "output_explanation": {
+        "format": "Timestamp of system boot",
+        "elements": [
+          {
+            "element": "2024-01-10 07:15:30",
+            "meaning": "Exact date and time when system was booted"
+          }
+        ],
+        "notes": "Useful for knowing when the system was last restarted, helpful for troubleshooting or maintenance records."
+      },
+      "use_case": "Check when system was last rebooted"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Load average of 1.0 means system is overloaded",
+      "misconception": "A load average of 1.0 always means the system is fully loaded",
+      "reality": "On a single-core system, 1.0 means fully utilized. On a 4-core system, 1.0 means only 25% utilized. Load average should be compared to number of CPU cores.",
+      "tip": "Divide load average by number of CPU cores to understand utilization. Use 'nproc' to see CPU count."
+    },
+    {
+      "title": "Uptime shows application uptime",
+      "misconception": "uptime shows how long a specific application has been running",
+      "reality": "uptime shows system (OS) uptime, not application uptime. Use 'ps' or application-specific commands for application uptime.",
+      "tip": "uptime is for system-level information. For application uptime, check the application's status or logs."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Misinterpreting load averages",
+      "description": "Not considering number of CPU cores when reading load averages",
+      "solution": "Compare load average to number of CPU cores. Load of 4.0 on 4-core system = fully utilized, load of 4.0 on 1-core system = overloaded"
+    },
+    {
+      "issue": "High load doesn't always mean problem",
+      "description": "High load average might be normal for the system's workload",
+      "solution": "Understand your system's normal load patterns. Temporary spikes are normal, sustained high load may indicate issues"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "top",
+      "relationship": "System monitoring; top shows detailed process info, uptime shows summary",
+      "description": "Display Linux processes"
+    },
+    {
+      "command": "htop",
+      "relationship": "Interactive monitoring; htop shows detailed system info, uptime shows quick summary",
+      "description": "Interactive process viewer"
+    },
+    {
+      "command": "w",
+      "relationship": "User information; w shows logged-in users and their activity, uptime shows user count",
+      "description": "Show who is logged on and what they are doing"
+    }
+  ],
+  "best_practices": [
+    "Use uptime for quick system status checks",
+    "Use -p for readable uptime in scripts or reports",
+    "Use -s to check when system was last rebooted",
+    "Monitor load averages over time to understand normal patterns",
+    "Compare load averages to CPU core count for accurate interpretation"
+  ],
+  "performance_tips": [
+    "uptime is very fast - negligible performance impact",
+    "Load averages are calculated by the kernel, so uptime just displays them",
+    "Use uptime in monitoring scripts for lightweight system checks"
+  ],
+  "additional_notes": {
+    "load_average": "Shows average system load over 1, 5, and 15 minutes. Lower is better. Compare to CPU core count.",
+    "uptime_accuracy": "Uptime is accurate to the second and is maintained by the kernel",
+    "user_count": "Shows number of distinct user sessions, not individual users",
+    "system_health": "Regular uptime checks help identify if system needs maintenance or reboot"
+  }
+}
+

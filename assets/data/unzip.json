@@ -1,0 +1,301 @@
+{
+  "metadata": {
+    "name": "unzip",
+    "displayName": "unzip - Extract files from ZIP archives",
+    "category": "Archive & Compression",
+    "tags": ["extract", "archive", "zip", "decompress", "files"],
+    "description": "Extract files from ZIP archives",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "Info-ZIP 6.0+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "unzip is typically pre-installed on Ubuntu, but can be installed with: sudo apt install unzip"
+  },
+  "overview": {
+    "summary": "The unzip command extracts files from ZIP archives. ZIP is a widely used archive format, especially common on Windows systems and for distributing software. unzip can extract entire archives or specific files, list archive contents, and handle password-protected archives.",
+    "when_to_use": [
+      "Extract ZIP archives downloaded from the internet",
+      "Unpack software distributions",
+      "Extract files from Windows-created ZIP files",
+      "Extract specific files from large archives",
+      "List contents of ZIP archives",
+      "Extract password-protected ZIP files"
+    ]
+  },
+  "syntax": {
+    "basic": "unzip [OPTIONS] ZIPFILE [FILE]... [-x FILE]...",
+    "description": "Extract files from ZIPFILE. If FILE arguments are provided, only those files are extracted. Use -x to exclude files.",
+    "examples": [
+      "unzip archive.zip",
+      "unzip -l archive.zip",
+      "unzip archive.zip file.txt",
+      "unzip -d /path/to/extract archive.zip"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List archive contents without extracting",
+      "category": "display",
+      "example": "unzip -l archive.zip",
+      "use_case": "See what's in a ZIP file before extracting"
+    },
+    {
+      "flag": "-d, --directory=DIR",
+      "short": "-d",
+      "long": "--directory",
+      "description": "Extract files to specified directory",
+      "category": "operation",
+      "example": "unzip -d /tmp archive.zip",
+      "use_case": "Extract to a specific location instead of current directory"
+    },
+    {
+      "flag": "-o, --overwrite",
+      "short": "-o",
+      "long": "--overwrite",
+      "description": "Overwrite files without prompting",
+      "category": "operation",
+      "example": "unzip -o archive.zip",
+      "use_case": "Automatically overwrite existing files in scripts"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Quiet mode - suppress most output",
+      "category": "display",
+      "example": "unzip -q archive.zip",
+      "use_case": "Extract silently without progress messages"
+    },
+    {
+      "flag": "-P, --password=PASSWORD",
+      "short": "-P",
+      "long": "--password",
+      "description": "Use password to decrypt encrypted ZIP files",
+      "category": "security",
+      "example": "unzip -P mypassword archive.zip",
+      "use_case": "Extract password-protected ZIP files (less secure - password visible in command history)"
+    },
+    {
+      "flag": "-x, --exclude=FILE",
+      "short": "-x",
+      "long": "--exclude",
+      "description": "Exclude specified files from extraction",
+      "category": "operation",
+      "example": "unzip archive.zip -x '*.txt'",
+      "use_case": "Extract archive but skip certain files or patterns"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Extract entire archive",
+      "command": "unzip archive.zip",
+      "description": "Extract all files from ZIP archive to current directory",
+      "output": "Archive:  archive.zip\n  inflating: file1.txt\n  inflating: file2.txt\n extracting: directory/file3.txt",
+      "output_explanation": {
+        "format": "Archive name followed by list of extracted files",
+        "elements": [
+          {
+            "element": "Archive: archive.zip",
+            "meaning": "Name of the ZIP file being extracted"
+          },
+          {
+            "element": "inflating: file1.txt",
+            "meaning": "File extracted (inflating = decompressing)"
+          },
+          {
+            "element": "extracting: directory/file3.txt",
+            "meaning": "File extracted with directory structure preserved"
+          }
+        ],
+        "notes": "Files are extracted to the current directory, preserving subdirectory structure if present in the archive."
+      },
+      "use_case": "Extract all files from a ZIP archive"
+    },
+    {
+      "title": "List archive contents",
+      "command": "unzip -l archive.zip",
+      "description": "View files in archive without extracting",
+      "output": "Archive:  archive.zip\n  Length      Date    Time    Name\n---------  ---------- -----   ----\n     1024  2024-01-15 10:00   file1.txt\n     2048  2024-01-15 10:05   file2.txt\n---------                     -------\n     3072                     2 files",
+      "output_explanation": {
+        "format": "Table showing file sizes, dates, and names",
+        "elements": [
+          {
+            "element": "Length",
+            "meaning": "File size in bytes"
+          },
+          {
+            "element": "Date, Time",
+            "meaning": "File modification timestamp"
+          },
+          {
+            "element": "Name",
+            "meaning": "Filename and path within archive"
+          },
+          {
+            "element": "Total at bottom",
+            "meaning": "Sum of file sizes and file count"
+          }
+        ],
+        "notes": "Useful for checking archive contents before extraction, especially for large archives."
+      },
+      "use_case": "Inspect archive contents before extracting"
+    },
+    {
+      "title": "Extract to specific directory",
+      "command": "unzip archive.zip -d /tmp/extracted",
+      "description": "Extract files to a specified directory",
+      "output": "(Files extracted to /tmp/extracted/)",
+      "output_explanation": {
+        "format": "Files extracted to specified location",
+        "elements": [
+          {
+            "element": "-d /tmp/extracted",
+            "meaning": "Destination directory (created if it doesn't exist)"
+          },
+          {
+            "element": "Files in /tmp/extracted/",
+            "meaning": "All archive contents extracted to this location"
+          }
+        ],
+        "notes": "The -d flag allows you to extract to any directory. The directory is created if it doesn't exist."
+      },
+      "use_case": "Extract to a specific location instead of current directory"
+    },
+    {
+      "title": "Extract specific files",
+      "command": "unzip archive.zip file1.txt file2.txt",
+      "description": "Extract only specified files from archive",
+      "output": "Archive:  archive.zip\n  inflating: file1.txt\n  inflating: file2.txt",
+      "output_explanation": {
+        "format": "Only requested files are extracted",
+        "elements": [
+          {
+            "element": "file1.txt, file2.txt",
+            "meaning": "Specific files to extract (other files in archive are ignored)"
+          },
+          {
+            "element": "Only these files extracted",
+            "meaning": "Result: only specified files, not the entire archive"
+          }
+        ],
+        "notes": "Very useful for large archives when you only need specific files. Saves time and disk space."
+      },
+      "use_case": "Extract only needed files from large archives"
+    },
+    {
+      "title": "Extract excluding certain files",
+      "command": "unzip archive.zip -x '*.log' '*.tmp'",
+      "description": "Extract archive but skip log and temporary files",
+      "output": "(All files extracted except .log and .tmp files)",
+      "output_explanation": {
+        "format": "Files matching exclusion patterns are skipped",
+        "elements": [
+          {
+            "element": "-x '*.log' '*.tmp'",
+            "meaning": "Exclude files matching these patterns"
+          },
+          {
+            "element": "Other files extracted",
+            "meaning": "All files except those matching exclusion patterns"
+          }
+        ],
+        "notes": "Useful for extracting archives while skipping unnecessary files like logs or temporary files."
+      },
+      "use_case": "Extract archive while skipping unwanted file types"
+    },
+    {
+      "title": "Quiet extraction",
+      "command": "unzip -q archive.zip",
+      "description": "Extract files silently without progress output",
+      "output": "(No output, files extracted silently)",
+      "output_explanation": {
+        "format": "Silent extraction with no messages",
+        "elements": [
+          {
+            "element": "-q",
+            "meaning": "Quiet mode - suppress output"
+          },
+          {
+            "element": "No output",
+            "meaning": "Files are extracted but no messages are shown"
+          }
+        ],
+        "notes": "Useful in scripts where you don't want verbose output, or when extracting many files."
+      },
+      "use_case": "Silent extraction for scripts or batch operations"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "unzip extracts to archive's original location",
+      "misconception": "unzip extracts files to where they were originally located",
+      "reality": "unzip extracts files to the current directory (or -d specified directory). The original location doesn't matter.",
+      "tip": "Use -d to specify extraction location: unzip -d /path/to/extract archive.zip"
+    },
+    {
+      "title": "unzip can extract any archive format",
+      "misconception": "unzip works with all archive formats (tar, gzip, etc.)",
+      "reality": "unzip only works with ZIP format (.zip files). Use tar for .tar, .tar.gz, .tar.bz2, gunzip for .gz, etc.",
+      "tip": "Each archive format has its own tool: unzip for .zip, tar for .tar, gunzip for .gz"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Overwriting files without warning",
+      "description": "unzip may prompt to overwrite existing files, which can interrupt scripts",
+      "solution": "Use -o to overwrite automatically, or -n to never overwrite, in scripts"
+    },
+    {
+      "issue": "Extracting to wrong directory",
+      "description": "Files extract to current directory, which might not be intended",
+      "solution": "Always use -d to specify destination, or cd to desired directory first"
+    },
+    {
+      "issue": "Password in command history",
+      "description": "Using -P password exposes password in shell history",
+      "solution": "For password-protected files, let unzip prompt interactively, or use environment variables"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "zip",
+      "relationship": "Archive creation; zip creates ZIP files, unzip extracts them",
+      "description": "Package and compress files"
+    },
+    {
+      "command": "tar",
+      "relationship": "Alternative archiving; tar handles .tar, .tar.gz, .tar.bz2 formats",
+      "description": "Archive files"
+    },
+    {
+      "command": "gunzip",
+      "relationship": "Alternative extraction; gunzip handles .gz files, unzip handles .zip files",
+      "description": "Decompress files"
+    }
+  ],
+  "best_practices": [
+    "Use -l to list contents before extracting large archives",
+    "Always use -d to specify extraction directory in scripts",
+    "Use -o in scripts to avoid prompts, or -n to prevent overwrites",
+    "Use -q for silent extraction in automated processes",
+    "Check archive contents first with -l to avoid extracting unwanted files"
+  ],
+  "performance_tips": [
+    "Extracting specific files is faster than extracting entire archives",
+    "Use -q for faster extraction when you don't need progress output",
+    "Large archives extract faster to local disks than network mounts"
+  ],
+  "additional_notes": {
+    "format_support": "unzip supports standard ZIP format and some ZIP64 extensions for large files",
+    "password_protection": "Supports password-protected ZIP files, but -P flag is insecure (visible in history)",
+    "directory_structure": "Preserves directory structure from archive when extracting",
+    "windows_compatibility": "Works well with ZIP files created on Windows systems"
+  }
+}
+

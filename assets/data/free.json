@@ -1,0 +1,232 @@
+{
+  "metadata": {
+    "name": "free",
+    "displayName": "free - Display memory usage",
+    "category": "System Information",
+    "tags": ["memory", "system", "monitoring", "resources", "performance"],
+    "description": "Display amount of free and used memory in the system",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "procps-ng 3.3.17+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "free is part of procps package, typically pre-installed on Ubuntu systems"
+  },
+  "overview": {
+    "summary": "The free command displays information about system memory usage, including total, used, free, shared, buff/cache, and available memory. It's essential for monitoring system resources and diagnosing memory-related issues.",
+    "when_to_use": [
+      "Check available system memory",
+      "Monitor memory usage",
+      "Diagnose out-of-memory issues",
+      "Understand memory allocation (RAM vs swap)",
+      "Check if system needs more RAM",
+      "Monitor memory trends over time"
+    ]
+  },
+  "syntax": {
+    "basic": "free [OPTIONS]",
+    "description": "Display memory information. By default shows output in kilobytes with human-readable option available.",
+    "examples": [
+      "free",
+      "free -h",
+      "free -m",
+      "free -s 2"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-h, --human",
+      "short": "-h",
+      "long": "--human",
+      "description": "Display output in human-readable format (KB, MB, GB)",
+      "category": "display",
+      "example": "free -h",
+      "use_case": "Easier to read output with automatic unit conversion"
+    },
+    {
+      "flag": "-m, --mega",
+      "short": "-m",
+      "long": "--mega",
+      "description": "Display output in megabytes",
+      "category": "display",
+      "example": "free -m",
+      "use_case": "Consistent output in MB units"
+    },
+    {
+      "flag": "-g, --giga",
+      "short": "-g",
+      "long": "--giga",
+      "description": "Display output in gigabytes",
+      "category": "display",
+      "example": "free -g",
+      "use_case": "For systems with large amounts of RAM"
+    },
+    {
+      "flag": "-s, --seconds SECONDS",
+      "short": "-s",
+      "long": "--seconds",
+      "description": "Continuously display memory usage, updating every SECONDS",
+      "category": "monitoring",
+      "example": "free -s 2",
+      "use_case": "Monitor memory usage in real-time"
+    },
+    {
+      "flag": "-t, --total",
+      "short": "-t",
+      "long": "--total",
+      "description": "Display a line showing column totals",
+      "category": "display",
+      "example": "free -t",
+      "use_case": "See total memory across all categories"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic memory information",
+      "command": "free",
+      "description": "Display memory usage in kilobytes",
+      "output": "               total        used        free      shared  buff/cache   available\nMem:        8192000     2048000     1024000      512000     5120000     4608000\nSwap:       2097152           0     2097152",
+      "output_explanation": {
+        "format": "table",
+        "elements": [
+          {
+            "element": "total",
+            "meaning": "Total installed memory (RAM + swap)"
+          },
+          {
+            "element": "used",
+            "meaning": "Memory currently in use by applications"
+          },
+          {
+            "element": "free",
+            "meaning": "Unused memory (not available for immediate use)"
+          },
+          {
+            "element": "shared",
+            "meaning": "Memory used by tmpfs (shared memory)"
+          },
+          {
+            "element": "buff/cache",
+            "meaning": "Memory used by kernel buffers and page cache (can be freed if needed)"
+          },
+          {
+            "element": "available",
+            "meaning": "Memory available for new processes (free + buff/cache that can be freed)"
+          },
+          {
+            "element": "Swap",
+            "meaning": "Virtual memory on disk (used when RAM is full)"
+          }
+        ],
+        "notes": "The 'available' column is the most important - it shows memory that can actually be used by new applications. 'free' is misleading as Linux uses free RAM for caching."
+      },
+      "use_case": "Quick check of system memory status"
+    },
+    {
+      "title": "Human-readable format",
+      "command": "free -h",
+      "description": "Display memory in human-readable units (KB, MB, GB)",
+      "output": "               total        used        free      shared  buff/cache   available\nMem:           8.0Gi       2.0Gi       1.0Gi       500Mi       5.0Gi       4.5Gi\nSwap:          2.0Gi          0B       2.0Gi",
+      "output_explanation": {
+        "format": "table",
+        "elements": [
+          {
+            "element": "Gi",
+            "meaning": "Gigabytes (1024^3 bytes)"
+          },
+          {
+            "element": "Mi",
+            "meaning": "Megabytes (1024^2 bytes)"
+          },
+          {
+            "element": "B",
+            "meaning": "Bytes"
+          }
+        ],
+        "notes": "Most user-friendly format for quick memory checks"
+      },
+      "use_case": "Easier to understand memory usage at a glance"
+    },
+    {
+      "title": "Continuous monitoring",
+      "command": "free -s 2 -h",
+      "description": "Update memory display every 2 seconds",
+      "output": "               total        used        free      shared  buff/cache   available\nMem:           8.0Gi       2.1Gi       900Mi       500Mi       5.0Gi       4.4Gi\nSwap:          2.0Gi          0B       2.0Gi\n\n               total        used        free      shared  buff/cache   available\nMem:           8.0Gi       2.2Gi       800Mi       500Mi       5.0Gi       4.3Gi\nSwap:          2.0Gi          0B       2.0Gi",
+      "output_explanation": {
+        "format": "repeating table",
+        "elements": [
+          {
+            "element": "Update interval",
+            "meaning": "Output refreshes every specified seconds (2 in this case)"
+          }
+        ],
+        "notes": "Press Ctrl+C to stop. Useful for monitoring memory changes during operations."
+      },
+      "use_case": "Watch memory usage change in real-time during system operations"
+    }
+  ],
+  "common_misconceptions": [
+    {
+      "title": "Free memory is wasted",
+      "misconception": "If free memory is low, the system is running out of memory",
+      "reality": "Linux uses free RAM for disk caching (buff/cache) to improve performance. Low 'free' is normal and good - check 'available' instead.",
+      "tip": "Look at 'available' column, not 'free' - it shows memory that can actually be used"
+    },
+    {
+      "title": "High buff/cache is bad",
+      "misconception": "High buff/cache means memory is being wasted",
+      "reality": "buff/cache is memory used for disk caching, which significantly speeds up system performance. It's automatically freed when applications need memory.",
+      "tip": "High buff/cache is actually a sign of efficient memory usage"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Ignoring swap usage",
+      "description": "Not checking if swap is being used, which indicates memory pressure",
+      "solution": "Monitor swap usage - if it's being used, consider adding more RAM or optimizing memory usage"
+    },
+    {
+      "issue": "Confusing free vs available",
+      "description": "Using 'free' column to determine available memory",
+      "solution": "Always check the 'available' column which accounts for cache that can be freed"
+    }
+  ],
+  "best_practices": [
+    "Use -h flag for human-readable output in daily use",
+    "Monitor 'available' memory, not 'free' memory",
+    "Check swap usage - active swap indicates memory pressure",
+    "Use -s for continuous monitoring when diagnosing memory issues",
+    "Compare memory usage before and after running applications"
+  ],
+  "performance_tips": [
+    "If 'available' memory is consistently low, consider adding more RAM",
+    "High swap usage (swap used > 0) indicates system is under memory pressure",
+    "Monitor memory trends over time to identify memory leaks",
+    "Use free with watch for continuous monitoring: watch -n 1 free -h"
+  ],
+  "related_commands": [
+    {
+      "command": "top",
+      "relationship": "Shows memory usage per process",
+      "description": "top provides detailed per-process memory information, while free shows system-wide totals"
+    },
+    {
+      "command": "htop",
+      "relationship": "Interactive memory monitoring",
+      "description": "htop provides an interactive view of memory usage with per-process details"
+    },
+    {
+      "command": "vmstat",
+      "relationship": "More detailed memory statistics",
+      "description": "vmstat provides additional memory statistics including swap activity and memory pressure indicators"
+    }
+  ],
+  "additional_notes": {
+    "note1": "The 'available' memory calculation was improved in newer versions of free to better reflect memory that can actually be used",
+    "note2": "On systems with swap, free shows both RAM and swap memory separately",
+    "note3": "For production monitoring, consider using monitoring tools like Prometheus or Nagios instead of manual free checks"
+  }
+}
+

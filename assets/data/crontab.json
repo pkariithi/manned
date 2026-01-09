@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "name": "crontab",
+    "displayName": "crontab - Schedule periodic background jobs",
+    "category": "Task Scheduling",
+    "tags": ["scheduling", "cron", "automation", "tasks", "jobs"],
+    "description": "Schedule commands to run periodically at fixed times, dates, or intervals",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "cronie 1.5.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "crontab is part of cron package, typically pre-installed on Ubuntu systems"
+  },
+  "overview": {
+    "summary": "crontab manages cron jobs - scheduled tasks that run automatically at specified times. It allows you to edit, list, and remove scheduled jobs. Cron jobs are essential for automation, backups, maintenance tasks, and periodic system operations.",
+    "when_to_use": [
+      "Schedule periodic backups",
+      "Run maintenance scripts automatically",
+      "Execute commands at specific times",
+      "Automate repetitive tasks",
+      "Schedule system updates",
+      "Run reports or data processing jobs"
+    ]
+  },
+  "syntax": {
+    "basic": "crontab [OPTIONS] [FILE]",
+    "description": "Manage cron jobs. Without options, opens editor to edit current user's crontab. Use -l to list, -r to remove, -e to edit.",
+    "examples": [
+      "crontab -l",
+      "crontab -e",
+      "crontab -r",
+      "crontab myjobs.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-e, --edit",
+      "short": "-e",
+      "long": "--edit",
+      "description": "Edit the current user's crontab",
+      "category": "operation",
+      "example": "crontab -e",
+      "use_case": "Add, modify, or remove scheduled jobs"
+    },
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List the current user's crontab",
+      "category": "information",
+      "example": "crontab -l",
+      "use_case": "View all scheduled cron jobs"
+    },
+    {
+      "flag": "-r, --remove",
+      "short": "-r",
+      "long": "--remove",
+      "description": "Remove the current user's crontab (deletes all jobs)",
+      "category": "operation",
+      "example": "crontab -r",
+      "use_case": "Delete all scheduled jobs (use with caution)"
+    },
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "Specify user (requires root privileges)",
+      "category": "operation",
+      "example": "sudo crontab -u username -l",
+      "use_case": "Manage another user's crontab (admin only)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List current cron jobs",
+      "command": "crontab -l",
+      "description": "Display all scheduled cron jobs for the current user",
+      "output": "# Edit this file to introduce tasks to be run by cron.\n# Each task to run has to be defined through a single line\n# indicating with different fields when the task will be run\n# and what command to run for the task\n#\n# m h  dom mon dow   command\n0 2 * * * /usr/local/bin/backup.sh\n*/15 * * * * /usr/bin/check_disk.sh\n0 0 1 * * /usr/bin/monthly_report.sh",
+      "output_explanation": {
+        "format": "cron table",
+        "elements": [
+          {
+            "element": "m h dom mon dow",
+            "meaning": "Minute (0-59), Hour (0-23), Day of month (1-31), Month (1-12), Day of week (0-7, where 0 and 7 = Sunday)"
+          },
+          {
+            "element": "*",
+            "meaning": "Wildcard meaning 'every' (every minute, every hour, etc.)"
+          },
+          {
+            "element": "*/N",
+            "meaning": "Every N units (e.g., */15 = every 15 minutes)"
+          },
+          {
+            "element": "command",
+            "meaning": "The command or script to execute"
+          },
+          {
+            "element": "#",
+            "meaning": "Comments (lines starting with # are ignored)"
+          }
+        ],
+        "notes": "Each line represents one scheduled job. Empty lines and comments are allowed."
+      },
+      "use_case": "Review what jobs are currently scheduled"
+    },
+    {
+      "title": "Edit crontab",
+      "command": "crontab -e",
+      "description": "Open crontab in default editor to add or modify jobs",
+      "output": "(Opens editor with current crontab content)",
+      "output_explanation": {
+        "format": "editor",
+        "elements": [
+          {
+            "element": "Editor",
+            "meaning": "Opens in your default editor (usually nano, vim, or vi)"
+          },
+          {
+            "element": "Save and exit",
+            "meaning": "Save changes and exit editor to apply new schedule"
+          }
+        ],
+        "notes": "After saving, cron automatically reloads the crontab. No restart needed."
+      },
+      "use_case": "Add new scheduled jobs or modify existing ones"
+    },
+    {
+      "title": "Common cron schedule examples",
+      "command": "crontab -e",
+      "description": "Examples of common cron schedule patterns",
+      "output": "# Run every minute\n* * * * * /path/to/command\n\n# Run every hour at minute 0\n0 * * * * /path/to/command\n\n# Run daily at 2:30 AM\n30 2 * * * /path/to/command\n\n# Run every Monday at 9:00 AM\n0 9 * * 1 /path/to/command\n\n# Run on the 1st of every month at midnight\n0 0 1 * * /path/to/command\n\n# Run every 15 minutes\n*/15 * * * * /path/to/command\n\n# Run every weekday (Monday-Friday) at 5:00 PM\n0 17 * * 1-5 /path/to/command",
+      "output_explanation": {
+        "format": "cron schedule patterns",
+        "elements": [
+          {
+            "element": "* * * * *",
+            "meaning": "Every minute of every hour of every day"
+          },
+          {
+            "element": "0 * * * *",
+            "meaning": "At minute 0 of every hour (top of each hour)"
+          },
+          {
+            "element": "30 2 * * *",
+            "meaning": "At 2:30 AM every day"
+          },
+          {
+            "element": "0 9 * * 1",
+            "meaning": "At 9:00 AM every Monday (1 = Monday)"
+          },
+          {
+            "element": "*/15 * * * *",
+            "meaning": "Every 15 minutes"
+          },
+          {
+            "element": "1-5",
+            "meaning": "Range: Monday through Friday"
+          }
+        ],
+        "notes": "Always use absolute paths for commands and scripts in crontab. Environment variables may differ."
+      },
+      "use_case": "Reference for creating new scheduled jobs"
+    },
+    {
+      "title": "Remove all cron jobs",
+      "command": "crontab -r",
+      "description": "Delete all scheduled cron jobs for the current user",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "none",
+        "elements": [
+          {
+            "element": "Confirmation",
+            "meaning": "No confirmation prompt - use with caution"
+          }
+        ],
+        "notes": "This deletes ALL jobs. To remove specific jobs, use crontab -e and delete lines manually."
+      },
+      "use_case": "Clear all scheduled jobs (use carefully)"
+    }
+  ],
+  "common_misconceptions": [
+    {
+      "title": "Cron runs in user's environment",
+      "misconception": "Cron jobs run with the same environment as your interactive shell",
+      "reality": "Cron runs with a minimal environment. PATH may be limited, and shell variables may not be set. Always use absolute paths.",
+      "tip": "Use absolute paths for all commands and scripts. Set PATH and other variables in the crontab if needed."
+    },
+    {
+      "title": "Cron needs to be restarted",
+      "misconception": "You need to restart cron service after editing crontab",
+      "reality": "Cron automatically reloads crontabs when they're saved. No restart needed.",
+      "tip": "Just save your crontab - changes take effect immediately"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Relative paths don't work",
+      "description": "Using relative paths for commands or scripts fails because cron's working directory is different",
+      "solution": "Always use absolute paths: /usr/local/bin/script.sh instead of ./script.sh"
+    },
+    {
+      "issue": "No output visible",
+      "description": "Cron job output goes to email or is discarded if email isn't configured",
+      "solution": "Redirect output: * * * * * /path/to/script >> /var/log/script.log 2>&1"
+    },
+    {
+      "issue": "Environment variables missing",
+      "description": "Cron doesn't have your shell's environment variables",
+      "solution": "Set variables in crontab: PATH=/usr/bin:/usr/local/bin or source profile: * * * * * source ~/.bashrc && command"
+    }
+  ],
+  "best_practices": [
+    "Always use absolute paths for commands and scripts",
+    "Redirect output to log files for debugging: >> /var/log/job.log 2>&1",
+    "Test commands manually before adding to crontab",
+    "Use descriptive comments in crontab to document what each job does",
+    "Set PATH and other needed environment variables at the top of crontab",
+    "Use systemd timers for more complex scheduling needs (modern alternative)"
+  ],
+  "performance_tips": [
+    "Avoid scheduling too many jobs at the same time to prevent system load",
+    "Use */N syntax carefully - */1 runs every minute, which may be too frequent",
+    "Consider using systemd timers for jobs that need more control or dependencies",
+    "Monitor cron job execution in /var/log/syslog or with journalctl -u cron"
+  ],
+  "related_commands": [
+    {
+      "command": "at",
+      "relationship": "One-time scheduling",
+      "description": "at schedules commands to run once at a specific time, while crontab is for recurring jobs"
+    },
+    {
+      "command": "systemctl",
+      "relationship": "Systemd timers",
+      "description": "systemd timers are a modern alternative to cron with more features (dependencies, better logging)"
+    },
+    {
+      "command": "watch",
+      "relationship": "Repeated execution",
+      "description": "watch runs commands repeatedly in the foreground, while cron runs in background at scheduled times"
+    }
+  ],
+  "additional_notes": {
+    "note1": "Cron jobs run with minimal environment. Set PATH, HOME, and other variables in crontab if needed",
+    "note2": "Cron logs are typically in /var/log/syslog. Check with: grep CRON /var/log/syslog",
+    "note3": "For system-wide cron jobs, use /etc/crontab or files in /etc/cron.d/ (requires root)",
+    "note4": "Day of week: 0 and 7 = Sunday, 1 = Monday, 2 = Tuesday, etc."
+  }
+}
+

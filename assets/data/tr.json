@@ -1,0 +1,293 @@
+{
+  "metadata": {
+    "name": "tr",
+    "displayName": "tr - Translate or delete characters",
+    "category": "Text Processing",
+    "tags": ["text", "translate", "replace", "delete", "characters", "transformation"],
+    "description": "Translate, squeeze, or delete characters from standard input",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "tr is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The tr (translate) command reads from standard input, translates or deletes characters, and writes to standard output. It's a simple but powerful tool for character-level text transformations. Unlike sed, tr works on individual characters, making it perfect for case conversion, character deletion, and character replacement.",
+    "when_to_use": [
+      "Convert text to uppercase or lowercase",
+      "Delete specific characters from text",
+      "Replace one set of characters with another",
+      "Remove whitespace or newlines",
+      "Clean up text data",
+      "Transform character encodings",
+      "Remove duplicate characters"
+    ]
+  },
+  "syntax": {
+    "basic": "tr [OPTIONS] SET1 [SET2]",
+    "description": "Translate characters from SET1 to corresponding characters in SET2. If SET2 is omitted, characters in SET1 are deleted. Reads from stdin and writes to stdout.",
+    "examples": [
+      "echo 'hello' | tr 'a-z' 'A-Z'",
+      "echo 'text' | tr -d 'x'",
+      "cat file.txt | tr ' ' '\\n'",
+      "echo 'hello' | tr -s 'l'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --delete",
+      "short": "-d",
+      "long": "--delete",
+      "description": "Delete characters in SET1, do not translate",
+      "category": "operation",
+      "example": "echo 'hello' | tr -d 'l'",
+      "use_case": "Remove specific characters from text, like removing all digits or punctuation"
+    },
+    {
+      "flag": "-s, --squeeze-repeats",
+      "short": "-s",
+      "long": "--squeeze-repeats",
+      "description": "Replace sequence of characters with a single occurrence",
+      "category": "operation",
+      "example": "echo 'hello' | tr -s 'l'",
+      "use_case": "Remove duplicate characters, like collapsing multiple spaces into one"
+    },
+    {
+      "flag": "-c, --complement",
+      "short": "-c",
+      "long": "--complement",
+      "description": "Use complement of SET1",
+      "category": "operation",
+      "example": "echo 'hello123' | tr -cd '0-9'",
+      "use_case": "Work with characters NOT in the set - delete everything except digits, for example"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Convert to uppercase",
+      "command": "echo 'hello world' | tr 'a-z' 'A-Z'",
+      "description": "Convert all lowercase letters to uppercase",
+      "output": "HELLO WORLD",
+      "output_explanation": {
+        "format": "All characters in first set replaced with corresponding characters in second set",
+        "elements": [
+          {
+            "element": "a-z",
+            "meaning": "Source set: all lowercase letters from a to z"
+          },
+          {
+            "element": "A-Z",
+            "meaning": "Target set: all uppercase letters from A to Z"
+          },
+          {
+            "element": "HELLO WORLD",
+            "meaning": "Result: each lowercase letter replaced with its uppercase equivalent"
+          }
+        ],
+        "notes": "tr maps characters positionally: 'a'->'A', 'b'->'B', etc. Works character by character."
+      },
+      "use_case": "Normalize text case, prepare data for case-sensitive operations"
+    },
+    {
+      "title": "Convert to lowercase",
+      "command": "echo 'HELLO WORLD' | tr 'A-Z' 'a-z'",
+      "description": "Convert all uppercase letters to lowercase",
+      "output": "hello world",
+      "output_explanation": {
+        "format": "Uppercase characters replaced with lowercase equivalents",
+        "elements": [
+          {
+            "element": "A-Z",
+            "meaning": "Source set: uppercase letters"
+          },
+          {
+            "element": "a-z",
+            "meaning": "Target set: lowercase letters"
+          }
+        ],
+        "notes": "Reverse of uppercase conversion. Common for normalizing user input or file names."
+      },
+      "use_case": "Normalize text to lowercase for consistent processing"
+    },
+    {
+      "title": "Delete specific characters",
+      "command": "echo 'hello123world' | tr -d '0-9'",
+      "description": "Remove all digits from text",
+      "output": "helloworld",
+      "output_explanation": {
+        "format": "All characters in the specified set are removed",
+        "elements": [
+          {
+            "element": "-d",
+            "meaning": "Delete operation flag"
+          },
+          {
+            "element": "0-9",
+            "meaning": "Set of characters to delete (all digits)"
+          },
+          {
+            "element": "helloworld",
+            "meaning": "Result: all digits removed, letters remain"
+          }
+        ],
+        "notes": "The -d flag deletes characters instead of translating them. Useful for cleaning data."
+      },
+      "use_case": "Remove unwanted characters like digits, punctuation, or special characters"
+    },
+    {
+      "title": "Replace spaces with newlines",
+      "command": "echo 'one two three' | tr ' ' '\\n'",
+      "description": "Split text by spaces into separate lines",
+      "output": "one\ntwo\nthree",
+      "output_explanation": {
+        "format": "Each space character replaced with a newline character",
+        "elements": [
+          {
+            "element": "' '",
+            "meaning": "Source: space character"
+          },
+          {
+            "element": "'\\n'",
+            "meaning": "Target: newline character (line break)"
+          },
+          {
+            "element": "one\\ntwo\\nthree",
+            "meaning": "Result: each word on its own line"
+          }
+        ],
+        "notes": "Converts space-separated text into line-separated text. Useful for processing word lists."
+      },
+      "use_case": "Split space-separated values into lines for line-by-line processing"
+    },
+    {
+      "title": "Squeeze repeated characters",
+      "command": "echo 'hello    world' | tr -s ' '",
+      "description": "Replace multiple consecutive spaces with a single space",
+      "output": "hello world",
+      "output_explanation": {
+        "format": "Sequences of the specified character are collapsed to a single occurrence",
+        "elements": [
+          {
+            "element": "-s",
+            "meaning": "Squeeze (collapse) repeated characters"
+          },
+          {
+            "element": "' '",
+            "meaning": "Character to squeeze (space)"
+          },
+          {
+            "element": "hello world",
+            "meaning": "Result: multiple spaces collapsed to one"
+          }
+        ],
+        "notes": "The -s flag collapses sequences. '    ' (4 spaces) becomes ' ' (1 space). Useful for cleaning whitespace."
+      },
+      "use_case": "Clean up text with excessive whitespace or repeated characters"
+    },
+    {
+      "title": "Delete everything except digits",
+      "command": "echo 'abc123def456' | tr -cd '0-9'",
+      "description": "Keep only digits, delete all other characters",
+      "output": "123456",
+      "output_explanation": {
+        "format": "Complement set means 'everything except', so -cd deletes everything except the set",
+        "elements": [
+          {
+            "element": "-c",
+            "meaning": "Complement: invert the set (everything EXCEPT the specified set)"
+          },
+          {
+            "element": "-d",
+            "meaning": "Delete operation"
+          },
+          {
+            "element": "'0-9'",
+            "meaning": "Set to keep (all digits)"
+          },
+          {
+            "element": "123456",
+            "meaning": "Result: only digits remain, all letters deleted"
+          }
+        ],
+        "notes": "Combining -c and -d: -cd means 'delete everything except this set'. Very useful for extracting specific character types."
+      },
+      "use_case": "Extract only specific character types from mixed text (digits, letters, etc.)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "tr works on words or lines",
+      "misconception": "tr can replace words or work on entire lines like sed",
+      "reality": "tr works only on individual characters, not words or lines. It's character-by-character translation, not pattern matching.",
+      "tip": "Use sed for word/line replacements, tr for character-level operations"
+    },
+    {
+      "title": "tr can edit files directly",
+      "misconception": "tr can modify files in place like sed -i",
+      "reality": "tr only reads from stdin and writes to stdout. To modify a file, use redirection: tr 'a-z' 'A-Z' < file.txt > output.txt",
+      "tip": "Always use redirection or pipes with tr. It doesn't have an in-place edit option."
+    },
+    {
+      "title": "tr understands character classes like regex",
+      "misconception": "tr can use regex character classes like [0-9] or \\d",
+      "reality": "tr uses simple character sets and ranges (a-z, 0-9), not regex. Use [:digit:], [:alpha:], etc. for POSIX character classes.",
+      "tip": "Use POSIX character classes: [:digit:], [:alpha:], [:space:], [:punct:], etc."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Character set length mismatch",
+      "description": "If SET1 and SET2 have different lengths, tr may not work as expected",
+      "solution": "Ensure character sets match in length, or use character classes. For deletion, use -d with single set."
+    },
+    {
+      "issue": "Special characters need escaping",
+      "description": "Special shell characters like *, ?, [ need proper quoting or escaping",
+      "solution": "Always quote character sets: tr 'a-z' 'A-Z' not tr a-z A-Z. Use single quotes to prevent shell expansion."
+    },
+    {
+      "issue": "Newlines are tricky",
+      "description": "Newlines (\\n) need proper escaping and may behave differently",
+      "solution": "Use '\\n' in single quotes, or $'\\n' for proper newline handling. Test with echo first."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sed",
+      "relationship": "Text replacement; sed works on patterns/words, tr works on characters",
+      "description": "Stream editor for filtering and transforming text"
+    },
+    {
+      "command": "awk",
+      "relationship": "Text processing; awk is more powerful but tr is simpler for character operations",
+      "description": "Pattern scanning and text processing language"
+    },
+    {
+      "command": "cut",
+      "relationship": "Character extraction; cut extracts by position, tr transforms characters",
+      "description": "Remove sections from lines of files"
+    }
+  ],
+  "best_practices": [
+    "Always quote character sets to prevent shell expansion: tr 'a-z' 'A-Z'",
+    "Use POSIX character classes for portability: [:digit:], [:alpha:], [:space:]",
+    "Combine -s with other operations to clean text: tr -s ' ' to collapse spaces",
+    "Use -cd pattern to extract specific character types: tr -cd '0-9' keeps only digits",
+    "Test with echo first before applying to files: echo 'test' | tr 'a-z' 'A-Z'"
+  ],
+  "performance_tips": [
+    "tr is very fast for character-level operations, faster than sed for simple character translation",
+    "Works well in pipelines for streaming data processing",
+    "For very large files, tr is more efficient than sed for character operations"
+  ],
+  "additional_notes": {
+    "character_sets": "tr uses character sets, not regex. Ranges like a-z, 0-9 are supported",
+    "posix_classes": "POSIX character classes available: [:alnum:], [:alpha:], [:digit:], [:space:], [:punct:], etc.",
+    "stdin_only": "tr only reads from stdin, never from files directly - always use pipes or redirection",
+    "no_inplace": "tr cannot edit files in place - always redirect output to modify files"
+  }
+}
+

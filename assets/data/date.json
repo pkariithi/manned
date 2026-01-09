@@ -1,0 +1,337 @@
+{
+  "metadata": {
+    "name": "date",
+    "displayName": "date - Display or set the system date and time",
+    "category": "Shell & Environment",
+    "tags": ["date", "time", "timestamp", "format", "system"],
+    "description": "Display or set the system date and time",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "date is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The date command displays or sets the system date and time. It's one of the most commonly used commands for getting timestamps, formatting dates for logs, creating time-based filenames, and scheduling operations. It supports extensive formatting options to display dates and times in virtually any format needed.",
+    "when_to_use": [
+      "Get current date and time",
+      "Format dates for log files or filenames",
+      "Create timestamps for scripts",
+      "Set system date and time (requires root)",
+      "Calculate relative dates (yesterday, tomorrow, etc.)",
+      "Format dates for reports or output",
+      "Get Unix timestamps"
+    ]
+  },
+  "syntax": {
+    "basic": "date [OPTIONS] [+FORMAT]",
+    "description": "Display current date/time, or set system date/time. With +FORMAT, displays date in specified format. Without arguments, shows default format.",
+    "examples": [
+      "date",
+      "date '+%Y-%m-%d %H:%M:%S'",
+      "date -d 'tomorrow'",
+      "sudo date -s '2024-01-15 10:30:00'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --date=STRING",
+      "short": "-d",
+      "long": "--date",
+      "description": "Display time described by STRING, not 'now'",
+      "category": "time_operation",
+      "example": "date -d 'yesterday'",
+      "use_case": "Get dates relative to now (yesterday, tomorrow, next week) or parse date strings"
+    },
+    {
+      "flag": "-s, --set=STRING",
+      "short": "-s",
+      "long": "--set",
+      "description": "Set system date and time (requires root privileges)",
+      "category": "time_operation",
+      "example": "sudo date -s '2024-01-15 10:30:00'",
+      "use_case": "Manually set system clock, usually done by system administrators"
+    },
+    {
+      "flag": "-u, --utc",
+      "short": "-u",
+      "long": "--utc",
+      "description": "Print or set Coordinated Universal Time (UTC)",
+      "category": "timezone",
+      "example": "date -u",
+      "use_case": "Work with UTC time instead of local timezone, useful for logs and coordination"
+    },
+    {
+      "flag": "-R, --rfc-email",
+      "short": "-R",
+      "long": "--rfc-email",
+      "description": "Output date and time in RFC 5322 format",
+      "category": "format",
+      "example": "date -R",
+      "use_case": "Get date in email header format, useful for scripts that generate emails"
+    },
+    {
+      "flag": "-I[FMT], --iso-8601[=FMT]",
+      "short": "-I",
+      "long": "--iso-8601",
+      "description": "Output date/time in ISO 8601 format",
+      "category": "format",
+      "example": "date -I",
+      "use_case": "Get standardized ISO format dates, useful for APIs and data exchange"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Current date and time",
+      "command": "date",
+      "description": "Display current system date and time in default format",
+      "output": "Mon Jan 15 10:30:45 UTC 2024",
+      "output_explanation": {
+        "format": "Day Month Date Time Timezone Year",
+        "elements": [
+          {
+            "element": "Mon",
+            "meaning": "Day of week abbreviation (Monday)"
+          },
+          {
+            "element": "Jan 15",
+            "meaning": "Month abbreviation and day of month"
+          },
+          {
+            "element": "10:30:45",
+            "meaning": "Time in 24-hour format: hours:minutes:seconds"
+          },
+          {
+            "element": "UTC",
+            "meaning": "Timezone (UTC in this case, could be EST, PST, etc.)"
+          },
+          {
+            "element": "2024",
+            "meaning": "Year"
+          }
+        ],
+        "notes": "Default format varies by system locale. This is the standard format on most Linux systems."
+      },
+      "use_case": "Quick check of current date and time"
+    },
+    {
+      "title": "Custom format",
+      "command": "date '+%Y-%m-%d %H:%M:%S'",
+      "description": "Format date in YYYY-MM-DD HH:MM:SS format",
+      "output": "2024-01-15 10:30:45",
+      "output_explanation": {
+        "format": "Year-Month-Day Hour:Minute:Second",
+        "elements": [
+          {
+            "element": "%Y",
+            "meaning": "4-digit year (2024)"
+          },
+          {
+            "element": "%m",
+            "meaning": "2-digit month (01-12)"
+          },
+          {
+            "element": "%d",
+            "meaning": "2-digit day of month (01-31)"
+          },
+          {
+            "element": "%H",
+            "meaning": "24-hour format hour (00-23)"
+          },
+          {
+            "element": "%M",
+            "meaning": "Minutes (00-59)"
+          },
+          {
+            "element": "%S",
+            "meaning": "Seconds (00-59)"
+          }
+        ],
+        "notes": "Common format for filenames and logs. The + prefix is required for format strings. Use quotes to prevent shell interpretation."
+      },
+      "use_case": "Create timestamped filenames, format dates for logs, standard date format"
+    },
+    {
+      "title": "Unix timestamp",
+      "command": "date '+%s'",
+      "description": "Get current time as Unix timestamp (seconds since epoch)",
+      "output": "1705318245",
+      "output_explanation": {
+        "format": "Integer representing seconds since January 1, 1970 00:00:00 UTC",
+        "elements": [
+          {
+            "element": "1705318245",
+            "meaning": "Number of seconds since Unix epoch (Jan 1, 1970 UTC)"
+          }
+        ],
+        "notes": "Unix timestamps are useful for calculations, comparisons, and storing in databases. Commonly used in programming and scripting."
+      },
+      "use_case": "Scripts that need numeric timestamps, database storage, time calculations"
+    },
+    {
+      "title": "Relative dates",
+      "command": "date -d 'tomorrow'",
+      "description": "Get date for tomorrow",
+      "output": "Tue Jan 16 10:30:45 UTC 2024",
+      "output_explanation": {
+        "format": "Date calculated relative to current date",
+        "elements": [
+          {
+            "element": "-d 'tomorrow'",
+            "meaning": "Calculate date for tomorrow from today"
+          },
+          {
+            "element": "Tue Jan 16",
+            "meaning": "Tomorrow's date"
+          }
+        ],
+        "notes": "Supports many relative terms: 'yesterday', 'tomorrow', 'next week', 'last month', '+1 day', '-2 weeks', etc. Very flexible for date calculations."
+      },
+      "use_case": "Calculate future/past dates, schedule operations, date arithmetic in scripts"
+    },
+    {
+      "title": "Timestamp for filename",
+      "command": "date '+%Y%m%d_%H%M%S'",
+      "description": "Create timestamp suitable for filenames (no spaces or special chars)",
+      "output": "20240115_103045",
+      "output_explanation": {
+        "format": "Compact timestamp: YYYYMMDD_HHMMSS",
+        "elements": [
+          {
+            "element": "20240115",
+            "meaning": "Date: 2024-01-15 in compact format"
+          },
+          {
+            "element": "_",
+            "meaning": "Separator (underscore, safe for filenames)"
+          },
+          {
+            "element": "103045",
+            "meaning": "Time: 10:30:45 in compact format"
+          }
+        ],
+        "notes": "This format is perfect for filenames - no spaces, no special characters, sortable. Example: backup_20240115_103045.tar.gz"
+      },
+      "use_case": "Create timestamped backup files, log files with timestamps, unique filenames"
+    },
+    {
+      "title": "ISO 8601 format",
+      "command": "date -I",
+      "description": "Get date in ISO 8601 standard format",
+      "output": "2024-01-15",
+      "output_explanation": {
+        "format": "ISO 8601 date format: YYYY-MM-DD",
+        "elements": [
+          {
+            "element": "2024-01-15",
+            "meaning": "International standard date format (year-month-day)"
+          }
+        ],
+        "notes": "ISO 8601 is the international standard for date representation. Use -Iseconds for full timestamp: 2024-01-15T10:30:45+00:00"
+      },
+      "use_case": "API responses, data exchange, standardized date formats, international applications"
+    },
+    {
+      "title": "Parse and format date string",
+      "command": "date -d '2024-01-15' '+%A, %B %d, %Y'",
+      "description": "Parse a date string and display in different format",
+      "output": "Monday, January 15, 2024",
+      "output_explanation": {
+        "format": "Full day name, full month name, day, year",
+        "elements": [
+          {
+            "element": "-d '2024-01-15'",
+            "meaning": "Parse this date string"
+          },
+          {
+            "element": "'+%A, %B %d, %Y'",
+            "meaning": "Format as: full day name, full month, day, year"
+          },
+          {
+            "element": "Monday, January 15, 2024",
+            "meaning": "Human-readable formatted date"
+          }
+        ],
+        "notes": "date can parse many date formats and convert them to any output format. Very flexible for date manipulation."
+      },
+      "use_case": "Convert between date formats, parse user input, format dates for display"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "date can only show current time",
+      "misconception": "date always shows the current system time and cannot calculate other dates",
+      "reality": "date can calculate any date using -d option: 'yesterday', 'tomorrow', 'next week', '+5 days', etc. It's very flexible for date arithmetic.",
+      "tip": "Use -d for relative dates: date -d 'tomorrow', date -d '+1 month', date -d 'last Monday'"
+    },
+    {
+      "title": "Format strings work without + prefix",
+      "misconception": "You can use format strings directly like date '%Y-%m-%d'",
+      "reality": "Format strings must be prefixed with +: date '+%Y-%m-%d'. Without +, date tries to set the system time (and fails without -s).",
+      "tip": "Always use + before format strings: date '+%Y-%m-%d', not date '%Y-%m-%d'"
+    },
+    {
+      "title": "date sets timezone",
+      "misconception": "date -s changes the system timezone",
+      "reality": "date -s sets the system clock time, not the timezone. Timezone is set separately using timedatectl or TZ environment variable.",
+      "tip": "Use timedatectl to change timezone, date -s to set the actual time"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting + prefix in format strings",
+      "description": "Using date '%Y-%m-%d' instead of date '+%Y-%m-%d' causes errors",
+      "solution": "Always prefix format strings with +. The + tells date you're providing a format, not trying to set the time."
+    },
+    {
+      "issue": "Quotes needed for format strings with spaces",
+      "description": "Format strings with spaces need quoting: date '+%Y %m %d' not date +%Y %m %d",
+      "solution": "Always quote format strings, especially when they contain spaces or special characters"
+    },
+    {
+      "issue": "Setting time requires root",
+      "description": "date -s requires sudo/root privileges and will fail for regular users",
+      "solution": "Use sudo date -s 'time' to set system time. Regular users can only read the time, not set it."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "timedatectl",
+      "relationship": "System time management; timedatectl is the modern way to set timezone, date is for getting/formatting dates",
+      "description": "Control the system time and date (systemd)"
+    },
+    {
+      "command": "cal",
+      "relationship": "Calendar display; cal shows calendar, date shows current date/time",
+      "description": "Display a calendar"
+    },
+    {
+      "command": "touch",
+      "relationship": "File timestamps; touch uses date formats for setting file times",
+      "description": "Change file timestamps"
+    }
+  ],
+  "best_practices": [
+    "Always use + prefix for format strings: date '+%Y-%m-%d'",
+    "Quote format strings to prevent shell interpretation: date '+%Y %m %d'",
+    "Use ISO 8601 format (-I) for standardized dates in scripts and APIs",
+    "Use Unix timestamps (%s) for calculations and comparisons",
+    "Create filename-safe timestamps: date '+%Y%m%d_%H%M%S' (no spaces or special chars)",
+    "Use -d for relative dates in scripts: date -d 'tomorrow', date -d '+1 week'"
+  ],
+  "performance_tips": [
+    "date is very fast - negligible performance impact",
+    "Format strings are processed quickly, even complex ones",
+    "For high-frequency timestamp generation, date is efficient"
+  ],
+  "additional_notes": {
+    "format_codes": "Common format codes: %Y (year), %m (month), %d (day), %H (hour), %M (minute), %S (second), %s (Unix timestamp), %A (weekday name), %B (month name)",
+    "relative_dates": "Supports: yesterday, tomorrow, next/last week/month/year, +N days/weeks/months, specific dates",
+    "timezone": "Use -u for UTC, or TZ environment variable for different timezones",
+    "setting_time": "Requires root privileges. Modern systems often use NTP for automatic time synchronization"
+  }
+}
+

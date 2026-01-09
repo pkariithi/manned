@@ -53,6 +53,11 @@ static void my_application_activate(GApplication* application) {
     gtk_window_set_title(window, "Manned Pages");
   }
 
+  // Set window role for proper desktop integration
+  // The window class is derived from the application ID automatically
+  // StartupWMClass in .desktop file should match the binary name
+  gtk_window_set_role(window, "manned_pages");
+
   gtk_window_set_default_size(window, 1280, 720);
 
   g_autoptr(FlDartProject) project = fl_dart_project_new();
@@ -60,8 +65,10 @@ static void my_application_activate(GApplication* application) {
       project, self->dart_entrypoint_arguments);
 
   // Set application icon
+  // Flutter bundles assets into flutter_assets directory with their original structure
+  // So assets/icon.png becomes flutter_assets/assets/icon.png
   g_autofree gchar* assets_path = g_build_filename(
-      fl_dart_project_get_assets_path(project), "icon.png", nullptr);
+      fl_dart_project_get_assets_path(project), "assets", "icon.png", nullptr);
   GError* icon_error = nullptr;
   GdkPixbuf* icon = gdk_pixbuf_new_from_file(assets_path, &icon_error);
   if (icon != nullptr) {

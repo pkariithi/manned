@@ -1,0 +1,245 @@
+{
+  "metadata": {
+    "name": "hostname",
+    "displayName": "hostname - Show or set system hostname",
+    "category": "System Information",
+    "tags": ["system", "hostname", "network", "identity", "configuration"],
+    "description": "Show or set system hostname",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "hostname 3.23+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "hostname is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The hostname command displays or sets the system's hostname - the name that identifies the computer on a network. The hostname is used for network identification, system identification in logs, and is part of the system's fully qualified domain name (FQDN).",
+    "when_to_use": [
+      "Check system hostname",
+      "Set or change system hostname",
+      "View fully qualified domain name (FQDN)",
+      "Check network identity",
+      "Verify system identification",
+      "Configure system name"
+    ]
+  },
+  "syntax": {
+    "basic": "hostname [OPTIONS] [HOSTNAME]",
+    "description": "Display current hostname, or set hostname if HOSTNAME argument is provided. Setting hostname requires root privileges.",
+    "examples": [
+      "hostname",
+      "hostname newname",
+      "hostname -f",
+      "hostname -i"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-f, --fqdn, --long",
+      "short": "-f",
+      "long": "--fqdn",
+      "description": "Print the fully qualified domain name (FQDN)",
+      "category": "display",
+      "example": "hostname -f",
+      "use_case": "Get complete hostname including domain (e.g., server.example.com)"
+    },
+    {
+      "flag": "-i, --ip-address",
+      "short": "-i",
+      "long": "--ip-address",
+      "description": "Print the IP address of the hostname",
+      "category": "display",
+      "example": "hostname -i",
+      "use_case": "Get IP address associated with hostname"
+    },
+    {
+      "flag": "-s, --short",
+      "short": "-s",
+      "long": "--short",
+      "description": "Print short hostname (first component only)",
+      "category": "display",
+      "example": "hostname -s",
+      "use_case": "Get just the hostname without domain (default behavior)"
+    },
+    {
+      "flag": "-d, --domain",
+      "short": "-d",
+      "long": "--domain",
+      "description": "Print the domain name",
+      "category": "display",
+      "example": "hostname -d",
+      "use_case": "Get just the domain portion of FQDN"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Display current hostname",
+      "command": "hostname",
+      "description": "Show the system's hostname",
+      "output": "mycomputer",
+      "output_explanation": {
+        "format": "Just the hostname string",
+        "elements": [
+          {
+            "element": "mycomputer",
+            "meaning": "System hostname (short name, without domain)"
+          }
+        ],
+        "notes": "Shows the short hostname - just the computer name without domain information."
+      },
+      "use_case": "Check system hostname"
+    },
+    {
+      "title": "Fully qualified domain name",
+      "command": "hostname -f",
+      "description": "Get complete hostname including domain",
+      "output": "mycomputer.example.com",
+      "output_explanation": {
+        "format": "Hostname with full domain",
+        "elements": [
+          {
+            "element": "-f",
+            "meaning": "FQDN (Fully Qualified Domain Name) flag"
+          },
+          {
+            "element": "mycomputer.example.com",
+            "meaning": "Complete hostname: hostname + domain"
+          }
+        ],
+        "notes": "The FQDN includes both the hostname and the domain name, providing complete network identification."
+      },
+      "use_case": "Get complete network identity for configuration or identification"
+    },
+    {
+      "title": "Get IP address",
+      "command": "hostname -i",
+      "description": "Get IP address associated with hostname",
+      "output": "192.168.1.100",
+      "output_explanation": {
+        "format": "IP address of the system",
+        "elements": [
+          {
+            "element": "-i",
+            "meaning": "IP address flag"
+          },
+          {
+            "element": "192.168.1.100",
+            "meaning": "System's IP address (resolved from hostname)"
+          }
+        ],
+        "notes": "Returns the IP address that the hostname resolves to, useful for network configuration."
+      },
+      "use_case": "Get system IP address for network operations"
+    },
+    {
+      "title": "Get domain name",
+      "command": "hostname -d",
+      "description": "Get just the domain portion",
+      "output": "example.com",
+      "output_explanation": {
+        "format": "Domain name only",
+        "elements": [
+          {
+            "element": "-d",
+            "meaning": "Domain flag"
+          },
+          {
+            "element": "example.com",
+            "meaning": "Domain portion of FQDN"
+          }
+        ],
+        "notes": "Extracts just the domain name from the FQDN, useful for domain-specific operations."
+      },
+      "use_case": "Get domain name for configuration or scripts"
+    },
+    {
+      "title": "Set hostname",
+      "command": "sudo hostname newhostname",
+      "description": "Change system hostname (requires root)",
+      "output": "(Hostname changed, verify with 'hostname')",
+      "output_explanation": {
+        "format": "Hostname is changed (temporary until reboot)",
+        "elements": [
+          {
+            "element": "sudo",
+            "meaning": "Root privileges required"
+          },
+          {
+            "element": "newhostname",
+            "meaning": "New hostname to set"
+          },
+          {
+            "element": "Temporary change",
+            "meaning": "Change persists until reboot unless also configured in /etc/hostname"
+          }
+        ],
+        "notes": "Setting hostname requires root. The change is temporary - edit /etc/hostname for permanent changes."
+      },
+      "use_case": "Change system hostname (temporary)"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "hostname changes are permanent",
+      "misconception": "Setting hostname with 'hostname newname' makes the change permanent",
+      "reality": "hostname command changes are temporary and lost on reboot. For permanent changes, edit /etc/hostname and /etc/hosts, or use hostnamectl.",
+      "tip": "Use 'sudo hostnamectl set-hostname newname' for permanent changes, or edit /etc/hostname"
+    },
+    {
+      "title": "hostname is the same as computer name",
+      "misconception": "hostname and computer name are always the same",
+      "reality": "Hostname is the network name, which may differ from the computer's display name in some desktop environments. They're usually the same but can be configured separately.",
+      "tip": "Hostname is primarily for network identification, not necessarily the same as GUI display name"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Temporary hostname changes",
+      "description": "hostname command changes are lost on reboot",
+      "solution": "For permanent changes, use 'sudo hostnamectl set-hostname newname' or edit /etc/hostname and /etc/hosts"
+    },
+    {
+      "issue": "Hostname not resolving",
+      "description": "Changed hostname doesn't resolve to IP address",
+      "solution": "Update /etc/hosts file to map new hostname to IP address, or configure DNS"
+    },
+    {
+      "issue": "Invalid hostname characters",
+      "description": "Hostnames can only contain letters, numbers, hyphens, and dots",
+      "solution": "Use only valid characters: a-z, A-Z, 0-9, hyphen (-), and dot (.)"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "hostnamectl",
+      "relationship": "Modern alternative; hostnamectl is the systemd way to manage hostname permanently",
+      "description": "Control the system hostname (systemd)"
+    },
+    {
+      "command": "uname",
+      "relationship": "System information; uname shows system info, hostname shows network identity",
+      "description": "Print system information"
+    }
+  ],
+  "best_practices": [
+    "Use hostname -f for FQDN in network configurations",
+    "Use hostnamectl for permanent hostname changes (systemd systems)",
+    "Update /etc/hosts when changing hostname to ensure proper resolution",
+    "Use hostname -i to get IP address for network scripts",
+    "Remember hostname changes with 'hostname' command are temporary"
+  ],
+  "performance_tips": [
+    "hostname is very fast - negligible performance impact",
+    "hostname -i may require DNS lookup, which can be slower",
+    "Cached hostname information is returned instantly"
+  ],
+  "additional_notes": {
+    "temporary_vs_permanent": "hostname command changes are temporary. Use hostnamectl or edit /etc/hostname for permanent changes.",
+    "fqdn": "Fully Qualified Domain Name includes both hostname and domain (e.g., server.example.com)",
+    "network_identity": "Hostname is used for network identification and appears in system logs",
+    "valid_characters": "Hostnames can contain: letters (a-z, A-Z), numbers (0-9), hyphens (-), and dots (.)"
+  }
+}
+

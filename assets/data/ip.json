@@ -1,0 +1,261 @@
+{
+  "metadata": {
+    "name": "ip",
+    "displayName": "ip - Show/manipulate routing, network devices, interfaces",
+    "category": "Network",
+    "tags": ["network", "routing", "interfaces", "ip", "configuration"],
+    "description": "Modern replacement for ifconfig, show and manipulate routing, network devices, interfaces and tunnels",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "iproute2 5.x+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ip is part of iproute2 package, pre-installed on modern Ubuntu systems"
+  },
+  "overview": {
+    "summary": "The ip command is a powerful utility for managing network interfaces, routing tables, and network configuration. It's the modern replacement for ifconfig, route, and arp commands, providing a unified interface for network management.",
+    "when_to_use": [
+      "View network interface configuration",
+      "Configure IP addresses and routes",
+      "Check network connectivity and routing",
+      "Manage network namespaces",
+      "Configure VLANs and tunnels",
+      "Troubleshoot network issues"
+    ]
+  },
+  "syntax": {
+    "basic": "ip [OPTIONS] OBJECT {COMMAND | help}",
+    "description": "ip command uses objects (link, addr, route, etc.) and subcommands to manage different aspects of networking.",
+    "examples": [
+      "ip addr show",
+      "ip link show",
+      "ip route show",
+      "ip addr add 192.168.1.100/24 dev eth0"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s, --stats, --statistics",
+      "short": "-s",
+      "long": "--stats",
+      "description": "Output more statistics information",
+      "category": "display",
+      "example": "ip -s link show",
+      "use_case": "See detailed statistics like packet counts and errors"
+    },
+    {
+      "flag": "-4, -6",
+      "short": "-4",
+      "long": null,
+      "description": "Use IPv4 or IPv6 protocol",
+      "category": "protocol",
+      "example": "ip -4 addr show",
+      "use_case": "Filter output to show only IPv4 or IPv6 addresses"
+    },
+    {
+      "flag": "-j, --json",
+      "short": "-j",
+      "long": "--json",
+      "description": "Output results in JSON format",
+      "category": "output",
+      "example": "ip -j addr show",
+      "use_case": "Machine-readable output for scripting"
+    },
+    {
+      "flag": "-br, --brief",
+      "short": "-br",
+      "long": "--brief",
+      "description": "Brief output format",
+      "category": "display",
+      "example": "ip -br addr show",
+      "use_case": "Simplified, easier to read output"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Show all network interfaces",
+      "command": "ip addr show",
+      "description": "Display all network interfaces with their IP addresses",
+      "output": "1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000\n    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00\n    inet 127.0.0.1/8 scope host lo\n       valid_lft forever preferred_lft forever\n2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000\n    link/ether 08:00:27:xx:xx:xx brd ff:ff:ff:ff:ff:ff\n    inet 192.168.1.100/24 brd 192.168.1.255 scope global dynamic eth0\n       valid_lft 86399sec preferred_lft 86399sec",
+      "output_explanation": {
+        "format": "structured text",
+        "elements": [
+          {
+            "element": "Interface number and name",
+            "meaning": "e.g., '1: lo' - loopback interface, '2: eth0' - ethernet interface"
+          },
+          {
+            "element": "Interface flags",
+            "meaning": "UP = interface is active, LOWER_UP = physical link is up"
+          },
+          {
+            "element": "mtu",
+            "meaning": "Maximum Transmission Unit (packet size)"
+          },
+          {
+            "element": "link/ether",
+            "meaning": "MAC address of the interface"
+          },
+          {
+            "element": "inet",
+            "meaning": "IPv4 address with subnet mask (CIDR notation)"
+          },
+          {
+            "element": "scope",
+            "meaning": "Address scope: host (localhost), global (internet), link (local network)"
+          },
+          {
+            "element": "valid_lft/preferred_lft",
+            "meaning": "Lifetime for DHCP addresses (forever for static)"
+          }
+        ],
+        "notes": "Use 'ip -br addr show' for a more compact view"
+      },
+      "use_case": "Check current IP address configuration"
+    },
+    {
+      "title": "Brief interface list",
+      "command": "ip -br addr show",
+      "description": "Show interfaces in a compact format",
+      "output": "lo               UNKNOWN        127.0.0.1/8 ::1/128\neth0             UP             192.168.1.100/24 fe80::a00:27ff:fexx:xxxx/64",
+      "output_explanation": {
+        "format": "table",
+        "elements": [
+          {
+            "element": "Interface name",
+            "meaning": "Network interface identifier"
+          },
+          {
+            "element": "State",
+            "meaning": "UP = active, DOWN = inactive, UNKNOWN = loopback"
+          },
+          {
+            "element": "IP addresses",
+            "meaning": "IPv4 and IPv6 addresses assigned to the interface"
+          }
+        ],
+        "notes": "Much easier to read than the default format"
+      },
+      "use_case": "Quick overview of all network interfaces"
+    },
+    {
+      "title": "Show routing table",
+      "command": "ip route show",
+      "description": "Display the kernel routing table",
+      "output": "default via 192.168.1.1 dev eth0 proto dhcp metric 100\n192.168.1.0/24 dev eth0 proto kernel scope link src 192.168.1.100 metric 100",
+      "output_explanation": {
+        "format": "routing table",
+        "elements": [
+          {
+            "element": "default via",
+            "meaning": "Default gateway route (where packets go when no specific route matches)"
+          },
+          {
+            "element": "dev",
+            "meaning": "Network device/interface to use"
+          },
+          {
+            "element": "proto",
+            "meaning": "How route was learned: dhcp, kernel, static, etc."
+          },
+          {
+            "element": "metric",
+            "meaning": "Route priority (lower = preferred)"
+          },
+          {
+            "element": "scope link",
+            "meaning": "Route is only valid on the local network segment"
+          }
+        ],
+        "notes": "The default route is crucial - it's how your system reaches the internet"
+      },
+      "use_case": "Check how network traffic is routed"
+    },
+    {
+      "title": "Add IP address to interface",
+      "command": "sudo ip addr add 192.168.1.200/24 dev eth0",
+      "description": "Add a secondary IP address to an interface",
+      "output": "(no output on success)",
+      "output_explanation": {
+        "format": "none",
+        "elements": [
+          {
+            "element": "Command",
+            "meaning": "Silent on success, shows error on failure"
+          }
+        ],
+        "notes": "Requires root privileges. Changes are temporary (lost on reboot) unless made persistent."
+      },
+      "use_case": "Temporarily add an IP address for testing"
+    }
+  ],
+  "common_misconceptions": [
+    {
+      "title": "ip vs ifconfig",
+      "misconception": "ip and ifconfig do the same thing",
+      "reality": "ip is the modern replacement. ifconfig is deprecated and may not show all information. ip is more powerful and recommended.",
+      "tip": "Use 'ip' instead of 'ifconfig' on modern Linux systems"
+    },
+    {
+      "title": "Permanent configuration",
+      "misconception": "ip commands make permanent changes",
+      "reality": "ip commands make temporary changes that are lost on reboot. Use netplan, NetworkManager, or /etc/network/interfaces for permanent configuration.",
+      "tip": "Use ip for temporary testing, use configuration files for permanent changes"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting sudo",
+      "description": "Most ip configuration commands require root privileges",
+      "solution": "Use sudo for configuration commands: sudo ip addr add ..."
+    },
+    {
+      "issue": "Temporary changes",
+      "description": "Changes made with ip are lost on reboot",
+      "solution": "For permanent changes, use system configuration files (netplan on Ubuntu 18.04+)"
+    },
+    {
+      "issue": "Wrong interface name",
+      "description": "Using incorrect interface name (eth0 vs enp0s3, etc.)",
+      "solution": "First check interface names with 'ip link show' or 'ip -br link show'"
+    }
+  ],
+  "best_practices": [
+    "Use 'ip -br' for more readable output in daily use",
+    "Check interface names first with 'ip link show' before configuring",
+    "Use 'ip addr show' to verify changes after configuration",
+    "For permanent changes, use netplan (Ubuntu 18.04+) or NetworkManager",
+    "Use 'ip -s' to see statistics when troubleshooting network issues"
+  ],
+  "performance_tips": [
+    "Use 'ip -br' for faster parsing in scripts",
+    "Use 'ip -j' for JSON output when scripting",
+    "Check routing table with 'ip route' to diagnose connectivity issues",
+    "Monitor interface statistics with 'ip -s link show' to identify network problems"
+  ],
+  "related_commands": [
+    {
+      "command": "ifconfig",
+      "relationship": "Legacy alternative",
+      "description": "ifconfig is the older command that ip replaces. Use ip instead."
+    },
+    {
+      "command": "ping",
+      "relationship": "Test connectivity",
+      "description": "After configuring with ip, use ping to test network connectivity"
+    },
+    {
+      "command": "netstat",
+      "relationship": "Network connections",
+      "description": "netstat shows active connections, while ip manages interface configuration"
+    }
+  ],
+  "additional_notes": {
+    "note1": "On modern Ubuntu systems, use netplan for permanent network configuration instead of ip commands",
+    "note2": "Interface names have changed in newer systems (enp0s3 instead of eth0) - always check with 'ip link' first",
+    "note3": "ip supports many subcommands: 'ip link' (interfaces), 'ip addr' (addresses), 'ip route' (routing), 'ip neigh' (ARP table), etc."
+  }
+}
+

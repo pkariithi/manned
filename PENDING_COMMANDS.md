@@ -3,10 +3,6 @@
 This file lists Linux commands from the target list that have not yet been added to the application.
 
 ## File & Directory Operations
-- `stat` - Display file or file system status
-- `file` - Determine file type
-- `basename` - Strip directory and suffix from filenames
-- `dirname` - Strip last component from file name
 - `more` - Display text one screen at a time (older than less)
 - `mount` - Mount a filesystem
 - `umount` - Unmount filesystems
@@ -14,12 +10,10 @@ This file lists Linux commands from the target list that have not yet been added
 - `blkid` - Locate/print block device attributes
 - `locate` - Find files by name (fast database search)
 - `updatedb` - Update locate database
-- `tee` - Redirect output to file and stdout simultaneously
 - `split` - Split files into smaller pieces
 
 ## Text Processing
 - `nl` - Number lines of files
-- `tr` - Translate or delete characters
 - `patch` - Apply a diff file to an original
 - `join` - Join lines of two files on a common field
 - `paste` - Merge lines of files side by side
@@ -30,18 +24,14 @@ This file lists Linux commands from the target list that have not yet been added
 - `fg` - Move jobs to foreground
 - `jobs` - Display status of jobs
 - `nice` - Run a program with modified scheduling priority
-- `uptime` - Show how long system has been running
 
 ## System Information
-- `id` - Print user and group IDs
 - `groups` - Print group names a user belongs to
-- `free` - Display amount of free and used memory
 - `vmstat` - Report virtual memory statistics
 - `lscpu` - Display CPU architecture information
 - `lsmem` - List memory devices and their attributes
 - `lsusb` - List USB devices
 - `lspci` - List PCI devices
-- `hostname` - Show or set system hostname
 - `lsof` - List open files and processes using them
 
 ## User & Permissions
@@ -56,7 +46,6 @@ This file lists Linux commands from the target list that have not yet been added
 - `groupmod` - Modify a group
 
 ## Network
-- `ip` - Show/manipulate routing, network devices, interfaces
 - `netstat` - Print network connections, routing tables, interface statistics
 - `ss` - Another utility to investigate sockets (modern replacement for netstat)
 - `traceroute` - Print the route packets take to network host
@@ -70,9 +59,6 @@ This file lists Linux commands from the target list that have not yet been added
 - `apt-cache` - Query the APT cache
 
 ## Archive & Compression
-- `gzip` - Compress files
-- `gunzip` - Decompress files
-- `unzip` - Extract files from ZIP archives
 - `xz` - Compress or decompress .xz files
 - `7z` - 7-Zip archive manager
 - `bzip2` - Compress files using bzip2 algorithm
@@ -87,14 +73,10 @@ This file lists Linux commands from the target list that have not yet been added
 - `info` - Read Info documents
 - `whereis` - Locate the binary, source, and manual page files
 - `time` - Run programs and summarize system resource usage
-- `xargs` - Build and execute command lines from standard input
 - `yes` - Output a string repeatedly until killed
-- `cal` - Display a calendar
-- `date` - Display or set the system date and time
 - `exit` - Exit the shell
 
 ## Monitoring
-- `watch` - Execute a program periodically, showing output fullscreen
 - `iostat` - Report CPU and I/O statistics
 - `sar` - Collect, report, or save system activity information
 
@@ -106,12 +88,10 @@ This file lists Linux commands from the target list that have not yet been added
 - `dd` - Convert and copy files (disk operations)
 
 ## Systemd & Logs
-- `journalctl` - Query the systemd journal (system logs)
 - `systemd-analyze` - Analyze systemd boot performance
 - `logrotate` - Rotate, compress, and mail system logs
 
 ## Task Scheduling
-- `crontab` - Schedule periodic background jobs
 - `at` - Execute commands at a specified time
 - `atq` - Display pending jobs in at queue
 - `atrm` - Remove jobs from at queue
@@ -123,19 +103,19 @@ This file lists Linux commands from the target list that have not yet been added
 
 ## Summary
 
-**Total pending commands: 77**
+**Total pending commands: 57**
 
 ### Categories:
-- File & Directory Operations: 13
-- Text Processing: 5
-- Process Management: 6
-- System Information: 10
+- File & Directory Operations: 9
+- Text Processing: 4
+- Process Management: 5
+- System Information: 8
 - User & Permissions: 9
 - Network: 8
 - Package Management: 2 (Ubuntu-specific: apt-get, apt-cache)
-- Archive & Compression: 7
-- Shell & Environment: 10
-- Monitoring: 3
+- Archive & Compression: 4
+- Shell & Environment: 7
+- Monitoring: 2
 - Disk Management: 5
 - Systemd & Logs: 3
 - Task Scheduling: 4

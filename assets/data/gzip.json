@@ -1,0 +1,298 @@
+{
+  "metadata": {
+    "name": "gzip",
+    "displayName": "gzip - Compress files",
+    "category": "Archive & Compression",
+    "tags": ["compression", "archive", "files", "gzip", "zip"],
+    "description": "Compress files using gzip algorithm",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "gzip 1.10+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "gzip is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The gzip command compresses files using the gzip compression algorithm, replacing the original file with a compressed version that has a .gz extension. It's one of the most common compression tools on Linux, providing good compression ratios and fast compression/decompression speeds.",
+    "when_to_use": [
+      "Compress files to save disk space",
+      "Create compressed archives for transfer",
+      "Compress log files and backups",
+      "Reduce file sizes for faster transfers",
+      "Compress files before archiving",
+      "Create .gz compressed files"
+    ]
+  },
+  "syntax": {
+    "basic": "gzip [OPTIONS] [FILE]...",
+    "description": "Compress one or more files. By default, gzip replaces the original file with a compressed .gz version. If no files are specified, gzip reads from stdin.",
+    "examples": [
+      "gzip file.txt",
+      "gzip -k file.txt",
+      "gzip -9 largefile.dat",
+      "gzip -d file.txt.gz"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --decompress",
+      "short": "-d",
+      "long": "--decompress",
+      "description": "Decompress files (same as gunzip)",
+      "category": "operation",
+      "example": "gzip -d file.gz",
+      "use_case": "Extract compressed files, alternative to gunzip command"
+    },
+    {
+      "flag": "-k, --keep",
+      "short": "-k",
+      "long": "--keep",
+      "description": "Keep original files after compression",
+      "category": "operation",
+      "example": "gzip -k file.txt",
+      "use_case": "Compress files while keeping the original (creates file.txt.gz, keeps file.txt)"
+    },
+    {
+      "flag": "-r, --recursive",
+      "short": "-r",
+      "long": "--recursive",
+      "description": "Compress directories recursively",
+      "category": "operation",
+      "example": "gzip -r directory/",
+      "use_case": "Compress all files in a directory and subdirectories"
+    },
+    {
+      "flag": "-1 to -9",
+      "short": "-1",
+      "long": null,
+      "description": "Compression level (1=fastest, 9=best compression, default=6)",
+      "category": "compression",
+      "example": "gzip -9 file.txt",
+      "use_case": "Balance between speed (-1) and compression ratio (-9)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Display compression statistics",
+      "category": "display",
+      "example": "gzip -v file.txt",
+      "use_case": "See compression ratio and file size reduction"
+    },
+    {
+      "flag": "-t, --test",
+      "short": "-t",
+      "long": "--test",
+      "description": "Test integrity of compressed files",
+      "category": "verification",
+      "example": "gzip -t file.gz",
+      "use_case": "Verify compressed files are not corrupted"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic file compression",
+      "command": "gzip file.txt",
+      "description": "Compress a file, replacing it with file.txt.gz",
+      "output": "(file.txt is replaced with file.txt.gz)",
+      "output_explanation": {
+        "format": "Original file is replaced with compressed version",
+        "elements": [
+          {
+            "element": "file.txt",
+            "meaning": "Original file (will be deleted)"
+          },
+          {
+            "element": "file.txt.gz",
+            "meaning": "Compressed file created (original removed)"
+          }
+        ],
+        "notes": "By default, gzip removes the original file after compression. Use -k to keep the original."
+      },
+      "use_case": "Compress files to save space, original file is replaced"
+    },
+    {
+      "title": "Keep original file",
+      "command": "gzip -k document.pdf",
+      "description": "Compress file while keeping the original",
+      "output": "(document.pdf.gz created, document.pdf remains)",
+      "output_explanation": {
+        "format": "Both original and compressed files exist",
+        "elements": [
+          {
+            "element": "-k",
+            "meaning": "Keep original file flag"
+          },
+          {
+            "element": "document.pdf",
+            "meaning": "Original file (preserved)"
+          },
+          {
+            "element": "document.pdf.gz",
+            "meaning": "Compressed version (created)"
+          }
+        ],
+        "notes": "The -k flag is essential when you need to keep the original file alongside the compressed version."
+      },
+      "use_case": "Create compressed backup while keeping original file"
+    },
+    {
+      "title": "Maximum compression",
+      "command": "gzip -9 largefile.dat",
+      "description": "Compress with maximum compression ratio (slower but smaller)",
+      "output": "(largefile.dat.gz created with best compression)",
+      "output_explanation": {
+        "format": "File compressed with highest compression level",
+        "elements": [
+          {
+            "element": "-9",
+            "meaning": "Maximum compression level (slowest but smallest file)"
+          },
+          {
+            "element": "largefile.dat.gz",
+            "meaning": "Result: smallest possible compressed file"
+          }
+        ],
+        "notes": "Level 9 provides best compression but is slower. Level 1 is fastest but larger files. Default is 6 (balanced)."
+      },
+      "use_case": "Maximize space savings when file size matters more than speed"
+    },
+    {
+      "title": "Compress multiple files",
+      "command": "gzip file1.txt file2.txt file3.txt",
+      "description": "Compress several files at once",
+      "output": "(file1.txt.gz, file2.txt.gz, file3.txt.gz created)",
+      "output_explanation": {
+        "format": "Each file compressed separately",
+        "elements": [
+          {
+            "element": "file1.txt, file2.txt, file3.txt",
+            "meaning": "Multiple input files"
+          },
+          {
+            "element": "file1.txt.gz, file2.txt.gz, file3.txt.gz",
+            "meaning": "Each file compressed individually (not into one archive)"
+          }
+        ],
+        "notes": "gzip compresses each file separately. To create a single compressed archive of multiple files, use tar with gzip: tar -czf archive.tar.gz files/"
+      },
+      "use_case": "Compress multiple individual files"
+    },
+    {
+      "title": "View compression statistics",
+      "command": "gzip -v largefile.log",
+      "description": "Compress file and show compression ratio",
+      "output": "largefile.log:    85.2% -- replaced with largefile.log.gz",
+      "output_explanation": {
+        "format": "Shows compression percentage and result",
+        "elements": [
+          {
+            "element": "85.2%",
+            "meaning": "Compression ratio - file reduced to 14.8% of original size"
+          },
+          {
+            "element": "replaced with largefile.log.gz",
+            "meaning": "Original file replaced with compressed version"
+          }
+        ],
+        "notes": "The percentage shows how much the file was reduced. 85.2% means the file is now 14.8% of its original size."
+      },
+      "use_case": "See how much space was saved by compression"
+    },
+    {
+      "title": "Decompress file",
+      "command": "gzip -d file.txt.gz",
+      "description": "Extract compressed file (same as gunzip)",
+      "output": "(file.txt.gz is replaced with file.txt)",
+      "output_explanation": {
+        "format": "Compressed file is decompressed, original .gz file removed",
+        "elements": [
+          {
+            "element": "-d",
+            "meaning": "Decompress flag"
+          },
+          {
+            "element": "file.txt.gz",
+            "meaning": "Compressed file (will be removed)"
+          },
+          {
+            "element": "file.txt",
+            "meaning": "Decompressed file (created)"
+          }
+        ],
+        "notes": "gzip -d is equivalent to gunzip. Both decompress .gz files."
+      },
+      "use_case": "Extract compressed files"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "gzip creates archives",
+      "misconception": "gzip can compress multiple files into a single archive",
+      "reality": "gzip compresses individual files. To compress multiple files into one archive, use tar first: tar -czf archive.tar.gz files/",
+      "tip": "Use 'tar -czf' to create compressed archives of multiple files or directories"
+    },
+    {
+      "title": "gzip preserves original by default",
+      "misconception": "gzip keeps the original file after compression",
+      "reality": "gzip removes the original file by default. Use -k flag to keep the original file.",
+      "tip": "Always use -k if you need to keep the original file: gzip -k file.txt"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Losing original files",
+      "description": "Forgetting -k flag causes original files to be deleted",
+      "solution": "Use -k flag when you need to keep originals, or backup files before compression"
+    },
+    {
+      "issue": "Compressing already compressed files",
+      "description": "Compressing .gz, .zip, or image files provides little benefit and wastes time",
+      "solution": "Don't compress files that are already compressed (images, videos, archives)"
+    },
+    {
+      "issue": "Trying to compress directories directly",
+      "description": "gzip file.txt works, but gzip directory/ doesn't compress the directory itself",
+      "solution": "Use -r for recursive compression of files in directories, or use tar -czf for directory archives"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "gunzip",
+      "relationship": "Decompression; gunzip is equivalent to gzip -d",
+      "description": "Decompress files"
+    },
+    {
+      "command": "tar",
+      "relationship": "Archiving; often used with gzip to create compressed archives",
+      "description": "Archive files"
+    },
+    {
+      "command": "zip",
+      "relationship": "Alternative compression; zip creates .zip archives, gzip creates .gz files",
+      "description": "Package and compress files"
+    }
+  ],
+  "best_practices": [
+    "Use -k to keep original files when needed: gzip -k file.txt",
+    "Use -9 for maximum compression when space matters, -1 for speed",
+    "Use -v to see compression statistics and verify results",
+    "Combine with tar for multi-file archives: tar -czf archive.tar.gz directory/",
+    "Test compressed files with -t to verify integrity"
+  ],
+  "performance_tips": [
+    "Level 1 is fastest but creates larger files, level 9 is slowest but smallest",
+    "Default level 6 provides good balance between speed and compression",
+    "Text files compress much better than binary files",
+    "Already compressed files (images, videos) won't compress further"
+  ],
+  "additional_notes": {
+    "compression_levels": "Levels 1-9: 1=fastest/largest, 9=slowest/smallest, 6=default balanced",
+    "file_replacement": "By default, original files are replaced. Use -k to keep originals.",
+    "archive_format": "gzip compresses individual files. For archives, use tar with gzip.",
+    "decompression": "gzip -d and gunzip are equivalent - both decompress .gz files"
+  }
+}
+
