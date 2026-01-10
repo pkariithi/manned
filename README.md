@@ -74,6 +74,7 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
    ```
 
 4. **Launch the application:**
+
    - Search for "Manned Pages" in your application menu
    - Or run from terminal: `manned-pages`
 
