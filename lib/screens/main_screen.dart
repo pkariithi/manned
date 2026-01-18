@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yaru/yaru.dart';
 import '../models/command.dart';
 import '../services/command_service.dart';
 import '../widgets/command_list.dart';
 import '../widgets/command_details.dart';
+import '../widgets/about_dialog.dart';
 
 class MainScreen extends StatefulWidget {
   final VoidCallback? onThemeToggle;
@@ -22,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   bool _isLoading = true;
   String? _error;
   bool _showJsonView = false;
+  bool _showSearchBar = false;
 
   @override
   void initState() {
@@ -76,18 +79,39 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _showAboutDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const MannedPagesAboutDialog(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Row(
-          children: [
-            Image(image: AssetImage('assets/icon.png'), width: 24, height: 24),
-            SizedBox(width: 12),
-            Text('Manned Pages'),
-          ],
+      appBar: YaruWindowTitleBar(
+        leading: IconButton(
+          icon: Icon(Icons.search),
+          tooltip: _showSearchBar ? 'Hide Search' : 'Show Search',
+          onPressed: () {
+            setState(() {
+              _showSearchBar = !_showSearchBar;
+            });
+          },
         ),
+        title: const Text('Manned Pages'),
         actions: [
+          // JSON/UI View Toggle
+          if (_selectedCommand != null)
+            IconButton(
+              icon: Icon(_showJsonView ? Icons.code_off : Icons.code),
+              tooltip: _showJsonView ? 'Show UI View' : 'Show JSON View',
+              onPressed: () {
+                setState(() {
+                  _showJsonView = !_showJsonView;
+                });
+              },
+            ),
           // Theme Toggle
           IconButton(
             icon: Icon(
@@ -100,17 +124,12 @@ class _MainScreenState extends State<MainScreen> {
                 : 'Switch to Dark Mode',
             onPressed: widget.onThemeToggle,
           ),
-          // JSON/UI View Toggle
-          if (_selectedCommand != null)
-            IconButton(
-              icon: Icon(_showJsonView ? Icons.code_off : Icons.code),
-              tooltip: _showJsonView ? 'Show UI View' : 'Show JSON View',
-              onPressed: () {
-                setState(() {
-                  _showJsonView = !_showJsonView;
-                });
-              },
-            ),
+          // Menu button
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            tooltip: 'About',
+            onPressed: _showAboutDialog,
+          ),
         ],
       ),
       body: _isLoading
@@ -160,6 +179,7 @@ class _MainScreenState extends State<MainScreen> {
                     onCommandSelected: _onCommandSelected,
                     searchController: _searchController,
                     onSearchChanged: _onSearchChanged,
+                    showSearchBar: _showSearchBar,
                   ),
                 ),
                 // Right pane - Command details

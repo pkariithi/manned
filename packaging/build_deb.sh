@@ -8,8 +8,13 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Get version from pubspec.yaml
-VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | sed 's/+.*//')
-BUILD_NUMBER=$(grep '^version:' pubspec.yaml | sed 's/.*+//')
+VERSION_LINE=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+VERSION=$(echo "$VERSION_LINE" | sed 's/+.*//')
+BUILD_NUMBER=$(echo "$VERSION_LINE" | sed -n 's/.*+\(.*\)/\1/p')
+# If no build number specified, default to 1
+if [ -z "$BUILD_NUMBER" ]; then
+    BUILD_NUMBER="1"
+fi
 PACKAGE_NAME="manned-pages"
 DEB_VERSION="${VERSION}-${BUILD_NUMBER}"
 ARCH="amd64"

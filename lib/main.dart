@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yaru/yaru.dart';
 import 'screens/main_screen.dart';
 
-void main() {
+Future<void> main() async {
+  await YaruWindowTitleBar.ensureInitialized();
   runApp(const MannedPagesApp());
 }
 

@@ -2,6 +2,8 @@
 
 **A modern, user-friendly Linux command reference application for Ubuntu**
 
+[![Buy Me a Coffee](assets/buymeacoffee.png)](https://buymeacoffee.com/patrickariithi)
+
 Manned Pages is an intuitive desktop application that provides comprehensive documentation for the most commonly used Linux commands. Designed specifically for Ubuntu with the native Yaru theme, it presents command information in a clean, accessible interface that's easier to navigate than traditional man pages.
 
 ## ✨ Features
@@ -52,6 +54,9 @@ Manned Pages is an intuitive desktop application that provides comprehensive doc
 
 ### JSON View
 ![JSON View](assets/screenshots/json_view.png)
+
+### JSON View - Dark Mode
+![JSON View - Dark Mode](assets/screenshots/json_view_dark_mode.png)
 
 ## 🚀 Getting Started
 

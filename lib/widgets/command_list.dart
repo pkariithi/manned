@@ -7,6 +7,7 @@ class CommandList extends StatelessWidget {
   final Function(Command) onCommandSelected;
   final TextEditingController? searchController;
   final Function(String)? onSearchChanged;
+  final bool showSearchBar;
 
   const CommandList({
     super.key,
@@ -15,6 +16,7 @@ class CommandList extends StatelessWidget {
     required this.onCommandSelected,
     this.searchController,
     this.onSearchChanged,
+    this.showSearchBar = true,
   });
 
   @override
@@ -28,7 +30,7 @@ class CommandList extends StatelessWidget {
     return Column(
       children: [
         // Search field at the top
-        if (searchController != null && onSearchChanged != null)
+        if (showSearchBar && searchController != null && onSearchChanged != null)
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
