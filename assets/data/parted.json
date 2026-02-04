@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "name": "parted",
+    "displayName": "parted - Disk partitioning program",
+    "category": "Disk Management",
+    "tags": ["partition", "gpt", "disk", "advanced"],
+    "description": "Disk partitioning and partition resizing",
+    "popularity": 6,
+    "difficulty": "advanced",
+    "version": "GNU parted (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "parted is commonly available by default on Linux systems"
+  },
+  "overview": {
+    "summary": "parted creates and manipulates partition tables (GPT and MBR) and can resize partitions. It supports scripting (parted script) and is often preferred over fdisk for GPT and for non-interactive use. Use with care; partitioning can cause data loss.",
+    "when_to_use": [
+      "Create GPT or MBR partition tables",
+      "Create, delete, or resize partitions",
+      "Script partitioning (parted script)"
+    ]
+  },
+  "syntax": {
+    "basic": "parted [OPTIONS] DEVICE [COMMAND]",
+    "description": "parted DEVICE enters interactive mode. With COMMAND(s), it runs non-interactively. Always specify the disk device (e.g., /dev/sda).",
+    "examples": [
+      "sudo parted -l",
+      "sudo parted /dev/sdb",
+      "sudo parted /dev/sdb mklabel gpt mkpart primary 0% 100%"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List partition layout on all block devices",
+      "category": "display",
+      "example": "sudo parted -l",
+      "use_case": "View partition tables"
+    },
+    {
+      "flag": "-s, --script",
+      "short": "-s",
+      "long": "--script",
+      "description": "Never prompt (for scripting)",
+      "category": "behavior",
+      "example": "sudo parted -s /dev/sdb mklabel gpt",
+      "use_case": "Non-interactive partitioning"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List partition tables",
+      "command": "sudo parted -l",
+      "description": "Show partition layout for all disks",
+      "use_case": "Inspect disks"
+    },
+    {
+      "title": "Create GPT and one partition",
+      "command": "sudo parted -s /dev/sdb mklabel gpt mkpart primary 0% 100%",
+      "description": "Create GPT table and one partition using whole disk (example)",
+      "use_case": "Scripted partitioning (adjust sizes as needed)"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong device or unit",
+      "description": "Partitioning the wrong disk or misreading units (MiB vs MB) can destroy data.",
+      "solution": "Confirm device with lsblk; use unit MiB in parted for clarity; back up critical data."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "fdisk",
+      "relationship": "Alternative",
+      "description": "MBR partitioning (interactive)"
+    },
+    {
+      "command": "lsblk",
+      "relationship": "Complementary",
+      "description": "List block devices"
+    }
+  ]
+}

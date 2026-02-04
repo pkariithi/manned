@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "name": "ifconfig",
+    "displayName": "ifconfig - Configure network interfaces (legacy)",
+    "category": "Network",
+    "tags": ["network", "interface", "ip", "legacy", "intermediate"],
+    "description": "Configure or display network interfaces (legacy)",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "net-tools (legacy)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "net-tools",
+      "manager": "apt",
+      "command": "sudo apt install net-tools"
+    },
+    "note": "On many modern systems ifconfig is deprecated in favor of ip; install net-tools if you need ifconfig"
+  },
+  "overview": {
+    "summary": "ifconfig configures or displays network interface parameters (address, netmask, up/down). It is part of the legacy net-tools; the ip command is the modern replacement. ifconfig is still widely used in scripts and documentation.",
+    "when_to_use": [
+      "View IP address and status of interfaces",
+      "Bring an interface up or down",
+      "Configure an interface (when ip is not preferred)"
+    ]
+  },
+  "syntax": {
+    "basic": "ifconfig [INTERFACE] [OPTIONS]",
+    "description": "Without INTERFACE, ifconfig lists all interfaces. With INTERFACE, it configures or shows that interface.",
+    "examples": [
+      "ifconfig",
+      "ifconfig eth0",
+      "sudo ifconfig eth0 up"
+    ]
+  },
+  "options": [
+    {
+      "flag": "up",
+      "short": null,
+      "long": null,
+      "description": "Bring the interface up",
+      "category": "config",
+      "example": "sudo ifconfig eth0 up",
+      "use_case": "Enable an interface"
+    },
+    {
+      "flag": "down",
+      "short": null,
+      "long": null,
+      "description": "Bring the interface down",
+      "category": "config",
+      "example": "sudo ifconfig eth0 down",
+      "use_case": "Disable an interface"
+    },
+    {
+      "flag": "inet ADDRESS",
+      "short": null,
+      "long": null,
+      "description": "Set IPv4 address",
+      "category": "config",
+      "example": "sudo ifconfig eth0 192.168.1.10",
+      "use_case": "Assign static IP"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List interfaces",
+      "command": "ifconfig",
+      "description": "Show all interfaces with addresses and status",
+      "use_case": "Quick network overview"
+    },
+    {
+      "title": "Bring interface up",
+      "command": "sudo ifconfig eth0 up",
+      "description": "Enable interface eth0",
+      "use_case": "After enabling a link or cable"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ip",
+      "relationship": "Alternative",
+      "description": "Modern replacement: ip addr, ip link (prefer on new systems)"
+    }
+  ]
+}

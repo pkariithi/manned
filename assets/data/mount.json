@@ -1,0 +1,225 @@
+{
+  "metadata": {
+    "name": "mount",
+    "displayName": "mount - Mount a filesystem",
+    "category": "File & Directory Operations",
+    "tags": ["filesystem", "mount", "storage", "system", "intermediate"],
+    "description": "Mount a filesystem",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "mount is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The mount command attaches a filesystem to a directory tree, making it accessible. It's essential for accessing external storage devices, network shares, and other filesystems. Modern systems often auto-mount devices, but mount is still crucial for manual mounting and system administration.",
+    "when_to_use": [
+      "Mount USB drives or external storage",
+      "Mount network filesystems (NFS, SMB)",
+      "Mount ISO image files",
+      "Access encrypted volumes",
+      "Mount filesystems defined in /etc/fstab",
+      "Troubleshoot mounting issues"
+    ]
+  },
+  "syntax": {
+    "basic": "mount [OPTIONS] [DEVICE] [DIRECTORY]",
+    "description": "Without arguments, mount displays all currently mounted filesystems. With device and directory, it mounts the device to the specified mount point.",
+    "examples": [
+      "mount",
+      "mount /dev/sdb1 /mnt",
+      "mount -t ext4 /dev/sdb1 /mnt",
+      "mount -o ro /dev/cdrom /media/cdrom"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-t, --types",
+      "short": "-t",
+      "long": "--types",
+      "description": "Specify filesystem type (ext4, ntfs, vfat, iso9660, etc.)",
+      "category": "filesystem",
+      "example": "mount -t ext4 /dev/sdb1 /mnt",
+      "use_case": "When mount cannot auto-detect the filesystem type"
+    },
+    {
+      "flag": "-o, --options",
+      "short": "-o",
+      "long": "--options",
+      "description": "Mount options (ro, rw, noexec, nosuid, etc.)",
+      "category": "mount",
+      "example": "mount -o ro /dev/sdb1 /mnt",
+      "use_case": "To mount read-only or with specific security options"
+    },
+    {
+      "flag": "-r, --read-only",
+      "short": "-r",
+      "long": "--read-only",
+      "description": "Mount the filesystem read-only",
+      "category": "mount",
+      "example": "mount -r /dev/sdb1 /mnt",
+      "use_case": "To prevent accidental modifications"
+    },
+    {
+      "flag": "-w, --rw, --read-write",
+      "short": "-w",
+      "long": "--read-write",
+      "description": "Mount the filesystem read-write (default)",
+      "category": "mount",
+      "example": "mount -w /dev/sdb1 /mnt",
+      "use_case": "Explicitly mount with write permissions"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Mount all filesystems mentioned in /etc/fstab",
+      "category": "mount",
+      "example": "mount -a",
+      "use_case": "During system boot or to mount all configured filesystems"
+    },
+    {
+      "flag": "-l, --show-labels",
+      "short": "-l",
+      "long": "--show-labels",
+      "description": "Show filesystem labels in output",
+      "category": "display",
+      "example": "mount -l",
+      "use_case": "To see filesystem labels when listing mounts"
+    },
+    {
+      "flag": "-n, --no-mtab",
+      "short": "-n",
+      "long": "--no-mtab",
+      "description": "Don't write to /etc/mtab",
+      "category": "mount",
+      "example": "mount -n /dev/sdb1 /mnt",
+      "use_case": "When /etc/mtab is read-only or unavailable"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose mode",
+      "category": "display",
+      "example": "mount -v /dev/sdb1 /mnt",
+      "use_case": "To see detailed mount information"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all mounted filesystems",
+      "command": "mount",
+      "description": "Display all currently mounted filesystems with their mount points and options",
+      "output": "/dev/sda1 on / type ext4 (rw,relatime,errors=remount-ro)\n/dev/sdb1 on /mnt type ext4 (rw,relatime)",
+      "use_case": "Check what filesystems are currently mounted"
+    },
+    {
+      "title": "Mount a USB drive",
+      "command": "sudo mount /dev/sdb1 /mnt",
+      "description": "Mount the first partition of USB device sdb to /mnt directory",
+      "use_case": "Access files on a USB drive"
+    },
+    {
+      "title": "Mount ISO image",
+      "command": "sudo mount -o loop disk.iso /mnt",
+      "description": "Mount an ISO image file as a loop device to /mnt",
+      "use_case": "Access contents of an ISO file without burning to disc"
+    },
+    {
+      "title": "Mount read-only",
+      "command": "sudo mount -r /dev/sdb1 /mnt",
+      "description": "Mount filesystem in read-only mode to prevent modifications",
+      "use_case": "Safely access a filesystem without risk of accidental changes"
+    },
+    {
+      "title": "Mount with specific filesystem type",
+      "command": "sudo mount -t ntfs /dev/sdb1 /mnt",
+      "description": "Mount a Windows NTFS partition",
+      "use_case": "Access Windows-formatted drives on Linux"
+    },
+    {
+      "title": "Mount all from fstab",
+      "command": "sudo mount -a",
+      "description": "Mount all filesystems defined in /etc/fstab",
+      "use_case": "During system initialization or after editing fstab"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Auto-mounting",
+      "misconception": "All devices need to be manually mounted",
+      "reality": "Modern Linux systems (like Ubuntu) auto-mount USB drives and other removable media to /media or /mnt",
+      "tip": "Check /media or /mnt directories - your device might already be mounted"
+    },
+    {
+      "title": "Mount point creation",
+      "misconception": "Mount command creates the mount point directory",
+      "reality": "The mount point directory must exist before mounting. Use 'mkdir' to create it first.",
+      "tip": "Always create the mount point directory with 'mkdir' before mounting"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Permission denied",
+      "description": "Mounting typically requires root privileges",
+      "solution": "Use 'sudo' before the mount command, or configure /etc/fstab with user option for non-root mounting"
+    },
+    {
+      "issue": "Device busy",
+      "description": "Cannot unmount because device is in use",
+      "solution": "Close all files and directories on the mounted filesystem, or use 'lsof' to find what's using it"
+    },
+    {
+      "issue": "Wrong filesystem type",
+      "description": "Mount fails with 'wrong fs type' error",
+      "solution": "Use 'blkid' or 'lsblk -f' to identify the filesystem type, then specify with -t option"
+    },
+    {
+      "issue": "Mount point doesn't exist",
+      "description": "Mount fails because directory doesn't exist",
+      "solution": "Create the mount point directory first: 'sudo mkdir -p /mnt'"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "umount",
+      "relationship": "Complementary",
+      "description": "umount unmounts filesystems that were mounted with mount"
+    },
+    {
+      "command": "lsblk",
+      "relationship": "Complementary",
+      "description": "lsblk lists block devices to identify what to mount"
+    },
+    {
+      "command": "blkid",
+      "relationship": "Complementary",
+      "description": "blkid shows filesystem types and UUIDs for mounting"
+    },
+    {
+      "command": "fstab",
+      "relationship": "Complementary",
+      "description": "/etc/fstab file defines filesystems to mount automatically"
+    }
+  ],
+  "best_practices": [
+    "Always use 'sudo' for mounting (unless configured otherwise)",
+    "Create mount point directories before mounting",
+    "Use 'mount' without arguments to verify mounts",
+    "Check /etc/fstab for persistent mount configurations",
+    "Use 'umount' to safely unmount before removing devices",
+    "Verify device names with 'lsblk' before mounting"
+  ],
+  "performance_tips": [
+    "Mounting network filesystems can be slow - use 'mount -o soft' for better timeout handling",
+    "For read-only access, use '-r' option to improve performance"
+  ],
+  "additional_notes": {
+    "warning": "Improper mounting can cause data loss. Always unmount before removing storage devices.",
+    "fstab": "For permanent mounts, add entries to /etc/fstab instead of mounting manually each time"
+  }
+}

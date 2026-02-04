@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "name": "traceroute",
+    "displayName": "traceroute - Print route packets take to a host",
+    "category": "Network",
+    "tags": ["network", "routing", "diagnostics", "connectivity", "intermediate"],
+    "description": "Trace the path packets take to a network host",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "inetutils-traceroute / traceroute (varies by distro)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "traceroute",
+      "manager": "apt",
+      "command": "sudo apt install traceroute"
+    },
+    "note": "On some Ubuntu systems traceroute is in the inetutils-traceroute or traceroute package"
+  },
+  "overview": {
+    "summary": "traceroute shows the path that packets take from your machine to a destination host. It displays each hop (router) along the way and round-trip times, helping identify where latency or packet loss occurs.",
+    "when_to_use": [
+      "Diagnose network connectivity or latency issues",
+      "See which routers packets pass through to a host",
+      "Identify where a path fails or becomes slow"
+    ]
+  },
+  "syntax": {
+    "basic": "traceroute [OPTIONS] HOST",
+    "description": "HOST can be a hostname or IP address. Options control probe count, timeout, and display.",
+    "examples": [
+      "traceroute example.com",
+      "traceroute -n 8.8.8.8",
+      "traceroute -m 15 192.168.1.1"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n",
+      "short": "-n",
+      "long": null,
+      "description": "Do not resolve IP addresses to hostnames (faster, less DNS dependency)",
+      "category": "display",
+      "example": "traceroute -n example.com",
+      "use_case": "When you want quicker output or DNS is slow/unavailable"
+    },
+    {
+      "flag": "-m, --max-hops",
+      "short": "-m",
+      "long": "--max-hops",
+      "description": "Maximum number of hops to probe (default often 30)",
+      "category": "behavior",
+      "example": "traceroute -m 20 example.com",
+      "use_case": "Limit how far to trace"
+    },
+    {
+      "flag": "-w, --wait",
+      "short": "-w",
+      "long": "--wait",
+      "description": "Time to wait for a response (seconds)",
+      "category": "behavior",
+      "example": "traceroute -w 2 example.com",
+      "use_case": "Adjust timeout on slow or lossy paths"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Trace route to a host",
+      "command": "traceroute example.com",
+      "description": "Show each hop and RTT to example.com",
+      "use_case": "Basic path and latency check"
+    },
+    {
+      "title": "Trace without DNS lookups",
+      "command": "traceroute -n 8.8.8.8",
+      "description": "Trace to Google DNS showing only IPs",
+      "use_case": "Faster output, useful when DNS is slow"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ping",
+      "relationship": "Complementary",
+      "description": "Test reachability and latency to a single host"
+    },
+    {
+      "command": "mtr",
+      "relationship": "Alternative",
+      "description": "Combines ping and traceroute with continuous updates (if installed)"
+    }
+  ]
+}

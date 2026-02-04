@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "name": "sh",
+    "displayName": "sh - Shell command interpreter",
+    "category": "Shell & Environment",
+    "tags": ["shell", "interpreter", "posix", "scripting", "beginner"],
+    "description": "Shell command interpreter (POSIX)",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "dash / bash (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "sh is a POSIX-compliant shell; on Debian/Ubuntu it is usually dash, on some systems a link to bash"
+  },
+  "overview": {
+    "summary": "sh is the standard Unix shell command interpreter. It runs scripts and commands in a POSIX-compliant way. On many Linux systems sh is dash (lightweight) or a symlink to bash; scripts that start with #!/bin/sh should be portable.",
+    "when_to_use": [
+      "Run a script with #!/bin/sh (portable scripts)",
+      "Ensure POSIX shell behavior",
+      "Start a minimal shell (dash is faster for scripts)"
+    ]
+  },
+  "syntax": {
+    "basic": "sh [OPTIONS] [SCRIPT] [ARGS]",
+    "description": "Without SCRIPT, sh starts an interactive shell (if supported). With SCRIPT, it runs the script.",
+    "examples": [
+      "sh script.sh",
+      "sh -c 'echo hello'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c COMMAND",
+      "short": "-c",
+      "long": null,
+      "description": "Run COMMAND as a single string",
+      "category": "behavior",
+      "example": "sh -c 'echo hello'",
+      "use_case": "Execute one command"
+    },
+    {
+      "flag": "-e",
+      "short": "-e",
+      "long": null,
+      "description": "Exit immediately if a command exits non-zero",
+      "category": "behavior",
+      "example": "sh -e script.sh",
+      "use_case": "Fail script on first error"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run a portable script",
+      "command": "sh script.sh",
+      "description": "Execute script.sh with the default sh (dash or bash)",
+      "use_case": "Run scripts that use #!/bin/sh"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "bash",
+      "relationship": "Related",
+      "description": "Extended shell; sh is often dash or bash in sh mode"
+    }
+  ]
+}

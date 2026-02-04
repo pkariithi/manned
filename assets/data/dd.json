@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "name": "dd",
+    "displayName": "dd - Convert and copy files (disk operations)",
+    "category": "Disk Management",
+    "tags": ["disk", "copy", "image", "advanced"],
+    "description": "Convert and copy files (low-level block copy)",
+    "popularity": 7,
+    "difficulty": "advanced",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "dd is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "dd reads from an input (file or device) and writes to an output in blocks. It is used for cloning disks, creating disk images, writing ISO to USB, and low-level copying. A wrong output can overwrite data; use with extreme care.",
+    "when_to_use": [
+      "Clone a disk or partition (dd if= of=)",
+      "Create or write a disk image (e.g., ISO to USB)",
+      "Wipe a device (dd if=/dev/zero of=...) or create swap file"
+    ]
+  },
+  "syntax": {
+    "basic": "dd [OPTIONS] [OPERAND]...",
+    "description": "Common operands: if=FILE (input), of=FILE (output), bs=SIZE (block size), count=N (blocks to copy).",
+    "examples": [
+      "dd if=/dev/sdb of=backup.img bs=4M",
+      "dd if=image.iso of=/dev/sdc bs=4M status=progress",
+      "dd if=/dev/zero of=swapfile bs=1M count=1024"
+    ]
+  },
+  "options": [
+    {
+      "flag": "if=FILE",
+      "short": null,
+      "long": null,
+      "description": "Input file or device (read from)",
+      "category": "operand",
+      "example": "dd if=/dev/sdb of=backup.img",
+      "use_case": "Source for copy"
+    },
+    {
+      "flag": "of=FILE",
+      "short": null,
+      "long": null,
+      "description": "Output file or device (write to)",
+      "category": "operand",
+      "example": "dd if=image.iso of=/dev/sdc",
+      "use_case": "Destination (double-check device)"
+    },
+    {
+      "flag": "bs=SIZE",
+      "short": null,
+      "long": null,
+      "description": "Block size (e.g., 4M, 512); read/write in this size",
+      "category": "operand",
+      "example": "dd bs=4M if=... of=...",
+      "use_case": "Larger bs can be faster"
+    },
+    {
+      "flag": "count=N",
+      "short": null,
+      "long": null,
+      "description": "Copy N blocks (default: until input ends)",
+      "category": "operand",
+      "example": "dd if=/dev/zero of=file bs=1M count=100",
+      "use_case": "Limit how much to copy"
+    },
+    {
+      "flag": "status=progress",
+      "short": null,
+      "long": null,
+      "description": "Print progress (GNU dd)",
+      "category": "display",
+      "example": "dd if=... of=... status=progress",
+      "use_case": "See copy progress"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Clone a disk to an image",
+      "command": "sudo dd if=/dev/sdb of=backup.img bs=4M status=progress",
+      "description": "Create a raw image of /dev/sdb",
+      "use_case": "Full-disk backup"
+    },
+    {
+      "title": "Write ISO to USB",
+      "command": "sudo dd if=ubuntu.iso of=/dev/sdc bs=4M status=progress",
+      "description": "Write ISO to USB device (replace /dev/sdc with your USB)",
+      "use_case": "Create bootable USB (confirm device)"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong of= device",
+      "description": "Writing to the wrong device (e.g., of=/dev/sda instead of /dev/sdc) can destroy the system disk.",
+      "solution": "Confirm output device with lsblk; triple-check before pressing Enter."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cp",
+      "relationship": "Alternative",
+      "description": "For regular files use cp; dd is for devices/block copy"
+    },
+    {
+      "command": "rsync",
+      "relationship": "Alternative",
+      "description": "For file-level copy with progress and resume"
+    }
+  ]
+}

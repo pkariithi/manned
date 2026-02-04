@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "name": "lsof",
+    "displayName": "lsof - List open files and processes",
+    "category": "System Information",
+    "tags": ["files", "processes", "open", "diagnostics", "advanced"],
+    "description": "List open files and the processes using them",
+    "popularity": 7,
+    "difficulty": "advanced",
+    "version": "lsof 4.x+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lsof is commonly installed by default on many Linux distributions; if missing: sudo apt install lsof"
+  },
+  "overview": {
+    "summary": "lsof lists open files (regular files, directories, sockets, pipes, etc.) and the processes that have them open. It is essential for finding what process is using a file, port, or device—for example, why a disk cannot be unmounted or which process holds a port.",
+    "when_to_use": [
+      "Find which process is using a file or directory (e.g., preventing umount)",
+      "See which process is listening on or using a port",
+      "List all files opened by a specific process"
+    ]
+  },
+  "syntax": {
+    "basic": "lsof [OPTIONS] [NAME]",
+    "description": "Without NAME, lsof lists all open files (often requires root). NAME can be a file path, device, or other selector.",
+    "examples": [
+      "sudo lsof /mnt",
+      "lsof -i :80",
+      "lsof -p 1234"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-i [SELECTOR]",
+      "short": "-i",
+      "long": null,
+      "description": "List network files. SELECTOR can be :port, @host, etc. (e.g., -i :80 or -i TCP)",
+      "category": "filter",
+      "example": "lsof -i :22",
+      "use_case": "Find process using a specific port"
+    },
+    {
+      "flag": "-p, --pid",
+      "short": "-p",
+      "long": "--pid",
+      "description": "List open files for the given process ID(s)",
+      "category": "filter",
+      "example": "lsof -p 1234",
+      "use_case": "See everything a process has open"
+    },
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "List only files opened by the given user(s)",
+      "category": "filter",
+      "example": "lsof -u www-data",
+      "use_case": "Audit or debug by user"
+    },
+    {
+      "flag": "-c, --command",
+      "short": "-c",
+      "long": "--command",
+      "description": "List only files opened by processes whose command name matches the given pattern",
+      "category": "filter",
+      "example": "lsof -c nginx",
+      "use_case": "Limit to a specific program"
+    }
+  ],
+  "examples": [
+    {
+      "title": "What is using a mount point",
+      "command": "sudo lsof /mnt",
+      "description": "Show processes with files open under /mnt (e.g., why umount fails)",
+      "use_case": "Troubleshoot 'device is busy' when unmounting"
+    },
+    {
+      "title": "What is using port 80",
+      "command": "sudo lsof -i :80",
+      "description": "List processes listening on or connected to TCP port 80",
+      "use_case": "Find which web server holds port 80"
+    },
+    {
+      "title": "Files opened by a process",
+      "command": "lsof -p 1234",
+      "description": "List all open files for process ID 1234",
+      "use_case": "Debug or audit a specific process"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "No permission to see all processes",
+      "description": "Non-root users see only their own processes; many open files are hidden.",
+      "solution": "Use sudo lsof when you need system-wide or another user's open files."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "fuser",
+      "relationship": "Alternative",
+      "description": "Identify processes using a file or socket (e.g., fuser -k /mnt)"
+    },
+    {
+      "command": "ss",
+      "relationship": "Related",
+      "description": "List sockets (network connections); lsof -i shows more process context"
+    }
+  ]
+}

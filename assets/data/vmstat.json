@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "name": "vmstat",
+    "displayName": "vmstat - Report virtual memory statistics",
+    "category": "System Information",
+    "tags": ["memory", "vm", "system", "performance", "intermediate"],
+    "description": "Report virtual memory, processes, and I/O statistics",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "procps-ng / util-linux (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "vmstat is commonly available by default (procps or util-linux package)"
+  },
+  "overview": {
+    "summary": "vmstat reports virtual memory statistics, process counts, and block I/O. It can run once or repeatedly with a delay, helping you spot memory pressure, swap usage, and CPU/IO activity.",
+    "when_to_use": [
+      "Check memory and swap usage at a glance",
+      "Monitor process, block I/O, and CPU activity over time",
+      "Troubleshoot performance or memory issues"
+    ]
+  },
+  "syntax": {
+    "basic": "vmstat [OPTIONS] [DELAY [COUNT]]",
+    "description": "Without arguments, vmstat prints one snapshot. With DELAY (seconds), it repeats; with COUNT, it repeats that many times.",
+    "examples": [
+      "vmstat",
+      "vmstat 2",
+      "vmstat 2 10"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s, --stats",
+      "short": "-s",
+      "long": "--stats",
+      "description": "Display event counters and memory statistics (one-shot)",
+      "category": "display",
+      "example": "vmstat -s",
+      "use_case": "See detailed memory and event summary"
+    },
+    {
+      "flag": "-S, --unit",
+      "short": "-S",
+      "long": "--unit",
+      "description": "Switch output unit (k, K, m, M for KB/MB)",
+      "category": "display",
+      "example": "vmstat -S M",
+      "use_case": "Human-readable memory units"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Single snapshot",
+      "command": "vmstat",
+      "description": "Print current memory, process, and I/O stats",
+      "use_case": "Quick system health check"
+    },
+    {
+      "title": "Monitor every 2 seconds",
+      "command": "vmstat 2",
+      "description": "Update statistics every 2 seconds until interrupted",
+      "use_case": "Watch trends in memory and I/O"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "free",
+      "relationship": "Complementary",
+      "description": "Shows memory usage in a simpler format"
+    },
+    {
+      "command": "top",
+      "relationship": "Related",
+      "description": "Interactive process and resource view"
+    }
+  ]
+}

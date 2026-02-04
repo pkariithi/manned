@@ -1,0 +1,122 @@
+{
+  "metadata": {
+    "name": "usermod",
+    "displayName": "usermod - Modify a user account",
+    "category": "User & Permissions",
+    "tags": ["user", "account", "modify", "admin", "advanced"],
+    "description": "Modify an existing user account",
+    "popularity": 5,
+    "difficulty": "advanced",
+    "version": "shadow-utils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "usermod is a core admin command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "usermod changes an existing user's attributes: shell, home directory, groups, UID, lock/unlock, etc. The user must not be logged in (or only in a way that doesn't conflict) when changing UID or home.",
+    "when_to_use": [
+      "Change a user's shell, home dir, or groups",
+      "Add a user to supplementary groups (-aG)",
+      "Rename a user (-l) or change UID (-u)"
+    ]
+  },
+  "syntax": {
+    "basic": "usermod [OPTIONS] USERNAME",
+    "description": "USERNAME is required. Options modify shell (-s), home (-d), groups (-G, -aG), UID (-u), lock (-L), unlock (-U), etc.",
+    "examples": [
+      "sudo usermod -s /bin/zsh jane",
+      "sudo usermod -aG sudo jane",
+      "sudo usermod -L jane"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s, --shell",
+      "short": "-s",
+      "long": "--shell",
+      "description": "Set the user's login shell",
+      "category": "account",
+      "example": "sudo usermod -s /bin/zsh jane",
+      "use_case": "Change default shell"
+    },
+    {
+      "flag": "-d, --home",
+      "short": "-d",
+      "long": "--home",
+      "description": "Set new home directory path",
+      "category": "account",
+      "example": "sudo usermod -d /home/jane2 jane",
+      "use_case": "Move or set home directory"
+    },
+    {
+      "flag": "-a, --append",
+      "short": "-a",
+      "long": "--append",
+      "description": "Append user to supplementary groups (use with -G)",
+      "category": "account",
+      "example": "sudo usermod -aG sudo jane",
+      "use_case": "Add user to group without removing existing groups"
+    },
+    {
+      "flag": "-G, --groups",
+      "short": "-G",
+      "long": "--groups",
+      "description": "Set supplementary groups (replaces list; use -aG to append)",
+      "category": "account",
+      "example": "sudo usermod -aG developers jane",
+      "use_case": "Grant group membership"
+    },
+    {
+      "flag": "-L, --lock",
+      "short": "-L",
+      "long": "--lock",
+      "description": "Lock the user's password",
+      "category": "admin",
+      "example": "sudo usermod -L jane",
+      "use_case": "Disable login (same idea as passwd -l)"
+    },
+    {
+      "flag": "-U, --unlock",
+      "short": "-U",
+      "long": "--unlock",
+      "description": "Unlock the user's password",
+      "category": "admin",
+      "example": "sudo usermod -U jane",
+      "use_case": "Re-enable login"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Add user to sudo group",
+      "command": "sudo usermod -aG sudo jane",
+      "description": "Append jane to the sudo group (she can use sudo)",
+      "use_case": "Grant admin rights"
+    },
+    {
+      "title": "Change login shell",
+      "command": "sudo usermod -s /bin/zsh jane",
+      "description": "Set jane's default shell to zsh",
+      "use_case": "Switch user to zsh"
+    },
+    {
+      "title": "Lock account",
+      "command": "sudo usermod -L jane",
+      "description": "Lock jane's password (disable login)",
+      "use_case": "Temporarily disable account"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "useradd",
+      "relationship": "Related",
+      "description": "Create user; usermod modifies existing user"
+    },
+    {
+      "command": "passwd",
+      "relationship": "Related",
+      "description": "Change password; usermod -L locks it"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "name": "sync",
+    "displayName": "sync - Synchronize cached writes to disk",
+    "category": "System Utilities",
+    "tags": ["disk", "cache", "flush", "storage", "intermediate"],
+    "description": "Flush filesystem caches to persistent storage",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "sync is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The sync command flushes modified buffer cache data to disk. It ensures that all pending writes in memory are written to persistent storage. Useful before unmounting removable media or before shutdown to reduce risk of data loss.",
+    "when_to_use": [
+      "Before safely removing a USB drive or unmounting a filesystem",
+      "After copying important data and before power-off",
+      "Ensure all buffered writes are on disk"
+    ]
+  },
+  "syntax": {
+    "basic": "sync [OPTIONS] [FILE]...",
+    "description": "Without arguments, sync flushes all filesystem caches. With FILE(s), some implementations sync only those files (GNU sync syncs everything).",
+    "examples": [
+      "sync",
+      "sync /mnt/usb"
+    ]
+  },
+  "options": [
+    {
+      "flag": "--help",
+      "short": null,
+      "long": "--help",
+      "description": "Display help (implementation-specific)",
+      "category": "help",
+      "example": "sync --help",
+      "use_case": "Check behavior on your system"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Flush all caches before removing USB",
+      "command": "sync",
+      "description": "Ensure all buffered writes are written to disk before unplugging",
+      "use_case": "Safely remove external storage"
+    },
+    {
+      "title": "Sync then unmount",
+      "command": "sync && sudo umount /mnt",
+      "description": "Flush caches then unmount the filesystem",
+      "use_case": "Clean unmount after copying data"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "sync does not unmount",
+      "description": "sync only flushes caches; it does not unmount filesystems or eject media.",
+      "solution": "Run sync, then use umount (and optionally eject) to safely remove media."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "umount",
+      "relationship": "Complementary",
+      "description": "Unmount a filesystem; run sync before umount when removing media"
+    },
+    {
+      "command": "mount",
+      "relationship": "Related",
+      "description": "Mount filesystems; sync before unmounting"
+    }
+  ]
+}

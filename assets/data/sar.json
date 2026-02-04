@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "name": "sar",
+    "displayName": "sar - System activity reporter",
+    "category": "Monitoring",
+    "tags": ["monitoring", "performance", "system", "advanced"],
+    "description": "Collect, report, or save system activity",
+    "popularity": 5,
+    "difficulty": "advanced",
+    "version": "sysstat (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "sysstat",
+      "manager": "apt",
+      "command": "sudo apt install sysstat"
+    },
+    "note": "sar is part of sysstat; enable sadc collection (e.g., in /etc/default/sysstat) for historical data"
+  },
+  "overview": {
+    "summary": "sar (system activity reporter) reports CPU, memory, I/O, network, and other activity. It can show current stats or historical data if sysstat collection is enabled. Useful for post-incident analysis and capacity planning.",
+    "when_to_use": [
+      "View historical CPU, I/O, or network usage",
+      "Analyze system activity over a time range",
+      "Troubleshoot past performance issues"
+    ]
+  },
+  "syntax": {
+    "basic": "sar [OPTIONS] [INTERVAL [COUNT]]",
+    "description": "Without INTERVAL, sar may show historical data (if available). With INTERVAL, it samples live; COUNT limits samples.",
+    "examples": [
+      "sar",
+      "sar 2 10",
+      "sar -u -s 10:00 -e 11:00"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-u",
+      "short": "-u",
+      "long": null,
+      "description": "Report CPU utilization",
+      "category": "report",
+      "example": "sar -u 2 5",
+      "use_case": "CPU usage over time"
+    },
+    {
+      "flag": "-r",
+      "short": "-r",
+      "long": null,
+      "description": "Report memory and swap usage",
+      "category": "report",
+      "example": "sar -r 2 5",
+      "use_case": "Memory stats"
+    },
+    {
+      "flag": "-d",
+      "short": "-d",
+      "long": null,
+      "description": "Report disk I/O",
+      "category": "report",
+      "example": "sar -d 2 5",
+      "use_case": "Disk activity"
+    },
+    {
+      "flag": "-s, -e",
+      "short": null,
+      "long": null,
+      "description": "Start (-s) and end (-e) time for historical data",
+      "category": "time",
+      "example": "sar -u -s 10:00 -e 11:00",
+      "use_case": "Historical range"
+    }
+  ],
+  "examples": [
+    {
+      "title": "CPU usage every 2 seconds (5 times)",
+      "command": "sar -u 2 5",
+      "description": "Sample CPU every 2 seconds, 5 times",
+      "use_case": "Live CPU monitoring"
+    },
+    {
+      "title": "Historical CPU (if collected)",
+      "command": "sar -u",
+      "description": "Show today's CPU history from saved data",
+      "use_case": "Review past CPU usage"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "iostat",
+      "relationship": "Related",
+      "description": "I/O and CPU stats (same sysstat package)"
+    },
+    {
+      "command": "vmstat",
+      "relationship": "Related",
+      "description": "Virtual memory and process stats"
+    }
+  ]
+}

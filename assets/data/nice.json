@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "name": "nice",
+    "displayName": "nice - Run a program with modified priority",
+    "category": "Process Management",
+    "tags": ["priority", "scheduling", "processes", "system", "intermediate"],
+    "description": "Run a command with a specified nice value (scheduling priority)",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "nice is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The nice command runs another command with an adjusted scheduling priority (nice value). Lower priority (higher nice value) means the process is \"nicer\" to other processes and gets less CPU time. Useful for running non-critical tasks in the background without impacting interactive or critical workloads.",
+    "when_to_use": [
+      "Run a long batch job with lower priority so it does not slow the system",
+      "Start a backup or build with reduced CPU contention",
+      "Run non-urgent tasks so interactive use stays responsive"
+    ]
+  },
+  "syntax": {
+    "basic": "nice [OPTION] [COMMAND [ARG]...]",
+    "description": "If no COMMAND is given, nice prints the current default nice value. With a command, it runs that command with an adjusted nice value.",
+    "examples": [
+      "nice -n 19 ./long_script.sh",
+      "nice -n 10 make",
+      "nice ./backup.sh"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --adjustment",
+      "short": "-n",
+      "long": "--adjustment",
+      "description": "Add ADJUSTMENT to the nice value (default 10). Range is typically -20 (highest priority) to 19 (lowest).",
+      "category": "priority",
+      "example": "nice -n 19 ./script.sh",
+      "use_case": "Set a specific nice value; 19 is common for low-priority background work"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run a script with lowest priority",
+      "command": "nice -n 19 ./long_script.sh",
+      "description": "Run the script with nice value 19 so it uses CPU only when others are idle",
+      "use_case": "Background tasks that should not affect interactive use"
+    },
+    {
+      "title": "Run make with slightly lower priority",
+      "command": "nice -n 5 make -j4",
+      "description": "Build with a modest priority reduction",
+      "use_case": "Compilation that should not starve other processes"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Non-root cannot increase priority",
+      "description": "Only root can use negative nice values (e.g., nice -n -5) to give higher priority.",
+      "solution": "Regular users can only lower priority (positive nice or default). Use sudo for negative nice if permitted by policy."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "renice",
+      "relationship": "Complementary",
+      "description": "Change the nice value of an already-running process"
+    },
+    {
+      "command": "top",
+      "relationship": "Related",
+      "description": "Shows NI (nice) column for running processes"
+    }
+  ]
+}

@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "name": "ss",
+    "displayName": "ss - Another utility to investigate sockets (modern replacement for netstat)",
+    "category": "Network",
+    "tags": ["network", "sockets", "connections", "ports", "intermediate"],
+    "description": "Another utility to investigate sockets (modern replacement for netstat)",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "iproute2 5.10+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "ss is part of the iproute2 package, which is installed by default on modern Linux systems"
+  },
+  "overview": {
+    "summary": "The ss command is a modern replacement for netstat that displays socket statistics. It's faster, more efficient, and provides more detailed information than netstat. ss directly queries the kernel for socket information, making it the preferred tool for network socket investigation on modern Linux systems.",
+    "when_to_use": [
+      "List network connections and sockets",
+      "Check listening ports",
+      "Monitor network socket statistics",
+      "Identify processes using network ports",
+      "Troubleshoot network connectivity",
+      "Investigate socket states and connections",
+      "Check for suspicious network activity"
+    ]
+  },
+  "syntax": {
+    "basic": "ss [OPTIONS] [FILTER]",
+    "description": "ss displays socket information. Without options, it shows all established connections. Various filters can be applied to show specific socket types, states, or addresses.",
+    "examples": [
+      "ss -tuln",
+      "ss -tulpn",
+      "ss -s",
+      "ss -t state established"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-t, --tcp",
+      "short": "-t",
+      "long": "--tcp",
+      "description": "Show TCP sockets",
+      "category": "protocol",
+      "example": "ss -t",
+      "use_case": "Display only TCP connections"
+    },
+    {
+      "flag": "-u, --udp",
+      "short": "-u",
+      "long": "--udp",
+      "description": "Show UDP sockets",
+      "category": "protocol",
+      "example": "ss -u",
+      "use_case": "Display only UDP sockets"
+    },
+    {
+      "flag": "-l, --listening",
+      "short": "-l",
+      "long": "--listening",
+      "description": "Show only listening sockets",
+      "category": "display",
+      "example": "ss -l",
+      "use_case": "See which ports are listening for connections"
+    },
+    {
+      "flag": "-n, --numeric",
+      "short": "-n",
+      "long": "--numeric",
+      "description": "Don't resolve service names",
+      "category": "display",
+      "example": "ss -n",
+      "use_case": "Faster output without DNS/service name resolution"
+    },
+    {
+      "flag": "-p, --processes",
+      "short": "-p",
+      "long": "--processes",
+      "description": "Show process using socket",
+      "category": "display",
+      "example": "ss -p",
+      "use_case": "Identify which process owns each socket (may require root)"
+    },
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Display all sockets",
+      "category": "display",
+      "example": "ss -a",
+      "use_case": "Show both listening and non-listening sockets"
+    },
+    {
+      "flag": "-s, --summary",
+      "short": "-s",
+      "long": "--summary",
+      "description": "Print summary statistics",
+      "category": "statistics",
+      "example": "ss -s",
+      "use_case": "Get overview of socket statistics"
+    },
+    {
+      "flag": "-r, --resolve",
+      "short": "-r",
+      "long": "--resolve",
+      "description": "Resolve host names",
+      "category": "display",
+      "example": "ss -r",
+      "use_case": "Show hostnames instead of IP addresses"
+    },
+    {
+      "flag": "-H, --no-header",
+      "short": "-H",
+      "long": "--no-header",
+      "description": "Suppress header line",
+      "category": "display",
+      "example": "ss -H",
+      "use_case": "Cleaner output for scripting"
+    },
+    {
+      "flag": "-o, --options",
+      "short": "-o",
+      "long": "--options",
+      "description": "Show timer information",
+      "category": "display",
+      "example": "ss -o",
+      "use_case": "Display TCP timer information"
+    },
+    {
+      "flag": "-e, --extended",
+      "short": "-e",
+      "long": "--extended",
+      "description": "Show detailed socket information",
+      "category": "display",
+      "example": "ss -e",
+      "use_case": "Get extended socket details"
+    },
+    {
+      "flag": "-m, --memory",
+      "short": "-m",
+      "long": "--memory",
+      "description": "Show socket memory usage",
+      "category": "statistics",
+      "example": "ss -m",
+      "use_case": "Monitor socket memory consumption"
+    },
+    {
+      "flag": "-i, --info",
+      "short": "-i",
+      "long": "--info",
+      "description": "Show internal TCP information",
+      "category": "display",
+      "example": "ss -i",
+      "use_case": "Display detailed TCP connection information"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all listening ports",
+      "command": "sudo ss -tuln",
+      "description": "Show all TCP and UDP listening ports with numerical addresses",
+      "output": "Netid  State      Recv-Q Send-Q Local Address:Port  Peer Address:Port\ntcp    LISTEN     0      128     *:22                  *:*\ntcp    LISTEN     0      128     127.0.0.1:3306         *:*",
+      "use_case": "Check which ports are open and accepting connections"
+    },
+    {
+      "title": "Show connections with process info",
+      "command": "sudo ss -tulpn",
+      "description": "Display listening sockets with process names and PIDs",
+      "output": "Netid  State      Recv-Q Send-Q Local Address:Port  Peer Address:Port  Process\ntcp    LISTEN     0      128     *:22                  *:*                  users:((\"sshd\",pid=1234,fd=3))",
+      "use_case": "Identify which programs are using network ports"
+    },
+    {
+      "title": "Show socket summary",
+      "command": "ss -s",
+      "description": "Display summary statistics of all sockets",
+      "output": "Total: 1234 (kernel 0)\nTCP:   567 (estab 89, closed 0, orphaned 0, synrecv 0, timewait 0/0), ports 0\nUDP:   89\nRAW:   0\nFRAG:  0",
+      "use_case": "Get quick overview of network socket usage"
+    },
+    {
+      "title": "Show established TCP connections",
+      "command": "ss -t state established",
+      "description": "Display only established TCP connections",
+      "use_case": "See active network connections"
+    },
+    {
+      "title": "Show connections to specific port",
+      "command": "ss -tlnp sport :80",
+      "description": "Display sockets listening on port 80",
+      "use_case": "Check if a specific port is in use"
+    },
+    {
+      "title": "Show memory usage",
+      "command": "ss -m",
+      "description": "Display memory usage for each socket",
+      "use_case": "Monitor socket memory consumption"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Same as netstat",
+      "misconception": "ss and netstat are identical",
+      "reality": "ss is faster and more efficient than netstat, and provides more detailed information. It's the modern replacement.",
+      "tip": "Prefer ss over netstat for better performance and more features"
+    },
+    {
+      "title": "Requires installation",
+      "misconception": "ss needs to be installed separately",
+      "reality": "ss is part of iproute2, which is installed by default on modern Linux systems",
+      "tip": "ss should be available out of the box on Ubuntu and most modern distributions"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Process info not shown",
+      "description": "Process names not displayed without proper permissions",
+      "solution": "Use 'sudo' with '-p' option to see process information"
+    },
+    {
+      "issue": "Too much output",
+      "description": "Output can be overwhelming with many connections",
+      "solution": "Use filters like 'state established' or 'sport :PORT' to narrow results"
+    },
+    {
+      "issue": "Syntax differences from netstat",
+      "description": "ss has different syntax than netstat",
+      "solution": "Learn ss-specific filters and options. Use 'ss --help' for full syntax"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "netstat",
+      "relationship": "Alternative",
+      "description": "netstat is the older tool that ss replaces, but still widely used"
+    },
+    {
+      "command": "lsof",
+      "relationship": "Complementary",
+      "description": "lsof -i can also show network connections and processes"
+    },
+    {
+      "command": "ip",
+      "relationship": "Complementary",
+      "description": "ip command from iproute2 package handles routing and interfaces"
+    },
+    {
+      "command": "iftop",
+      "relationship": "Complementary",
+      "description": "iftop shows real-time network bandwidth usage"
+    }
+  ],
+  "best_practices": [
+    "Use 'ss' instead of netstat for better performance",
+    "Combine '-tuln' for comprehensive listening port information",
+    "Use '-p' with sudo to identify processes using ports",
+    "Use filters like 'state established' to narrow results",
+    "Use '-s' for quick summary statistics",
+    "Pipe output to 'grep' to filter specific ports or addresses"
+  ],
+  "performance_tips": [
+    "ss is significantly faster than netstat because it queries the kernel directly",
+    "Use '-n' flag to skip DNS resolution for faster output",
+    "Filters are processed efficiently by the kernel, making ss very fast even with many connections"
+  ],
+  "additional_notes": {
+    "modern_tool": "ss is the modern, recommended tool for socket investigation, replacing netstat",
+    "kernel_direct": "ss queries the kernel directly via netlink, making it faster than netstat which reads from /proc"
+  }
+}

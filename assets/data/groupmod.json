@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "name": "groupmod",
+    "displayName": "groupmod - Modify a group",
+    "category": "User & Permissions",
+    "tags": ["group", "modify", "admin", "permissions", "intermediate"],
+    "description": "Modify an existing group",
+    "popularity": 4,
+    "difficulty": "intermediate",
+    "version": "shadow-utils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "groupmod is a core admin command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "groupmod changes an existing group's name (-n) or GID (-g). Members are unchanged. Use with care: changing GID can affect file ownership for files owned by that group.",
+    "when_to_use": [
+      "Rename a group (-n)",
+      "Change a group's GID (-g) for consistency or NFS",
+      "Fix group identity without recreating it"
+    ]
+  },
+  "syntax": {
+    "basic": "groupmod [OPTIONS] GROUPNAME",
+    "description": "GROUPNAME is the current group name. Use -n to set a new name, -g to set a new GID.",
+    "examples": [
+      "sudo groupmod -n devs developers",
+      "sudo groupmod -g 1006 developers"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-n, --new-name",
+      "short": "-n",
+      "long": "--new-name",
+      "description": "Set new group name",
+      "category": "account",
+      "example": "sudo groupmod -n devs developers",
+      "use_case": "Rename a group"
+    },
+    {
+      "flag": "-g, --gid",
+      "short": "-g",
+      "long": "--gid",
+      "description": "Set new group ID (GID)",
+      "category": "account",
+      "example": "sudo groupmod -g 1006 developers",
+      "use_case": "Change GID (affects file ownership)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Rename a group",
+      "command": "sudo groupmod -n devs developers",
+      "description": "Rename group 'developers' to 'devs'",
+      "use_case": "Rename without changing membership"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "groupadd",
+      "relationship": "Related",
+      "description": "Create group; groupmod modifies it"
+    },
+    {
+      "command": "chgrp",
+      "relationship": "Related",
+      "description": "Change file group ownership (uses GID/name)"
+    }
+  ]
+}

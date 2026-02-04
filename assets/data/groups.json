@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "name": "groups",
+    "displayName": "groups - Print group names a user belongs to",
+    "category": "System Information",
+    "tags": ["user", "groups", "permissions", "system", "basic"],
+    "description": "Print group names a user belongs to",
+    "popularity": 5,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "groups is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The groups command displays the group memberships for a specified user, or for the current user if no username is provided. It's useful for checking user permissions and understanding which groups a user belongs to, which affects file access and system privileges.",
+    "when_to_use": [
+      "Check which groups the current user belongs to",
+      "View group memberships for another user",
+      "Verify user permissions and access rights",
+      "Troubleshoot file access issues",
+      "Understand user's group associations"
+    ]
+  },
+  "syntax": {
+    "basic": "groups [USERNAME]",
+    "description": "Without a username, groups displays groups for the current user. With a username, it shows groups for that user.",
+    "examples": [
+      "groups",
+      "groups username",
+      "groups $USER"
+    ]
+  },
+  "options": [
+    {
+      "flag": "--help",
+      "short": null,
+      "long": "--help",
+      "description": "Display help information",
+      "category": "help",
+      "example": "groups --help",
+      "use_case": "Show usage information"
+    },
+    {
+      "flag": "--version",
+      "short": null,
+      "long": "--version",
+      "description": "Display version information",
+      "category": "help",
+      "example": "groups --version",
+      "use_case": "Show version number"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Show current user's groups",
+      "command": "groups",
+      "description": "Display all groups the current user belongs to",
+      "output": "username : username adm dialout cdrom sudo dip plugdev lpadmin sambashare",
+      "output_explanation": {
+        "format": "username : group1 group2 group3 ...",
+        "elements": [
+          {
+            "element": "username",
+            "meaning": "The username (appears twice - once as label, once as primary group)"
+          },
+          {
+            "element": "adm",
+            "meaning": "Administration group - access to system logs"
+          },
+          {
+            "element": "sudo",
+            "meaning": "Group with sudo privileges"
+          },
+          {
+            "element": "dialout",
+            "meaning": "Group for serial port access"
+          }
+        ],
+        "notes": "The first group listed is typically the primary group. Other groups are supplementary groups."
+      },
+      "use_case": "Quick check of your own group memberships"
+    },
+    {
+      "title": "Show groups for specific user",
+      "command": "groups john",
+      "description": "Display all groups that user 'john' belongs to",
+      "output": "john : john developers sudo",
+      "use_case": "Check another user's group memberships (requires appropriate permissions)"
+    },
+    {
+      "title": "Use with environment variable",
+      "command": "groups $USER",
+      "description": "Display groups for the user specified by USER environment variable",
+      "use_case": "In scripts to check groups for the current user"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Shows all groups on system",
+      "misconception": "groups displays all groups on the system",
+      "reality": "groups only shows groups that the specified user belongs to, not all system groups",
+      "tip": "Use 'getent group' or 'cat /etc/group' to see all groups on the system"
+    },
+    {
+      "title": "Primary vs supplementary groups",
+      "misconception": "All groups shown have equal importance",
+      "reality": "The first group is the primary group (GID), others are supplementary groups",
+      "tip": "Primary group is used for new file creation. Supplementary groups grant additional permissions."
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Permission to view other users",
+      "description": "May not be able to view groups for other users",
+      "solution": "Use 'sudo' if you need to check groups for other users, or use 'id' command which provides similar information"
+    },
+    {
+      "issue": "Group changes not reflected",
+      "description": "New group memberships may not appear until user logs out and back in",
+      "solution": "User must log out and log back in, or use 'newgrp' command to activate new groups in current session"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "id",
+      "relationship": "Alternative",
+      "description": "id shows user and group IDs (numeric) in addition to names, and provides more detailed information"
+    },
+    {
+      "command": "whoami",
+      "relationship": "Complementary",
+      "description": "whoami shows current username, groups shows that user's groups"
+    },
+    {
+      "command": "getent",
+      "relationship": "Complementary",
+      "description": "getent group shows all groups, getent passwd shows user information"
+    },
+    {
+      "command": "usermod",
+      "relationship": "Complementary",
+      "description": "usermod -aG adds users to groups, groups displays the result"
+    }
+  ],
+  "best_practices": [
+    "Use 'groups' without arguments to check your own groups quickly",
+    "Combine with 'id' command for more detailed information including numeric IDs",
+    "Remember that group changes require re-login to take effect",
+    "Use 'newgrp' to temporarily switch primary group in current session"
+  ],
+  "performance_tips": [
+    "groups is very fast as it only reads /etc/group file",
+    "For scripts, 'id -Gn' provides similar output in a more parseable format"
+  ],
+  "additional_notes": {
+    "primary_group": "The first group listed is the primary group (GID), used as default for new files",
+    "supplementary_groups": "Additional groups grant extra permissions beyond the primary group",
+    "group_file": "Group information is stored in /etc/group file"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "name": "join",
+    "displayName": "join - Join lines of two files on a field",
+    "category": "Text Processing",
+    "tags": ["text", "csv", "merge", "data", "intermediate"],
+    "description": "Join lines of two sorted files based on a common field",
+    "popularity": 4,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "join is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The join command combines lines from two files based on a common join field (like a key). It behaves similarly to a relational database join, but it expects input files to be sorted on the join field by default.",
+    "when_to_use": [
+      "Merge two text files based on a shared key (like user id)",
+      "Combine reports exported as key/value files",
+      "Perform quick data joins without a database"
+    ]
+  },
+  "syntax": {
+    "basic": "join [OPTIONS] FILE1 FILE2",
+    "description": "By default, join uses the first whitespace-separated field as the key and expects both files to be sorted by that key.",
+    "examples": [
+      "join users.txt scores.txt",
+      "join -t ',' -1 1 -2 1 a.csv b.csv",
+      "join -a 1 -a 2 users.txt scores.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-t CHAR",
+      "short": "-t",
+      "long": null,
+      "description": "Use CHAR as the field separator (default is whitespace)",
+      "category": "parsing",
+      "example": "join -t ',' a.csv b.csv",
+      "use_case": "Joining CSV-like files"
+    },
+    {
+      "flag": "-1 FIELD",
+      "short": "-1",
+      "long": null,
+      "description": "Join on FIELD of FILE1 (1-based field index)",
+      "category": "join",
+      "example": "join -1 2 -2 1 a.txt b.txt",
+      "use_case": "When the key is not the first column"
+    },
+    {
+      "flag": "-2 FIELD",
+      "short": "-2",
+      "long": null,
+      "description": "Join on FIELD of FILE2 (1-based field index)",
+      "category": "join",
+      "example": "join -1 2 -2 1 a.txt b.txt",
+      "use_case": "When the key is not the first column"
+    },
+    {
+      "flag": "-a FILENUM",
+      "short": "-a",
+      "long": null,
+      "description": "Also print unpairable lines from file FILENUM (1 or 2)",
+      "category": "output",
+      "example": "join -a 1 -a 2 a.txt b.txt",
+      "use_case": "When you want a full outer join-like output"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Join two files by the first column",
+      "command": "join users.txt scores.txt",
+      "description": "Combine records that share the same first field (key) in both files",
+      "output": "1001 Alice 88\n1002 Bob 92",
+      "use_case": "Merge simple reports keyed by an id"
+    },
+    {
+      "title": "Join CSV files on the first column",
+      "command": "join -t ',' -1 1 -2 1 a.csv b.csv",
+      "description": "Join two comma-separated files on their first column",
+      "use_case": "Combine CSV exports without importing into a spreadsheet"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Input files not sorted",
+      "description": "join expects both files to be sorted on the join field; otherwise output can be incomplete or incorrect.",
+      "solution": "Sort first (e.g., sort -k1,1 users.txt > users.sorted) or use appropriate sort keys for your join field."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sort",
+      "relationship": "Complementary",
+      "description": "Sort files by the join key before running join"
+    },
+    {
+      "command": "paste",
+      "relationship": "Related",
+      "description": "Merge files side-by-side by line position (not by key)"
+    },
+    {
+      "command": "awk",
+      "relationship": "Alternative",
+      "description": "Can implement more flexible joins with scripting"
+    }
+  ]
+}

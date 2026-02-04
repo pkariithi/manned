@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "name": "atrm",
+    "displayName": "atrm - Remove at jobs from queue",
+    "category": "Task Scheduling",
+    "tags": ["schedule", "at", "remove", "intermediate"],
+    "description": "Remove pending jobs from the at queue",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "at (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "at",
+      "manager": "apt",
+      "command": "sudo apt install at"
+    },
+    "note": "atrm is part of the at package"
+  },
+  "overview": {
+    "summary": "atrm removes one or more pending at jobs from the queue. You specify job numbers (from atq). Only the job owner or root can remove a job.",
+    "when_to_use": [
+      "Cancel a scheduled at job",
+      "Remove a job by number (from atq)",
+      "Clear mistaken or obsolete at jobs"
+    ]
+  },
+  "syntax": {
+    "basic": "atrm [OPTIONS] JOB [JOB]...",
+    "description": "JOB is the job number shown by atq. Multiple job numbers can be given.",
+    "examples": [
+      "atrm 5",
+      "atrm 5 6 7"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Remove one job",
+      "command": "atrm 5",
+      "description": "Remove at job number 5 (from atq)",
+      "use_case": "Cancel a scheduled job"
+    },
+    {
+      "title": "Remove multiple jobs",
+      "command": "atrm 5 6 7",
+      "description": "Remove jobs 5, 6, and 7",
+      "use_case": "Cancel several jobs"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "atq",
+      "relationship": "Complementary",
+      "description": "List jobs to get numbers for atrm"
+    },
+    {
+      "command": "at",
+      "relationship": "Related",
+      "description": "Schedule jobs; atrm removes them (at -d JOB is equivalent)"
+    }
+  ]
+}

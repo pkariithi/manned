@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "name": "bzip2",
+    "displayName": "bzip2 - Compress files using bzip2",
+    "category": "Archive & Compression",
+    "tags": ["compression", "archive", "files", "bzip2", "intermediate"],
+    "description": "Compress files using the bzip2 algorithm",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "bzip2 1.0.x"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "bzip2 is commonly available by default on Linux systems"
+  },
+  "overview": {
+    "summary": "bzip2 compresses files using the Burrows-Wheeler block-sorting algorithm. It typically achieves better compression than gzip (smaller .bz2 files) at the cost of slower compression. By default it replaces the original file with a .bz2 file.",
+    "when_to_use": [
+      "Compress files for smaller size when speed is less critical",
+      "Create .bz2 archives (e.g., kernel source tarballs)",
+      "Decompress .bz2 files (bzip2 -d or bunzip2)"
+    ]
+  },
+  "syntax": {
+    "basic": "bzip2 [OPTIONS] [FILE]...",
+    "description": "Compress one or more files; each is replaced by a .bz2 file unless -k is used. With -d, decompress.",
+    "examples": [
+      "bzip2 file.txt",
+      "bzip2 -k file.txt",
+      "bzip2 -d file.txt.bz2"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --decompress",
+      "short": "-d",
+      "long": "--decompress",
+      "description": "Decompress files (same as bunzip2)",
+      "category": "operation",
+      "example": "bzip2 -d file.bz2",
+      "use_case": "Extract .bz2 files"
+    },
+    {
+      "flag": "-k, --keep",
+      "short": "-k",
+      "long": "--keep",
+      "description": "Keep original files; do not delete them after compression",
+      "category": "operation",
+      "example": "bzip2 -k file.txt",
+      "use_case": "Keep the source file and create file.txt.bz2"
+    },
+    {
+      "flag": "-1 to -9",
+      "short": "-9",
+      "long": null,
+      "description": "Block size (1=fastest/least compression, 9=best compression, default=9)",
+      "category": "compression",
+      "example": "bzip2 -1 file.txt",
+      "use_case": "Trade speed for size (-1 faster, -9 smaller)"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Display compression ratio and filenames",
+      "category": "display",
+      "example": "bzip2 -v file.txt",
+      "use_case": "See compression statistics"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Compress a file",
+      "command": "bzip2 file.txt",
+      "description": "Replace file.txt with file.txt.bz2",
+      "use_case": "Standard compression"
+    },
+    {
+      "title": "Compress and keep original",
+      "command": "bzip2 -k file.txt",
+      "description": "Create file.txt.bz2 and keep file.txt",
+      "use_case": "Keep a copy of the original"
+    },
+    {
+      "title": "Decompress",
+      "command": "bzip2 -d file.txt.bz2",
+      "description": "Extract file.txt from file.txt.bz2",
+      "use_case": "Same as bunzip2 file.txt.bz2"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "bunzip2",
+      "relationship": "Complementary",
+      "description": "Decompress .bz2 files (equivalent to bzip2 -d)"
+    },
+    {
+      "command": "gzip",
+      "relationship": "Alternative",
+      "description": "Faster compression; .gz format (often used instead of bzip2)"
+    }
+  ]
+}

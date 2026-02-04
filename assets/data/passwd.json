@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "name": "passwd",
+    "displayName": "passwd - Change user password",
+    "category": "User & Permissions",
+    "tags": ["password", "user", "auth", "security", "beginner"],
+    "description": "Change user password",
+    "popularity": 9,
+    "difficulty": "beginner",
+    "version": "shadow / passwd (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "passwd is a core system command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "passwd changes a user's password. Regular users can change only their own password; root can change any user's password and also lock/unlock accounts or set expiry. It updates the shadow password database.",
+    "when_to_use": [
+      "Change your own password",
+      "As root: change or lock another user's password",
+      "Set or expire passwords for user accounts"
+    ]
+  },
+  "syntax": {
+    "basic": "passwd [OPTIONS] [USERNAME]",
+    "description": "Without USERNAME, passwd changes the current user's password. Root can specify USERNAME.",
+    "examples": [
+      "passwd",
+      "sudo passwd jane",
+      "sudo passwd -l jane"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --lock",
+      "short": "-l",
+      "long": "--lock",
+      "description": "Lock the user's password (disable login)",
+      "category": "admin",
+      "example": "sudo passwd -l jane",
+      "use_case": "Disable an account without deleting it"
+    },
+    {
+      "flag": "-u, --unlock",
+      "short": "-u",
+      "long": "--unlock",
+      "description": "Unlock the user's password",
+      "category": "admin",
+      "example": "sudo passwd -u jane",
+      "use_case": "Re-enable a locked account"
+    },
+    {
+      "flag": "-e, --expire",
+      "short": "-e",
+      "long": "--expire",
+      "description": "Force password expiry (user must change at next login)",
+      "category": "admin",
+      "example": "sudo passwd -e jane",
+      "use_case": "Force a user to set a new password"
+    },
+    {
+      "flag": "-d, --delete",
+      "short": "-d",
+      "long": "--delete",
+      "description": "Delete the user's password (allow passwordless login; use with caution)",
+      "category": "admin",
+      "example": "sudo passwd -d jane",
+      "use_case": "Remove password (risky; often for special accounts)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Change your own password",
+      "command": "passwd",
+      "description": "Prompt for current password, then new password (twice)",
+      "use_case": "Regular password change"
+    },
+    {
+      "title": "Root: set another user's password",
+      "command": "sudo passwd jane",
+      "description": "Set or change password for user jane (root does not need current password)",
+      "use_case": "Admin setting or resetting a user password"
+    },
+    {
+      "title": "Lock an account",
+      "command": "sudo passwd -l jane",
+      "description": "Lock user jane so they cannot log in with password",
+      "use_case": "Temporarily disable an account"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "chage",
+      "relationship": "Complementary",
+      "description": "Change password expiry and aging (chage -l user)"
+    },
+    {
+      "command": "useradd",
+      "relationship": "Related",
+      "description": "Create user; passwd sets their initial password"
+    }
+  ]
+}

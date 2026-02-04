@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "name": "whereis",
+    "displayName": "whereis - Locate binary, source, and man page",
+    "category": "Shell & Environment",
+    "tags": ["path", "binary", "man", "source", "beginner"],
+    "description": "Locate the binary, source, and manual page for a command",
+    "popularity": 6,
+    "difficulty": "beginner",
+    "version": "GNU coreutils / util-linux (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "whereis is commonly available by default on Linux systems"
+  },
+  "overview": {
+    "summary": "whereis locates the binary (executable), source code, and manual page files for a given command name. It searches only in standard directories (PATH for binaries, MANPATH for man pages, etc.), so it is fast and predictable.",
+    "when_to_use": [
+      "Find where a command's executable is installed",
+      "Find the man page path for a command",
+      "Check if a command is installed and where"
+    ]
+  },
+  "syntax": {
+    "basic": "whereis [OPTIONS] NAME...",
+    "description": "NAME is the program name (e.g., ls, grep). whereis looks for binaries, man pages, and source in standard locations.",
+    "examples": [
+      "whereis ls",
+      "whereis -b grep",
+      "whereis -m gcc"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-b",
+      "short": "-b",
+      "long": null,
+      "description": "Search only for binaries (executables)",
+      "category": "search",
+      "example": "whereis -b python3",
+      "use_case": "Find only the executable path(s)"
+    },
+    {
+      "flag": "-m",
+      "short": "-m",
+      "long": null,
+      "description": "Search only for manual pages",
+      "category": "search",
+      "example": "whereis -m grep",
+      "use_case": "Find only man page locations"
+    },
+    {
+      "flag": "-s",
+      "short": "-s",
+      "long": null,
+      "description": "Search only for source files",
+      "category": "search",
+      "example": "whereis -s gcc",
+      "use_case": "Find source code location (if installed)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Find all locations for a command",
+      "command": "whereis ls",
+      "description": "Show binary, man page, and source paths for ls",
+      "output": "ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz",
+      "use_case": "See where a command and its docs live"
+    },
+    {
+      "title": "Find only the binary",
+      "command": "whereis -b grep",
+      "description": "Show only the grep executable path(s)",
+      "output": "grep: /usr/bin/grep",
+      "use_case": "Get the full path for scripting"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "which",
+      "relationship": "Alternative",
+      "description": "Shows only the executable used in PATH (one per name)"
+    },
+    {
+      "command": "locate",
+      "relationship": "Related",
+      "description": "Fast filename search across the whole system (database)"
+    }
+  ]
+}

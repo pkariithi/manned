@@ -131,5 +131,20 @@ void main() {
       expect(service.getCommandJson, isA<Function>());
     });
   });
+
+  group('CommandService Load All Commands', () {
+    testWidgets('loadCommands loads all command JSON files without error', (tester) async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      final service = CommandService();
+      await service.loadCommands();
+      final commands = service.getAllCommands();
+      // Should have loaded all command files (count must match assets/data/*.json in command_service.dart)
+      expect(commands.length, greaterThanOrEqualTo(130));
+      expect(commands, isNotEmpty);
+      // Spot-check: ls and umount should be present
+      expect(service.getCommandByName('ls'), isNotNull);
+      expect(service.getCommandByName('umount'), isNotNull);
+    }, skip: false);
+  });
 }
 

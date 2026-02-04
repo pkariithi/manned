@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "name": "mkfs",
+    "displayName": "mkfs - Build a Linux filesystem",
+    "category": "Disk Management",
+    "tags": ["filesystem", "format", "disk", "advanced"],
+    "description": "Build (format) a Linux filesystem",
+    "popularity": 6,
+    "difficulty": "advanced",
+    "version": "util-linux (mkfs is a front-end; mkfs.ext4, etc.)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "mkfs is a front-end; mkfs.ext4, mkfs.xfs, etc. are in e2fsprogs, xfsprogs, etc."
+  },
+  "overview": {
+    "summary": "mkfs (make filesystem) creates a filesystem on a partition or device. It is a front-end: mkfs.ext4 runs mke2fs, mkfs.xfs runs mkfs.xfs, etc. This erases existing data on the device. Use with extreme care.",
+    "when_to_use": [
+      "Format a new partition with ext4, xfs, or other type",
+      "Create a filesystem after partitioning (fdisk/parted)",
+      "Reformat a device (destroys data)"
+    ]
+  },
+  "syntax": {
+    "basic": "mkfs [OPTIONS] [-t TYPE] DEVICE",
+    "description": "DEVICE is the partition (e.g., /dev/sdb1). TYPE can be ext4, xfs, btrfs, etc. Often invoked as mkfs.ext4 DEVICE.",
+    "examples": [
+      "sudo mkfs.ext4 /dev/sdb1",
+      "sudo mkfs -t xfs /dev/sdb2",
+      "sudo mkfs.vfat /dev/sdc1"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-t, --type",
+      "short": "-t",
+      "long": "--type",
+      "description": "Specify filesystem type (ext4, xfs, btrfs, vfat, etc.)",
+      "category": "type",
+      "example": "sudo mkfs -t ext4 /dev/sdb1",
+      "use_case": "Choose filesystem type"
+    },
+    {
+      "flag": "-L, --label",
+      "short": "-L",
+      "long": "--label",
+      "description": "Set volume label (implementation-specific)",
+      "category": "config",
+      "example": "sudo mkfs.ext4 -L data /dev/sdb1",
+      "use_case": "Label for /etc/fstab or identification"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Format partition as ext4",
+      "command": "sudo mkfs.ext4 /dev/sdb1",
+      "description": "Create ext4 filesystem on /dev/sdb1 (erases data)",
+      "use_case": "Standard Linux filesystem"
+    },
+    {
+      "title": "Format as XFS",
+      "command": "sudo mkfs -t xfs /dev/sdb2",
+      "description": "Create XFS filesystem",
+      "use_case": "XFS for large files or performance"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong device",
+      "description": "Formatting the wrong partition destroys all data on it.",
+      "solution": "Confirm device with lsblk or fdisk -l; never format the system root or data you need."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "fdisk",
+      "relationship": "Complementary",
+      "description": "Partition first; then mkfs to format"
+    },
+    {
+      "command": "mount",
+      "relationship": "Complementary",
+      "description": "Mount the new filesystem after mkfs"
+    }
+  ]
+}

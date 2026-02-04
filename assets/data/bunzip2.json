@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "name": "bunzip2",
+    "displayName": "bunzip2 - Decompress bzip2 files",
+    "category": "Archive & Compression",
+    "tags": ["compression", "bzip2", "decompress", "beginner"],
+    "description": "Decompress files compressed with bzip2",
+    "popularity": 6,
+    "difficulty": "beginner",
+    "version": "bzip2 1.0.x"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "bunzip2 is commonly available by default (same as bzip2 -d)"
+  },
+  "overview": {
+    "summary": "bunzip2 decompresses files that were compressed with bzip2 (.bz2). It is equivalent to bzip2 -d. By default it removes the .bz2 file after decompression; use -k to keep it.",
+    "when_to_use": [
+      "Extract .bz2 files",
+      "Decompress bzip2 data (same as bzip2 -d)",
+      "Unpack kernel or other .bz2 archives"
+    ]
+  },
+  "syntax": {
+    "basic": "bunzip2 [OPTIONS] [FILE]...",
+    "description": "Decompress one or more .bz2 files; each is replaced by the uncompressed file unless -k is used.",
+    "examples": [
+      "bunzip2 file.txt.bz2",
+      "bunzip2 -k file.txt.bz2"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-k, --keep",
+      "short": "-k",
+      "long": "--keep",
+      "description": "Keep original .bz2 file(s) after decompression",
+      "category": "operation",
+      "example": "bunzip2 -k file.txt.bz2",
+      "use_case": "Keep the compressed file and create uncompressed copy"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Overwrite existing output files",
+      "category": "operation",
+      "example": "bunzip2 -f file.txt.bz2",
+      "use_case": "Replace existing file when decompressing"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Decompress a file",
+      "command": "bunzip2 file.txt.bz2",
+      "description": "Create file.txt and remove file.txt.bz2",
+      "use_case": "Standard decompression"
+    },
+    {
+      "title": "Decompress and keep .bz2",
+      "command": "bunzip2 -k file.txt.bz2",
+      "description": "Create file.txt and keep file.txt.bz2",
+      "use_case": "Keep archive and have uncompressed copy"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "bzip2",
+      "relationship": "Complementary",
+      "description": "Compress files; bunzip2 is bzip2 -d"
+    },
+    {
+      "command": "gzip",
+      "relationship": "Alternative",
+      "description": "Different format; use gunzip for .gz"
+    }
+  ]
+}

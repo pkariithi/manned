@@ -1,0 +1,113 @@
+{
+  "metadata": {
+    "name": "lsblk",
+    "displayName": "lsblk - List block devices",
+    "category": "File & Directory Operations",
+    "tags": ["storage", "filesystem", "disks", "devices", "system", "intermediate"],
+    "description": "List information about block devices (disks/partitions)",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lsblk is typically available by default as part of util-linux on most Linux distributions"
+  },
+  "overview": {
+    "summary": "The lsblk command displays information about block devices (like disks, partitions, and LVM volumes) in a tree-like view. It's commonly used to identify disks, see partition layouts, and find mount points and filesystem types.",
+    "when_to_use": [
+      "Identify which disk/partition corresponds to a device name like /dev/sda1",
+      "See what partitions are mounted and where",
+      "Inspect filesystem types and labels",
+      "Troubleshoot storage devices before mounting or formatting"
+    ]
+  },
+  "syntax": {
+    "basic": "lsblk [OPTIONS] [DEVICE]",
+    "description": "Without a DEVICE, lsblk lists all block devices. You can add options to show filesystems, UUIDs, or choose output columns.",
+    "examples": [
+      "lsblk",
+      "lsblk -f",
+      "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS",
+      "lsblk /dev/sda"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-f, --fs",
+      "short": "-f",
+      "long": "--fs",
+      "description": "Show filesystem information (FSTYPE, LABEL, UUID, MOUNTPOINTS)",
+      "category": "display",
+      "example": "lsblk -f",
+      "use_case": "When you need filesystem types/UUIDs for mounting or fstab"
+    },
+    {
+      "flag": "-o, --output",
+      "short": "-o",
+      "long": "--output",
+      "description": "Specify which columns to display",
+      "category": "display",
+      "example": "lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS",
+      "use_case": "To customize output for scripts or focused troubleshooting"
+    },
+    {
+      "flag": "-p, --paths",
+      "short": "-p",
+      "long": "--paths",
+      "description": "Print full device paths (e.g., /dev/sda1 instead of sda1)",
+      "category": "display",
+      "example": "lsblk -p",
+      "use_case": "To copy/paste device paths directly"
+    },
+    {
+      "flag": "-J, --json",
+      "short": "-J",
+      "long": "--json",
+      "description": "Output information in JSON format",
+      "category": "output",
+      "example": "lsblk -J",
+      "use_case": "For programmatic parsing"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List disks and partitions",
+      "command": "lsblk",
+      "description": "Show a tree view of block devices with sizes and mount points",
+      "output": "NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS\nsda      8:0    0 238.5G  0 disk\n├─sda1   8:1    0   512M  0 part /boot/efi\n├─sda2   8:2    0     1G  0 part /boot\n└─sda3   8:3    0   237G  0 part /\n",
+      "use_case": "Figure out what is mounted where and which partition is your root filesystem"
+    },
+    {
+      "title": "Show filesystem type and UUID",
+      "command": "lsblk -f",
+      "description": "Display filesystem metadata (type/label/UUID) in addition to device layout",
+      "use_case": "Find a partition's UUID for /etc/fstab entries"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Confusing device names (sda/sdb/nvme0n1)",
+      "description": "Device names depend on hardware and boot order; they can change between boots, especially with removable drives.",
+      "solution": "Use UUIDs (lsblk -f) in /etc/fstab instead of relying on /dev/sdX names."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "blkid",
+      "relationship": "Complementary",
+      "description": "Shows filesystem UUID/label/type details for block devices"
+    },
+    {
+      "command": "mount",
+      "relationship": "Complementary",
+      "description": "Mount a filesystem after identifying the correct partition"
+    },
+    {
+      "command": "fdisk",
+      "relationship": "Related",
+      "description": "Inspect and edit partition tables (use with care)"
+    }
+  ]
+}

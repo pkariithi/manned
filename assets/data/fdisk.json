@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "name": "fdisk",
+    "displayName": "fdisk - Partition table manipulator",
+    "category": "Disk Management",
+    "tags": ["partition", "disk", "mbr", "advanced"],
+    "description": "Partition table manipulator for MBR disks",
+    "popularity": 6,
+    "difficulty": "advanced",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "fdisk is typically available by default as part of util-linux"
+  },
+  "overview": {
+    "summary": "fdisk is an interactive partition table editor for MBR (MS-DOS) disks. It creates, deletes, and modifies partitions. For GPT disks or scripting, parted or gdisk are often preferred. Use with extreme care; mistakes can cause data loss.",
+    "when_to_use": [
+      "Create or modify MBR partitions on a disk",
+      "View partition table (fdisk -l)",
+      "Repartition a disk (back up data first)"
+    ]
+  },
+  "syntax": {
+    "basic": "fdisk [OPTIONS] DEVICE",
+    "description": "fdisk DEVICE enters interactive mode. fdisk -l lists partition tables. Always specify the disk device (e.g., /dev/sda), not a partition.",
+    "examples": [
+      "sudo fdisk -l",
+      "sudo fdisk /dev/sdb"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List partition tables for specified devices (or all)",
+      "category": "display",
+      "example": "sudo fdisk -l",
+      "use_case": "View partitions without editing"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List partition tables",
+      "command": "sudo fdisk -l",
+      "description": "Show partition layout for all block devices",
+      "use_case": "Inspect disks and partitions"
+    },
+    {
+      "title": "Edit partition table",
+      "command": "sudo fdisk /dev/sdb",
+      "description": "Enter interactive mode for /dev/sdb (use m for help)",
+      "use_case": "Create or modify partitions (back up first)"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong device",
+      "description": "Writing to the wrong device can destroy data (e.g., /dev/sda instead of /dev/sdb).",
+      "solution": "Double-check the device with lsblk or fdisk -l; never use the system disk unless you intend to."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "parted",
+      "relationship": "Alternative",
+      "description": "GPT and scriptable partitioning; often preferred for new disks"
+    },
+    {
+      "command": "lsblk",
+      "relationship": "Complementary",
+      "description": "List block devices before partitioning"
+    }
+  ]
+}

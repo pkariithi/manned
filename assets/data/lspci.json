@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "name": "lspci",
+    "displayName": "lspci - List PCI devices",
+    "category": "System Information",
+    "tags": ["pci", "hardware", "devices", "system", "intermediate"],
+    "description": "List PCI buses and connected devices",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "pciutils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lspci is commonly available by default; if missing: sudo apt install pciutils"
+  },
+  "overview": {
+    "summary": "lspci lists PCI (and often PCIe) devices: graphics cards, network adapters, storage controllers, etc. It shows vendor and device IDs and optional human-readable names, useful for identifying hardware and drivers.",
+    "when_to_use": [
+      "See what PCI/PCIe devices are in the system",
+      "Identify graphics, network, or storage controllers",
+      "Find vendor/device IDs for driver or compatibility checks"
+    ]
+  },
+  "syntax": {
+    "basic": "lspci [OPTIONS]",
+    "description": "lspci reads from /sys and (with root) can query PCI config space. Options control verbosity and output.",
+    "examples": [
+      "lspci",
+      "lspci -v",
+      "lspci -nn"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show detailed information for each device",
+      "category": "display",
+      "example": "lspci -v",
+      "use_case": "See driver, capabilities, and more"
+    },
+    {
+      "flag": "-nn",
+      "short": null,
+      "long": null,
+      "description": "Show both numeric IDs and names (vendor:device)",
+      "category": "display",
+      "example": "lspci -nn",
+      "use_case": "Identify hardware by ID for drivers"
+    },
+    {
+      "flag": "-k",
+      "short": "-k",
+      "long": null,
+      "description": "Show kernel drivers in use for each device",
+      "category": "display",
+      "example": "lspci -k",
+      "use_case": "See which driver is bound to each device"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List PCI devices",
+      "command": "lspci",
+      "description": "Show all PCI/PCIe devices with short descriptions",
+      "output": "00:00.0 Host bridge: Intel Corp. ...\n01:00.0 VGA compatible controller: ...",
+      "use_case": "Hardware overview"
+    },
+    {
+      "title": "Show kernel drivers",
+      "command": "lspci -k",
+      "description": "List devices and the kernel driver in use",
+      "use_case": "Debug driver binding"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "lsusb",
+      "relationship": "Complementary",
+      "description": "Lists USB devices (similar for USB)"
+    }
+  ]
+}

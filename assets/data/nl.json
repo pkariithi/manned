@@ -1,0 +1,221 @@
+{
+  "metadata": {
+    "name": "nl",
+    "displayName": "nl - Number lines of files",
+    "category": "Text Processing",
+    "tags": ["text", "numbering", "lines", "formatting", "basic"],
+    "description": "Number lines of files",
+    "popularity": 4,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "nl is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The nl command numbers lines in files, similar to 'cat -n' but with more formatting options. It can number all lines, only non-empty lines, or lines matching specific patterns. Useful for adding line numbers to code, logs, or any text file.",
+    "when_to_use": [
+      "Add line numbers to text files",
+      "Number only non-empty lines",
+      "Format output with line numbers",
+      "Reference specific lines in code or logs",
+      "Create numbered documentation"
+    ]
+  },
+  "syntax": {
+    "basic": "nl [OPTIONS] [FILE]",
+    "description": "If no file is specified, nl reads from standard input. Line numbers are added to the left of each line.",
+    "examples": [
+      "nl file.txt",
+      "cat file.txt | nl",
+      "nl -ba file.txt",
+      "nl -bp file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-b, --body-numbering",
+      "short": "-b",
+      "long": "--body-numbering",
+      "description": "Set numbering style for body lines (a=all, t=non-empty, n=none, p=regex)",
+      "category": "numbering",
+      "example": "nl -ba file.txt",
+      "use_case": "Control which lines get numbered"
+    },
+    {
+      "flag": "-a",
+      "short": "-a",
+      "long": null,
+      "description": "Number all lines",
+      "category": "numbering",
+      "example": "nl -ba file.txt",
+      "use_case": "Number every line including empty ones"
+    },
+    {
+      "flag": "-t",
+      "short": "-t",
+      "long": null,
+      "description": "Number only non-empty lines",
+      "category": "numbering",
+      "example": "nl -bt file.txt",
+      "use_case": "Skip numbering empty lines"
+    },
+    {
+      "flag": "-n",
+      "short": "-n",
+      "long": null,
+      "description": "No line numbering",
+      "category": "numbering",
+      "example": "nl -bn file.txt",
+      "use_case": "Disable line numbering"
+    },
+    {
+      "flag": "-p, --regexp",
+      "short": "-p",
+      "long": "--regexp",
+      "description": "Only number lines matching regular expression",
+      "category": "numbering",
+      "example": "nl -bp'^[A-Z]' file.txt",
+      "use_case": "Number only lines matching a pattern"
+    },
+    {
+      "flag": "-i, --line-increment",
+      "short": "-i",
+      "long": "--line-increment",
+      "description": "Line number increment (default: 1)",
+      "category": "numbering",
+      "example": "nl -i 5 file.txt",
+      "use_case": "Number lines in increments (e.g., 5, 10, 15)"
+    },
+    {
+      "flag": "-s, --number-separator",
+      "short": "-s",
+      "long": "--number-separator",
+      "description": "Separator string between line number and text",
+      "category": "formatting",
+      "example": "nl -s ': ' file.txt",
+      "use_case": "Customize the separator (default is tab)"
+    },
+    {
+      "flag": "-v, --starting-line-number",
+      "short": "-v",
+      "long": "--starting-line-number",
+      "description": "Starting line number (default: 1)",
+      "category": "numbering",
+      "example": "nl -v 10 file.txt",
+      "use_case": "Start numbering from a specific number"
+    },
+    {
+      "flag": "-w, --number-width",
+      "short": "-w",
+      "long": "--number-width",
+      "description": "Width of line number field",
+      "category": "formatting",
+      "example": "nl -w 3 file.txt",
+      "use_case": "Set width for line numbers (default: 6)"
+    },
+    {
+      "flag": "-l, --join-blank-lines",
+      "short": "-l",
+      "long": "--join-blank-lines",
+      "description": "Number of blank lines to count as one",
+      "category": "numbering",
+      "example": "nl -l 2 file.txt",
+      "use_case": "Treat multiple blank lines as one"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Number all lines",
+      "command": "nl file.txt",
+      "description": "Add line numbers to all lines in the file",
+      "output": "     1  First line\n     2  Second line\n     3  \n     4  Fourth line",
+      "use_case": "Reference specific lines in a file"
+    },
+    {
+      "title": "Number only non-empty lines",
+      "command": "nl -bt file.txt",
+      "description": "Add line numbers only to lines with content, skipping blank lines",
+      "output": "     1  First line\n     2  Second line\n     3  Fourth line",
+      "use_case": "When blank lines should not be counted"
+    },
+    {
+      "title": "Custom separator",
+      "command": "nl -s ': ' file.txt",
+      "description": "Use colon and space as separator instead of tab",
+      "output": "     1: First line\n     2: Second line",
+      "use_case": "Better readability with custom separator"
+    },
+    {
+      "title": "Start from specific number",
+      "command": "nl -v 100 file.txt",
+      "description": "Start line numbering from 100",
+      "output": "   100  First line\n   101  Second line",
+      "use_case": "Continue numbering from a previous section"
+    },
+    {
+      "title": "Pipe output",
+      "command": "cat file.txt | nl",
+      "description": "Number lines from piped input",
+      "use_case": "Number output from other commands"
+    },
+    {
+      "title": "Number with increment",
+      "command": "nl -i 5 file.txt",
+      "description": "Number lines in increments of 5",
+      "output": "     1  First line\n     6  Second line\n    11  Third line",
+      "use_case": "Create spaced numbering for reference"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Modifies original file",
+      "misconception": "nl modifies the original file",
+      "reality": "nl only displays numbered output to stdout. It does not modify the original file.",
+      "tip": "Use redirection to save numbered output: 'nl file.txt > numbered.txt'"
+    },
+    {
+      "title": "Same as cat -n",
+      "misconception": "nl and 'cat -n' are identical",
+      "reality": "nl offers more formatting options (separators, increments, selective numbering) than 'cat -n'",
+      "tip": "Use nl when you need advanced formatting options"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Empty lines numbered",
+      "description": "By default, nl numbers all lines including empty ones",
+      "solution": "Use '-bt' option to number only non-empty lines"
+    },
+    {
+      "issue": "Tab separator not visible",
+      "description": "Default tab separator might not be visible in some terminals",
+      "solution": "Use '-s' option to specify a visible separator like ': ' or ' | '"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cat",
+      "relationship": "Alternative",
+      "description": "cat -n also numbers lines but with fewer formatting options"
+    },
+    {
+      "command": "grep",
+      "relationship": "Complementary",
+      "description": "grep -n shows line numbers, nl adds numbers to all lines"
+    },
+    {
+      "command": "sed",
+      "relationship": "Complementary",
+      "description": "sed can also add line numbers with '=' command"
+    }
+  ],
+  "best_practices": [
+    "Use '-bt' to skip empty lines when they're not needed",
+    "Use custom separator '-s' for better readability",
+    "Combine with other text processing commands via pipes",
+    "Redirect output to save numbered version: 'nl file.txt > numbered.txt'"
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "name": "blkid",
+    "displayName": "blkid - Print block device attributes",
+    "category": "File & Directory Operations",
+    "tags": ["storage", "filesystem", "uuid", "labels", "system", "intermediate"],
+    "description": "Show filesystem type, UUID, and label for block devices",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "blkid is typically available by default as part of util-linux on most Linux distributions"
+  },
+  "overview": {
+    "summary": "The blkid command reports attributes of block devices such as filesystem type, UUID, and labels. It's frequently used when configuring /etc/fstab, troubleshooting mounts, or identifying partitions in a stable way (UUIDs are more reliable than /dev/sdX names).",
+    "when_to_use": [
+      "Find a partition's UUID for /etc/fstab",
+      "Confirm filesystem type before mounting",
+      "Troubleshoot mount errors (wrong fs type, bad superblock, etc.)",
+      "Identify removable drives by label"
+    ]
+  },
+  "syntax": {
+    "basic": "blkid [OPTIONS] [DEVICE]",
+    "description": "Without DEVICE, blkid prints attributes for all detected devices (permission-dependent). You can also query a specific device path like /dev/sda1.",
+    "examples": [
+      "sudo blkid",
+      "blkid /dev/sda3",
+      "blkid -s UUID -o value /dev/sda3"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s",
+      "short": "-s",
+      "long": null,
+      "description": "Show only the specified tag (e.g., UUID, TYPE, LABEL)",
+      "category": "filtering",
+      "example": "blkid -s UUID /dev/sda3",
+      "use_case": "When you only need one attribute"
+    },
+    {
+      "flag": "-o",
+      "short": "-o",
+      "long": null,
+      "description": "Choose output format (e.g., full, value, export)",
+      "category": "output",
+      "example": "blkid -s UUID -o value /dev/sda3",
+      "use_case": "For scripting (get a raw UUID string)"
+    },
+    {
+      "flag": "-p",
+      "short": "-p",
+      "long": null,
+      "description": "Low-level probe (may be slower; bypass cache)",
+      "category": "behavior",
+      "example": "sudo blkid -p /dev/sdb1",
+      "use_case": "When cached info seems stale or incorrect"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all block devices with attributes",
+      "command": "sudo blkid",
+      "description": "Print UUID, type, and label for detected block devices",
+      "output": "/dev/sda1: UUID=\"9A1B-2C3D\" TYPE=\"vfat\" PARTUUID=\"...\"\n/dev/sda3: UUID=\"11111111-2222-3333-4444-555555555555\" TYPE=\"ext4\" PARTUUID=\"...\"",
+      "use_case": "Get stable identifiers for partitions"
+    },
+    {
+      "title": "Extract just the UUID for a device",
+      "command": "blkid -s UUID -o value /dev/sda3",
+      "description": "Output only the UUID value (useful in scripts)",
+      "output": "11111111-2222-3333-4444-555555555555",
+      "use_case": "Copy the UUID into /etc/fstab or a mount script"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Permission denied or missing devices",
+      "description": "Some devices may not be visible without elevated permissions.",
+      "solution": "Use sudo (e.g., sudo blkid) when querying all devices."
+    },
+    {
+      "issue": "Relying on /dev/sdX names",
+      "description": "/dev/sda, /dev/sdb ordering can change, especially with USB disks.",
+      "solution": "Prefer UUIDs or labels (from blkid/lsblk -f) in /etc/fstab."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "lsblk",
+      "relationship": "Complementary",
+      "description": "Shows device tree and mount points; can also show UUIDs with lsblk -f"
+    },
+    {
+      "command": "mount",
+      "relationship": "Complementary",
+      "description": "Mount a filesystem after identifying it by UUID or label"
+    },
+    {
+      "command": "findmnt",
+      "relationship": "Related",
+      "description": "Inspect currently mounted filesystems (if available on your system)"
+    }
+  ]
+}

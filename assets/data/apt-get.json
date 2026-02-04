@@ -1,0 +1,265 @@
+{
+  "metadata": {
+    "name": "apt-get",
+    "displayName": "apt-get - APT package handling utility (command-line tool)",
+    "category": "Package Management",
+    "tags": ["package", "apt", "ubuntu", "install", "update", "intermediate"],
+    "description": "APT package handling utility (command-line tool)",
+    "popularity": 10,
+    "difficulty": "intermediate",
+    "version": "apt 2.4+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "apt-get is part of the apt package management system, installed by default on all Debian/Ubuntu systems"
+  },
+  "overview": {
+    "summary": "The apt-get command is a powerful package management tool for Debian and Ubuntu systems. It handles installation, removal, and updates of software packages from repositories. While 'apt' is the newer recommended command, apt-get remains widely used and is the foundation of package management on Ubuntu systems.",
+    "when_to_use": [
+      "Install software packages",
+      "Update package lists",
+      "Upgrade installed packages",
+      "Remove packages",
+      "Search for available packages",
+      "Clean package cache",
+      "Fix broken dependencies",
+      "System maintenance and updates"
+    ]
+  },
+  "syntax": {
+    "basic": "apt-get [OPTIONS] COMMAND [PACKAGE...]",
+    "description": "apt-get requires a command (like install, update, upgrade) and optionally package names. Most operations require root privileges.",
+    "examples": [
+      "sudo apt-get update",
+      "sudo apt-get install package-name",
+      "sudo apt-get upgrade",
+      "sudo apt-get remove package-name"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-y, --yes",
+      "short": "-y",
+      "long": "--yes",
+      "description": "Assume yes to all prompts",
+      "category": "execution",
+      "example": "sudo apt-get install -y package-name",
+      "use_case": "Automate installations without user interaction"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Quiet mode - minimal output",
+      "category": "display",
+      "example": "sudo apt-get -q update",
+      "use_case": "Reduce output for scripts or quiet operations"
+    },
+    {
+      "flag": "-s, --simulate",
+      "short": "-s",
+      "long": "--simulate",
+      "description": "Perform a simulation (dry-run)",
+      "category": "safety",
+      "example": "sudo apt-get -s install package-name",
+      "use_case": "See what would happen without actually making changes"
+    },
+    {
+      "flag": "-f, --fix-broken",
+      "short": "-f",
+      "long": "--fix-broken",
+      "description": "Fix broken dependencies",
+      "category": "maintenance",
+      "example": "sudo apt-get -f install",
+      "use_case": "Resolve dependency issues"
+    },
+    {
+      "flag": "-u, --show-upgraded",
+      "short": "-u",
+      "long": "--show-upgraded",
+      "description": "Show upgraded packages",
+      "category": "display",
+      "example": "sudo apt-get -u upgrade",
+      "use_case": "See which packages will be upgraded"
+    },
+    {
+      "flag": "-V, --verbose-versions",
+      "short": "-V",
+      "long": "--verbose-versions",
+      "description": "Show full versions for upgraded packages",
+      "category": "display",
+      "example": "sudo apt-get -V upgrade",
+      "use_case": "See detailed version information"
+    },
+    {
+      "flag": "--purge",
+      "short": null,
+      "long": "--purge",
+      "description": "Remove package and configuration files",
+      "category": "removal",
+      "example": "sudo apt-get --purge remove package-name",
+      "use_case": "Completely remove package including configuration files"
+    },
+    {
+      "flag": "--reinstall",
+      "short": null,
+      "long": "--reinstall",
+      "description": "Reinstall package",
+      "category": "installation",
+      "example": "sudo apt-get --reinstall install package-name",
+      "use_case": "Fix corrupted installations"
+    },
+    {
+      "flag": "--no-install-recommends",
+      "short": null,
+      "long": "--no-install-recommends",
+      "description": "Do not install recommended packages",
+      "category": "installation",
+      "example": "sudo apt-get --no-install-recommends install package-name",
+      "use_case": "Install only essential packages, not recommendations"
+    },
+    {
+      "flag": "--install-suggests",
+      "short": null,
+      "long": "--install-suggests",
+      "description": "Also install suggested packages",
+      "category": "installation",
+      "example": "sudo apt-get --install-suggests install package-name",
+      "use_case": "Install suggested packages along with the main package"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Update package lists",
+      "command": "sudo apt-get update",
+      "description": "Refresh the list of available packages and their versions from repositories",
+      "use_case": "First step before installing or upgrading packages - should be run regularly"
+    },
+    {
+      "title": "Install a package",
+      "command": "sudo apt-get install firefox",
+      "description": "Install the Firefox web browser package",
+      "use_case": "Install new software packages"
+    },
+    {
+      "title": "Upgrade all packages",
+      "command": "sudo apt-get upgrade",
+      "description": "Upgrade all installed packages to their latest versions",
+      "use_case": "Keep system up to date with security and feature updates"
+    },
+    {
+      "title": "Remove a package",
+      "command": "sudo apt-get remove firefox",
+      "description": "Remove Firefox package (keeps configuration files)",
+      "use_case": "Uninstall software while preserving configuration"
+    },
+    {
+      "title": "Purge a package",
+      "command": "sudo apt-get purge firefox",
+      "description": "Completely remove Firefox including all configuration files",
+      "use_case": "Complete removal when you want to start fresh"
+    },
+    {
+      "title": "Fix broken dependencies",
+      "command": "sudo apt-get -f install",
+      "description": "Attempt to fix broken package dependencies",
+      "use_case": "Resolve dependency conflicts and broken packages"
+    },
+    {
+      "title": "Simulate installation",
+      "command": "sudo apt-get -s install package-name",
+      "description": "Show what would happen without actually installing",
+      "use_case": "Preview changes before committing to installation"
+    },
+    {
+      "title": "Clean package cache",
+      "command": "sudo apt-get clean",
+      "description": "Remove all downloaded package files from cache",
+      "use_case": "Free up disk space by clearing package cache"
+    },
+    {
+      "title": "Auto-remove unused packages",
+      "command": "sudo apt-get autoremove",
+      "description": "Remove packages that were automatically installed and are no longer needed",
+      "use_case": "Clean up orphaned dependencies after removing packages"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "apt vs apt-get",
+      "misconception": "apt and apt-get are completely different",
+      "reality": "apt is a newer, user-friendly command that combines apt-get and apt-cache functionality. Both work, but 'apt' is recommended for interactive use.",
+      "tip": "Use 'apt' for interactive use, 'apt-get' is still fine and often used in scripts"
+    },
+    {
+      "title": "Update vs Upgrade",
+      "misconception": "update and upgrade do the same thing",
+      "reality": "update refreshes package lists, upgrade actually installs updates. Always run 'update' before 'upgrade'.",
+      "tip": "Think of it as: update = refresh the menu, upgrade = order the new items"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Forgetting to update",
+      "description": "Trying to install packages without updating package lists first",
+      "solution": "Always run 'sudo apt-get update' before installing or upgrading packages"
+    },
+    {
+      "issue": "Not using sudo",
+      "description": "Package management requires root privileges",
+      "solution": "Always use 'sudo' with apt-get commands (except 'apt-get help')"
+    },
+    {
+      "issue": "Confusing remove and purge",
+      "description": "remove keeps config files, purge removes everything",
+      "solution": "Use 'remove' to keep configs, 'purge' for complete removal"
+    },
+    {
+      "issue": "Broken dependencies",
+      "description": "Installation fails due to dependency conflicts",
+      "solution": "Run 'sudo apt-get -f install' to fix broken dependencies"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "apt",
+      "relationship": "Alternative",
+      "description": "apt is the newer recommended command that combines apt-get and apt-cache"
+    },
+    {
+      "command": "apt-cache",
+      "relationship": "Complementary",
+      "description": "apt-cache searches and shows package information, often used with apt-get"
+    },
+    {
+      "command": "dpkg",
+      "relationship": "Complementary",
+      "description": "dpkg is the low-level package manager that apt-get uses"
+    },
+    {
+      "command": "snap",
+      "relationship": "Alternative",
+      "description": "snap is an alternative package manager for snap packages"
+    }
+  ],
+  "best_practices": [
+    "Always run 'update' before 'upgrade' or 'install'",
+    "Use 'apt' command for interactive use (newer, better UX)",
+    "Use '-s' to simulate before making changes",
+    "Regularly run 'apt-get update && apt-get upgrade' to keep system updated",
+    "Use 'autoremove' periodically to clean up unused packages",
+    "Use 'clean' to free up disk space from package cache",
+    "Read prompts carefully before confirming installations"
+  ],
+  "performance_tips": [
+    "Running 'update' regularly keeps package lists fresh and speeds up searches",
+    "Use 'apt' instead of 'apt-get' for slightly better performance in some cases",
+    "Cleaning cache with 'apt-get clean' can free significant disk space"
+  ],
+  "additional_notes": {
+    "ubuntu_specific": "apt-get is the standard package manager for Ubuntu and Debian systems",
+    "repositories": "Packages come from repositories defined in /etc/apt/sources.list",
+    "modern_alternative": "The 'apt' command is recommended for interactive use, but apt-get is still widely used and supported"
+  }
+}

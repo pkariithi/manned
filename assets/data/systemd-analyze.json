@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "name": "systemd-analyze",
+    "displayName": "systemd-analyze - Analyze systemd boot performance",
+    "category": "Systemd & Logs",
+    "tags": ["systemd", "boot", "performance", "intermediate"],
+    "description": "Analyze systemd boot and service performance",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "systemd (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "systemd-analyze is part of systemd and available on systemd-based systems"
+  },
+  "overview": {
+    "summary": "systemd-analyze reports boot time and can show which services took the longest to start. It helps identify slow boot causes and optimize startup. Use blame, critical-chain, and plot for detailed analysis.",
+    "when_to_use": [
+      "See total boot time (systemd-analyze)",
+      "Find slowest services (systemd-analyze blame)",
+      "Analyze boot critical chain (systemd-analyze critical-chain)"
+    ]
+  },
+  "syntax": {
+    "basic": "systemd-analyze [SUBCOMMAND] [OPTIONS]",
+    "description": "Without subcommand, shows total boot time. Subcommands: blame, critical-chain, plot, time, etc.",
+    "examples": [
+      "systemd-analyze",
+      "systemd-analyze blame",
+      "systemd-analyze critical-chain"
+    ]
+  },
+  "options": [
+    {
+      "flag": "blame",
+      "short": null,
+      "long": null,
+      "description": "Show time spent in each unit at boot",
+      "category": "subcommand",
+      "example": "systemd-analyze blame",
+      "use_case": "Find slowest starting services"
+    },
+    {
+      "flag": "critical-chain",
+      "short": null,
+      "long": null,
+      "description": "Show critical chain of units (what blocked boot)",
+      "category": "subcommand",
+      "example": "systemd-analyze critical-chain",
+      "use_case": "See boot dependency chain"
+    },
+    {
+      "flag": "time",
+      "short": null,
+      "long": null,
+      "description": "Print total boot time (same as no subcommand)",
+      "category": "subcommand",
+      "example": "systemd-analyze time",
+      "use_case": "Quick boot time"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Total boot time",
+      "command": "systemd-analyze",
+      "description": "Show kernel and userspace boot time",
+      "output": "Startup finished in 3.456s (kernel) + 12.345s (userspace)",
+      "use_case": "Quick boot summary"
+    },
+    {
+      "title": "Slowest services",
+      "command": "systemd-analyze blame",
+      "description": "List units by time spent initializing",
+      "use_case": "Identify what slows boot"
+    },
+    {
+      "title": "Critical chain",
+      "command": "systemd-analyze critical-chain",
+      "description": "Show chain of units that delayed boot",
+      "use_case": "Understand boot sequence"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "systemctl",
+      "relationship": "Related",
+      "description": "Manage units; systemd-analyze analyzes boot"
+    },
+    {
+      "command": "journalctl",
+      "relationship": "Related",
+      "description": "Boot logs: journalctl -b"
+    }
+  ]
+}

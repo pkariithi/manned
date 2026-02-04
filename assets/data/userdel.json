@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "name": "userdel",
+    "displayName": "userdel - Delete a user account",
+    "category": "User & Permissions",
+    "tags": ["user", "account", "delete", "admin", "advanced"],
+    "description": "Remove a user account",
+    "popularity": 5,
+    "difficulty": "advanced",
+    "version": "shadow-utils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "userdel is a core admin command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "userdel removes a user account from /etc/passwd (and related files). By default it does not remove the user's home directory or mail spool; use -r to remove home and mail.",
+    "when_to_use": [
+      "Remove a user account from the system",
+      "Delete a user and their home directory (-r)",
+      "Clean up after removing a person or service account"
+    ]
+  },
+  "syntax": {
+    "basic": "userdel [OPTIONS] USERNAME",
+    "description": "USERNAME is required. The user should not be logged in; kill their processes if necessary.",
+    "examples": [
+      "sudo userdel jane",
+      "sudo userdel -r jane"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-r, --remove",
+      "short": "-r",
+      "long": "--remove",
+      "description": "Remove the user's home directory and mail spool",
+      "category": "behavior",
+      "example": "sudo userdel -r jane",
+      "use_case": "Full removal including home (use with care)"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force removal even if user is logged in (removes home etc. if -r)",
+      "category": "behavior",
+      "example": "sudo userdel -rf jane",
+      "use_case": "Force delete (dangerous; use only when necessary)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Remove user (keep home)",
+      "command": "sudo userdel jane",
+      "description": "Remove user jane from passwd/shadow; home directory is left",
+      "use_case": "When you want to keep their files"
+    },
+    {
+      "title": "Remove user and home",
+      "command": "sudo userdel -r jane",
+      "description": "Remove user jane and delete their home directory and mail spool",
+      "use_case": "Complete removal of the account and data"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "User is logged in",
+      "description": "userdel may fail or behave oddly if the user has active sessions.",
+      "solution": "Log the user out or kill their processes; use -f only if you understand the implications."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "useradd",
+      "relationship": "Related",
+      "description": "Create user; userdel removes user"
+    },
+    {
+      "command": "groupdel",
+      "relationship": "Complementary",
+      "description": "Remove a group (often after removing users)"
+    }
+  ]
+}

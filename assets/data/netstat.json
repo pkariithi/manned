@@ -1,0 +1,247 @@
+{
+  "metadata": {
+    "name": "netstat",
+    "displayName": "netstat - Print network connections, routing tables, interface statistics",
+    "category": "Network",
+    "tags": ["network", "connections", "ports", "routing", "intermediate"],
+    "description": "Print network connections, routing tables, interface statistics",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "net-tools 2.10+"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "net-tools",
+      "manager": "apt",
+      "command": "sudo apt install net-tools"
+    },
+    "note": "netstat is part of the net-tools package, which is deprecated in favor of 'ss' and 'ip' commands, but still widely used"
+  },
+  "overview": {
+    "summary": "The netstat command displays network connections, routing tables, and network interface statistics. It's a legacy tool that's been largely replaced by 'ss' and 'ip' commands, but remains popular due to its widespread familiarity and comprehensive output. Useful for monitoring network activity, checking listening ports, and diagnosing network issues.",
+    "when_to_use": [
+      "List all network connections",
+      "Check which ports are listening",
+      "View routing table",
+      "Monitor network interface statistics",
+      "Identify processes using network ports",
+      "Troubleshoot network connectivity issues",
+      "Check for suspicious network activity"
+    ]
+  },
+  "syntax": {
+    "basic": "netstat [OPTIONS]",
+    "description": "netstat can display different types of network information depending on the options used. Common uses include listing connections, showing listening ports, or displaying routing tables.",
+    "examples": [
+      "netstat -tuln",
+      "netstat -an",
+      "netstat -r",
+      "netstat -i"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show all sockets (listening and non-listening)",
+      "category": "display",
+      "example": "netstat -a",
+      "use_case": "See all network connections including listening and established"
+    },
+    {
+      "flag": "-t, --tcp",
+      "short": "-t",
+      "long": "--tcp",
+      "description": "Show TCP connections",
+      "category": "protocol",
+      "example": "netstat -t",
+      "use_case": "Display only TCP connections"
+    },
+    {
+      "flag": "-u, --udp",
+      "short": "-u",
+      "long": "--udp",
+      "description": "Show UDP connections",
+      "category": "protocol",
+      "example": "netstat -u",
+      "use_case": "Display only UDP connections"
+    },
+    {
+      "flag": "-l, --listening",
+      "short": "-l",
+      "long": "--listening",
+      "description": "Show only listening sockets",
+      "category": "display",
+      "example": "netstat -l",
+      "use_case": "See which ports are open and listening for connections"
+    },
+    {
+      "flag": "-n, --numeric",
+      "short": "-n",
+      "long": "--numeric",
+      "description": "Show numerical addresses instead of resolving hosts",
+      "category": "display",
+      "example": "netstat -n",
+      "use_case": "Faster output without DNS lookups"
+    },
+    {
+      "flag": "-p, --program",
+      "short": "-p",
+      "long": "--program",
+      "description": "Show PID and name of program owning socket",
+      "category": "display",
+      "example": "netstat -p",
+      "use_case": "Identify which process is using a port (requires root)"
+    },
+    {
+      "flag": "-r, --route",
+      "short": "-r",
+      "long": "--route",
+      "description": "Display routing table",
+      "category": "routing",
+      "example": "netstat -r",
+      "use_case": "View system routing table"
+    },
+    {
+      "flag": "-i, --interfaces",
+      "short": "-i",
+      "long": "--interfaces",
+      "description": "Display network interface statistics",
+      "category": "statistics",
+      "example": "netstat -i",
+      "use_case": "Monitor network interface activity and errors"
+    },
+    {
+      "flag": "-s, --statistics",
+      "short": "-s",
+      "long": "--statistics",
+      "description": "Show network statistics by protocol",
+      "category": "statistics",
+      "example": "netstat -s",
+      "use_case": "View detailed network protocol statistics"
+    },
+    {
+      "flag": "-c, --continuous",
+      "short": "-c",
+      "long": "--continuous",
+      "description": "Continuously display information",
+      "category": "display",
+      "example": "netstat -c",
+      "use_case": "Monitor network connections in real-time"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all listening ports",
+      "command": "sudo netstat -tuln",
+      "description": "Show all TCP and UDP listening ports with numerical addresses",
+      "output": "Proto Recv-Q Send-Q Local Address           Foreign Address         State\ntcp        0      0 0.0.0.0:22             0.0.0.0:*               LISTEN\ntcp        0      0 127.0.0.1:3306         0.0.0.0:*               LISTEN",
+      "use_case": "Check which ports are open and accepting connections"
+    },
+    {
+      "title": "Show all connections with process info",
+      "command": "sudo netstat -tulnp",
+      "description": "Display all TCP/UDP connections with process names and PIDs",
+      "use_case": "Identify which programs are using network ports"
+    },
+    {
+      "title": "Display routing table",
+      "command": "netstat -r",
+      "description": "Show the kernel routing table",
+      "output": "Kernel IP routing table\nDestination     Gateway         Genmask         Flags   MSS Window  irtt Iface\n0.0.0.0         192.168.1.1     0.0.0.0         UG        0 0          0 eth0",
+      "use_case": "View how network traffic is routed"
+    },
+    {
+      "title": "Show interface statistics",
+      "command": "netstat -i",
+      "description": "Display statistics for all network interfaces",
+      "output": "Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\neth0      1500  1234567      0      0 0         987654      0      0      0 BMRU",
+      "use_case": "Monitor network interface health and errors"
+    },
+    {
+      "title": "Continuous monitoring",
+      "command": "netstat -c",
+      "description": "Continuously update and display network connections",
+      "use_case": "Real-time monitoring of network activity"
+    },
+    {
+      "title": "Show protocol statistics",
+      "command": "netstat -s",
+      "description": "Display summary statistics for each protocol",
+      "use_case": "Get detailed network protocol information and error counts"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Deprecated status",
+      "misconception": "netstat is the modern way to check network connections",
+      "reality": "netstat is deprecated. Modern alternatives are 'ss' (for sockets) and 'ip' (for routing). However, netstat is still widely available and used.",
+      "tip": "Learn 'ss' and 'ip' commands for future-proof network administration"
+    },
+    {
+      "title": "Requires root",
+      "misconception": "netstat always requires root privileges",
+      "reality": "Basic netstat commands work without root, but '-p' (process info) requires root privileges",
+      "tip": "Use 'sudo' when you need to see which process owns a connection"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Slow DNS resolution",
+      "description": "netstat may be slow due to DNS lookups",
+      "solution": "Use '-n' option to show numerical addresses and skip DNS resolution"
+    },
+    {
+      "issue": "Cannot see process names",
+      "description": "Process names not shown without proper permissions",
+      "solution": "Use 'sudo' with '-p' option to see process information"
+    },
+    {
+      "issue": "Too much output",
+      "description": "Output can be overwhelming with many connections",
+      "solution": "Use filters like '-l' for listening only, or pipe to 'grep' to filter results"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "ss",
+      "relationship": "Alternative",
+      "description": "ss is the modern replacement for netstat, faster and more feature-rich"
+    },
+    {
+      "command": "ip",
+      "relationship": "Alternative",
+      "description": "ip route show replaces 'netstat -r' for routing table"
+    },
+    {
+      "command": "lsof",
+      "relationship": "Complementary",
+      "description": "lsof -i can also show network connections and processes"
+    },
+    {
+      "command": "iftop",
+      "relationship": "Complementary",
+      "description": "iftop shows real-time network bandwidth usage"
+    }
+  ],
+  "best_practices": [
+    "Use 'ss' instead of netstat for better performance (modern replacement)",
+    "Combine '-tuln' for comprehensive listening port information",
+    "Use '-n' to avoid slow DNS lookups",
+    "Use '-p' with sudo to identify processes using ports",
+    "Pipe output to 'grep' to filter specific ports or addresses",
+    "Use '-c' for continuous monitoring of network activity"
+  ],
+  "performance_tips": [
+    "'ss' command is significantly faster than netstat",
+    "Use '-n' flag to skip DNS resolution for faster output",
+    "For scripts, prefer 'ss' over netstat for better performance"
+  ],
+  "additional_notes": {
+    "deprecation": "netstat is deprecated in favor of 'ss' and 'ip' commands, but remains widely used",
+    "installation": "On newer Ubuntu systems, net-tools may not be installed by default. Use 'ss' as an alternative."
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "name": "jobs",
+    "displayName": "jobs - Display status of shell jobs",
+    "category": "Process Management",
+    "tags": ["shell", "jobs", "background", "foreground", "beginner"],
+    "description": "List active and stopped jobs in the current shell",
+    "popularity": 5,
+    "difficulty": "beginner",
+    "version": "bash built-in (also in other shells)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "jobs is a shell built-in (commonly in bash), not a standalone binary"
+  },
+  "overview": {
+    "summary": "The jobs command lists the jobs associated with the current shell session. Each job has a job number (e.g., [1], [2]) used with fg and bg. Jobs can be running, stopped, or in the background.",
+    "when_to_use": [
+      "See which jobs are running or stopped in the current terminal",
+      "Get job numbers to use with fg or bg",
+      "Check status before bringing a job to the foreground"
+    ]
+  },
+  "syntax": {
+    "basic": "jobs [OPTIONS] [JOB_SPEC]...",
+    "description": "Without arguments, jobs lists all jobs. You can optionally filter by job number or use options to show process IDs.",
+    "examples": [
+      "jobs",
+      "jobs -l",
+      "jobs %1"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "Show process IDs in addition to job information",
+      "category": "display",
+      "example": "jobs -l",
+      "use_case": "When you need PIDs for kill or other process tools"
+    },
+    {
+      "flag": "-p, --pid",
+      "short": "-p",
+      "long": "--pid",
+      "description": "Show only process IDs of job processes",
+      "category": "display",
+      "example": "jobs -p",
+      "use_case": "For scripting when you need just PIDs"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all jobs",
+      "command": "jobs",
+      "description": "Show running and stopped jobs with their job numbers",
+      "output": "[1]-  Running                 sleep 100 &\n[2]+  Stopped                 vim file.txt",
+      "use_case": "See what is running in the background or suspended"
+    },
+    {
+      "title": "List jobs with PIDs",
+      "command": "jobs -l",
+      "description": "Show job numbers and process IDs",
+      "use_case": "When you need to kill or inspect a specific process"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "bg",
+      "relationship": "Complementary",
+      "description": "Resume a stopped job in the background"
+    },
+    {
+      "command": "fg",
+      "relationship": "Complementary",
+      "description": "Bring a job to the foreground"
+    },
+    {
+      "command": "kill",
+      "relationship": "Related",
+      "description": "Send signals to processes; use job numbers with % (e.g., kill %1)"
+    }
+  ]
+}

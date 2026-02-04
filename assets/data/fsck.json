@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "name": "fsck",
+    "displayName": "fsck - Check and repair a Linux filesystem",
+    "category": "Disk Management",
+    "tags": ["filesystem", "check", "repair", "advanced"],
+    "description": "Check and repair a Linux filesystem",
+    "popularity": 6,
+    "difficulty": "advanced",
+    "version": "util-linux (front-end; fsck.ext4, etc.)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "fsck is a front-end; fsck.ext4, fsck.xfs, etc. are in e2fsprogs, xfsprogs"
+  },
+  "overview": {
+    "summary": "fsck (filesystem check) checks and optionally repairs a filesystem. The filesystem should be unmounted (or read-only). fsck is a front-end: fsck.ext4 runs e2fsck, etc. Run after unclean shutdown or when errors are suspected.",
+    "when_to_use": [
+      "Check filesystem after crash or unclean shutdown",
+      "Repair filesystem errors (fsck -y or -p)",
+      "Verify filesystem integrity"
+    ]
+  },
+  "syntax": {
+    "basic": "fsck [OPTIONS] [-t TYPE] DEVICE",
+    "description": "DEVICE is the partition (e.g., /dev/sdb1). Unmount first (or use from recovery). TYPE can be ext4, etc.",
+    "examples": [
+      "sudo fsck /dev/sdb1",
+      "sudo fsck -y /dev/sdb1",
+      "sudo fsck.ext4 -f /dev/sdb1"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-y, --yes",
+      "short": "-y",
+      "long": "--yes",
+      "description": "Assume yes to all prompts (non-interactive repair)",
+      "category": "behavior",
+      "example": "sudo fsck -y /dev/sdb1",
+      "use_case": "Auto-repair without prompts"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force check even if filesystem looks clean (e2fsck)",
+      "category": "behavior",
+      "example": "sudo fsck.ext4 -f /dev/sdb1",
+      "use_case": "Full check"
+    },
+    {
+      "flag": "-n, --no",
+      "short": "-n",
+      "long": "--no",
+      "description": "Assume no; do not make changes (check only)",
+      "category": "behavior",
+      "example": "sudo fsck -n /dev/sdb1",
+      "use_case": "Dry run / report only"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Check and repair (unmount first)",
+      "command": "sudo umount /dev/sdb1 && sudo fsck -y /dev/sdb1",
+      "description": "Unmount then run fsck with auto yes",
+      "use_case": "Repair after unmounting"
+    },
+    {
+      "title": "Check only (no changes)",
+      "command": "sudo fsck -n /dev/sdb1",
+      "description": "Report problems without fixing",
+      "use_case": "Inspect before repair"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Filesystem mounted read-write",
+      "description": "Running fsck on a mounted filesystem can cause corruption.",
+      "solution": "Unmount the filesystem first (umount), or run from recovery/live media."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "mount",
+      "relationship": "Complementary",
+      "description": "Unmount before fsck; mount after"
+    },
+    {
+      "command": "mkfs",
+      "relationship": "Related",
+      "description": "Creates filesystem; fsck checks/repairs it"
+    }
+  ]
+}

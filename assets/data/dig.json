@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "name": "dig",
+    "displayName": "dig - DNS lookup utility",
+    "category": "Network",
+    "tags": ["dns", "network", "lookup", "diagnostics", "intermediate"],
+    "description": "Query DNS name servers (detailed DNS lookup)",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "BIND 9.x (dnsutils package)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "dnsutils",
+      "manager": "apt",
+      "command": "sudo apt install dnsutils"
+    },
+    "note": "dig is provided by the dnsutils package on Debian/Ubuntu"
+  },
+  "overview": {
+    "summary": "dig (domain information groper) queries DNS servers and displays detailed results. It is more flexible and script-friendly than host or nslookup, showing response sections, flags, and timing.",
+    "when_to_use": [
+      "Look up A, AAAA, MX, NS, TXT, or other DNS records",
+      "Debug DNS resolution or verify DNS configuration",
+      "Query a specific nameserver or record type"
+    ]
+  },
+  "syntax": {
+    "basic": "dig [@SERVER] [OPTIONS] NAME [TYPE]",
+    "description": "NAME is the domain to query. TYPE can be A, AAAA, MX, NS, TXT, etc. SERVER is the DNS server to query (optional).",
+    "examples": [
+      "dig example.com",
+      "dig example.com MX",
+      "dig @8.8.8.8 example.com A"
+    ]
+  },
+  "options": [
+    {
+      "flag": "+short",
+      "short": null,
+      "long": null,
+      "description": "Show only the answer section in a concise form",
+      "category": "output",
+      "example": "dig +short example.com",
+      "use_case": "For scripting or quick one-line answers"
+    },
+    {
+      "flag": "+trace",
+      "short": null,
+      "long": null,
+      "description": "Trace delegation from root servers (iterative resolution)",
+      "category": "debug",
+      "example": "dig +trace example.com",
+      "use_case": "See how DNS resolution walks the hierarchy"
+    },
+    {
+      "flag": "-x",
+      "short": "-x",
+      "long": null,
+      "description": "Reverse DNS lookup (query PTR for an IP address)",
+      "category": "query",
+      "example": "dig -x 8.8.8.8",
+      "use_case": "Resolve an IP to a hostname"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic A record lookup",
+      "command": "dig example.com",
+      "description": "Query default A and AAAA records for example.com",
+      "use_case": "Check what IP a domain resolves to"
+    },
+    {
+      "title": "Short output for scripting",
+      "command": "dig +short example.com",
+      "description": "Print only the resolved IP(s)",
+      "output": "93.184.216.34",
+      "use_case": "Use in scripts: ip=$(dig +short example.com)"
+    },
+    {
+      "title": "Query MX records",
+      "command": "dig example.com MX",
+      "description": "Get mail exchanger records for the domain",
+      "use_case": "Verify or debug email server configuration"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "host",
+      "relationship": "Alternative",
+      "description": "Simpler DNS lookup; less detailed than dig"
+    },
+    {
+      "command": "nslookup",
+      "relationship": "Alternative",
+      "description": "Interactive DNS lookup (legacy)"
+    }
+  ]
+}

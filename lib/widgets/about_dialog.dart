@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MannedPagesAboutDialog extends StatelessWidget {
@@ -34,69 +35,75 @@ class MannedPagesAboutDialog extends StatelessWidget {
         ],
       ),
       content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Version 1.0.2',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'A modern, user-friendly Linux command reference application for Ubuntu.',
-              style: TextStyle(fontSize: 14),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            const Text(
-              'Manned Pages provides comprehensive documentation for the most commonly used Linux commands. Designed specifically for Ubuntu with the native Yaru theme, it presents command information in a clean, accessible interface that\'s easier to navigate than traditional man pages.',
-              style: TextStyle(fontSize: 14),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Tooltip(
-                    message: 'https://github.com/pkariithi/manned',
-                    child: InkWell(
-                      onTap: () =>
-                          _launchUrl('https://github.com/pkariithi/manned'),
-                      onSecondaryTap: () => _copyUrlToClipboard(
-                        context,
-                        'https://github.com/pkariithi/manned',
+        child: FutureBuilder<PackageInfo>(
+          future: PackageInfo.fromPlatform(),
+          builder: (context, snapshot) {
+            final version = snapshot.data?.version ?? '?.?.?';
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Version $version',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'A modern, user-friendly Linux command reference application for Ubuntu.',
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'Manned Pages provides comprehensive documentation for the most commonly used Linux commands. Designed specifically for Ubuntu with the native Yaru theme, it presents command information in a clean, accessible interface that\'s easier to navigate than traditional man pages.',
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Tooltip(
+                        message: 'https://github.com/pkariithi/manned',
+                        child: InkWell(
+                          onTap: () =>
+                              _launchUrl('https://github.com/pkariithi/manned'),
+                          onSecondaryTap: () => _copyUrlToClipboard(
+                            context,
+                            'https://github.com/pkariithi/manned',
+                          ),
+                          child: Image.asset(
+                            'assets/github-logo.png',
+                            height: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
-                      child: Image.asset(
-                        'assets/github-logo.png',
-                        height: 40,
-                        fit: BoxFit.contain,
+                      const SizedBox(width: 16),
+                      Tooltip(
+                        message: 'https://buymeacoffee.com/patrickariithi',
+                        child: InkWell(
+                          onTap: () =>
+                              _launchUrl('https://buymeacoffee.com/patrickariithi'),
+                          onSecondaryTap: () => _copyUrlToClipboard(
+                            context,
+                            'https://buymeacoffee.com/patrickariithi',
+                          ),
+                          child: Image.asset(
+                            'assets/buymeacoffee.png',
+                            height: 40,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(width: 16),
-                  Tooltip(
-                    message: 'https://buymeacoffee.com/patrickariithi',
-                    child: InkWell(
-                      onTap: () =>
-                          _launchUrl('https://buymeacoffee.com/patrickariithi'),
-                      onSecondaryTap: () => _copyUrlToClipboard(
-                        context,
-                        'https://buymeacoffee.com/patrickariithi',
-                      ),
-                      child: Image.asset(
-                        'assets/buymeacoffee.png',
-                        height: 40,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
       actions: [

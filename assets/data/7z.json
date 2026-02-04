@@ -1,0 +1,109 @@
+{
+  "metadata": {
+    "name": "7z",
+    "displayName": "7z - 7-Zip archive manager",
+    "category": "Archive & Compression",
+    "tags": ["archive", "compression", "7z", "extract", "intermediate"],
+    "description": "Create and extract 7-Zip archives",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "p7zip (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "p7zip-full",
+      "manager": "apt",
+      "command": "sudo apt install p7zip-full"
+    },
+    "note": "On Debian/Ubuntu install p7zip-full for 7z command; p7zip has limited format support"
+  },
+  "overview": {
+    "summary": "7z creates and extracts 7-Zip and other archives (7z, zip, gzip, tar, etc.). It offers high compression and supports many formats. Use 7z x to extract, 7z a to add/create archives.",
+    "when_to_use": [
+      "Extract .7z, .zip, or other supported archives",
+      "Create high-compression .7z archives",
+      "Handle Windows .7z or .zip files on Linux"
+    ]
+  },
+  "syntax": {
+    "basic": "7z COMMAND [OPTIONS] ARCHIVE [FILES]",
+    "description": "COMMAND is a single letter: a (add), x (extract full paths), e (extract no paths), l (list), etc.",
+    "examples": [
+      "7z x archive.7z",
+      "7z a archive.7z file1 file2",
+      "7z l archive.zip"
+    ]
+  },
+  "options": [
+    {
+      "flag": "a (add)",
+      "short": null,
+      "long": null,
+      "description": "Add files to archive (create or update)",
+      "category": "operation",
+      "example": "7z a archive.7z file1 file2",
+      "use_case": "Create or update archive"
+    },
+    {
+      "flag": "x (extract)",
+      "short": null,
+      "long": null,
+      "description": "Extract with full paths",
+      "category": "operation",
+      "example": "7z x archive.7z",
+      "use_case": "Extract preserving directory structure"
+    },
+    {
+      "flag": "e (extract)",
+      "short": null,
+      "long": null,
+      "description": "Extract without paths (all files to current dir)",
+      "category": "operation",
+      "example": "7z e archive.7z",
+      "use_case": "Extract all files into current directory"
+    },
+    {
+      "flag": "l (list)",
+      "short": null,
+      "long": null,
+      "description": "List archive contents",
+      "category": "operation",
+      "example": "7z l archive.7z",
+      "use_case": "See contents without extracting"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Extract a 7z archive",
+      "command": "7z x archive.7z",
+      "description": "Extract archive.7z with full paths",
+      "use_case": "Unpack a 7z file"
+    },
+    {
+      "title": "Create a 7z archive",
+      "command": "7z a archive.7z file1.txt file2.txt",
+      "description": "Create archive.7z containing the listed files",
+      "use_case": "Compress files with 7z"
+    },
+    {
+      "title": "List archive contents",
+      "command": "7z l archive.zip",
+      "description": "Show contents of archive without extracting",
+      "use_case": "Inspect archive"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "tar",
+      "relationship": "Alternative",
+      "description": "Standard for .tar, .tar.gz on Linux"
+    },
+    {
+      "command": "unzip",
+      "relationship": "Alternative",
+      "description": "Extract .zip files; 7z can also handle zip"
+    }
+  ]
+}

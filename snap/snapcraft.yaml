@@ -1,0 +1,48 @@
+name: manned-pages
+base: core22
+version: "1.0.3"
+summary: A modern Linux command reference application
+description: |
+  Manned Pages is a user-friendly Linux command reference app built with Flutter.
+  Browse and search documentation for common Linux commands, with a clean UI,
+  dark/light theme, and JSON view. Perfect for learning and quick reference.
+
+confinement: strict
+grade: stable
+
+apps:
+  manned-pages:
+    command: manned_pages
+    extensions: [gnome-3-38]
+    desktop: usr/share/applications/manned-pages.desktop
+    icon: assets/icon.png
+
+parts:
+  manned-pages:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart
+    flutter-channel: stable
+    # Provide desktop file and icon for strict confinement
+    override-prime: |
+      # Create desktop file so the app appears in the application menu
+      mkdir -p $SNAPCRAFT_PRIME/usr/share/applications
+      cat > $SNAPCRAFT_PRIME/usr/share/applications/manned-pages.desktop << 'DESKTOP'
+      [Desktop Entry]
+      Version=1.0
+      Type=Application
+      Name=Manned Pages
+      Comment=A modern, user-friendly Linux command reference application
+      Exec=manned_pages
+      Icon=manned-pages
+      Terminal=false
+      Categories=Utility;
+      Keywords=linux;commands;documentation;man;reference;
+      StartupWMClass=manned_pages
+      StartupNotify=true
+      DESKTOP
+      # Copy icon from Flutter bundle assets for desktop integration
+      mkdir -p $SNAPCRAFT_PRIME/usr/share/icons/hicolor/256x256/apps
+      if [ -f "$SNAPCRAFT_PRIME/data/flutter_assets/assets/icon.png" ]; then
+        cp "$SNAPCRAFT_PRIME/data/flutter_assets/assets/icon.png" "$SNAPCRAFT_PRIME/usr/share/icons/hicolor/256x256/apps/manned-pages.png"
+      fi

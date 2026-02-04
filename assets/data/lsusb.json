@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "name": "lsusb",
+    "displayName": "lsusb - List USB devices",
+    "category": "System Information",
+    "tags": ["usb", "hardware", "devices", "system", "intermediate"],
+    "description": "List USB buses and connected devices",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "usbutils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lsusb is commonly available by default; if missing: sudo apt install usbutils"
+  },
+  "overview": {
+    "summary": "lsusb lists USB controllers and devices connected to the system. It shows vendor ID, product ID, and optional device descriptions, useful for debugging USB hardware or finding device identifiers.",
+    "when_to_use": [
+      "See what USB devices are connected",
+      "Find vendor and product IDs for udev rules or drivers",
+      "Troubleshoot USB devices not being recognized"
+    ]
+  },
+  "syntax": {
+    "basic": "lsusb [OPTIONS] [BUS:DEVICE]",
+    "description": "Without arguments, lsusb lists all USB devices. You can filter by bus:device.",
+    "examples": [
+      "lsusb",
+      "lsusb -t",
+      "lsusb -v"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show detailed device information",
+      "category": "display",
+      "example": "lsusb -v",
+      "use_case": "See descriptors and configuration details"
+    },
+    {
+      "flag": "-t, --tree",
+      "short": "-t",
+      "long": "--tree",
+      "description": "Show device tree (hierarchy)",
+      "category": "display",
+      "example": "lsusb -t",
+      "use_case": "See bus and port layout"
+    },
+    {
+      "flag": "-d vendor:product",
+      "short": "-d",
+      "long": null,
+      "description": "Show only device with given vendor:product ID",
+      "category": "filter",
+      "example": "lsusb -d 1234:5678",
+      "use_case": "Inspect a specific device"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List all USB devices",
+      "command": "lsusb",
+      "description": "Show connected USB devices with IDs and descriptions",
+      "output": "Bus 001 Device 002: ID 8087:0024 Intel Corp. ...",
+      "use_case": "Quick USB device overview"
+    },
+    {
+      "title": "Verbose output",
+      "command": "lsusb -v",
+      "description": "Show detailed descriptors for each device",
+      "use_case": "Debug or write udev rules"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "lspci",
+      "relationship": "Complementary",
+      "description": "Lists PCI devices (similar idea for PCI)"
+    },
+    {
+      "command": "dmesg",
+      "relationship": "Related",
+      "description": "Kernel messages often show USB attach/detach events"
+    }
+  ]
+}

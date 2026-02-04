@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "name": "info",
+    "displayName": "info - Read Info documents",
+    "category": "Shell & Environment",
+    "tags": ["documentation", "info", "help", "beginner"],
+    "description": "Read GNU Info documentation",
+    "popularity": 5,
+    "difficulty": "beginner",
+    "version": "GNU texinfo (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "info is commonly available by default; some packages add info pages"
+  },
+  "overview": {
+    "summary": "info displays GNU Info documentation, a hypertext help system. Many GNU tools have both man and info pages; info often has more detailed or structured documentation. Use arrow keys and Enter to navigate.",
+    "when_to_use": [
+      "Read detailed documentation for GNU tools",
+      "Navigate structured help (nodes, links)",
+      "Alternative to man when info pages exist"
+    ]
+  },
+  "syntax": {
+    "basic": "info [OPTIONS] [TOPIC]",
+    "description": "TOPIC can be a command name or info node. Without TOPIC, info shows the directory of available docs.",
+    "examples": [
+      "info bash",
+      "info",
+      "info grep"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-k, --apropos",
+      "short": "-k",
+      "long": "--apropos",
+      "description": "Search for STRING in all info indices",
+      "category": "search",
+      "example": "info -k regex",
+      "use_case": "Find info pages by keyword"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Read bash info",
+      "command": "info bash",
+      "description": "Open the Bash info manual",
+      "use_case": "Detailed bash documentation"
+    },
+    {
+      "title": "Info directory",
+      "command": "info",
+      "description": "Show top-level info directory",
+      "use_case": "Browse available info docs"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "man",
+      "relationship": "Alternative",
+      "description": "Manual pages; many commands have both man and info"
+    }
+  ]
+}

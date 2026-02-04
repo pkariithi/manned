@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "name": "updatedb",
+    "displayName": "updatedb - Update the locate database",
+    "category": "File & Directory Operations",
+    "tags": ["search", "database", "files", "system", "intermediate"],
+    "description": "Update the filename database used by locate",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "plocate/mlocate (varies by distro)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "plocate",
+      "manager": "apt",
+      "command": "sudo apt install plocate"
+    },
+    "note": "updatedb is typically installed with locate (plocate/mlocate). Many systems run it automatically via a daily timer/cron."
+  },
+  "overview": {
+    "summary": "updatedb rebuilds or refreshes the database that locate searches. Running it makes locate results include newly created files and remove entries for deleted files (depending on configuration). It often requires elevated permissions to scan system directories.",
+    "when_to_use": [
+      "locate results are missing a file you just created",
+      "locate is showing paths that no longer exist",
+      "You want locate searches to reflect recent filesystem changes"
+    ]
+  },
+  "syntax": {
+    "basic": "updatedb [OPTIONS]",
+    "description": "updatedb scans the filesystem based on its configuration and writes the locate database file.",
+    "examples": [
+      "sudo updatedb",
+      "updatedb --help"
+    ]
+  },
+  "options": [
+    {
+      "flag": "--help",
+      "short": null,
+      "long": "--help",
+      "description": "Show help and available options (varies by implementation)",
+      "category": "help",
+      "example": "updatedb --help",
+      "use_case": "Check supported flags for your distro's implementation"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Refresh the locate database now",
+      "command": "sudo updatedb",
+      "description": "Update the locate database so locate returns up-to-date results",
+      "use_case": "After creating/moving files you want to find with locate"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Running without permissions",
+      "description": "Without sudo, updatedb may skip system directories and produce incomplete results.",
+      "solution": "Run with sudo if you want a full-system database (sudo updatedb)."
+    },
+    {
+      "issue": "It can take time on large disks",
+      "description": "Database rebuilds scan many paths and can be slow on systems with lots of files.",
+      "solution": "Let the scheduled job run, or run updatedb during low-usage periods."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "locate",
+      "relationship": "Complementary",
+      "description": "Searches the database produced by updatedb"
+    },
+    {
+      "command": "find",
+      "relationship": "Alternative",
+      "description": "Live filesystem search that doesn't rely on a database"
+    }
+  ]
+}

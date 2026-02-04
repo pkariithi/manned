@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "name": "locate",
+    "displayName": "locate - Find files by name (database search)",
+    "category": "File & Directory Operations",
+    "tags": ["search", "files", "database", "fast", "beginner"],
+    "description": "Find files quickly using a prebuilt name database",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "plocate/mlocate (varies by distro)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "plocate",
+      "manager": "apt",
+      "command": "sudo apt install plocate"
+    },
+    "note": "On Ubuntu, locate is typically provided by plocate (newer) or mlocate (older). The database is updated by updatedb (often via a daily timer/cron)."
+  },
+  "overview": {
+    "summary": "The locate command searches a system-wide database of filenames, making it much faster than scanning the filesystem with find. Because it uses a database snapshot, results can be outdated until the database is updated.",
+    "when_to_use": [
+      "Quickly find where a file might be located by name",
+      "Search for man pages, configs, or binaries by filename",
+      "Find files across the whole system when speed matters"
+    ]
+  },
+  "syntax": {
+    "basic": "locate [OPTIONS] PATTERN...",
+    "description": "Patterns are matched against the file database. Use options to control case sensitivity, limit results, or require existing paths.",
+    "examples": [
+      "locate bashrc",
+      "locate -i readme",
+      "locate -n 20 '*.conf'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-i, --ignore-case",
+      "short": "-i",
+      "long": "--ignore-case",
+      "description": "Match patterns case-insensitively",
+      "category": "search",
+      "example": "locate -i readme",
+      "use_case": "When you don't know exact capitalization"
+    },
+    {
+      "flag": "-n, --limit",
+      "short": "-n",
+      "long": "--limit",
+      "description": "Limit the number of results printed",
+      "category": "output",
+      "example": "locate -n 20 '*.conf'",
+      "use_case": "To avoid huge result lists"
+    },
+    {
+      "flag": "-e, --existing",
+      "short": "-e",
+      "long": "--existing",
+      "description": "Only print entries that currently exist",
+      "category": "filtering",
+      "example": "locate -e myfile.txt",
+      "use_case": "When the database may be stale"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Find a file by name fragment",
+      "command": "locate bashrc",
+      "description": "Search for paths containing 'bashrc'",
+      "output": "/etc/bash.bashrc\n/home/user/.bashrc\n/usr/share/doc/bash/examples/startup-files/bashrc",
+      "use_case": "Quickly discover where common config files are"
+    },
+    {
+      "title": "Avoid stale results",
+      "command": "locate -e myfile.txt",
+      "description": "Only print results that exist on disk right now",
+      "use_case": "When you suspect the database is out of date"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "locate searches the filesystem live",
+      "misconception": "locate is always accurate because it scans the disk like find",
+      "reality": "locate searches a database snapshot, so it can show deleted files or miss newly created ones until the database is updated.",
+      "tip": "Run updatedb (often with sudo) or wait for the scheduled update if results seem wrong."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "find",
+      "relationship": "Alternative",
+      "description": "Scans the filesystem live (slower, but always up to date and more powerful filters)"
+    },
+    {
+      "command": "updatedb",
+      "relationship": "Complementary",
+      "description": "Updates the locate database so results reflect recent changes"
+    },
+    {
+      "command": "which",
+      "relationship": "Related",
+      "description": "Finds a command in PATH (different purpose, but often used together)"
+    }
+  ]
+}

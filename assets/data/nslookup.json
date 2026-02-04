@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "name": "nslookup",
+    "displayName": "nslookup - Query Internet name servers",
+    "category": "Network",
+    "tags": ["dns", "lookup", "network", "interactive", "beginner"],
+    "description": "Interactive DNS lookup utility",
+    "popularity": 6,
+    "difficulty": "beginner",
+    "version": "dnsutils / bind (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "dnsutils",
+      "manager": "apt",
+      "command": "sudo apt install dnsutils"
+    },
+    "note": "nslookup is in dnsutils on Debian/Ubuntu"
+  },
+  "overview": {
+    "summary": "nslookup queries DNS servers interactively or in non-interactive mode. It can look up A, MX, NS, and other records. dig and host are often preferred for scripting; nslookup is familiar from Windows and other systems.",
+    "when_to_use": [
+      "Quick interactive DNS lookups",
+      "Query a specific nameserver",
+      "Check reverse DNS (PTR)"
+    ]
+  },
+  "syntax": {
+    "basic": "nslookup [OPTIONS] [NAME] [SERVER]",
+    "description": "NAME is the hostname or IP to look up. SERVER is the DNS server to use. Without arguments, nslookup enters interactive mode.",
+    "examples": [
+      "nslookup example.com",
+      "nslookup example.com 8.8.8.8",
+      "nslookup"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-type=TYPE",
+      "short": null,
+      "long": null,
+      "description": "Query type (A, MX, NS, PTR, etc.)",
+      "category": "query",
+      "example": "nslookup -type=MX example.com",
+      "use_case": "Get specific record type"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Look up a hostname",
+      "command": "nslookup example.com",
+      "description": "Resolve example.com using default DNS",
+      "use_case": "Quick DNS check"
+    },
+    {
+      "title": "Use specific DNS server",
+      "command": "nslookup example.com 8.8.8.8",
+      "description": "Query Google DNS (8.8.8.8) for example.com",
+      "use_case": "Test against a specific resolver"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "dig",
+      "relationship": "Alternative",
+      "description": "More detailed and script-friendly DNS lookups"
+    },
+    {
+      "command": "host",
+      "relationship": "Alternative",
+      "description": "Simple non-interactive DNS lookup"
+    }
+  ]
+}

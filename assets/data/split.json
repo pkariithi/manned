@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "name": "split",
+    "displayName": "split - Split files into pieces",
+    "category": "File & Directory Operations",
+    "tags": ["files", "chunks", "archive", "text", "beginner"],
+    "description": "Split a file into smaller files",
+    "popularity": 5,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "split is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The split command breaks a file into multiple smaller output files. It's useful for chunking large logs, transferring big files in pieces, or preparing data for parallel processing.",
+    "when_to_use": [
+      "Split a large file into smaller chunks for transfer or storage",
+      "Break a log file into manageable pieces",
+      "Create evenly sized chunks for parallel processing"
+    ]
+  },
+  "syntax": {
+    "basic": "split [OPTIONS] [INPUT [PREFIX]]",
+    "description": "If INPUT is omitted, split reads from standard input. Output files are named using PREFIX (default: x) with alphabetical suffixes.",
+    "examples": [
+      "split bigfile",
+      "split -b 100M big.iso chunk_",
+      "split -l 1000 access.log access_"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-b, --bytes",
+      "short": "-b",
+      "long": "--bytes",
+      "description": "Split by size in bytes (supports suffixes like K, M, G)",
+      "category": "sizing",
+      "example": "split -b 100M big.iso chunk_",
+      "use_case": "When you want chunks of a specific size"
+    },
+    {
+      "flag": "-l, --lines",
+      "short": "-l",
+      "long": "--lines",
+      "description": "Split by number of lines per output file",
+      "category": "sizing",
+      "example": "split -l 1000 access.log access_",
+      "use_case": "When splitting text files by line count"
+    },
+    {
+      "flag": "-d, --numeric-suffixes",
+      "short": "-d",
+      "long": "--numeric-suffixes",
+      "description": "Use numeric suffixes instead of alphabetic",
+      "category": "naming",
+      "example": "split -d -b 100M big.iso chunk_",
+      "use_case": "When you want chunk_00, chunk_01, ... naming"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Split a file into 100MB chunks",
+      "command": "split -b 100M big.iso chunk_",
+      "description": "Create chunk_aa, chunk_ab, ... each about 100MB",
+      "use_case": "Transfer or store large files in smaller pieces"
+    },
+    {
+      "title": "Split a log file into 1000-line parts",
+      "command": "split -l 1000 access.log access_",
+      "description": "Create access_aa, access_ab, ... each with 1000 lines (except the last)",
+      "use_case": "Process logs in smaller chunks"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "cat",
+      "relationship": "Complementary",
+      "description": "Recombine split parts by concatenating them in order (e.g., cat chunk_* > original)"
+    },
+    {
+      "command": "tar",
+      "relationship": "Related",
+      "description": "Archive files before splitting if you need a single stream"
+    }
+  ]
+}

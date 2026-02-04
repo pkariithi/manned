@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "name": "bg",
+    "displayName": "bg - Resume a job in the background",
+    "category": "Process Management",
+    "tags": ["shell", "jobs", "background", "processes", "beginner"],
+    "description": "Move a stopped job to the background",
+    "popularity": 4,
+    "difficulty": "beginner",
+    "version": "bash built-in (also in other shells)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "bg is a shell built-in (commonly in bash), not a standalone binary"
+  },
+  "overview": {
+    "summary": "The bg command resumes a stopped job and runs it in the background. It works with job control in your shell (like bash), typically after you suspend a program with Ctrl+Z.",
+    "when_to_use": [
+      "You suspended a program with Ctrl+Z and want it to continue in the background",
+      "You want to keep using the terminal while a job runs",
+      "You are managing multiple interactive jobs in one terminal"
+    ]
+  },
+  "syntax": {
+    "basic": "bg [JOB_SPEC]",
+    "description": "If JOB_SPEC is omitted, bg operates on the current job. JOB_SPEC is often like %1, %2, etc., shown by the jobs command.",
+    "examples": [
+      "bg",
+      "bg %1",
+      "jobs"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Suspend and continue a job in the background",
+      "command": "sleep 300\n# press Ctrl+Z\nbg",
+      "description": "Suspend a running command, then resume it in the background",
+      "use_case": "Keep a long-running task going while freeing your prompt"
+    },
+    {
+      "title": "Resume a specific job by number",
+      "command": "bg %2",
+      "description": "Resume job number 2 in the background",
+      "use_case": "When multiple jobs are stopped/running"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "No job control in the current shell/session",
+      "description": "In some non-interactive shells or restricted environments, job control may be disabled.",
+      "solution": "Run an interactive shell (e.g., bash) or ensure job control is enabled for your session."
+    },
+    {
+      "issue": "Background jobs still write to the terminal",
+      "description": "A background job can still output to the terminal and interrupt your typing.",
+      "solution": "Redirect output (e.g., command > out.txt 2>&1 &) or use disown/nohup when appropriate."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "fg",
+      "relationship": "Complementary",
+      "description": "Bring a background/stopped job to the foreground"
+    },
+    {
+      "command": "jobs",
+      "relationship": "Complementary",
+      "description": "List current shell jobs and their job numbers"
+    }
+  ]
+}

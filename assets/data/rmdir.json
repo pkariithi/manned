@@ -184,14 +184,16 @@
       "output": "rmdir: failed to remove 'nonexistent': No such file or directory",
       "output_explanation": {
         "format": "Error message when directory doesn't exist",
-        "elements": {
-          "element": "rmdir: failed to remove 'nonexistent': No such file or directory",
-          "meaning": "Directory doesn't exist or path is incorrect",
-          "breakdown": {
-            "error": "No such file or directory",
-            "solution": "Check path with ls or use correct directory name"
+        "elements": [
+          {
+            "element": "rmdir: failed to remove 'nonexistent': No such file or directory",
+            "meaning": "Directory doesn't exist or path is incorrect",
+            "breakdown": {
+              "error": "No such file or directory",
+              "solution": "Check path with ls or use correct directory name"
+            }
           }
-        },
+        ],
         "notes": "Verify directory exists with ls before trying to remove it"
       },
       "use_case": "Understanding error messages when directory doesn't exist"

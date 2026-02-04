@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "name": "groupdel",
+    "displayName": "groupdel - Delete a group",
+    "category": "User & Permissions",
+    "tags": ["group", "delete", "admin", "permissions", "intermediate"],
+    "description": "Remove a group",
+    "popularity": 4,
+    "difficulty": "intermediate",
+    "version": "shadow-utils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "groupdel is a core admin command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "groupdel removes a group from /etc/group. The group must have no members (or only primary members); remove users from the group first with gpasswd or usermod if necessary.",
+    "when_to_use": [
+      "Remove a group that is no longer needed",
+      "Clean up after removing all members",
+      "Delete a project or team group"
+    ]
+  },
+  "syntax": {
+    "basic": "groupdel [OPTIONS] GROUPNAME",
+    "description": "GROUPNAME is required. The group must be empty (no members) on most systems.",
+    "examples": [
+      "sudo groupdel developers"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Delete a group",
+      "command": "sudo groupdel developers",
+      "description": "Remove the group named developers",
+      "use_case": "When the group is no longer needed"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Group has members",
+      "description": "groupdel may fail if the group has members (primary or supplementary).",
+      "solution": "Remove users from the group first (gpasswd -d user group or usermod), or check your distro's behavior."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "groupadd",
+      "relationship": "Related",
+      "description": "Create a group; groupdel removes it"
+    },
+    {
+      "command": "usermod",
+      "relationship": "Complementary",
+      "description": "Remove a user from a group before deleting the group"
+    }
+  ]
+}

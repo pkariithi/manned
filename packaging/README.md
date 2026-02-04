@@ -1,6 +1,56 @@
 # Packaging Manned Pages
 
-This directory contains scripts and configuration files for building Debian packages (.deb) of Manned Pages.
+This directory contains scripts and configuration files for building Debian packages (.deb) and Snap packages of Manned Pages.
+
+## Building a Snap Package
+
+### Prerequisites
+
+- [Snapcraft](https://snapcraft.io/docs/snapcraft-overview) (recommended: install via snap):
+  ```bash
+  sudo snap install snapcraft --classic
+  ```
+- Snapcraft will use the [Flutter plugin](https://snapcraft.io/docs/flutter-plugin) and handle the Flutter SDK in the build environment.
+
+### Build Steps
+
+1. **Build the snap** (from project root):
+   ```bash
+   ./packaging/build_snap.sh
+   ```
+   Or run snapcraft directly:
+   ```bash
+   snapcraft
+   ```
+
+2. **Output:** `manned-pages_<version>_amd64.snap` in the project root.
+
+### Install the Snap Locally
+
+```bash
+sudo snap install manned-pages_*.snap --dangerous
+```
+
+Use `--dangerous` because the snap is not signed by the store. For testing with fewer restrictions:
+
+```bash
+sudo snap install manned-pages_*.snap --dangerous --devmode
+```
+
+### Publishing to the Snap Store
+
+1. Create a [Snap Store account](https://snapcraft.io/register) and log in: `snapcraft login`
+2. Register the snap name (one-time): `snapcraft register manned-pages`
+3. Build and push: `snapcraft upload manned-pages_*.snap --release=stable`
+
+### Snap Configuration
+
+- **Config file:** `snap/snapcraft.yaml`
+- **Base:** core22 (Ubuntu 22.04 LTS base)
+- **Confinement:** strict (store-ready)
+- **Extensions:** gnome-3-38 for desktop integration
+
+---
 
 ## Building a .deb Package
 

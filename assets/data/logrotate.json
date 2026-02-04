@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "name": "logrotate",
+    "displayName": "logrotate - Rotate, compress, and manage log files",
+    "category": "Systemd & Logs",
+    "tags": ["logs", "rotate", "compress", "admin", "intermediate"],
+    "description": "Rotate, compress, and mail system logs",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "logrotate (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "logrotate is commonly installed by default on Linux systems"
+  },
+  "overview": {
+    "summary": "logrotate rotates, compresses, and optionally mails log files based on size or time. It is typically run daily by cron. Configuration is in /etc/logrotate.conf and /etc/logrotate.d/. Prevents logs from filling the disk.",
+    "when_to_use": [
+      "Rotate application or system logs automatically",
+      "Compress old logs to save space",
+      "Configure log retention (keep N rotations)"
+    ]
+  },
+  "syntax": {
+    "basic": "logrotate [OPTIONS] CONFIG_FILE",
+    "description": "CONFIG_FILE is usually /etc/logrotate.conf. logrotate reads config and rotates logs as defined.",
+    "examples": [
+      "sudo logrotate /etc/logrotate.conf",
+      "sudo logrotate -d /etc/logrotate.conf",
+      "sudo logrotate -f /etc/logrotate.d/myapp"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --debug",
+      "short": "-d",
+      "long": "--debug",
+      "description": "Dry run; show what would be done without doing it",
+      "category": "behavior",
+      "example": "sudo logrotate -d /etc/logrotate.conf",
+      "use_case": "Test configuration"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force rotation even if not due",
+      "category": "behavior",
+      "example": "sudo logrotate -f /etc/logrotate.d/nginx",
+      "use_case": "Force rotation now"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose output",
+      "category": "display",
+      "example": "sudo logrotate -v /etc/logrotate.conf",
+      "use_case": "See what is being rotated"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run logrotate (normally done by cron)",
+      "command": "sudo logrotate /etc/logrotate.conf",
+      "description": "Execute rotation per config",
+      "use_case": "Manual run or test"
+    },
+    {
+      "title": "Test config (dry run)",
+      "command": "sudo logrotate -d /etc/logrotate.conf",
+      "description": "Show what would be rotated without doing it",
+      "use_case": "Verify configuration"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "journalctl",
+      "relationship": "Related",
+      "description": "Query systemd logs; logrotate handles file-based logs"
+    },
+    {
+      "command": "cron",
+      "relationship": "Related",
+      "description": "logrotate is usually run daily by cron"
+    }
+  ]
+}

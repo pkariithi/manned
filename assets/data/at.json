@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "name": "at",
+    "displayName": "at - Execute commands at a specified time",
+    "category": "Task Scheduling",
+    "tags": ["schedule", "cron", "one-time", "intermediate"],
+    "description": "Schedule one-time command execution",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "at (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "at",
+      "manager": "apt",
+      "command": "sudo apt install at"
+    },
+    "note": "at daemon (atd) must be running; sudo systemctl enable --now atd"
+  },
+  "overview": {
+    "summary": "at schedules a command or script to run once at a specified time. Unlike cron, it is for one-time jobs (e.g., 'in 2 hours' or 'tomorrow at 10am'). Input is read from stdin or -f file.",
+    "when_to_use": [
+      "Run a command once at a specific time",
+      "Schedule a job 'in 1 hour' or 'tomorrow at 9am'",
+      "One-off delayed execution"
+    ]
+  },
+  "syntax": {
+    "basic": "at [OPTIONS] TIME",
+    "description": "TIME can be 'now + 2 hours', '10:00 tomorrow', 'midnight', etc. Then enter commands (one per line), finish with Ctrl+D.",
+    "examples": [
+      "at now + 1 hour",
+      "at 10:00 tomorrow",
+      "at -f script.sh 14:00"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-f, --file",
+      "short": "-f",
+      "long": "--file",
+      "description": "Read job from file instead of stdin",
+      "category": "input",
+      "example": "at -f script.sh 14:00",
+      "use_case": "Schedule a script"
+    },
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List pending jobs (same as atq)",
+      "category": "display",
+      "example": "at -l",
+      "use_case": "See scheduled jobs"
+    },
+    {
+      "flag": "-d, --delete",
+      "short": "-d",
+      "long": "--delete",
+      "description": "Delete a job (same as atrm)",
+      "category": "behavior",
+      "example": "at -d 5",
+      "use_case": "Cancel job number 5"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run command in 1 hour",
+      "command": "echo 'backup.sh' | at now + 1 hour",
+      "description": "Schedule backup.sh to run in one hour",
+      "use_case": "Delayed one-time run"
+    },
+    {
+      "title": "Run script tomorrow at 10am",
+      "command": "at -f script.sh 10:00 tomorrow",
+      "description": "Schedule script.sh for 10:00 tomorrow",
+      "use_case": "One-time scheduled job"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "atq",
+      "relationship": "Complementary",
+      "description": "List pending at jobs"
+    },
+    {
+      "command": "atrm",
+      "relationship": "Complementary",
+      "description": "Remove a pending at job"
+    },
+    {
+      "command": "crontab",
+      "relationship": "Alternative",
+      "description": "Recurring schedule; at is one-time"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "name": "iostat",
+    "displayName": "iostat - Report CPU and I/O statistics",
+    "category": "Monitoring",
+    "tags": ["io", "disk", "cpu", "performance", "advanced"],
+    "description": "Report CPU and I/O statistics",
+    "popularity": 5,
+    "difficulty": "advanced",
+    "version": "sysstat (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "sysstat",
+      "manager": "apt",
+      "command": "sudo apt install sysstat"
+    },
+    "note": "iostat is part of the sysstat package on Debian/Ubuntu"
+  },
+  "overview": {
+    "summary": "iostat reports CPU utilization and disk I/O statistics. It can show one snapshot or repeat at an interval. Useful for identifying disk bottlenecks, CPU load, and I/O wait.",
+    "when_to_use": [
+      "Monitor disk I/O and CPU usage",
+      "Identify slow disks or I/O wait",
+      "Troubleshoot performance issues"
+    ]
+  },
+  "syntax": {
+    "basic": "iostat [OPTIONS] [INTERVAL [COUNT]]",
+    "description": "Without INTERVAL, iostat prints one report. With INTERVAL (seconds), it repeats; COUNT limits the number of reports.",
+    "examples": [
+      "iostat",
+      "iostat 2",
+      "iostat -x 2 5"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-x",
+      "short": "-x",
+      "long": null,
+      "description": "Show extended disk statistics",
+      "category": "display",
+      "example": "iostat -x 2",
+      "use_case": "Detailed I/O (utilization, await, etc.)"
+    },
+    {
+      "flag": "-c",
+      "short": "-c",
+      "long": null,
+      "description": "Show CPU report only",
+      "category": "display",
+      "example": "iostat -c 2",
+      "use_case": "Focus on CPU"
+    },
+    {
+      "flag": "-d",
+      "short": "-d",
+      "long": null,
+      "description": "Show device report only",
+      "category": "display",
+      "example": "iostat -d 2",
+      "use_case": "Focus on disk I/O"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Single report",
+      "command": "iostat",
+      "description": "Print one CPU and I/O report",
+      "use_case": "Quick snapshot"
+    },
+    {
+      "title": "Monitor every 2 seconds",
+      "command": "iostat -x 2",
+      "description": "Extended I/O stats every 2 seconds",
+      "use_case": "Watch I/O over time"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "vmstat",
+      "relationship": "Related",
+      "description": "Virtual memory and system stats"
+    },
+    {
+      "command": "sar",
+      "relationship": "Related",
+      "description": "System activity reporter (same sysstat package)"
+    }
+  ]
+}

@@ -1,0 +1,235 @@
+{
+  "metadata": {
+    "name": "umount",
+    "displayName": "umount - Unmount filesystems",
+    "category": "File & Directory Operations",
+    "tags": ["filesystem", "unmount", "storage", "system", "intermediate"],
+    "description": "Unmount a filesystem",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "umount is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The umount command detaches a filesystem from the directory tree, making it safe to remove the device. It's essential for safely ejecting USB drives, external storage, and network filesystems.",
+    "when_to_use": [
+      "Safely remove USB drives or external storage",
+      "Unmount network filesystems",
+      "Detach ISO images",
+      "Unmount filesystems before system maintenance",
+      "Free up mount points for remounting"
+    ]
+  },
+  "syntax": {
+    "basic": "umount [OPTIONS] <mountpoint|device>",
+    "description": "Unmount a filesystem by specifying either the mount point directory or the device. The filesystem must not be in use.",
+    "examples": [
+      "umount /mnt/usb",
+      "umount /dev/sdb1",
+      "umount -l /mnt/usb",
+      "umount -a"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-a, --all",
+      "short": "-a",
+      "long": "--all",
+      "description": "Unmount all filesystems mentioned in /etc/mtab (except root)",
+      "category": "unmount",
+      "example": "umount -a",
+      "use_case": "Unmount all non-essential filesystems, typically during shutdown"
+    },
+    {
+      "flag": "-A, --all-targets",
+      "short": "-A",
+      "long": "--all-targets",
+      "description": "Unmount all mountpoints for the given filesystem",
+      "category": "unmount",
+      "example": "umount -A /dev/sdb1",
+      "use_case": "Unmount a device from all mount points if mounted multiple times"
+    },
+    {
+      "flag": "-d, --detach-loop",
+      "short": "-d",
+      "long": "--detach-loop",
+      "description": "If the unmounted device was a loop device, also free this loop device",
+      "category": "system",
+      "example": "umount -d /mnt/iso",
+      "use_case": "When unmounting ISO images or loop devices"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force unmount (in case of an unreachable NFS system)",
+      "category": "unmount",
+      "example": "umount -f /mnt/nfs",
+      "use_case": "When network filesystem is unreachable and normal unmount fails"
+    },
+    {
+      "flag": "-l, --lazy",
+      "short": "-l",
+      "long": "--lazy",
+      "description": "Lazy unmount - detach the filesystem now, clean up later",
+      "category": "unmount",
+      "example": "umount -l /mnt/usb",
+      "use_case": "When device is busy but you need to unmount immediately (use with caution)"
+    },
+    {
+      "flag": "-r, --read-only",
+      "short": "-r",
+      "long": "--read-only",
+      "description": "If unmounting fails, try to remount read-only",
+      "category": "unmount",
+      "example": "umount -r /mnt/usb",
+      "use_case": "When normal unmount fails, attempt read-only remount as fallback"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose mode",
+      "category": "display",
+      "example": "umount -v /mnt/usb",
+      "use_case": "To see detailed information about the unmount operation"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Unmount by mount point",
+      "command": "sudo umount /mnt/usb",
+      "description": "Unmount a filesystem using its mount point directory",
+      "output": "",
+      "output_explanation": {
+        "format": "No output on success",
+        "elements": [],
+        "notes": "If umount succeeds, there's no output. Errors will be displayed if unmount fails (e.g., device is busy)."
+      },
+      "use_case": "Safely remove a USB drive or external storage after unmounting"
+    },
+    {
+      "title": "Unmount by device",
+      "command": "sudo umount /dev/sdb1",
+      "description": "Unmount a filesystem by specifying the device instead of mount point",
+      "output": "",
+      "output_explanation": {
+        "format": "No output on success",
+        "elements": [],
+        "notes": "You can specify either the mount point or the device - both work the same way"
+      },
+      "use_case": "When you know the device name but not the mount point"
+    },
+    {
+      "title": "Lazy unmount",
+      "command": "sudo umount -l /mnt/usb",
+      "description": "Detach the filesystem immediately, clean up when it's no longer busy",
+      "output": "",
+      "output_explanation": {
+        "format": "No output on success",
+        "elements": [
+          {
+            "element": "-l, --lazy",
+            "meaning": "Lazy unmount - filesystem is detached but cleanup happens when safe"
+          }
+        ],
+        "notes": "Useful when device is busy but you need to unmount. The filesystem will be fully unmounted when all processes release it."
+      },
+      "use_case": "When you can't close all files but need to unmount (use with caution)"
+    },
+    {
+      "title": "Force unmount network filesystem",
+      "command": "sudo umount -f /mnt/nfs",
+      "description": "Force unmount when network filesystem is unreachable",
+      "output": "",
+      "output_explanation": {
+        "format": "No output on success",
+        "elements": [
+          {
+            "element": "-f, --force",
+            "meaning": "Force unmount even if filesystem is busy or unreachable"
+          }
+        ],
+        "notes": "Useful for NFS mounts that have become unreachable. Use with caution as it may cause data loss."
+      },
+      "use_case": "When NFS server is down and normal unmount hangs"
+    },
+    {
+      "title": "Unmount with verbose output",
+      "command": "sudo umount -v /mnt/usb",
+      "description": "Show detailed information during unmount",
+      "output": "/mnt/usb unmounted",
+      "output_explanation": {
+        "format": "Confirmation message",
+        "elements": [
+          {
+            "element": "/mnt/usb unmounted",
+            "meaning": "Confirmation that the mount point was successfully unmounted"
+          }
+        ],
+        "notes": "Verbose mode provides confirmation of successful unmount"
+      },
+      "use_case": "To get confirmation that unmount was successful"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Unmounting is optional",
+      "misconception": "You can safely remove USB drives without unmounting",
+      "reality": "Always unmount before removing storage devices. Failure to unmount can cause data loss, filesystem corruption, or both. The system buffers writes, and unmount ensures all data is written.",
+      "tip": "Make it a habit: always umount before physically removing devices"
+    },
+    {
+      "title": "Unmount deletes files",
+      "misconception": "Unmounting removes files from the device",
+      "reality": "Unmount only detaches the filesystem from the directory tree. All files remain on the device. You can remount it later and access all files.",
+      "tip": "Unmount is safe - it only makes the filesystem inaccessible, not deleted"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Device is busy",
+      "description": "Cannot unmount because files or directories are in use",
+      "solution": "Close all files, exit all directories on the mount point. Use lsof /mnt/usb to find processes using it, or use umount -l for lazy unmount"
+    },
+    {
+      "issue": "Permission denied",
+      "description": "Regular users cannot unmount most filesystems",
+      "solution": "Use sudo for unmounting. Some filesystems mounted by users can be unmounted by the same user"
+    },
+    {
+      "issue": "Not mounted error",
+      "description": "Trying to unmount something that isn't mounted",
+      "solution": "Check mounted filesystems with mount or df to verify the mount point exists"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "mount",
+      "relationship": "Complementary",
+      "description": "Mount filesystems that are unmounted with umount"
+    }
+  ],
+  "best_practices": [
+    "Always unmount before physically removing storage devices",
+    "Check for active processes with lsof before unmounting if you get 'device busy' errors",
+    "Use umount -v for confirmation of successful unmount",
+    "Close all terminal windows and file managers that might be accessing the mount point",
+    "Wait for unmount to complete before removing the device"
+  ],
+  "performance_tips": [
+    "Unmounting is usually very fast unless the device is busy",
+    "Lazy unmount (-l) can help when you need immediate unmount but processes are still using files",
+    "Unmount network filesystems when not in use to free network resources"
+  ],
+  "additional_notes": {
+    "safety": "Unmounting ensures all buffered writes are flushed to the device",
+    "auto_unmount": "Some desktop environments auto-unmount USB devices when you click 'Eject'",
+    "remount": "You can remount a filesystem after unmounting - all files will still be there",
+    "critical": "Never force-remove a device without unmounting - this can cause permanent data loss"
+  }
+}

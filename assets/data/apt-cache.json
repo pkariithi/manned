@@ -1,0 +1,104 @@
+{
+  "metadata": {
+    "name": "apt-cache",
+    "displayName": "apt-cache - Query the APT cache",
+    "category": "Package Management",
+    "tags": ["apt", "packages", "ubuntu", "query", "intermediate"],
+    "description": "Query APT package cache",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "APT (Ubuntu/Debian)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "apt-cache is part of APT and available on Debian/Ubuntu systems"
+  },
+  "overview": {
+    "summary": "apt-cache queries the APT package cache: search for packages, show package info, show dependencies, policy, and more. It does not install or remove packages; use apt or apt-get for that.",
+    "when_to_use": [
+      "Search for packages by name or description",
+      "Show package details (version, description, dependencies)",
+      "Check what would be installed (policy, depends)"
+    ]
+  },
+  "syntax": {
+    "basic": "apt-cache [OPTIONS] SUBCOMMAND [ARGS]",
+    "description": "Common subcommands: search, show, policy, depends, pkgnames.",
+    "examples": [
+      "apt-cache search nginx",
+      "apt-cache show nginx",
+      "apt-cache policy nginx"
+    ]
+  },
+  "options": [
+    {
+      "flag": "search",
+      "short": null,
+      "long": null,
+      "description": "Search package names and descriptions",
+      "category": "query",
+      "example": "apt-cache search nginx",
+      "use_case": "Find packages by keyword"
+    },
+    {
+      "flag": "show",
+      "short": null,
+      "long": null,
+      "description": "Show detailed package information",
+      "category": "query",
+      "example": "apt-cache show nginx",
+      "use_case": "See version, description, dependencies"
+    },
+    {
+      "flag": "policy",
+      "short": null,
+      "long": null,
+      "description": "Show install candidate and pinned version",
+      "category": "query",
+      "example": "apt-cache policy nginx",
+      "use_case": "See which version would be installed"
+    },
+    {
+      "flag": "depends",
+      "short": null,
+      "long": null,
+      "description": "Show package dependencies",
+      "category": "query",
+      "example": "apt-cache depends nginx",
+      "use_case": "See what a package requires"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Search for packages",
+      "command": "apt-cache search nginx",
+      "description": "List packages matching 'nginx' in name or description",
+      "use_case": "Find packages to install"
+    },
+    {
+      "title": "Show package info",
+      "command": "apt-cache show nginx",
+      "description": "Display full package metadata",
+      "use_case": "Check version and description before installing"
+    },
+    {
+      "title": "Check install candidate",
+      "command": "apt-cache policy nginx",
+      "description": "Show which version would be installed and from which source",
+      "use_case": "Verify repository or pinning"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "apt",
+      "relationship": "Complementary",
+      "description": "Install/remove packages; apt-cache only queries"
+    },
+    {
+      "command": "apt-get",
+      "relationship": "Related",
+      "description": "Lower-level install/remove; apt-cache is query-only"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "metadata": {
+    "name": "yes",
+    "displayName": "yes - Output a string repeatedly",
+    "category": "Shell & Environment",
+    "tags": ["output", "repeat", "pipe", "beginner"],
+    "description": "Output a string repeatedly until killed",
+    "popularity": 4,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "yes is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "yes prints a string (default 'y') repeatedly, one per line, until killed. It is often used to pipe into a command that prompts for confirmation (e.g., yes | apt install ...), or to generate repeated input for testing.",
+    "when_to_use": [
+      "Auto-answer 'y' to prompts (yes | command)",
+      "Generate repeated input for scripts or tests",
+      "Stress test or fill a pipe (yes something)"
+    ]
+  },
+  "syntax": {
+    "basic": "yes [STRING]",
+    "description": "Without STRING, yes prints 'y' forever. With STRING, it prints that string (one line per iteration) until killed.",
+    "examples": [
+      "yes",
+      "yes | apt install -y package",
+      "yes n | rm -i file"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Auto-confirm install",
+      "command": "yes | sudo apt install package",
+      "description": "Pipe 'y' to apt so it does not prompt (use with care)",
+      "use_case": "Non-interactive install when you want default yes"
+    },
+    {
+      "title": "Auto-answer no",
+      "command": "yes n | rm -i file",
+      "description": "Answer 'n' to every rm -i prompt",
+      "use_case": "Test or script with rm -i"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "yes runs forever",
+      "description": "yes never stops on its own; it will fill pipes and use CPU.",
+      "solution": "Always kill it (Ctrl+C) or pipe to a command that consumes and then exits."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "echo",
+      "relationship": "Related",
+      "description": "Print once; yes prints repeatedly"
+    }
+  ]
+}

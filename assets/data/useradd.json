@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "name": "useradd",
+    "displayName": "useradd - Create a new user account",
+    "category": "User & Permissions",
+    "tags": ["user", "account", "create", "admin", "advanced"],
+    "description": "Create a new user account",
+    "popularity": 6,
+    "difficulty": "advanced",
+    "version": "shadow-utils / adduser (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "useradd is a core admin command; on Debian/Ubuntu adduser is often preferred (wrapper around useradd)"
+  },
+  "overview": {
+    "summary": "useradd creates a new user account by adding an entry to /etc/passwd and related files. It can set home directory, shell, UID, and group. On Debian/Ubuntu, adduser is a friendlier wrapper that creates home dir and runs useradd.",
+    "when_to_use": [
+      "Create a new system user (scripting or automation)",
+      "Add a user with specific UID, home dir, or shell",
+      "Bulk user creation with custom defaults"
+    ]
+  },
+  "syntax": {
+    "basic": "useradd [OPTIONS] USERNAME",
+    "description": "USERNAME is required. Options set home dir (-d), shell (-s), primary group (-g), supplementary groups (-G), UID (-u), etc.",
+    "examples": [
+      "sudo useradd -m -s /bin/bash jane",
+      "sudo useradd -u 1005 -g developers alice",
+      "adduser jane"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-m, --create-home",
+      "short": "-m",
+      "long": "--create-home",
+      "description": "Create the user's home directory",
+      "category": "behavior",
+      "example": "sudo useradd -m jane",
+      "use_case": "Standard for interactive users (like adduser does)"
+    },
+    {
+      "flag": "-s, --shell",
+      "short": "-s",
+      "long": "--shell",
+      "description": "Set the user's login shell",
+      "category": "account",
+      "example": "sudo useradd -s /bin/bash jane",
+      "use_case": "Choose shell (default often /bin/sh)"
+    },
+    {
+      "flag": "-g, --gid",
+      "short": "-g",
+      "long": "--gid",
+      "description": "Set primary group (name or GID)",
+      "category": "account",
+      "example": "sudo useradd -g developers jane",
+      "use_case": "Assign primary group"
+    },
+    {
+      "flag": "-G, --groups",
+      "short": "-G",
+      "long": "--groups",
+      "description": "Add user to supplementary groups (comma-separated)",
+      "category": "account",
+      "example": "sudo useradd -G sudo,adm jane",
+      "use_case": "Grant additional group memberships"
+    },
+    {
+      "flag": "-u, --uid",
+      "short": "-u",
+      "long": "--uid",
+      "description": "Set user ID (UID)",
+      "category": "account",
+      "example": "sudo useradd -u 1005 jane",
+      "use_case": "Assign a specific UID"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create user with home and bash",
+      "command": "sudo useradd -m -s /bin/bash jane",
+      "description": "Create user jane with home directory and bash as shell",
+      "use_case": "Standard new user (similar to adduser jane)"
+    },
+    {
+      "title": "Use adduser on Debian/Ubuntu",
+      "command": "sudo adduser jane",
+      "description": "Interactive helper: creates user, home, and prompts for password",
+      "use_case": "Easier interactive user creation on Debian/Ubuntu"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "No home directory by default",
+      "description": "useradd does not create a home directory unless -m is used.",
+      "solution": "Use useradd -m or prefer adduser on Debian/Ubuntu."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "passwd",
+      "relationship": "Complementary",
+      "description": "Set the new user's password after useradd"
+    },
+    {
+      "command": "usermod",
+      "relationship": "Related",
+      "description": "Modify an existing user"
+    },
+    {
+      "command": "userdel",
+      "relationship": "Related",
+      "description": "Remove a user account"
+    }
+  ]
+}

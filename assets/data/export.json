@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "name": "export",
+    "displayName": "export - Set export attribute for variables",
+    "category": "Shell & Environment",
+    "tags": ["shell", "environment", "variables", "beginner"],
+    "description": "Mark shell variables for export to child processes",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "bash built-in (POSIX)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "export is a shell built-in (bash, sh, etc.)"
+  },
+  "overview": {
+    "summary": "export marks shell variables so they are passed to child processes (commands you run from the shell). Without export, a variable is only visible in the current shell. It is commonly used to set PATH, environment variables for programs, or temporary overrides.",
+    "when_to_use": [
+      "Set an environment variable for the current session and children",
+      "Add to PATH for the session",
+      "Pass variables to scripts or commands you run"
+    ]
+  },
+  "syntax": {
+    "basic": "export NAME[=VALUE]...",
+    "description": "export NAME marks NAME for export (keeps current value). export NAME=value sets and exports in one step.",
+    "examples": [
+      "export PATH=$PATH:/usr/local/bin",
+      "export MYVAR=hello",
+      "export -p"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-p, --print",
+      "short": "-p",
+      "long": "--print",
+      "description": "Print all exported variables (export -p)",
+      "category": "display",
+      "example": "export -p",
+      "use_case": "List exported environment variables"
+    },
+    {
+      "flag": "-n, --unset",
+      "short": "-n",
+      "long": "--unset",
+      "description": "Remove export attribute (bash)",
+      "category": "behavior",
+      "example": "export -n MYVAR",
+      "use_case": "Stop exporting a variable"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Add to PATH",
+      "command": "export PATH=$PATH:/usr/local/bin",
+      "description": "Append /usr/local/bin to PATH for this session and child processes",
+      "use_case": "Use a local binary without full path"
+    },
+    {
+      "title": "Set and export a variable",
+      "command": "export MYVAR=hello",
+      "description": "Set MYVAR and make it visible to child processes",
+      "use_case": "Pass config to scripts"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "env",
+      "relationship": "Related",
+      "description": "Run a command with modified environment; env shows current env"
+    },
+    {
+      "command": "source",
+      "relationship": "Related",
+      "description": "Run script in current shell (variables set there are in current shell)"
+    }
+  ]
+}

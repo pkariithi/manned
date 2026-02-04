@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "name": "patch",
+    "displayName": "patch - Apply a diff to files",
+    "category": "Text Processing",
+    "tags": ["diff", "patches", "git", "text", "intermediate"],
+    "description": "Apply changes described by a diff file",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "GNU patch 2.7+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "patch is commonly installed by default on many Linux systems; if missing, install via your package manager (e.g., sudo apt install patch)"
+  },
+  "overview": {
+    "summary": "The patch command applies changes to files based on a diff (often in unified diff format). It's used heavily in development workflows, for applying fixes, updating source trees, or consuming patches from email/issue trackers.",
+    "when_to_use": [
+      "Apply a unified diff (.patch/.diff) to source code",
+      "Update a directory tree using a patch set",
+      "Revert an applied patch (with -R)"
+    ]
+  },
+  "syntax": {
+    "basic": "patch [OPTIONS] [ORIGINALFILE [PATCHFILE]]",
+    "description": "Most commonly, you pass the patch through stdin and run patch in the target directory.",
+    "examples": [
+      "patch -p1 < change.patch",
+      "patch -p0 < fix.diff",
+      "patch -R -p1 < change.patch"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-pNUM",
+      "short": "-p",
+      "long": null,
+      "description": "Strip NUM leading components from file paths in the patch",
+      "category": "paths",
+      "example": "patch -p1 < change.patch",
+      "use_case": "When patch paths include prefixes like a/ and b/ (common in git diffs)"
+    },
+    {
+      "flag": "-R, --reverse",
+      "short": "-R",
+      "long": "--reverse",
+      "description": "Apply the patch in reverse (attempt to undo changes)",
+      "category": "behavior",
+      "example": "patch -R -p1 < change.patch",
+      "use_case": "To revert a patch you previously applied"
+    },
+    {
+      "flag": "--dry-run",
+      "short": null,
+      "long": "--dry-run",
+      "description": "Check whether the patch would apply cleanly without modifying files",
+      "category": "safety",
+      "example": "patch --dry-run -p1 < change.patch",
+      "use_case": "Preview whether the patch will apply before changing anything"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Apply a git-style patch",
+      "command": "patch -p1 < fix.patch",
+      "description": "Apply a patch file that contains paths like a/file and b/file",
+      "use_case": "Apply changes exported from git or sent by someone else"
+    },
+    {
+      "title": "Test a patch before applying",
+      "command": "patch --dry-run -p1 < fix.patch",
+      "description": "Verify the patch can be applied cleanly without modifying files",
+      "use_case": "Avoid partially-applied patches and messy rollback"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Wrong -p level",
+      "description": "If file paths in the patch don't match your directory structure, patch will fail to find files.",
+      "solution": "Try different -p values (commonly -p1 for git diffs). Inspect the patch header paths to choose correctly."
+    },
+    {
+      "issue": "Patch doesn't apply cleanly",
+      "description": "If the target files have changed since the patch was created, hunks may fail.",
+      "solution": "Apply with --dry-run first, then manually resolve rejects (*.rej) if needed."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "diff",
+      "relationship": "Complementary",
+      "description": "Generate diffs that patch can apply"
+    },
+    {
+      "command": "git",
+      "relationship": "Related",
+      "description": "Git can produce/apply patches (git format-patch / git apply), often used instead of patch in repos"
+    }
+  ]
+}

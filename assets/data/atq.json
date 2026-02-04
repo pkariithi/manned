@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "name": "atq",
+    "displayName": "atq - Display pending at jobs",
+    "category": "Task Scheduling",
+    "tags": ["schedule", "at", "list", "intermediate"],
+    "description": "List pending jobs in the at queue",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "at (varies)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "at",
+      "manager": "apt",
+      "command": "sudo apt install at"
+    },
+    "note": "atq is part of the at package"
+  },
+  "overview": {
+    "summary": "atq lists pending jobs in the at queue. Each job has a number used with atrm to remove it. Without options, atq shows the current user's jobs; root can see all with -a or by default on some systems.",
+    "when_to_use": [
+      "See what at jobs are scheduled",
+      "Get job numbers to cancel with atrm",
+      "Verify a job was queued"
+    ]
+  },
+  "syntax": {
+    "basic": "atq [OPTIONS]",
+    "description": "atq reads the at queue and prints job number, date/time, queue, and user.",
+    "examples": [
+      "atq",
+      "atq -a"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-q, --queue",
+      "short": "-q",
+      "long": "--queue",
+      "description": "Show only jobs in specified queue (a-z, A-Z)",
+      "category": "filter",
+      "example": "atq -q a",
+      "use_case": "Filter by queue"
+    },
+    {
+      "flag": "-a, --all (some systems)",
+      "short": "-a",
+      "long": "--all",
+      "description": "Show all users' jobs (root)",
+      "category": "filter",
+      "example": "sudo atq -a",
+      "use_case": "Admin: see all at jobs"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List pending jobs",
+      "command": "atq",
+      "description": "Show your pending at jobs with job numbers and run times",
+      "output": "5\t2025-02-05 10:00 a user",
+      "use_case": "Check scheduled jobs"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "at",
+      "relationship": "Complementary",
+      "description": "Schedule jobs; atq lists them"
+    },
+    {
+      "command": "atrm",
+      "relationship": "Complementary",
+      "description": "Remove a job (use job number from atq)"
+    }
+  ]
+}

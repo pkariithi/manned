@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "name": "fg",
+    "displayName": "fg - Bring a job to the foreground",
+    "category": "Process Management",
+    "tags": ["shell", "jobs", "foreground", "processes", "beginner"],
+    "description": "Move a background or stopped job to the foreground",
+    "popularity": 4,
+    "difficulty": "beginner",
+    "version": "bash built-in (also in other shells)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "fg is a shell built-in (commonly in bash), not a standalone binary"
+  },
+  "overview": {
+    "summary": "The fg command brings a job to the foreground, attaching it to your terminal so you can interact with it. It's used with job control, typically alongside Ctrl+Z, bg, and jobs.",
+    "when_to_use": [
+      "Bring a background job back to the terminal to interact with it",
+      "Resume a stopped job in the foreground",
+      "Manage multiple jobs in a single terminal session"
+    ]
+  },
+  "syntax": {
+    "basic": "fg [JOB_SPEC]",
+    "description": "If JOB_SPEC is omitted, fg operates on the current job. JOB_SPEC is often like %1, %2, etc., shown by the jobs command.",
+    "examples": [
+      "fg",
+      "fg %1",
+      "jobs"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Bring the most recent job to the foreground",
+      "command": "fg",
+      "description": "Resume the current job in the foreground",
+      "use_case": "Return to an interactive program you backgrounded or stopped"
+    },
+    {
+      "title": "Bring a specific job to the foreground",
+      "command": "fg %1",
+      "description": "Bring job number 1 to the foreground",
+      "use_case": "When multiple jobs exist and you need a specific one"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Using fg in the wrong shell",
+      "description": "fg only affects jobs in the current shell session; it can't control processes started elsewhere.",
+      "solution": "Run jobs to confirm the job exists in the current shell, or use tools like ps/kill for general process control."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "bg",
+      "relationship": "Complementary",
+      "description": "Resume a stopped job in the background"
+    },
+    {
+      "command": "jobs",
+      "relationship": "Complementary",
+      "description": "List jobs to find job numbers for fg/bg"
+    },
+    {
+      "command": "kill",
+      "relationship": "Related",
+      "description": "Send signals to processes (not job-spec specific unless used through the shell)"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "name": "host",
+    "displayName": "host - DNS lookup utility",
+    "category": "Network",
+    "tags": ["dns", "lookup", "network", "beginner"],
+    "description": "Perform DNS lookups",
+    "popularity": 6,
+    "difficulty": "beginner",
+    "version": "BIND (dnsutils package)"
+  },
+  "installation": {
+    "required": true,
+    "status": "not_installed_by_default",
+    "package": {
+      "name": "dnsutils",
+      "manager": "apt",
+      "command": "sudo apt install dnsutils"
+    },
+    "note": "host is provided by dnsutils on Debian/Ubuntu"
+  },
+  "overview": {
+    "summary": "host performs DNS lookups and displays A, AAAA, MX, NS, and other records. It is simpler than dig and good for quick lookups; dig offers more detail and scripting options.",
+    "when_to_use": [
+      "Quick DNS lookup (A, MX, NS, etc.)",
+      "Resolve a hostname to an IP or vice versa",
+      "Check DNS records in a simple format"
+    ]
+  },
+  "syntax": {
+    "basic": "host [OPTIONS] NAME [SERVER]",
+    "description": "NAME is the hostname or IP to look up. Optional SERVER is the DNS server to query.",
+    "examples": [
+      "host example.com",
+      "host example.com 8.8.8.8",
+      "host -t MX example.com"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-t TYPE",
+      "short": "-t",
+      "long": null,
+      "description": "Query type (A, AAAA, MX, NS, TXT, PTR, etc.)",
+      "category": "query",
+      "example": "host -t MX example.com",
+      "use_case": "Get specific record type"
+    },
+    {
+      "flag": "-a",
+      "short": "-a",
+      "long": null,
+      "description": "Equivalent to -t ANY (all records)",
+      "category": "query",
+      "example": "host -a example.com",
+      "use_case": "See all record types"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Look up a hostname",
+      "command": "host example.com",
+      "description": "Resolve example.com to IP address(es)",
+      "output": "example.com has address 93.184.216.34",
+      "use_case": "Quick DNS check"
+    },
+    {
+      "title": "Query MX records",
+      "command": "host -t MX example.com",
+      "description": "Get mail exchanger records",
+      "use_case": "Check mail server configuration"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "dig",
+      "relationship": "Alternative",
+      "description": "More detailed DNS lookups and scripting"
+    },
+    {
+      "command": "nslookup",
+      "relationship": "Alternative",
+      "description": "Interactive DNS lookup (legacy)"
+    }
+  ]
+}

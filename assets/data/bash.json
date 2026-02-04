@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "name": "bash",
+    "displayName": "bash - GNU Bourne-Again SHell",
+    "category": "Shell & Environment",
+    "tags": ["shell", "interpreter", "scripting", "beginner"],
+    "description": "GNU Bourne-Again SHell",
+    "popularity": 10,
+    "difficulty": "beginner",
+    "version": "GNU bash 5.x"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "bash is the default login shell on most Linux distributions"
+  },
+  "overview": {
+    "summary": "bash is a Unix shell and command language. It is the default shell on most Linux systems and supports scripting, job control, history, and many built-in commands. Invoking bash starts an interactive shell or runs a script.",
+    "when_to_use": [
+      "Run a bash script (bash script.sh)",
+      "Start an interactive bash session",
+      "Execute commands in a subshell with bash -c"
+    ]
+  },
+  "syntax": {
+    "basic": "bash [OPTIONS] [SCRIPT] [ARGS]",
+    "description": "Without SCRIPT, bash starts an interactive shell. With SCRIPT, it runs the script. Use -c to run a command string.",
+    "examples": [
+      "bash",
+      "bash script.sh",
+      "bash -c 'echo hello'"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-c COMMAND",
+      "short": "-c",
+      "long": null,
+      "description": "Run COMMAND as a single string (no script file)",
+      "category": "behavior",
+      "example": "bash -c 'echo $HOME'",
+      "use_case": "One-liner or script passed as argument"
+    },
+    {
+      "flag": "-x",
+      "short": "-x",
+      "long": null,
+      "description": "Print commands and arguments as they are executed (debug)",
+      "category": "debug",
+      "example": "bash -x script.sh",
+      "use_case": "Debug scripts"
+    },
+    {
+      "flag": "-n, --noexec",
+      "short": "-n",
+      "long": "--noexec",
+      "description": "Read commands but do not execute (syntax check)",
+      "category": "debug",
+      "example": "bash -n script.sh",
+      "use_case": "Check script syntax"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Run a script",
+      "command": "bash script.sh",
+      "description": "Execute script.sh with bash",
+      "use_case": "Run bash scripts"
+    },
+    {
+      "title": "Run one command",
+      "command": "bash -c 'echo Hello'",
+      "description": "Execute a single command string",
+      "use_case": "Inline script or remote execution"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sh",
+      "relationship": "Related",
+      "description": "POSIX shell; often a link to dash or bash"
+    },
+    {
+      "command": "source",
+      "relationship": "Related",
+      "description": "Run script in current shell (source script.sh or . script.sh)"
+    }
+  ]
+}

@@ -1,0 +1,275 @@
+{
+  "metadata": {
+    "name": "xz",
+    "displayName": "xz - Compress or decompress .xz files",
+    "category": "Archive & Compression",
+    "tags": ["compression", "archive", "xz", "compress", "decompress", "intermediate"],
+    "description": "Compress or decompress .xz files",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "xz-utils 5.2+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "xz is part of xz-utils package, installed by default on Ubuntu and most Linux distributions"
+  },
+  "overview": {
+    "summary": "The xz command compresses and decompresses files using the LZMA2 compression algorithm, creating .xz files. It provides excellent compression ratios, often better than gzip or bzip2, making it popular for distributing software packages, kernel images, and archives. xz is also used by tar for creating compressed archives.",
+    "when_to_use": [
+      "Compress files for storage or transfer",
+      "Decompress .xz files",
+      "Create highly compressed archives",
+      "Compress large files efficiently",
+      "Work with .xz compressed files",
+      "Create compressed backups",
+      "Reduce file sizes for distribution"
+    ]
+  },
+  "syntax": {
+    "basic": "xz [OPTIONS] [FILE...]",
+    "description": "xz compresses files by default, creating .xz files and removing originals (unless -k is used). Use -d to decompress. Multiple files can be specified.",
+    "examples": [
+      "xz file.txt",
+      "xz -d file.txt.xz",
+      "xz -k file.txt",
+      "xz -9 file.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --decompress",
+      "short": "-d",
+      "long": "--decompress",
+      "description": "Decompress files",
+      "category": "operation",
+      "example": "xz -d file.xz",
+      "use_case": "Extract compressed .xz files"
+    },
+    {
+      "flag": "-k, --keep",
+      "short": "-k",
+      "long": "--keep",
+      "description": "Keep original files (don't delete after compression)",
+      "category": "operation",
+      "example": "xz -k file.txt",
+      "use_case": "Compress files while keeping originals"
+    },
+    {
+      "flag": "-c, --stdout",
+      "short": "-c",
+      "long": "--stdout",
+      "description": "Write to standard output",
+      "category": "output",
+      "example": "xz -c file.txt > file.txt.xz",
+      "use_case": "Pipe compression output or redirect to file"
+    },
+    {
+      "flag": "-f, --force",
+      "short": "-f",
+      "long": "--force",
+      "description": "Force overwrite of output files",
+      "category": "operation",
+      "example": "xz -f file.txt",
+      "use_case": "Overwrite existing .xz files without prompting"
+    },
+    {
+      "flag": "-l, --list",
+      "short": "-l",
+      "long": "--list",
+      "description": "List information about compressed files",
+      "category": "information",
+      "example": "xz -l file.xz",
+      "use_case": "View compression ratio and file information without decompressing"
+    },
+    {
+      "flag": "-0 to -9",
+      "short": "-0 to -9",
+      "long": null,
+      "description": "Compression preset (0=fastest/lowest, 9=slowest/highest, default: 6)",
+      "category": "compression",
+      "example": "xz -9 file.txt",
+      "use_case": "Balance between compression ratio and speed"
+    },
+    {
+      "flag": "-e, --extreme",
+      "short": "-e",
+      "long": "--extreme",
+      "description": "Use more CPU time for better compression",
+      "category": "compression",
+      "example": "xz -9e file.txt",
+      "use_case": "Maximum compression when time is not critical"
+    },
+    {
+      "flag": "-t, --test",
+      "short": "-t",
+      "long": "--test",
+      "description": "Test integrity of compressed files",
+      "category": "verification",
+      "example": "xz -t file.xz",
+      "use_case": "Verify compressed files are not corrupted"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Verbose mode - show progress",
+      "category": "display",
+      "example": "xz -v file.txt",
+      "use_case": "See compression progress and statistics"
+    },
+    {
+      "flag": "-q, --quiet",
+      "short": "-q",
+      "long": "--quiet",
+      "description": "Suppress warnings",
+      "category": "display",
+      "example": "xz -q file.txt",
+      "use_case": "Quiet operation for scripts"
+    },
+    {
+      "flag": "-T, --threads",
+      "short": "-T",
+      "long": "--threads",
+      "description": "Number of threads to use (0=auto)",
+      "category": "performance",
+      "example": "xz -T 4 file.txt",
+      "use_case": "Control CPU usage for compression"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Compress a file",
+      "command": "xz file.txt",
+      "description": "Compress file.txt, creating file.txt.xz and removing original",
+      "use_case": "Basic file compression"
+    },
+    {
+      "title": "Compress keeping original",
+      "command": "xz -k file.txt",
+      "description": "Compress file.txt to file.txt.xz while keeping the original",
+      "use_case": "Create compressed copy without losing original"
+    },
+    {
+      "title": "Decompress a file",
+      "command": "xz -d file.txt.xz",
+      "description": "Decompress file.txt.xz back to file.txt",
+      "use_case": "Extract compressed files"
+    },
+    {
+      "title": "Maximum compression",
+      "command": "xz -9e file.txt",
+      "description": "Compress with highest compression level and extreme mode",
+      "use_case": "When file size is more important than compression time"
+    },
+    {
+      "title": "Fast compression",
+      "command": "xz -1 file.txt",
+      "description": "Compress quickly with lower compression ratio",
+      "use_case": "When speed is more important than file size"
+    },
+    {
+      "title": "List file information",
+      "command": "xz -l file.xz",
+      "description": "Show compression ratio and file details without decompressing",
+      "output": "Strms  Blocks   Compressed Uncompressed  Ratio  Check   Filename\n    1       1     12.3 KiB     100.0 KiB  0.123  CRC64   file.xz",
+      "use_case": "Check compression efficiency and file integrity"
+    },
+    {
+      "title": "Test file integrity",
+      "command": "xz -t file.xz",
+      "description": "Verify that compressed file is not corrupted",
+      "use_case": "Validate compressed files before use"
+    },
+    {
+      "title": "Compress with tar",
+      "command": "tar -cJf archive.tar.xz files/",
+      "description": "Create tar archive compressed with xz (note: -J flag for xz)",
+      "use_case": "Create compressed archives of directories"
+    },
+    {
+      "title": "Verbose compression",
+      "command": "xz -v file.txt",
+      "description": "Show compression progress and statistics",
+      "output": "file.txt (1/1)\n  100 %     12.3 KiB / 100.0 KiB = 0.123",
+      "use_case": "Monitor compression progress for large files"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Deletes original by default",
+      "misconception": "xz always keeps original files",
+      "reality": "xz removes original files after compression unless -k (keep) option is used",
+      "tip": "Use -k option if you want to keep original files"
+    },
+    {
+      "title": "Same as gzip",
+      "misconception": "xz and gzip work the same way",
+      "reality": "xz uses LZMA2 algorithm and typically provides better compression than gzip, but is slower",
+      "tip": "Use xz for better compression, gzip for faster compression"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Original file deleted",
+      "description": "xz removes original file after compression",
+      "solution": "Use -k option to keep original files: 'xz -k file.txt'"
+    },
+    {
+      "issue": "Slow compression",
+      "description": "xz can be slow, especially with high compression levels",
+      "solution": "Use lower compression levels (-1 to -3) for faster compression, or use gzip for speed"
+    },
+    {
+      "issue": "High memory usage",
+      "description": "xz can use significant memory, especially with high compression levels",
+      "solution": "Use lower compression levels or ensure sufficient RAM available"
+    },
+    {
+      "issue": "Cannot decompress",
+      "description": "Trying to decompress non-.xz files",
+      "solution": "Verify file is actually .xz format, or use 'file' command to check file type"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "gzip",
+      "relationship": "Alternative",
+      "description": "gzip is faster but provides less compression than xz"
+    },
+    {
+      "command": "bzip2",
+      "relationship": "Alternative",
+      "description": "bzip2 provides good compression, between gzip and xz in terms of ratio and speed"
+    },
+    {
+      "command": "tar",
+      "relationship": "Complementary",
+      "description": "tar -J creates tar archives compressed with xz"
+    },
+    {
+      "command": "unxz",
+      "relationship": "Alternative",
+      "description": "unxz is equivalent to 'xz -d' for decompression"
+    }
+  ],
+  "best_practices": [
+    "Use -k option to keep original files unless you're sure you don't need them",
+    "Use -9 for maximum compression when file size matters",
+    "Use -1 for faster compression when speed is important",
+    "Test compressed files with -t before distributing",
+    "Use -v to monitor progress for large files",
+    "Combine with tar for directory compression: 'tar -cJf archive.tar.xz directory/'"
+  ],
+  "performance_tips": [
+    "Lower compression levels (-1 to -3) are much faster with only slightly larger files",
+    "Use -T option to control thread usage on multi-core systems",
+    "xz is slower than gzip but provides better compression - choose based on priority",
+    "For very large files, consider using lower compression levels to save time"
+  ],
+  "additional_notes": {
+    "compression_ratio": "xz typically provides 30-50% better compression than gzip",
+    "speed": "xz is slower than gzip but faster than bzip2 for most files",
+    "tar_integration": "Use 'tar -cJf' to create xz-compressed tar archives, 'tar -xJf' to extract"
+  }
+}

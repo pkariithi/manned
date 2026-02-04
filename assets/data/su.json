@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "name": "su",
+    "displayName": "su - Switch user",
+    "category": "User & Permissions",
+    "tags": ["user", "root", "switch", "login", "intermediate"],
+    "description": "Change user ID or become root",
+    "popularity": 8,
+    "difficulty": "intermediate",
+    "version": "util-linux / coreutils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "su is a core system command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "su (substitute user) starts a shell or runs a command as another user, most commonly root. Without a username, it defaults to root. Unlike sudo, su typically requires the target user's password (root's by default).",
+    "when_to_use": [
+      "Become root or another user for administrative tasks",
+      "Run a command as another user (su -c)",
+      "Switch to a different user's environment for testing"
+    ]
+  },
+  "syntax": {
+    "basic": "su [OPTIONS] [USER] [--] [COMMAND]",
+    "description": "If USER is omitted, root is assumed. Use - or -l for a login shell (loads target user's profile).",
+    "examples": [
+      "su",
+      "su -",
+      "su -c 'whoami' root"
+    ]
+  },
+  "options": [
+    {
+      "flag": "- , -l, --login",
+      "short": "-",
+      "long": "--login",
+      "description": "Start a login shell (load USER's environment, cd to home)",
+      "category": "behavior",
+      "example": "su -",
+      "use_case": "Fully become root or another user (recommended for root)"
+    },
+    {
+      "flag": "-c, --command",
+      "short": "-c",
+      "long": "--command",
+      "description": "Run a single command as the target user",
+      "category": "behavior",
+      "example": "su -c 'apt update' root",
+      "use_case": "Run one command as root or another user"
+    },
+    {
+      "flag": "-s, --shell",
+      "short": "-s",
+      "long": "--shell",
+      "description": "Use the specified shell instead of default",
+      "category": "behavior",
+      "example": "su -s /bin/bash otheruser",
+      "use_case": "Choose a different shell"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Become root (login shell)",
+      "command": "su -",
+      "description": "Switch to root with root's environment (prompts for root password)",
+      "use_case": "Admin work as root"
+    },
+    {
+      "title": "Run one command as root",
+      "command": "su -c 'systemctl restart nginx' root",
+      "description": "Execute a single command as root",
+      "use_case": "One-off root command without staying root"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "su vs sudo",
+      "description": "su asks for the target user's password (often root); sudo asks for your password and uses /etc/sudoers.",
+      "solution": "Prefer sudo for routine admin if configured; use su - when you need a full root login shell."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "sudo",
+      "relationship": "Alternative",
+      "description": "Run commands as root (or other user) using your password and sudoers"
+    },
+    {
+      "command": "whoami",
+      "relationship": "Related",
+      "description": "Shows current user (useful after su)"
+    }
+  ]
+}

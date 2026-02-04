@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "name": "lscpu",
+    "displayName": "lscpu - Display CPU architecture information",
+    "category": "System Information",
+    "tags": ["cpu", "hardware", "architecture", "system", "intermediate"],
+    "description": "Display CPU and architecture details",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lscpu is typically available by default as part of util-linux on most Linux distributions"
+  },
+  "overview": {
+    "summary": "lscpu displays information about the CPU(s) and architecture from /proc/cpuinfo and sysfs. It shows cores, threads, sockets, cache sizes, architecture, and virtualization support.",
+    "when_to_use": [
+      "Check how many cores and threads the system has",
+      "See CPU architecture (x86_64, ARM, etc.) and model",
+      "Verify virtualization support (VMX, SVM) or NUMA topology"
+    ]
+  },
+  "syntax": {
+    "basic": "lscpu [OPTIONS]",
+    "description": "lscpu reads system information; no arguments are required. Options can filter or format output.",
+    "examples": [
+      "lscpu",
+      "lscpu -e",
+      "lscpu --parse=CPU,CORE,SOCKET"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-e, --extended",
+      "short": "-e",
+      "long": "--extended",
+      "description": "Display in extended readable format (one attribute per line)",
+      "category": "display",
+      "example": "lscpu -e",
+      "use_case": "Easier to read or parse"
+    },
+    {
+      "flag": "-p, --parse",
+      "short": "-p",
+      "long": "--parse",
+      "description": "Parseable output format; specify columns (e.g., CPU,CORE,SOCKET)",
+      "category": "output",
+      "example": "lscpu -p=CPU,CORE,SOCKET",
+      "use_case": "Scripting or parsing CPU topology"
+    },
+    {
+      "flag": "-J, --json",
+      "short": "-J",
+      "long": "--json",
+      "description": "Output in JSON format",
+      "category": "output",
+      "example": "lscpu -J",
+      "use_case": "Programmatic consumption"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Show CPU information",
+      "command": "lscpu",
+      "description": "Display architecture, cores, threads, caches, and model",
+      "output": "Architecture:            x86_64\nCPU(s):                8\nThread(s) per core:    2\nCore(s) per socket:    4\n...",
+      "use_case": "Quick hardware overview"
+    },
+    {
+      "title": "Extended format",
+      "command": "lscpu -e",
+      "description": "One attribute per line for readability",
+      "use_case": "Inspect specific fields"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "uname",
+      "relationship": "Related",
+      "description": "Shows kernel and machine type (uname -m for arch)"
+    },
+    {
+      "command": "proc",
+      "relationship": "Related",
+      "description": "Raw CPU info is in /proc/cpuinfo"
+    }
+  ]
+}

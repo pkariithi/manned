@@ -1,0 +1,96 @@
+{
+  "metadata": {
+    "name": "chgrp",
+    "displayName": "chgrp - Change group ownership",
+    "category": "User & Permissions",
+    "tags": ["permissions", "ownership", "group", "files", "intermediate"],
+    "description": "Change the group ownership of files",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "chgrp is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The chgrp command changes the group ownership of one or more files or directories. You must be the file owner or root to change the group; the new group must be one you belong to (unless root).",
+    "when_to_use": [
+      "Give a file or directory to a different group (e.g., www-data, developers)",
+      "Fix group ownership after copying files",
+      "Set group for shared project files"
+    ]
+  },
+  "syntax": {
+    "basic": "chgrp [OPTIONS] GROUP FILE...",
+    "description": "GROUP can be a group name or numeric GID. Use -R to change recursively.",
+    "examples": [
+      "chgrp developers project/",
+      "sudo chgrp www-data /var/www/html",
+      "chgrp -R users backup/"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-R, --recursive",
+      "short": "-R",
+      "long": "--recursive",
+      "description": "Change group recursively for directories and their contents",
+      "category": "behavior",
+      "example": "chgrp -R developers myproject/",
+      "use_case": "Apply group ownership to an entire directory tree"
+    },
+    {
+      "flag": "-c, --changes",
+      "short": "-c",
+      "long": "--changes",
+      "description": "Report only when a change is made",
+      "category": "display",
+      "example": "chgrp -c developers file.txt",
+      "use_case": "See which files were actually changed"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Output a message for every file processed",
+      "category": "display",
+      "example": "chgrp -v developers file.txt",
+      "use_case": "Confirm what was changed"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Change group of a file",
+      "command": "chgrp developers script.sh",
+      "description": "Set the group of script.sh to 'developers'",
+      "use_case": "Share a file with a group"
+    },
+    {
+      "title": "Change group recursively",
+      "command": "sudo chgrp -R www-data /var/www/html",
+      "description": "Set group www-data on the web root and all contents",
+      "use_case": "Web server needs group access to all site files"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Permission denied",
+      "description": "Only the file owner or root can change group; you can only set a group you belong to (unless root).",
+      "solution": "Use sudo when changing system files or when setting a group you are not in."
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "chown",
+      "relationship": "Complementary",
+      "description": "Change both owner and group (e.g., chown user:group file)"
+    },
+    {
+      "command": "chmod",
+      "relationship": "Related",
+      "description": "Change file permissions (mode), not ownership"
+    }
+  ]
+}

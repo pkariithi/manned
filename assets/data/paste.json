@@ -1,0 +1,82 @@
+{
+  "metadata": {
+    "name": "paste",
+    "displayName": "paste - Merge lines of files side by side",
+    "category": "Text Processing",
+    "tags": ["text", "merge", "columns", "tabular", "beginner"],
+    "description": "Combine corresponding lines from files into columns",
+    "popularity": 4,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "paste is commonly available by default as part of GNU coreutils"
+  },
+  "overview": {
+    "summary": "The paste command merges lines from one or more files by placing them side-by-side, separated by a delimiter (tab by default). It's useful for quickly creating simple tables from multiple files.",
+    "when_to_use": [
+      "Combine two columns stored in separate files",
+      "Create a quick tabular view from line-based data",
+      "Prepare simple TSV/CSV-like output for further processing"
+    ]
+  },
+  "syntax": {
+    "basic": "paste [OPTIONS] [FILE]...",
+    "description": "With multiple files, paste outputs each line by taking one line from each file in order.",
+    "examples": [
+      "paste names.txt scores.txt",
+      "paste -d ',' a.txt b.txt",
+      "paste -s -d ',' items.txt"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d, --delimiters",
+      "short": "-d",
+      "long": "--delimiters",
+      "description": "Use the given list of delimiters instead of tab",
+      "category": "formatting",
+      "example": "paste -d ',' a.txt b.txt",
+      "use_case": "To produce CSV-like output"
+    },
+    {
+      "flag": "-s, --serial",
+      "short": "-s",
+      "long": "--serial",
+      "description": "Paste one file at a time instead of in parallel (turns lines into a single line)",
+      "category": "formatting",
+      "example": "paste -s -d ',' items.txt",
+      "use_case": "To convert a newline-separated list into a comma-separated list"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Combine two files into two columns",
+      "command": "paste names.txt scores.txt",
+      "description": "Create a simple two-column table using tab delimiters",
+      "output": "Alice\t88\nBob\t92",
+      "use_case": "Quickly pair related line-based data"
+    },
+    {
+      "title": "Convert a list into a single comma-separated line",
+      "command": "paste -s -d ',' items.txt",
+      "description": "Join all lines from a file into one CSV line",
+      "output": "apple,banana,orange",
+      "use_case": "Create a comma-separated list for scripting"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "join",
+      "relationship": "Related",
+      "description": "Join files based on a key field (not line position)"
+    },
+    {
+      "command": "cut",
+      "relationship": "Complementary",
+      "description": "Extract columns from delimited text; often used after paste"
+    }
+  ]
+}

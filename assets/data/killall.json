@@ -1,0 +1,248 @@
+{
+  "metadata": {
+    "name": "killall",
+    "displayName": "killall - Kill processes by name",
+    "category": "Process Management",
+    "tags": ["process", "kill", "terminate", "system", "intermediate"],
+    "description": "Kill processes by name",
+    "popularity": 7,
+    "difficulty": "intermediate",
+    "version": "psmisc 23.4+"
+  },
+  "installation": {
+    "required": true,
+    "status": "installable",
+    "package": {
+      "name": "psmisc",
+      "manager": "apt",
+      "command": "sudo apt install psmisc"
+    },
+    "note": "killall is part of the psmisc package, which may not be installed by default on all systems"
+  },
+  "overview": {
+    "summary": "The killall command terminates processes by name, rather than by process ID (PID). It's useful for killing multiple instances of a program or when you know the process name but not the PID. Use with caution as it can terminate all processes matching the name.",
+    "when_to_use": [
+      "Kill all instances of a program by name",
+      "Terminate processes when you know the name but not PID",
+      "Stop unresponsive applications",
+      "Clean up multiple processes of the same name",
+      "Force quit applications from command line"
+    ]
+  },
+  "syntax": {
+    "basic": "killall [OPTIONS] [PROCESS_NAME]",
+    "description": "killall sends a signal (default: SIGTERM) to all processes matching the specified name. The process name must match exactly (case-sensitive by default).",
+    "examples": [
+      "killall firefox",
+      "killall -9 nginx",
+      "killall -u username firefox",
+      "killall -i firefox"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-s, --signal",
+      "short": "-s",
+      "long": "--signal",
+      "description": "Send specific signal (e.g., TERM, KILL, HUP, INT)",
+      "category": "signal",
+      "example": "killall -s KILL firefox",
+      "use_case": "Send a specific signal instead of default SIGTERM"
+    },
+    {
+      "flag": "-9, -KILL",
+      "short": "-9",
+      "long": "-KILL",
+      "description": "Force kill (sends SIGKILL signal)",
+      "category": "signal",
+      "example": "killall -9 firefox",
+      "use_case": "Forcefully terminate unresponsive processes"
+    },
+    {
+      "flag": "-i, --interactive",
+      "short": "-i",
+      "long": "--interactive",
+      "description": "Ask for confirmation before killing",
+      "category": "safety",
+      "example": "killall -i firefox",
+      "use_case": "Prevent accidental termination of processes"
+    },
+    {
+      "flag": "-u, --user",
+      "short": "-u",
+      "long": "--user",
+      "description": "Kill only processes owned by specified user",
+      "category": "filtering",
+      "example": "killall -u username firefox",
+      "use_case": "Kill processes for a specific user only"
+    },
+    {
+      "flag": "-v, --verbose",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Report if signal was successfully sent",
+      "category": "display",
+      "example": "killall -v firefox",
+      "use_case": "Get feedback on which processes were killed"
+    },
+    {
+      "flag": "-w, --wait",
+      "short": "-w",
+      "long": "--wait",
+      "description": "Wait for all killed processes to die",
+      "category": "execution",
+      "example": "killall -w firefox",
+      "use_case": "Ensure processes are terminated before continuing"
+    },
+    {
+      "flag": "-I, --ignore-case",
+      "short": "-I",
+      "long": "--ignore-case",
+      "description": "Case-insensitive process name matching",
+      "category": "matching",
+      "example": "killall -I FIREFOX",
+      "use_case": "Match process names regardless of case"
+    },
+    {
+      "flag": "-r, --regex",
+      "short": "-r",
+      "long": "--regex",
+      "description": "Interpret process name as extended regular expression",
+      "category": "matching",
+      "example": "killall -r '^fire.*'",
+      "use_case": "Kill processes matching a pattern"
+    },
+    {
+      "flag": "-o, --older-than",
+      "short": "-o",
+      "long": "--older-than",
+      "description": "Kill only processes older than specified time",
+      "category": "filtering",
+      "example": "killall -o 1h firefox",
+      "use_case": "Kill only long-running processes"
+    },
+    {
+      "flag": "-y, --younger-than",
+      "short": "-y",
+      "long": "--younger-than",
+      "description": "Kill only processes younger than specified time",
+      "category": "filtering",
+      "example": "killall -y 5m firefox",
+      "use_case": "Kill only recently started processes"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Kill all Firefox processes",
+      "command": "killall firefox",
+      "description": "Terminate all running Firefox processes gracefully",
+      "use_case": "Close all Firefox windows and processes"
+    },
+    {
+      "title": "Force kill unresponsive process",
+      "command": "killall -9 firefox",
+      "description": "Forcefully terminate all Firefox processes",
+      "use_case": "When normal termination doesn't work"
+    },
+    {
+      "title": "Interactive kill",
+      "command": "killall -i firefox",
+      "description": "Ask for confirmation before killing each process",
+      "output": "Kill firefox(1234)? (y/n)",
+      "use_case": "Prevent accidental termination"
+    },
+    {
+      "title": "Kill processes for specific user",
+      "command": "sudo killall -u username firefox",
+      "description": "Kill Firefox processes owned by a specific user",
+      "use_case": "System administration - kill processes for specific users"
+    },
+    {
+      "title": "Verbose output",
+      "command": "killall -v firefox",
+      "description": "Show which processes were successfully killed",
+      "output": "firefox(1234) killed\nfirefox(5678) killed",
+      "use_case": "Verify that processes were terminated"
+    },
+    {
+      "title": "Kill with regex pattern",
+      "command": "killall -r '^fire.*'",
+      "description": "Kill all processes whose names start with 'fire'",
+      "use_case": "Kill multiple related processes with a pattern"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "Kills all processes",
+      "misconception": "killall kills all processes on the system",
+      "reality": "killall kills only processes matching the specified name. The name 'killall' is misleading - it kills 'all' processes with that name, not all processes.",
+      "tip": "Always specify a process name. Use 'killall -l' to list available signals"
+    },
+    {
+      "title": "Same as kill",
+      "misconception": "killall and kill are the same",
+      "reality": "kill requires a PID, killall uses process names. killall is more convenient when you know the program name.",
+      "tip": "Use 'kill' with PID, 'killall' with process name"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Kills all matching processes",
+      "description": "killall terminates ALL processes matching the name, not just one",
+      "solution": "Use 'kill' with specific PID if you only want to kill one process, or use 'pkill' with more filtering options"
+    },
+    {
+      "issue": "Permission denied",
+      "description": "Cannot kill processes owned by other users",
+      "solution": "Use 'sudo' to kill processes owned by other users, or use '-u' to specify user"
+    },
+    {
+      "issue": "Case sensitivity",
+      "description": "Process names are case-sensitive by default",
+      "solution": "Use '-I' option for case-insensitive matching, or ensure exact case match"
+    },
+    {
+      "issue": "No such process",
+      "description": "Process name doesn't match exactly",
+      "solution": "Use 'ps aux | grep processname' to find exact process name, or use '-r' for regex matching"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "kill",
+      "relationship": "Alternative",
+      "description": "kill terminates processes by PID rather than name"
+    },
+    {
+      "command": "pkill",
+      "relationship": "Alternative",
+      "description": "pkill also kills by name but with more pattern matching options"
+    },
+    {
+      "command": "ps",
+      "relationship": "Complementary",
+      "description": "ps lists processes to find names or PIDs before killing"
+    },
+    {
+      "command": "pgrep",
+      "relationship": "Complementary",
+      "description": "pgrep finds process IDs by name before using kill"
+    }
+  ],
+  "best_practices": [
+    "Use '-i' (interactive) option to prevent accidental kills",
+    "Try normal termination first (default SIGTERM) before using -9 (SIGKILL)",
+    "Use '-v' to verify processes were killed",
+    "Check process names with 'ps' before killing",
+    "Use '-u' to limit kills to specific user's processes",
+    "Be cautious - killall affects ALL matching processes"
+  ],
+  "performance_tips": [
+    "Use '-w' to wait for processes to die before continuing scripts",
+    "Regex matching (-r) can be slower for many processes"
+  ],
+  "additional_notes": {
+    "warning": "killall can terminate multiple processes. Use with caution, especially with common process names.",
+    "signal": "Default signal is SIGTERM (15). Use -9 for SIGKILL only when necessary as it cannot be caught or ignored."
+  }
+}

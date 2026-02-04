@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "name": "lsmem",
+    "displayName": "lsmem - List memory devices and attributes",
+    "category": "System Information",
+    "tags": ["memory", "hardware", "system", "intermediate"],
+    "description": "List memory devices and their attributes",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "util-linux 2.37+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "lsmem is typically available as part of util-linux on most Linux distributions"
+  },
+  "overview": {
+    "summary": "lsmem lists memory blocks and their attributes (size, state, removable, etc.) from the system's memory topology. It helps inspect how memory is divided and which ranges are online or offline.",
+    "when_to_use": [
+      "See memory block layout and sizes",
+      "Check which memory is online/offline or removable",
+      "Inspect NUMA or memory topology"
+    ]
+  },
+  "syntax": {
+    "basic": "lsmem [OPTIONS]",
+    "description": "lsmem reads from /sys; no arguments are required. Options control output format.",
+    "examples": [
+      "lsmem",
+      "lsmem -o RANGE,SIZE,STATE",
+      "lsmem --summary"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-o, --output",
+      "short": "-o",
+      "long": "--output",
+      "description": "Specify output columns",
+      "category": "display",
+      "example": "lsmem -o RANGE,SIZE,STATE",
+      "use_case": "Customize or script output"
+    },
+    {
+      "flag": "--summary",
+      "short": null,
+      "long": "--summary",
+      "description": "Show only a summary line",
+      "category": "display",
+      "example": "lsmem --summary",
+      "use_case": "Quick total memory overview"
+    }
+  ],
+  "examples": [
+    {
+      "title": "List memory blocks",
+      "command": "lsmem",
+      "description": "Show memory ranges and their attributes",
+      "use_case": "Inspect memory topology"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "free",
+      "relationship": "Related",
+      "description": "Shows used/free memory summary"
+    },
+    {
+      "command": "lscpu",
+      "relationship": "Related",
+      "description": "Shows CPU topology (often used with lsmem for hardware overview)"
+    }
+  ]
+}

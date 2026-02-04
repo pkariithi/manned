@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "name": "time",
+    "displayName": "time - Run programs and report resource usage",
+    "category": "Shell & Environment",
+    "tags": ["timing", "performance", "measure", "intermediate"],
+    "description": "Run a command and report time and resource usage",
+    "popularity": 6,
+    "difficulty": "intermediate",
+    "version": "GNU time / bash built-in (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "time can be a shell built-in (bash) or /usr/bin/time (GNU time); built-in shows simple elapsed time, GNU time shows more details"
+  },
+  "overview": {
+    "summary": "time runs a command and reports how long it took. The shell built-in (time command) shows user/sys/real time in a simple form; the GNU time binary (/usr/bin/time) can show memory, I/O, and other resource usage.",
+    "when_to_use": [
+      "Measure how long a command takes",
+      "Compare performance of different approaches",
+      "Get detailed resource usage (with /usr/bin/time -v)"
+    ]
+  },
+  "syntax": {
+    "basic": "time COMMAND [ARGS]",
+    "description": "Run COMMAND and print timing (and optionally resource) summary when it finishes.",
+    "examples": [
+      "time ls",
+      "time ./script.sh",
+      "/usr/bin/time -v ./program"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-v, --verbose (GNU time)",
+      "short": "-v",
+      "long": "--verbose",
+      "description": "Show detailed resource usage (memory, I/O, etc.)",
+      "category": "display",
+      "example": "/usr/bin/time -v ./program",
+      "use_case": "See memory and I/O stats (use full path for GNU time)"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Time a command",
+      "command": "time ls -R /usr",
+      "description": "Run ls and show real/user/sys time",
+      "output": "real 0m0.234s\nuser 0m0.012s\nsys  0m0.045s",
+      "use_case": "Quick timing"
+    },
+    {
+      "title": "Detailed resource usage",
+      "command": "/usr/bin/time -v ./myprogram",
+      "description": "Run program and show memory, I/O, etc.",
+      "use_case": "Performance or memory profiling"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "date",
+      "relationship": "Related",
+      "description": "Print current time; sometimes used with time for scripting"
+    }
+  ]
+}

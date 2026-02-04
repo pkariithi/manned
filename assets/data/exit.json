@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "name": "exit",
+    "displayName": "exit - Exit the shell",
+    "category": "Shell & Environment",
+    "tags": ["shell", "quit", "exit", "beginner"],
+    "description": "Exit the shell or script",
+    "popularity": 8,
+    "difficulty": "beginner",
+    "version": "bash built-in (POSIX)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "exit is a shell built-in (bash, sh, etc.)"
+  },
+  "overview": {
+    "summary": "exit terminates the current shell or script. With a numeric argument, it sets the exit status (0 = success, non-zero = failure). Without an argument, it uses the status of the last command. Typing exit in a login shell or terminal closes the session.",
+    "when_to_use": [
+      "Close the current terminal or SSH session",
+      "Exit a script with a specific status (exit 1 on error)",
+      "End a subshell (exit in a script or after su)"
+    ]
+  },
+  "syntax": {
+    "basic": "exit [N]",
+    "description": "N is the exit status (0-255). Exit the shell with that status; without N, use the last command's status.",
+    "examples": [
+      "exit",
+      "exit 0",
+      "exit 1"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Close terminal",
+      "command": "exit",
+      "description": "Exit the current shell (close window or SSH session)",
+      "use_case": "End session"
+    },
+    {
+      "title": "Exit script with error",
+      "command": "exit 1",
+      "description": "Exit script with status 1 (failure)",
+      "use_case": "In scripts: exit 1 after detecting an error"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "logout",
+      "relationship": "Related",
+      "description": "Log out of login shell (similar to exit in login shell)"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "name": "groupadd",
+    "displayName": "groupadd - Create a new group",
+    "category": "User & Permissions",
+    "tags": ["group", "create", "admin", "permissions", "intermediate"],
+    "description": "Create a new group",
+    "popularity": 5,
+    "difficulty": "intermediate",
+    "version": "shadow-utils (varies)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "groupadd is a core admin command available on all Linux systems"
+  },
+  "overview": {
+    "summary": "groupadd creates a new group by adding an entry to /etc/group. You can specify GID (-g) and optionally create a system group (-r). Users are then added to the group with usermod -aG or gpasswd.",
+    "when_to_use": [
+      "Create a group for shared access (e.g., developers, www-data)",
+      "Set up groups before adding users with useradd/usermod",
+      "Create system groups for daemons (-r)"
+    ]
+  },
+  "syntax": {
+    "basic": "groupadd [OPTIONS] GROUPNAME",
+    "description": "GROUPNAME is required. Options set GID (-g), system group (-r), etc.",
+    "examples": [
+      "sudo groupadd developers",
+      "sudo groupadd -g 1005 developers",
+      "sudo groupadd -r systemgroup"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-g, --gid",
+      "short": "-g",
+      "long": "--gid",
+      "description": "Set the group ID (GID)",
+      "category": "account",
+      "example": "sudo groupadd -g 1005 developers",
+      "use_case": "Assign a specific GID"
+    },
+    {
+      "flag": "-r, --system",
+      "short": "-r",
+      "long": "--system",
+      "description": "Create a system group (GID in system range)",
+      "category": "account",
+      "example": "sudo groupadd -r mydaemon",
+      "use_case": "Groups for system services"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Create a group",
+      "command": "sudo groupadd developers",
+      "description": "Create a new group named developers",
+      "use_case": "Shared group for developers"
+    },
+    {
+      "title": "Create group with specific GID",
+      "command": "sudo groupadd -g 1005 developers",
+      "description": "Create group with GID 1005",
+      "use_case": "When GID must match (e.g., NFS)"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "usermod",
+      "relationship": "Complementary",
+      "description": "Add users to the new group: usermod -aG developers jane"
+    },
+    {
+      "command": "groupdel",
+      "relationship": "Related",
+      "description": "Remove a group"
+    },
+    {
+      "command": "groupmod",
+      "relationship": "Related",
+      "description": "Modify group name or GID"
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "name": "more",
+    "displayName": "more - Display text one screen at a time",
+    "category": "File & Directory Operations",
+    "tags": ["text", "viewer", "pager", "display", "basic"],
+    "description": "Display text one screen at a time",
+    "popularity": 6,
+    "difficulty": "beginner",
+    "version": "GNU coreutils 8.32+"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "more is a built-in command available on all Linux systems by default"
+  },
+  "overview": {
+    "summary": "The more command displays text files one screen at a time, allowing you to scroll through content page by page. It's an older pager utility, largely superseded by 'less' which offers more features, but more is still widely available and useful for basic text viewing.",
+    "when_to_use": [
+      "View large text files page by page",
+      "Read log files without opening an editor",
+      "Display command output that might be long",
+      "Browse through documentation files",
+      "View file contents in a controlled manner"
+    ]
+  },
+  "syntax": {
+    "basic": "more [OPTIONS] [FILE]",
+    "description": "If no file is specified, more reads from standard input. You can navigate using spacebar (next page), Enter (next line), or 'q' (quit).",
+    "examples": [
+      "more file.txt",
+      "ls -l | more",
+      "more /var/log/syslog",
+      "cat file.txt | more"
+    ]
+  },
+  "options": [
+    {
+      "flag": "-d",
+      "short": "-d",
+      "long": null,
+      "description": "Display helpful error messages",
+      "category": "display",
+      "example": "more -d file.txt",
+      "use_case": "To get better feedback when using more"
+    },
+    {
+      "flag": "-f",
+      "short": "-f",
+      "long": null,
+      "description": "Count logical rather than screen lines",
+      "category": "display",
+      "example": "more -f file.txt",
+      "use_case": "For files with long lines that wrap"
+    },
+    {
+      "flag": "-l",
+      "short": "-l",
+      "long": null,
+      "description": "Do not pause after form feed",
+      "category": "display",
+      "example": "more -l file.txt",
+      "use_case": "When viewing files with form feed characters"
+    },
+    {
+      "flag": "-p",
+      "short": "-p",
+      "long": null,
+      "description": "Clear screen before displaying",
+      "category": "display",
+      "example": "more -p file.txt",
+      "use_case": "To start with a clean screen"
+    },
+    {
+      "flag": "-c",
+      "short": "-c",
+      "long": null,
+      "description": "Clear screen and then display",
+      "category": "display",
+      "example": "more -c file.txt",
+      "use_case": "Similar to -p but repaints from top"
+    },
+    {
+      "flag": "-s",
+      "short": "-s",
+      "long": null,
+      "description": "Squeeze multiple blank lines into one",
+      "category": "display",
+      "example": "more -s file.txt",
+      "use_case": "To compress multiple blank lines for cleaner output"
+    },
+    {
+      "flag": "-u",
+      "short": "-u",
+      "long": null,
+      "description": "Suppress underlining",
+      "category": "display",
+      "example": "more -u file.txt",
+      "use_case": "When terminal doesn't support underlining"
+    },
+    {
+      "flag": "+number",
+      "short": "+number",
+      "long": null,
+      "description": "Start displaying from line number",
+      "category": "navigation",
+      "example": "more +50 file.txt",
+      "use_case": "To jump to a specific line in the file"
+    }
+  ],
+  "examples": [
+    {
+      "title": "View a text file",
+      "command": "more README.md",
+      "description": "Display the contents of README.md one screen at a time",
+      "output": "(Shows first screen of file, then '--More--(XX%)' prompt)",
+      "use_case": "Reading documentation or configuration files"
+    },
+    {
+      "title": "View log file",
+      "command": "more /var/log/syslog",
+      "description": "Browse through system log file page by page",
+      "use_case": "Inspecting system logs without overwhelming the terminal"
+    },
+    {
+      "title": "Pipe command output to more",
+      "command": "ls -l /usr/bin | more",
+      "description": "Display long directory listing one screen at a time",
+      "use_case": "When command output is too long to fit on screen"
+    },
+    {
+      "title": "Start from specific line",
+      "command": "more +100 error.log",
+      "description": "Open file and start displaying from line 100",
+      "use_case": "Jumping to a specific section of a large file"
+    }
+  ],
+  "misconceptions": [
+    {
+      "title": "More vs Less",
+      "misconception": "more and less are the same",
+      "reality": "less is more advanced - it allows backward navigation, searching, and has more features. 'less' is more, 'more' is less.",
+      "tip": "Prefer 'less' for most use cases, but 'more' is simpler and available everywhere"
+    },
+    {
+      "title": "Editing capability",
+      "misconception": "more can edit files",
+      "reality": "more is read-only. It only displays files, it cannot modify them.",
+      "tip": "Use text editors like nano, vim, or gedit to edit files"
+    }
+  ],
+  "common_pitfalls": [
+    {
+      "issue": "Cannot scroll backward",
+      "description": "more only allows forward navigation, not backward",
+      "solution": "Use 'less' instead if you need to scroll backward through a file"
+    },
+    {
+      "issue": "Binary files",
+      "description": "more may display binary files incorrectly",
+      "solution": "Use 'file' command first to check file type, or use 'hexdump' or 'od' for binary files"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "less",
+      "relationship": "Alternative",
+      "description": "less is a more advanced pager with backward navigation and search capabilities"
+    },
+    {
+      "command": "cat",
+      "relationship": "Complementary",
+      "description": "cat displays entire file at once, while more displays page by page"
+    },
+    {
+      "command": "head",
+      "relationship": "Complementary",
+      "description": "head shows first lines, more shows entire file page by page"
+    },
+    {
+      "command": "tail",
+      "relationship": "Complementary",
+      "description": "tail shows last lines, more shows entire file page by page"
+    }
+  ],
+  "best_practices": [
+    "Use 'less' instead of 'more' for better navigation features",
+    "Press 'q' to quit, not Ctrl+C (which may leave terminal in alternate screen mode)",
+    "Use spacebar for next page, Enter for next line",
+    "Combine with pipes to view long command output"
+  ],
+  "performance_tips": [
+    "For very large files, 'less' is more efficient",
+    "Using '+number' to jump to a line is faster than scrolling"
+  ]
+}

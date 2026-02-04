@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "name": "alias",
+    "displayName": "alias - Create an alias",
+    "category": "Shell & Environment",
+    "tags": ["shell", "alias", "shortcut", "beginner"],
+    "description": "Define or display command aliases",
+    "popularity": 7,
+    "difficulty": "beginner",
+    "version": "bash built-in (POSIX)"
+  },
+  "installation": {
+    "required": false,
+    "status": "built_in",
+    "note": "alias is a shell built-in (bash, sh, etc.)"
+  },
+  "overview": {
+    "summary": "alias defines a shortcut name for a command or command string. Typing the alias runs the defined command. Without arguments, alias lists current aliases. Aliases are session-only unless added to .bashrc or similar.",
+    "when_to_use": [
+      "Create a shortcut for a long or often-used command",
+      "Add default options to a command (e.g., alias ls='ls -la')",
+      "List current aliases (alias with no args)"
+    ]
+  },
+  "syntax": {
+    "basic": "alias [NAME[=VALUE]]...",
+    "description": "alias NAME=VALUE defines an alias. alias alone lists all aliases. alias NAME shows that alias.",
+    "examples": [
+      "alias ll='ls -la'",
+      "alias",
+      "unalias ll"
+    ]
+  },
+  "options": [],
+  "examples": [
+    {
+      "title": "Create an alias",
+      "command": "alias ll='ls -la'",
+      "description": "Make 'll' run 'ls -la'",
+      "use_case": "Shortcut for common options"
+    },
+    {
+      "title": "List aliases",
+      "command": "alias",
+      "description": "Show all defined aliases in the current shell",
+      "use_case": "See what aliases are active"
+    },
+    {
+      "title": "Make alias persistent",
+      "command": "echo \"alias ll='ls -la'\" >> ~/.bashrc && source ~/.bashrc",
+      "description": "Add alias to .bashrc so it loads in new shells",
+      "use_case": "Keep alias across sessions"
+    }
+  ],
+  "related_commands": [
+    {
+      "command": "unalias",
+      "relationship": "Complementary",
+      "description": "Remove an alias (unalias ll)"
+    },
+    {
+      "command": "which",
+      "relationship": "Related",
+      "description": "Shows if a name is an alias, function, or binary"
+    }
+  ]
+}
