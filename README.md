@@ -227,11 +227,9 @@ Contributions are welcome for the features above.
 
 ## 📄 License
 
-This project is licensed under the **WTFPL (Do What The Fuck You Want To Public License)** - see the LICENSE file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-**Manned Pages is completely open source** - you are free to use, modify, and distribute this software however you want. No restrictions, no obligations. Just do what you want with it.
-
-For more information about WTFPL, visit: https://www.wtfpl.net/
+You are free to use, modify, and distribute this software under the terms of the MIT License (including commercial use), subject to including the copyright notice and license text in copies or substantial portions of the software.
 
 ---
 

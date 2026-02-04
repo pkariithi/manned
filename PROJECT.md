@@ -260,5 +260,5 @@ The top 100 commands are selected based on:
 
 **Version**: 1.0.0
 **Status**: In Development
-**License**: [To be determined]
+**License**: MIT License (see [LICENSE](LICENSE))
 
